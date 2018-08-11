@@ -1,0 +1,123 @@
+<html>
+    
+    <head>
+        
+        <title>Totem</title>
+
+        <meta charset="utf-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="/icon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16x16.png">
+        <link rel="manifest" href="/manifest.json">
+        <link rel="mask-icon" href="/icon/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="/icon/favicon.ico">
+        <meta name="msapplication-config" content="/browserconfig.xml">
+        <meta name="theme-color" content="#1976D2">
+
+        <style>
+
+            html, body {
+                color: #fdfdfd;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                height: 100%;
+                width: 100%;
+                font-family: Roboto;
+            }
+
+            #app {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background: url('/images/background.svg');
+                background-size: cover;
+            }
+            
+            /*.loading {
+                height: 100px;
+                margin: auto;
+                margin-top: calc(50vh - 50px);
+                position: relative;
+                width: 50%;
+            }
+
+            .loadingCenter {
+                background: #fff;
+                border-radius: 25px;
+                height: 50px;
+                left: calc(50% - 25px);
+                position: absolute;
+                top: 0;
+                width: 50px;
+                animation: loadingColor 1.8s infinite;
+            }
+
+            .loadingMoving {
+                background: #208BF1;
+                border-radius: 15px;
+                height: 30px;
+                position: absolute;
+                top: 10px;
+                width: 30px;
+                animation: loadingMove 1.8s infinite;
+            }
+
+            @keyframes loadingMove {
+                0% {
+                    transform: translateX(0);
+                    background: #208BF1;
+                }
+
+                50% {
+                    transform: translateX(calc(50vw - 30px));
+                    background: #208BF1;
+                }
+
+                100% {
+                    transform: translateX(0);
+                    background: #208BF1;
+                }
+            }
+
+            @keyframes loadingColor {
+                0% {
+                    background: #208BF1;
+                }
+
+                50% {
+                    background: #208BF1;
+                }
+
+                100% {
+                    background: #208BF1;
+                }
+            }*/
+        
+        </style>
+
+        <script>
+            //if ('serviceWorker' in navigator) {
+                //navigator.serviceWorker.register('/service-worker.js');
+            //}
+        </script>
+
+    </head>
+
+    <body>
+
+        <div id="app">
+            <div class="loading">
+                <div class="loadingMoving"></div>
+                <div class="loadingCenter"></div>
+            </div>
+        </div>
+
+    </body>
+
+</html>

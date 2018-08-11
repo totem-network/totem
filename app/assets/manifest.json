@@ -1,0 +1,23 @@
+{
+    "name": "Totem",
+    "short_name": "Totem",
+    "description": "",
+    "author": "Daniel Wagner",
+    "theme_color": "#1976D2",
+    "background_color": "#1976D2",
+    "display": "standalone",
+    "orientation": "natural",
+    "start_url": "/",
+    "icons": [
+        {
+            "src": "/images/icon/logo_128x128.png",
+            "sizes": "128x128",
+            "type": "image/png"
+        },
+        {
+          "src": "/images/icon/logo_192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+    ]
+}

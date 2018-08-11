@@ -1,0 +1,5 @@
+build/app
+build/browser-extension
+node_modules
+zos.development.json
+.zos.session
