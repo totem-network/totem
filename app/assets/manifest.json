@@ -1,11 +1,11 @@
 {
     "name": "Totem",
     "short_name": "Totem",
-    "description": "",
+    "description": "Next generation OS",
     "author": "Daniel Wagner",
     "theme_color": "#1976D2",
     "background_color": "#1976D2",
-    "display": "standalone",
+    "display": "fullscreen",
     "orientation": "natural",
     "start_url": "/",
     "icons": [
@@ -17,6 +17,11 @@
         {
           "src": "/images/icon/logo_192x192.png",
           "sizes": "192x192",
+          "type": "image/png"
+        },
+        {
+          "src": "/images/icon/logo_512x512.png",
+          "sizes": "512x512",
           "type": "image/png"
         }
     ]
