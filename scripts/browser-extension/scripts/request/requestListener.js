@@ -11,8 +11,46 @@ const modifyCrossOriginHeaders = (details) => {
         responseHeaders = responseHeaders.filter((header) => {
             return (header.name.toLowerCase() !== 'x-frame-options');
         });
+    } else {
+        // TODO: check if request is allowed when parent frame where equal to the page loaded
+        responseHeaders = responseHeaders.filter((header) => {
+            return (header.name.toLowerCase() !== 'x-frame-options');
+        });
     }
-    
+
+    // needs to be removed outside the plugin
+    responseHeaders = responseHeaders.filter((header) => {
+        return (header.name.toLowerCase() !== 'x-xss-protection');
+    });
+
+    responseHeaders = responseHeaders.map((header) => {
+        if (header.name.toLowerCase() !== 'content-security-policy') {
+            return header;
+        }
+
+        // see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors
+        
+        let contentSecurityPolicies = header.value.split(';');
+
+        contentSecurityPolicies = contentSecurityPolicies.map((directive) => {
+            const directiveData = directive.trim().split(' ');
+
+            if (directiveData[0] != 'frame-ancestors') {
+                return directive;
+            }
+
+            return null;
+            // TODO: only if frame is allowed in visited page
+            directiveData.push(TOTEM_URL);
+
+            return directiveData.join(' ');
+        });
+
+        return {
+            name: header.name,
+            value: contentSecurityPolicies.join(';')
+        };
+    });
     // === does not work
     if (details.frameId == 0) {
         responseHeaders = responseHeaders.filter((header) => {
