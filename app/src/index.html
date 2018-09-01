@@ -8,19 +8,19 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="apple-touch-icon" sizes="180x180" href="/images/icon/logo_180x180.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/images/icon/logo_32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/images/icon/logo_16x16.png">
-        <link rel="manifest" href="/manifest.json">
-        <link rel="mask-icon" href="/images/logo.svg" color="#1976D2">
-        <link rel="shortcut icon" href="/images/icon/logo_16x16.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="<%= webpackConfig.output.publicPath %>images/icon/logo_180x180.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="<%= webpackConfig.output.publicPath %>images/icon/logo_32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="<%= webpackConfig.output.publicPath %>images/icon/logo_16x16.png">
+        <link rel="manifest" href="<%= webpackConfig.output.publicPath %>manifest.json">
+        <link rel="mask-icon" href="<%= webpackConfig.output.publicPath %>images/logo.svg" color="#f0f0f0">
+        <link rel="shortcut icon" href="<%= webpackConfig.output.publicPath %>images/icon/logo_16x16.png">
         <meta name="msapplication-config" content="/browserconfig.xml">
-        <meta name="theme-color" content="#1976D2">
+        <meta name="theme-color" content="#f0f0f0">
 
         <style>
 
             html, body {
-                color: #fdfdfd;
+                color: #f0f0f0;
                 margin: 0;
                 padding: 0;
                 overflow: hidden;
@@ -35,7 +35,7 @@
                 width: 100%;
                 height: 100%;
                 overflow: auto;
-                background: url('/images/background.svg');
+                background: url('<%= webpackConfig.output.publicPath %>images/background.svg');
                 background-size: cover;
             }
             

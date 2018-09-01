@@ -7,7 +7,7 @@ import DevTools from './app/containers/DevTools';
 import startupSaga, { sagaMiddleware } from './sagas';
 import { history, store } from './store';
 
-if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator && process.type !== 'renderer') {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js');
     });

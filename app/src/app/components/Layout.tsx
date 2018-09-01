@@ -13,9 +13,9 @@ interface ILayoutState {}
 
 const DesktopLoadable = LoadableMap({
     loader: {
-        Gestures: () => import('./../containers/Gestures'),
-        SideNav: () => import('./../containers/SideNav'),
-        Windows: () => import('./../containers/applications/Windows'),
+        Gestures: () => import(/* webpackChunkName: 'gestures' */ './../containers/Gestures'),
+        SideNav: () => import(/* webpackChunkName: 'side-nav' */ './../containers/SideNav'),
+        Windows: () => import(/* webpackChunkName: 'windows' */ './../containers/applications/Windows'),
     },
     loading: () => null,
     render: (loaded, props) => {
