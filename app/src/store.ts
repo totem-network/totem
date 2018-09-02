@@ -8,20 +8,26 @@ import {
     compose,
     createStore,
 } from 'redux';
+import { createLogger } from 'redux-logger';
 import DevTools from './app/containers/DevTools';
 import reducer, { IImmutableState } from './reducers';
 import { sagaMiddleware } from './sagas';
 
+const initialState = Map({});
+
 export const history = createBrowserHistory();
 const routerMiddleware = createRouterMiddleware(history);
 
-const initialState = Map({});
+const reduxLoggerMiddleware = createLogger({
+    // ...options
+});
 
 let enhancer: any;
 if (process.env.NODE !== 'production') {
     enhancer = compose(
         applyMiddleware(sagaMiddleware),
         applyMiddleware(routerMiddleware),
+        applyMiddleware(reduxLoggerMiddleware),
         DevTools.instrument(),
     );
 } else {
