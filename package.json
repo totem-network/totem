@@ -13,7 +13,7 @@
     "ethereum": "ganache-cli -m \"exclude virus file basket confirm sock ten guide actress sketch dizzy race\" -f http://localhost:10545",
     "ethereum:persist": "ganache-cli --db data/chain -m \"exclude virus file basket confirm sock ten guide actress sketch dizzy race\" -p 10545 -i 10545",
     "ipfs": "jsipfs daemon",
-    "serve:web": "webpack-dev-server --config webpack.development.js",
+    "serve:web": "webpack-dev-server --config webpack.development.js --https",
     "serve:electron": "gulp electron:serve",
     "solium": "solium -d contracts/ || true",
     "test": "NODE_PATH=./app/src mocha --require babel-register --require ts-node/register --recursive test/app/**/*.test.ts || true",

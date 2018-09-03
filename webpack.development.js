@@ -26,7 +26,6 @@ module.exports = merge(common, {
             index: '/'
         },
         host: '0.0.0.0',
-        hot: true,
-        https: true
+        hot: true
     }
 });
