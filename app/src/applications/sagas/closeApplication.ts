@@ -9,7 +9,6 @@ import {
 } from './../actions/application';
 import { closeInstance } from './../actions/instances';
 import { closeWindow } from './../actions/windows';
-import { fetchMetaData } from './../metadata';
 
 function* closeApplication(action: ICloseApplicationAction) {
     // TODO: let developers open a dialog: are you sure to quit
