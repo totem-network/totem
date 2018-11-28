@@ -1,12 +1,44 @@
 # Totem
 
+## Architecture
+
+### /app
+
+The `app` directorcy contains to code and assets from the graphical user interface.
+
+#### /app/assets
+
+Those assets get delivered to the user and should already be or get optimized in the webpack production pipeline.
+
+#### /app/src
+
+The source of the Totem client. It gets shipped to the user, so the code should be fast enough for mobile devices. All dependencies must be able to run in the browser.
+
+### /build
+
+### /packages
+
+Here are all packages not used in the Totem graphical interface build. You can import packages from `app/src`, from the `node_modules` and the packages node_modules `packages/package-name/node_modules`.
+
+### /scripts
+
+#### /scripts/browser-extension
+
+#### /scripts/electron
+
+### /tasks
+
+### /tests
+
+#### /test/app
+
 ## Development
 
-If you want to contribute to Totem I suggest the following settings.
+If you want to work on Totem I suggest the following settings.
 This is my preferred environment, if you use your own make sure to
 have replacements for linting or other enhancements Totem supports.
 
-### Dependencies
+### Requirements
 
 * nodejs (Version 8)
 * npm
@@ -34,7 +66,7 @@ Optional:
 
 * vscode-icons (robertohuertasm.vscode-icons)
 
-We provide snippets for fast development
+Totem provides snippets for fast development
 
 ### Getting started
 
@@ -68,3 +100,21 @@ To develop the browser extension you can run
     npm run webextension:dev:firefox # for firefox
 
 #### Ethereum
+
+#### Tests
+
+## Contribute
+
+### Code guidelines
+
+#### Templates
+
+Totem provides snippets for different purposes. When there is a template available, it must be used. This will keep the code open for automation and specialized development tools.
+
+#### Dependencies
+
+All dependencies for the graphical interface must have working TypeScript support. A TypeScript to WASM compiler will boost performace of Totem, but it requires strict typing.
+
+Dependencies from the graphical interface can be imported by the packages and should whenever it is possible to avoid running a different version of the same package for better compatibility.
+
+The number of dependencies should be kept as low as possible, so that they are easier to maintain longterm.

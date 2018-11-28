@@ -1,0 +1,24 @@
+{
+  "name": "totem-dev-core",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "totem": "ts-node src/index.ts"
+  },
+  "author": {
+    "name": "Daniel Wagner",
+    "email": "daniel.wagner@totem.network"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@types/handlebars": "^4.0.39",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.4"
+  },
+  "dependencies": {
+    "handlebars": "^4.0.12"
+  }
+}

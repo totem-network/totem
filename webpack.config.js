@@ -3,6 +3,7 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
 const config = {
@@ -80,16 +81,19 @@ const config = {
     ],
     resolve: {
         // TODO: when material ui supports this: https://github.com/developit/preact-compat/issues/476
-        /*alias: {
-            "react": "preact-compat",
-            "react-dom": "preact-compat"
-        },*/
+        alias: {
+            /*"react": "preact-compat",
+            "react-dom": "preact-compat"*/
+        },
         extensions: ['.ts', '.tsx', '.js', '.json'],
         modules: [
             path.resolve('./app/src'),
             path.resolve('./app/assets'),
             path.resolve('./build/contracts'),
             path.resolve('./node_modules')
+        ],
+        plugins: [
+            new TsconfigPathsPlugin({})
         ]
     }
 };

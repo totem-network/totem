@@ -58,8 +58,8 @@ const style: StyleRulesCallback = (theme: Theme) => {
             },
             [theme.breakpoints.up('lg')]: {
                 height: 'auto',
-                marginBottom: '1vw',
-                marginLeft: '.7vw',
+                marginBottom: '.8vw',
+                marginLeft: '.6vw',
                 marginTop: '1vw',
                 position: 'static',
             },

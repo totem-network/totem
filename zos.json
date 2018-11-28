@@ -1,7 +1,0 @@
-{
-  "name": "totem",
-  "version": "0.1.0",
-  "contracts": {
-    "Token": "Token"
-  }
-}

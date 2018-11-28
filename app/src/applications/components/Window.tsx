@@ -244,7 +244,7 @@ class Window extends Component<WindowProps, IWindowState> {
                     pointerEvents={changing || task}
                     src={application}
                 />
-                {this.renderMobileTasks()}
+                {this.renderMobileTaskManagerGesture()}
                 {this.renderResize()}
                 {this.renderTaskOverlay()}
             </div>
@@ -270,7 +270,7 @@ class Window extends Component<WindowProps, IWindowState> {
         ) : null;
     }
 
-    protected renderMobileTasks() {
+    protected renderMobileTaskManagerGesture() {
         const { showTaskManager, width } = this.props;
 
         const swipe = () => {

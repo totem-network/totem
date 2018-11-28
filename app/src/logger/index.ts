@@ -1,0 +1,1 @@
+// Not log with redux!!

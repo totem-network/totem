@@ -1,0 +1,16 @@
+// file for many actions
+{{> actions:imports}}
+
+{{#each actions}}
+{{/each}}
+
+interface IOtherAction extends Action {
+    payload?: any;
+}
+
+// TODO: foreach actions
+export type {{name}}Action =
+    {{#each actions}}
+    I{{nameUpperCase}}Action |
+    {{/each}}
+    IOtherAction;

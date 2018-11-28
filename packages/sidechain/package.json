@@ -1,0 +1,14 @@
+{
+  "name": "totem-sidechain",
+  "version": "0.0.1",
+  "description": "A sidechain for totem",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": {
+    "name": "Daniel Wagner",
+    "email": "daniel.wagner@totem.network"
+  },
+  "license": "ISC"
+}

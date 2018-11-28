@@ -50,8 +50,8 @@ gulp.task('electron:serve', () => {
         });
     });
 
-    process.on('exit', function () {
+    process.on('exit', () => {
         // TODO: not working!
-        renderer.kill();
+        renderer.kill(2);
     });
 });

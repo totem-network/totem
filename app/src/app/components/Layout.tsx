@@ -14,18 +14,21 @@ interface ILayoutState {}
 const DesktopLoadable = LoadableMap({
     loader: {
         Gestures: () => import(/* webpackChunkName: 'gestures' */ './../containers/Gestures'),
+        Launcher: () => import(/* webpackChunkName: 'launcher' */ './../containers/Launcher'),
         SideNav: () => import(/* webpackChunkName: 'side-nav' */ './../containers/SideNav'),
         Windows: () => import(/* webpackChunkName: 'windows' */ './../containers/applications/Windows'),
     },
     loading: () => null,
     render: (loaded, props) => {
         const GesturesContainer = loaded.Gestures.default as any;
+        const LauncherContainer = loaded.Launcher.default as any;
         const SideNavContainer = loaded.SideNav.default as any;
         const WindowsContainer = loaded.Windows.default as any;
 
         return (
             <Fragment>
                 <GesturesContainer />
+                <LauncherContainer />
                 <WindowsContainer />
                 <SideNavContainer />
             </Fragment>

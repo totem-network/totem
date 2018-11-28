@@ -4,7 +4,7 @@ const common = require('./webpack.config.js');
 
 module.exports = merge(common, {
     entry: {
-        test: './test/app/**/*.test.ts*'
+        test: './tests/app/**/*.test.ts*'
     },
     output: {
         publicPath: '/'

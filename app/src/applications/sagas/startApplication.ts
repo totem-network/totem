@@ -1,4 +1,3 @@
-import logger from 'logger';
 import {
     call,
     put,
@@ -45,7 +44,7 @@ function* startApplication(action: IStartApplicationAction) {
         ));
     } catch (error) {
         // TODO: Add error message?
-        logger.error(error);
+        // logger.error(error);
     }
 }
 

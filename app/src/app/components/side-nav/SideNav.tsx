@@ -11,6 +11,7 @@ import React, {
 } from 'react';
 import { IHideSideNavAction } from './../../actions/sideNav';
 import Header from './../../containers/side-nav/Header';
+import Launcher from './../../containers/side-nav/Launcher';
 import Tasks from './../../containers/side-nav/Tasks';
 
 interface ISideNavProps {
@@ -111,6 +112,7 @@ class SideNav extends Component<SideNavProps, ISideNavState> {
                         <div className={navBackground} />
                         <Header />
                         <Tasks />
+                        <Launcher />
                     </nav>
                 </aside>
             </Fragment>
@@ -124,7 +126,7 @@ const style: StyleRulesCallback = (theme: Theme) => {
             [theme.breakpoints.up('lg')]: {
                 overflow: 'visible',
                 pointerEvents: 'auto',
-                width: '4vw',
+                width: '3vw',
             },
             height: '100%',
             left: 0,
@@ -167,13 +169,14 @@ const style: StyleRulesCallback = (theme: Theme) => {
             [theme.breakpoints.up('lg')]: {
                 overflow: 'visible',
                 transform: 'none',
-                width: '4vw',
+                width: '3.4vw',
                 willChange: 'auto',
             },
             boxShadow: '2px 0 12px rgba(0, 0, 0, 0.4)',
             display: 'flex',
             flexDirection: 'column',
             height: '100%',
+            justifyContent: 'flex-start',
             overflow: 'hidden',
             position: 'relative',
             transform: 'translateX(-102%)',

@@ -1,0 +1,30 @@
+{
+  "name": "@totem/dev-cli",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "totem": "ts-node -r tsconfig-paths/register src/index.ts"
+  },
+  "author": {
+    "name": "Daniel Wagner",
+    "email": "daniel.wagner@totem.network"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@totem/dev-core": "file:../dev-core/src/index.ts",
+    "chalk": "^2.4.1",
+    "cliui": "^4.1.0",
+    "inquirer": "^6.2.0",
+    "yargs": "^12.0.2"
+  },
+  "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/inquirer": "0.0.43",
+    "@types/yargs": "^12.0.1",
+    "ts-node": "^7.0.1",
+    "tsconfig-paths": "^3.6.0",
+    "typescript": "^3.1.4"
+  }
+}

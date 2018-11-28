@@ -1,6 +1,2 @@
-/build/app
-/build/browser-extension
-/build/electron
+/build
 node_modules
-/zos.development.json
-/.zos.session

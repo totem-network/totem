@@ -6,6 +6,9 @@
         "jsx": "preserve",
         "module": "esnext",
         "moduleResolution": "node",
+        "paths": {
+            "@totem/*": ["../../packages/*"]
+        },
         "skipLibCheck": true,
         "sourceMap": true,
         "strict": true,

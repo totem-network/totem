@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.config.js');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = merge(common, {
     mode: 'development',
@@ -21,6 +20,9 @@ module.exports = merge(common, {
             }
         })
     ],
+    watchOptions: {
+        ignored: /node_modules/
+    },
     devServer: {
         historyApiFallback: {
             index: '/'
