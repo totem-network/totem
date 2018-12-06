@@ -48,14 +48,11 @@ class LoginMetaMask extends Component<LoginMetaMaskProps, ILoginMetaMaskState> {
 
     public componentDidMount() {
         if (
-            !((window as any).Web3 &&
-            (window as any).web3 &&
-            (window as any).web3.currentProvider)
+            !((window as any).ethereum &&
+            (window as any).ethereum.enable)
         ) {
             return;
         }
-
-        const web3 = new (window as any).Web3((window as any).web3.currentProvider);
 
         const callback = (accounts: any) => {
             this.setState({
@@ -63,9 +60,7 @@ class LoginMetaMask extends Component<LoginMetaMaskProps, ILoginMetaMaskState> {
             });
         };
 
-        this.setState({
-            account: web3.eth.accounts[0],
-        });
+        (window as any).ethereum.enable().then(callback);
     }
 
     public onSubmit(values: any) {
