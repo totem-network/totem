@@ -1,6 +1,24 @@
 {
     "name": "{{name}}",
     "version": "{{version}}",
+    "api": [
+        {{#each api}}
+        {
+            action: "{{action}}",
+            params: [
+                {{#each params}}
+                {
+                    "name": "{{name}}",
+                    "type": "{{type}}"
+                },
+                {{/each}}
+            ]
+        },
+        {{/each}}
+    ],
+    "schema": [
+        {{! path to schema.json?}}
+    ],
     "src": {
         {{! if submodules array with each, else string}}
     },
@@ -8,5 +26,10 @@
         "functional": "{{functionalTestDirectory}}",
         "integration": "{{integrationTestDirectory}}",
         "unit": "{{unitTestDirectory}}"
+    },
+    "dependencies": {
+        {{#each dependencies}}
+        "{{name}}": "{{version}}",
+        {{/each}}
     }
 }

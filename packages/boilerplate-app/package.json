@@ -6,10 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": {
-    "name": "Daniel Wagner",
-    "email": "daniel.wagner@totem.network"
-  },
+  "author": "Daniel Wagner",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.1.2",

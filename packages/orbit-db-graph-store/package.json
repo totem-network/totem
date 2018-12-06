@@ -1,5 +1,5 @@
 {
-  "name": "@totem/boilerplate-package",
+  "name": "@totem/orbit-db-graph-store",
   "version": "0.0.1",
   "description": "",
   "main": "src/index.ts",
@@ -9,8 +9,13 @@
   "author": "Daniel Wagner",
   "license": "ISC",
   "devDependencies": {
+    "@types/graphql": "^14.0.3",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "typescript": "^3.1.4"
+  },
+  "dependencies": {
+    "graphql": "^14.0.2",
+    "orbit-db-store": "^2.5.3"
   }
 }
