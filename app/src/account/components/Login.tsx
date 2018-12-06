@@ -67,9 +67,19 @@ class Login extends Component<LoginProps, ILoginState> {
     }
 
     protected renderLoginForm() {
-        const { method } = this.state;
+        // const { method } = this.state;
 
-        switch (method) {
+        if (process.type !== 'renderer') {
+            return (
+                <LoginMetaMask />
+            );
+        } else {
+            return (
+                <LoginPrivateKey />
+            );
+        }
+
+        /*switch (method) {
             case 'metamask':
                 return (
                     <LoginMetaMask />
@@ -79,7 +89,7 @@ class Login extends Component<LoginProps, ILoginState> {
                 return (
                     <LoginPrivateKey />
                 );
-        }
+        }*/
     }
 }
 
