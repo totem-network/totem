@@ -12,18 +12,16 @@ describe('Account actions', () => {
     describe('login', () => {
         it('should create an action to login with a private key', () => {
             const privateKey = 'someid';
-            const password = 'somepw';
 
             const expectedAction = {
                 payload: {
-                    password,
                     privateKey,
                 },
                 type: LOGIN_PRIVATE_KEY,
             };
 
             expect(
-                loginPrivateKey(privateKey, password),
+                loginPrivateKey(privateKey),
             ).to.be.deep.equal(expectedAction);
         });
 

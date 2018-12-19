@@ -8,8 +8,8 @@ import {
     loginSuccess,
 } from './../actions/login';
 
-//const Wallet = require('ethers').Wallet;
-//const utils = require('ethers').utils;
+// const Wallet = require('ethers').Wallet;
+// const utils = require('ethers').utils;
 
 // TODO: use different accounts for different purposes, e.g. ledger for money, priv key for files, ...
 
@@ -17,13 +17,13 @@ function* loginWithPrivateKey(action: ILoginPrivateKeyAction) {
     const privateKey = action.payload.privateKey;
 
     // TODO: should also be part of the network module!
-    //privateKey = utils.hexlify(privateKey);
+    // privateKey = utils.hexlify(privateKey);
 
     // TODO: will be replaced by network module, then something like
     // put(addAccountAction), take(ACCOUNT_ADDED)
     // should be in a web worker because its expensive
     // import TestWorker from 'worker-loader!test.worker';
-    const account = {address: '1'};//new Wallet(privateKey);
+    const account = {address: '1'}; // new Wallet(privateKey);
 
     // TODO
     // yield put(addAccount());

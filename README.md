@@ -45,6 +45,7 @@ have replacements for linting or other enhancements Totem supports.
 * g++
 * libpng-dev
 * make
+* rust
 
 ### Visual Studio Code
 

@@ -1,26 +1,19 @@
-import { fromJS } from 'immutable';
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux-immutable';
 import { IImmutableStateMap } from 'redux-utils';
-import { AccountAction, LOGIN_SUCCESS } from './../actions/login';
+import addressReducer, { IImmutableAddressState } from './address';
+import profileReducer, { IImmutableProfileState } from './profile';
+import providedAccountsReducer, { IImmutableProvidedAccountsState } from './providedAccounts';
 
 interface IAccountState {
-    address: string | null;
+    address: IImmutableAddressState;
+    profile: IImmutableProfileState;
+    providedAccounts: IImmutableProvidedAccountsState;
 }
 
 export interface IImmutableAccountState extends IImmutableStateMap<IAccountState> {}
 
-const initialState = fromJS({
-    address: null,
+export default combineReducers({
+    address: addressReducer,
+    profile: profileReducer,
+    providedAccounts: providedAccountsReducer,
 });
-
-function accountReducer(state: IImmutableAccountState = initialState, action: AccountAction): IImmutableAccountState {
-
-    switch (action.type) {
-        case LOGIN_SUCCESS:
-            return state.set('address', action.payload.address);
-    }
-
-    return state;
-}
-
-export default accountReducer;

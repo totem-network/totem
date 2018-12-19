@@ -1,13 +1,13 @@
 import { IImmutableState } from 'reducers';
 import { createSelector } from 'reselect';
 
-const loggedInSelector = (state: IImmutableState) => {
+const accountAddressSelector = (state: IImmutableState) => {
     return state.get('account').get('address').get('account');
 };
 
 export default createSelector(
-    loggedInSelector,
+    accountAddressSelector,
     (account) => {
-        return account ? true : false;
+        return account;
     },
 );

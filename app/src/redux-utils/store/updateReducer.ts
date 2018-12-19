@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { reducers } from './../../reducers';
-import { store } from './../../store';
+import { store } from './../../state';
 import combineLazyReducers from './combineLazyReducers';
 
 interface IReducerInfo {

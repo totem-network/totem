@@ -10,9 +10,11 @@ import {
     ILoginMetaMaskAction,
 } from './../../actions/login';
 import Avatar from './../Avatar';
+import CreateAccount from './CreateAccount';
 
 // TODO: TypeScript fix
 const Field = require('redux-form/immutable').Field;
+const Box = require('3box');
 
 export interface ILoginMetaMaskData {
     password: string;
@@ -20,11 +22,12 @@ export interface ILoginMetaMaskData {
 
 export interface ILoginMetaMaskProps {
     handleSubmit?: any;
-    login: (password: string) => ILoginMetaMaskAction;
+    login: () => ILoginMetaMaskAction;
 }
 
 interface ILoginMetaMaskState {
     account: string;
+    profile: boolean;
 }
 
 type LoginMetaMaskProps = ILoginMetaMaskProps &
@@ -41,12 +44,15 @@ class LoginMetaMask extends Component<LoginMetaMaskProps, ILoginMetaMaskState> {
 
         this.state = {
             account: '',
+            profile: false,
         };
 
         this.onSubmit = this.onSubmit.bind(this);
     }
 
     public componentDidMount() {
+        // TODO: move everything in a initialize saga!
+
         if (
             !((window as any).ethereum &&
             (window as any).ethereum.enable)
@@ -54,19 +60,41 @@ class LoginMetaMask extends Component<LoginMetaMaskProps, ILoginMetaMaskState> {
             return;
         }
 
-        const callback = (accounts: any) => {
+        const callback = async (accounts: any) => {
+            Box.getProfile(accounts[0]).then((profile: any) => {
+                this.setState({
+                    ...this.state,
+                    profile: true,
+                });
+
+                console.log(profile);
+            }).catch((error: any) => {
+                this.setState({
+                    ...this.state,
+                    profile: false,
+                });
+            });
+
+            Box.openBox(
+                accounts[0],
+                (window as any).ethereum,
+            ).then((box: any) => {
+                // interact with 3Box data
+                box.onSyncDone(() => {
+                    // box.public.get(); // set
+                });
+            });
             this.setState({
+                ...this.state,
                 account: accounts[0],
             });
         };
 
-        (window as any).ethereum.enable().then(callback);
+        // (window as any).ethereum.enable().then(callback);
     }
 
-    public onSubmit(values: any) {
-        const password = values.get('password');
-
-        this.props.login(password);
+    public onSubmit() {
+        this.props.login();
     }
 
     public handleChange(event: any) {
@@ -79,13 +107,6 @@ class LoginMetaMask extends Component<LoginMetaMaskProps, ILoginMetaMaskState> {
 
         return (
             <Form onSubmit={this.props.handleSubmit(this.onSubmit)}>
-                {/*<div>
-                    <Field
-                        component={PasswordField}
-                        label='Password'
-                        name='password'
-                    />
-                </div>*/}
                 {this.renderAvatar()}
                 <div className={buttonWrapper}>
                     <Button type='submit' color='primary' variant="contained">
@@ -107,6 +128,21 @@ class LoginMetaMask extends Component<LoginMetaMaskProps, ILoginMetaMaskState> {
         return (
             <div className={avatar}>
                 <Avatar address={account} />
+            </div>
+        );
+    }
+
+    protected renderCreateAccountForm() {
+        const { profile } = this.state;
+        const { avatar } = this.props.classes;
+
+        if (profile) {
+            return null;
+        }
+
+        return (
+            <div className={avatar}>
+                k
             </div>
         );
     }

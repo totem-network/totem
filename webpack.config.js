@@ -23,6 +23,9 @@ const config = {
             {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
+                /*resolve: {
+                    mainFields: ['browser', 'main']
+                },*/
                 sideEffects: false,
                 use: ['babel-loader', 'ts-loader']
             },
@@ -39,10 +42,20 @@ const config = {
                 ]
             },
             {
-                test: /\.(eot|svg|ttf|woff|woff2)$/,
+                test: /\.(eot|ttf|woff|woff2)$/,
                 use: 'file-loader?name=./fonts/[name].[ext]'
             }
         ]
+    },
+    node: {
+        crypto: true,
+        http: true,
+        https: true,
+        os: true,
+        vm: true,
+        stream: true,
+        fs: 'empty',
+        child_process: 'empty'
     },
     optimization: {
         splitChunks: {
@@ -86,6 +99,7 @@ const config = {
             "react-dom": "preact-compat"*/
         },
         extensions: ['.ts', '.tsx', '.js', '.json'],
+        //mainFields: ['browser', 'main'],
         modules: [
             path.resolve('./app/src'),
             path.resolve('./app/assets'),

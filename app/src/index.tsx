@@ -5,7 +5,7 @@ import { ConnectedRouter } from 'react-router-redux';
 import App from './app/components/App';
 import DevTools from './app/containers/DevTools';
 import startupSaga, { sagaMiddleware } from './sagas';
-import { history, store } from './store';
+import { history, store } from './state';
 
 if ('serviceWorker' in navigator && process.type !== 'renderer') {
     window.addEventListener('load', () => {

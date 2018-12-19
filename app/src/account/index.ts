@@ -1,16 +1,20 @@
 import Avatar from './components/Avatar';
 import Login from './components/Login';
 import LoggedIn from './containers/LoggedIn';
+import LoggedInAvatar from './containers/LoggedInAvatar';
 import NotLoggedIn from './containers/NotLoggedIn';
 import reducer, { IImmutableAccountState } from './reducers';
-import accountSelector from './selectors/account';
+import sagas from './sagas';
+import accountAddressSelector from './selectors/accountAddress';
 
 export {
-    accountSelector,
+    accountAddressSelector,
     Avatar,
     IImmutableAccountState,
     Login,
     LoggedIn,
+    LoggedInAvatar,
     NotLoggedIn,
     reducer,
+    sagas,
 };

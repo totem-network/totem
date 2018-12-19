@@ -1,6 +1,6 @@
 import React, { Component, StatelessComponent } from 'react';
 import { connect } from 'react-redux';
-import { IImmutableState } from './../../reducers';
+import { IImmutableState } from 'reducers';
 import loggedInSelector from './../selectors/loggedIn';
 
 interface ILoggedInProps {

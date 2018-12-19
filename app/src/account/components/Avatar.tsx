@@ -2,7 +2,7 @@ import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/wit
 import makeBlockie from 'ethereum-blockies-base64';
 import React, { Component, ComponentType } from 'react';
 
-interface IAvatarProps {
+export interface IAvatarProps {
     address: string;
 }
 
@@ -15,6 +15,15 @@ class Avatar extends Component<AvatarProps, IAvatarState> {
     public render() {
         const { address } = this.props;
         const { avatar } = this.props.classes;
+
+        if (!address) {
+            // TODO:
+            return (
+                <div>
+                    Test
+                </div>
+            );
+        }
 
         // TODO: only rerender when address changes!
         return (

@@ -1,5 +1,5 @@
+import { IImmutableState } from 'reducers';
 import { createSelector } from 'reselect';
-import { IImmutableState } from './../../reducers';
 
 const sideNavSelector = (state: IImmutableState) => state.get('app').get('nav').toJS();
 

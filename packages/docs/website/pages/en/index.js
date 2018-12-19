@@ -212,4 +212,6 @@ class Index extends React.Component {
   }
 }
 
+Index.title = 'Developer';
+
 module.exports = Index;

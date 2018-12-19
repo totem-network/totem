@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
-import App from './app/components/App';
-import DevTools from './app/containers/DevTools';
+import App from './components/App';
 import startupSaga, { sagaMiddleware } from './sagas';
 import { history, store } from './store';
 
@@ -21,7 +20,6 @@ const render = (AppComponent: any) => {
             <ConnectedRouter history={history}>
                 <div>
                     <AppComponent />
-                    {(process.env.NODE !== 'production') ? <DevTools /> : ''}
                 </div>
             </ConnectedRouter>
         </Provider>,
@@ -33,7 +31,7 @@ render(App);
 
 if (process.env.NODE !== 'production' && module.hot) {
     module.hot.accept('./app/components/App', async () => {
-        const nextAppComponent = await import('./app/components/App');
+        const nextAppComponent = await import('./components/App');
         render(nextAppComponent);
     });
 

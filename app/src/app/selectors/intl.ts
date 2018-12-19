@@ -1,5 +1,5 @@
+import { IImmutableState } from 'reducers';
 import { createSelector } from 'reselect';
-import { IImmutableState } from './../../reducers';
 
 const intlSelector = (state: IImmutableState) => state.get('app').get('intl').toJS();
 

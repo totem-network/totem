@@ -17,13 +17,12 @@ import {
 const Field = require('redux-form/immutable').Field;
 
 export interface ILoginPrivateKeyData {
-    password: string;
     privateKey: string;
 }
 
 export interface ILoginPrivateKeyProps {
     handleSubmit?: any;
-    login: (privateKey: string, password: string) => ILoginPrivateKeyAction;
+    login: (privateKey: string) => ILoginPrivateKeyAction;
 }
 
 type LoginPrivateKeyProps = ILoginPrivateKeyProps &
@@ -43,9 +42,8 @@ class LoginPrivateKey extends Component<LoginPrivateKeyProps> {
 
     public onSubmit(values: any) {
         const privateKey = values.get('privateKey');
-        const password = values.get('password');
 
-        this.props.login(privateKey, password);
+        this.props.login(privateKey);
     }
 
     public handleChange(event: any) {
@@ -65,13 +63,6 @@ class LoginPrivateKey extends Component<LoginPrivateKeyProps> {
                         multiline={true}
                         name='privateKey'
                         rows={4}
-                    />
-                </div>
-                <div>
-                    <Field
-                        component={PasswordField}
-                        label='Password'
-                        name='password'
                     />
                 </div>
                 <div className={buttonWrapper}>

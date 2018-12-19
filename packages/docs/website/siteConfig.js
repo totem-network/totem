@@ -10,8 +10,8 @@
 
 
 const siteConfig = {
-  title: 'Totem Developer', // Title for your website.
-  tagline: 'A website for testing',
+  title: 'Totem Documentation', // Title for your website.
+  disableTitleTagline: true,
   url: 'https://developer.totem.network', // Your website URL
   baseUrl: '/', // Base URL for your project */
   // For github.io type URLs, you would set the url and baseUrl like:
@@ -27,7 +27,7 @@ const siteConfig = {
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    {doc: 'design', label: 'Design'},
+    {doc: 'design/index', label: 'Design'},
     {page: 'help', label: 'Help'},
   ],
 

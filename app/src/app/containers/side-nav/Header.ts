@@ -1,11 +1,13 @@
-import { accountSelector } from 'account';
+import { accountAddressSelector } from 'account';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import Header from './../../components/side-nav/Header';
 
 const mapStateToProps = (state: any) => {
-    return accountSelector(state);
+    return {
+        address: accountAddressSelector(state),
+    };
 };
 
 const mapDispatchToProps = (dispatch: any) => {

@@ -1,5 +1,18 @@
 /* your custom css */
 
+.fixedHeaderContainer {
+    display: none;
+}
+
+.headerContainer {
+    background-color: #f0f0f0;
+}
+
+.headerTitleWithLogo {
+    color: #484848;
+    font-weight: 300;
+}
+
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
 }
 

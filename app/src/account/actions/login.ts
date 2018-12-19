@@ -11,14 +11,12 @@ export interface ILoginPrivateKeyAction extends Action {
 }
 
 export interface ILoginPrivateKeyPayload {
-    password: string;
     privateKey: string;
 }
 
-export function loginPrivateKey(privateKey: string, password: string): ILoginPrivateKeyAction {
+export function loginPrivateKey(privateKey: string): ILoginPrivateKeyAction {
     return {
         payload: {
-            password,
             privateKey,
         },
         type: LOGIN_PRIVATE_KEY,
@@ -36,14 +34,12 @@ export interface ILoginMetaMaskAction extends Action {
 }
 
 export interface ILoginMetaMaskPayload {
-    password: string;
+    //
 }
 
-export function loginMetaMask(password: string): ILoginMetaMaskAction {
+export function loginMetaMask(): ILoginMetaMaskAction {
     return {
-        payload: {
-            password,
-        },
+        payload: {},
         type: LOGIN_METAMASK,
     };
 }
@@ -75,7 +71,7 @@ interface IOtherAction extends Action {
     payload?: any;
 }
 
-export type AccountAction = ILoginPrivateKeyAction |
+export type LoginAction = ILoginPrivateKeyAction |
         ILoginMetaMaskAction |
         ILoginSuccessAction |
         IOtherAction;
