@@ -111,3 +111,7 @@ To develop the browser extension you can run
 <img src="https://raw.githubusercontent.com/totem-network/totem/master/packages/docs/assets/sponsor/browserstack.png" width="256">
 
 [Browserstack](https://www.browserstack.com/) lets us test Totem on different devices!
+
+## License
+
+License under GPL version 3 or any later version
