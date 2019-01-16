@@ -100,22 +100,8 @@ To develop the browser extension you can run
     npm run webextension:dev:chrome # for chrome
     npm run webextension:dev:firefox # for firefox
 
-#### Ethereum
-
 #### Tests
 
 ## Contribute
 
 ### Code guidelines
-
-#### Templates
-
-Totem provides snippets for different purposes. When there is a template available, it must be used. This will keep the code open for automation and specialized development tools.
-
-#### Dependencies
-
-All dependencies for the graphical interface must have working TypeScript support. A TypeScript to WASM compiler will boost performace of Totem, but it requires strict typing.
-
-Dependencies from the graphical interface can be imported by the packages and should whenever it is possible to avoid running a different version of the same package for better compatibility.
-
-The number of dependencies should be kept as low as possible, so that they are easier to maintain longterm.
