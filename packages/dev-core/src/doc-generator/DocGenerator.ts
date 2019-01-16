@@ -1,3 +1,0 @@
-// TODO: Generate documentation for application
-// Docosaurus for tutorials, guides, etc.
-// Plus API doc generation from code, config, ...
