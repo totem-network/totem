@@ -108,6 +108,6 @@ To develop the browser extension you can run
 
 ## Sponsor
 
-<img src="https://github.com/totem-network/totem/tree/master/packages/docs/assets/sponsor/browserstack.png?raw=true" width="256">
+<img src="https://raw.githubusercontent.com/totem-network/totem/master/packages/docs/assets/sponsor/browserstack.png" width="256">
 
 [Browserstack](https://www.browserstack.com/) lets us test Totem on different devices!
