@@ -7,12 +7,11 @@ gulp.task('electron:build', () => {
 
 gulp.task('electron:serve', () => {
 
+    // TODO: own config for overwritting stuff
     const renderer = spawn(
-        'npm',
+        'npx',
         [
-            'run',
             'webpack-dev-server',
-            '--',
             '--config',
             './webpack.development.js',
             '--target',
@@ -24,11 +23,9 @@ gulp.task('electron:serve', () => {
     // TODO: hmr for electron main process
     // TODO: split console view and display both outputs in different boxes
     const main = spawn(
-        'npm',
+        'npx',
         [
-            'run',
             'webpack',
-            '--',
             '--config',
             './scripts/electron/webpack.development.js'
         ]
@@ -36,11 +33,9 @@ gulp.task('electron:serve', () => {
 
     main.on('exit', () => {
         const electron = spawn(
-            'npm',
+            'npx',
             [
-                'run',
                 'electron',
-                '--',
                 './build/electron/main.js'
             ]
         );

@@ -1,17 +1,21 @@
 
-export const parseTitle = (appDocument: Document, manifest?: string): string => {
+export const parseTitle = (manifest?: string, appDocument?: Document): string => {
     if (manifest) {
         const manifestObject = JSON.parse(manifest);
 
-        if (manifestObject && manifestObject.name) {
+        if (manifestObject && manifestObject.name && manifestObject.name !== '') {
             return manifestObject.name;
         }
     }
 
-    return appDocument.title;
+    if (appDocument) {
+        return appDocument.title;
+    }
+
+    return '';
 };
 
-export const parseIcon = (url: string, appDocument: Document, manifest?: string): string => {
+export const parseIcon = (manifest?: string, url?: string, appDocument?: Document): string => {
     if (manifest) {
         const manifestObject = JSON.parse(manifest);
 
@@ -38,7 +42,7 @@ export const parseIcon = (url: string, appDocument: Document, manifest?: string)
     return '/images/applications/default_icon.png';
 };
 
-export const parseThemeColor = (appDocument: Document, manifest?: string): string => {
+export const parseThemeColor = (manifest?: string, appDocument?: Document): string => {
     if (manifest) {
         const manifestObject = JSON.parse(manifest);
 

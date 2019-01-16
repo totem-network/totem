@@ -4,7 +4,23 @@ import {
     parseTitle,
 } from './parser';
 
-const fetchManifest = async (url: string, doc: Document) => {
+export const fetchManifest = async (manifestUrl: string) => {
+    const response = await fetch(manifestUrl, {
+        mode: 'no-cors',
+    });
+
+    if (!response.ok) {
+        return undefined;
+    }
+
+    return response.text();
+};
+
+export const parseManifest = (manifest: any) => {
+    //
+};
+
+const getManifest = async (url: string, doc: Document) => {
     const manifestElement = doc.querySelector('link[rel="manifest"]');
 
     url = url.replace(/\/$/, '');
@@ -21,21 +37,13 @@ const fetchManifest = async (url: string, doc: Document) => {
         }
     }
 
-    const response = await fetch(manifestUrl, {
-        mode: 'cors',
-    });
-
-    if (!response.ok) {
-        return undefined;
-    }
-
-    return response.text();
+    return fetchManifest(manifestUrl);
 };
 
 const fetchMetaData = async (url: string) => {
     // TODO: first from installed applications
     const response = await fetch(url, {
-        mode: 'cors',
+        mode: 'no-cors',
     });
 
     if (!response.ok) {
@@ -48,11 +56,11 @@ const fetchMetaData = async (url: string) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
 
-    const manifest = await fetchManifest(url, doc);
+    const manifest = await getManifest(url, doc);
 
-    const title = parseTitle(doc, manifest);
-    const icon = parseIcon(url, doc, manifest);
-    const themeColor = parseThemeColor(doc, manifest);
+    const title = parseTitle(manifest, doc);
+    const icon = parseIcon(manifest, url, doc);
+    const themeColor = parseThemeColor(manifest, doc);
 
     return {
         icon,

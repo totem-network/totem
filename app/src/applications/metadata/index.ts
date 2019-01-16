@@ -1,5 +1,6 @@
-import fetchMetaData from './fetchMetaData';
+import fetchMetaData, { fetchManifest } from './fetchMetaData';
 
 export {
+    fetchManifest,
     fetchMetaData,
 };

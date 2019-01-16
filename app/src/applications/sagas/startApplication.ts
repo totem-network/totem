@@ -9,7 +9,10 @@ import {
 } from './../actions/application';
 import { addInstance } from './../actions/instances';
 import { addWindow } from './../actions/windows';
-import { fetchMetaData } from './../metadata';
+import {
+    fetchManifest,
+    fetchMetaData,
+} from './../metadata';
 
 function generateId() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {

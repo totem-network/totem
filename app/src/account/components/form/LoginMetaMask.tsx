@@ -1,6 +1,6 @@
 import Button from '@material-ui/core/Button';
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component, ComponentType } from 'react';
+import React, { Component, ComponentType, Fragment } from 'react';
 import {
     Form,
     InjectedFormProps,
@@ -8,31 +8,31 @@ import {
 import { PasswordField } from 'ui';
 import {
     ILoginMetaMaskAction,
-} from './../../actions/login';
-import Avatar from './../Avatar';
+} from '../../actions/login';
+import Avatar from '../../containers/Avatar';
+import Name from '../../containers/Name';
 import CreateAccount from './CreateAccount';
 
 // TODO: TypeScript fix
 const Field = require('redux-form/immutable').Field;
-const Box = require('3box');
 
 export interface ILoginMetaMaskData {
     password: string;
 }
 
 export interface ILoginMetaMaskProps {
+    account: string;
     handleSubmit?: any;
+    image?: string;
     login: () => ILoginMetaMaskAction;
+    name?: string;
 }
 
-interface ILoginMetaMaskState {
-    account: string;
-    profile: boolean;
-}
+interface ILoginMetaMaskState {}
 
 type LoginMetaMaskProps = ILoginMetaMaskProps &
     InjectedFormProps<ILoginMetaMaskData, ILoginMetaMaskProps> &
-    WithStyles<'buttonWrapper' | 'avatar'>;
+    WithStyles<'buttonWrapper' | 'avatar' | 'name'>;
 
 class LoginMetaMask extends Component<LoginMetaMaskProps, ILoginMetaMaskState> {
 
@@ -42,55 +42,7 @@ class LoginMetaMask extends Component<LoginMetaMaskProps, ILoginMetaMaskState> {
     ) {
         super(props, context);
 
-        this.state = {
-            account: '',
-            profile: false,
-        };
-
         this.onSubmit = this.onSubmit.bind(this);
-    }
-
-    public componentDidMount() {
-        // TODO: move everything in a initialize saga!
-
-        if (
-            !((window as any).ethereum &&
-            (window as any).ethereum.enable)
-        ) {
-            return;
-        }
-
-        const callback = async (accounts: any) => {
-            Box.getProfile(accounts[0]).then((profile: any) => {
-                this.setState({
-                    ...this.state,
-                    profile: true,
-                });
-
-                console.log(profile);
-            }).catch((error: any) => {
-                this.setState({
-                    ...this.state,
-                    profile: false,
-                });
-            });
-
-            Box.openBox(
-                accounts[0],
-                (window as any).ethereum,
-            ).then((box: any) => {
-                // interact with 3Box data
-                box.onSyncDone(() => {
-                    // box.public.get(); // set
-                });
-            });
-            this.setState({
-                ...this.state,
-                account: accounts[0],
-            });
-        };
-
-        // (window as any).ethereum.enable().then(callback);
     }
 
     public onSubmit() {
@@ -118,32 +70,24 @@ class LoginMetaMask extends Component<LoginMetaMaskProps, ILoginMetaMaskState> {
     }
 
     protected renderAvatar() {
-        const { account } = this.state;
-        const { avatar } = this.props.classes;
+        const { account } = this.props;
+        const { avatar, name } = this.props.classes;
 
         if (!account) {
             return null;
         }
 
-        return (
-            <div className={avatar}>
-                <Avatar address={account} />
-            </div>
-        );
-    }
-
-    protected renderCreateAccountForm() {
-        const { profile } = this.state;
-        const { avatar } = this.props.classes;
-
-        if (profile) {
-            return null;
-        }
+        // TODO: if no 3box profile render createProfileForm
 
         return (
-            <div className={avatar}>
-                k
-            </div>
+            <Fragment>
+                <div className={avatar}>
+                    <Avatar address={account} />
+                </div>
+                <div className={name}>
+                    <Name address={account} />
+                </div>
+            </Fragment>
         );
     }
 }
@@ -156,6 +100,10 @@ const style: StyleRules = {
     },
     buttonWrapper: {
         'marginTop': '2rem',
+    },
+    name: {
+        'fontSize': '1.4rem',
+        'marginTop': '1.4rem',
     },
 };
 

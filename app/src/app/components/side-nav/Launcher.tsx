@@ -15,13 +15,13 @@ type LauncherProps = ILauncherProps & WithStyles & WithWidthProps;
 class Launcher extends Component<LauncherProps, ILauncherState> {
 
     public render() {
-        const { width } = this.props;
+        const { showLauncher, width } = this.props;
         const { launcher } = this.props.classes;
 
         // TODO: launcher animation: hide sidenav, fade in from bottom
 
         return isWidthUp('lg', width) ?  (
-            <div className={launcher}>
+            <div className={launcher} onClick={showLauncher}>
                 <Apps fontSize={'inherit'} />
             </div>
         ) : null;

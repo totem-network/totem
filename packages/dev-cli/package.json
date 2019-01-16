@@ -13,7 +13,6 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@totem/dev-core": "file:../dev-core/src/index.ts",
     "chalk": "^2.4.1",
     "cliui": "^4.1.0",
     "inquirer": "^6.2.0",

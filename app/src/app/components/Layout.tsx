@@ -3,7 +3,7 @@ import {
     Login,
     NotLoggedIn,
 } from 'account';
-import React, { Component, ComponentType, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Map as LoadableMap } from 'react-loadable';
 import Branding from './login/Branding';
 
@@ -14,6 +14,7 @@ interface ILayoutState {}
 const DesktopLoadable = LoadableMap({
     loader: {
         Gestures: () => import(/* webpackChunkName: 'gestures' */ './../containers/Gestures'),
+        LaunchBar: () => import(/* webpackChunkName: 'launcher' */ './../containers/LaunchBar'),
         Launcher: () => import(/* webpackChunkName: 'launcher' */ './../containers/Launcher'),
         SideNav: () => import(/* webpackChunkName: 'side-nav' */ './../containers/SideNav'),
         Windows: () => import(/* webpackChunkName: 'windows' */ './../containers/applications/Windows'),
@@ -21,6 +22,7 @@ const DesktopLoadable = LoadableMap({
     loading: () => null,
     render: (loaded, props) => {
         const GesturesContainer = loaded.Gestures.default as any;
+        const LaunchBarContainer = loaded.LaunchBar.default as any;
         const LauncherContainer = loaded.Launcher.default as any;
         const SideNavContainer = loaded.SideNav.default as any;
         const WindowsContainer = loaded.Windows.default as any;
@@ -28,9 +30,10 @@ const DesktopLoadable = LoadableMap({
         return (
             <Fragment>
                 <GesturesContainer />
-                <LauncherContainer />
                 <WindowsContainer />
                 <SideNavContainer />
+                <LaunchBarContainer />
+                <LauncherContainer />
             </Fragment>
         );
     },

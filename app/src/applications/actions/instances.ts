@@ -62,10 +62,36 @@ export function closeInstance(
     };
 }
 
+// close a Instance
+
+export type UPDATE_INSTANCE = 'applications/UPDATE_INSTANCE';
+export const UPDATE_INSTANCE: UPDATE_INSTANCE = 'applications/UPDATE_INSTANCE';
+
+export interface IUpdateInstanceAction extends Action {
+    type: UPDATE_INSTANCE;
+    payload: IUpdateInstancePayload;
+}
+
+export interface IUpdateInstancePayload {
+    id: string;
+}
+
+export function updateInstance(
+    id: string,
+): IUpdateInstanceAction {
+    return {
+        payload: {
+            id,
+        },
+        type: UPDATE_INSTANCE,
+    };
+}
+
 interface IOtherAction extends Action {
     payload?: any;
 }
 
 export type InstancesAction = IAddInstanceAction |
         ICloseInstanceAction |
+        IUpdateInstanceAction |
         IOtherAction;

@@ -11,7 +11,7 @@ interface IProfileState {
 
 export interface IImmutableProfileState extends Map<string, IProfileState> {}
 
-const initialState = fromJS([]);
+const initialState = fromJS({});
 
 function profileReducer(
     state: IImmutableProfileState = initialState,

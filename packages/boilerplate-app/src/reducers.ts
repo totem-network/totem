@@ -14,5 +14,5 @@ export const reducers = {
 };
 
 export default combineReducers<IImmutableState>(
-    reducers,
+    reducers as any,
 ) as Reducer<IImmutableState, AnyAction>;

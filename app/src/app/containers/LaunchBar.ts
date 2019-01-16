@@ -1,12 +1,11 @@
 import {
-    hideLauncher,
     launcherSelector,
     startApplication,
 } from 'applications';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Launcher from '../components/launcher/Launcher';
+import LaunchBar from '../components/launch-bar/LaunchBar';
 
 const mapStateToProps = (state: any) => {
     return launcherSelector(state);
@@ -14,7 +13,6 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
     return bindActionCreators({
-        hideLauncher,
         startApplication,
     }, dispatch);
 };
@@ -22,4 +20,4 @@ const mapDispatchToProps = (dispatch: any) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(Launcher);
+)(LaunchBar);

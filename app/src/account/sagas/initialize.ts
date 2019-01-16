@@ -3,7 +3,8 @@ import { call, put, take } from 'redux-saga/effects';
 import { addProfile } from './../actions/profile';
 import { setProvidedAccounts } from './../actions/providedAccounts';
 
-const Box = require('3box');
+// TODO: remove 3box from scripts and import package
+const Box = (window as any).Box; // require('3box');
 
 export default function* initializeSaga() {
     const initializeAction = yield take(INITIALIZE);
@@ -18,10 +19,10 @@ export default function* initializeSaga() {
         try {
             const profile = yield call(Box.getProfile, address);
 
-            console.log(profile);
+            const name = profile.name;
+            const image = 'https://ipfs.infura.io/ipfs/' + profile.image[0].contentUrl['/'];
 
-            // TODO: profile.get('image') ...
-            // yield put(addProfile(address, image, name));
+            yield put(addProfile(address, image, name));
         } catch (error) {
             console.log('No profile');
         }

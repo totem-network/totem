@@ -1,12 +1,14 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { reduxForm } from 'redux-form/immutable';
-import { loginMetaMask } from './../actions/login';
+import { loginMetaMask } from '../actions/login';
 import LoginMetaMask, {
     ILoginMetaMaskData,
     ILoginMetaMaskProps,
-} from './../components/form/LoginMetaMask';
-import validate from './../validators/loginMetaMask';
+} from '../components/form/LoginMetaMask';
+import providedAccountSelector from '../selectors/providedAccount';
+// import profileSelector from '../selectors/profile';
+import validate from '../validators/loginMetaMask';
 
 const LoginMetaMaskForm = reduxForm<ILoginMetaMaskData, ILoginMetaMaskProps>({
     form: 'loginMetaMask',
@@ -14,7 +16,10 @@ const LoginMetaMaskForm = reduxForm<ILoginMetaMaskData, ILoginMetaMaskProps>({
 })(LoginMetaMask);
 
 const mapStateToProps = (state: any) => {
-    return {};
+    return {
+        account: providedAccountSelector(state),
+        // ...profileSelector(state),
+    };
 };
 
 const mapDispatchToProps = (dispatch: any) => {

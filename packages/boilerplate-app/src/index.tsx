@@ -22,7 +22,7 @@ const render = (AppComponent: any) => {
                     <AppComponent />
                 </div>
             </ConnectedRouter>
-        </Provider>,
+        </Provider> as any,
         document.getElementById('app'),
     );
 };

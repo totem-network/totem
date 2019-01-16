@@ -1,8 +1,12 @@
 import {
     List,
 } from 'immutable';
-import { combineReducers } from 'redux';
-import { ADD_INSTANCE, CLOSE_INSTANCE, InstancesAction } from './../actions/instances';
+import {
+    ADD_INSTANCE,
+    CLOSE_INSTANCE,
+    InstancesAction,
+    UPDATE_INSTANCE,
+} from '../actions/instances';
 
 interface IInstancesState {
     application: string;
@@ -31,6 +35,8 @@ function instancesReducer(
                 themeColor: action.payload.themeColor,
                 title: action.payload.title,
             });
+        case UPDATE_INSTANCE:
+            return state;
         case CLOSE_INSTANCE:
             return state.filter((instance) => {
                 if (!instance) {
