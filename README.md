@@ -108,5 +108,5 @@ To develop the browser extension you can run
 
 ## Sponsor
 
-![](packages/docs/assets/sponsor/browserstack.svg?raw=true)
+![](packages/docs/assets/sponsor/browserstack.png?raw=true)
 [Browserstack](https://www.browserstack.com/) lets us test Totem on different devices!
