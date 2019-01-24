@@ -15,7 +15,7 @@ class LoginMessage extends Component<LoginMessageProps, ILoginMessageState> {
 
         return (
             <div className={wrapper}>
-                <Typography variant="display3">
+                <Typography variant="h2">
                     Hello
                 </Typography>
             </div>

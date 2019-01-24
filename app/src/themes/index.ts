@@ -20,28 +20,29 @@ const theme = createMuiTheme({
         caption: {
             fontWeight: 300,
         },
-        display1: {
-            fontWeight: 300,
-        },
-        display2: {
-            fontWeight: 300,
-        },
-        display3: {
-            color: '#f0f0f0',
-            fontWeight: 100,
-        },
-        display4: {
-            fontWeight: 100,
-        },
         /*fontWeightLight: 100,
         fontWeightMedium: 500,
         fontWeightRegular: 300,*/
-        headline: {
+        h1: {
+            fontWeight: 100,
+        },
+        h2: {
+            color: '#f0f0f0',
+            fontWeight: 100,
+        },
+        h3: {
             fontWeight: 300,
         },
-        subheading: {
+        h4: {
             fontWeight: 300,
         },
+        h5: {
+            fontWeight: 300,
+        },
+        subtitle1: {
+            fontWeight: 300,
+        },
+        useNextVariants: true,
     },
 });
 
