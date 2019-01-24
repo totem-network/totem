@@ -19,15 +19,15 @@ module.exports = merge(common, {
         }),
         /*new BrotliPlugin({
             test: /\.(js|svg)/,
-            asset: '[path].br[query]'
+            filename: '[path].br[query]'
         }),
         new CompressionPlugin({
             test: /\.(js|svg)/,
-            asset: '[path].gz[query]'
+            filename: '[path].gz[query]'
         })*/
         new CompressionPlugin({
             test: /\.(js|svg)/,
-            asset: '[path].gz[query]'
+            filename: '[path].[query]'
         })
     ]
 });

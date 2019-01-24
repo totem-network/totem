@@ -43,11 +43,11 @@ if (process.env.NODE !== 'production' && module.hot) {
     });
 
     // TODO: does it work for lazy loaded sagas?
-    module.hot.accept('./sagas', async () => {
+    /*module.hot.accept('./sagas', async () => {
         const nextSaga = await import('./sagas');
         sagaTask.cancel();
         sagaTask.done.then(() => {
             sagaTask = sagaMiddleware.run(nextSaga.default);
         });
-    });
+    });*/
 }
