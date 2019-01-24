@@ -17,4 +17,4 @@ const mapDispatchToProps = (dispatch: any) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(Launcher);
+)(Launcher as any);
