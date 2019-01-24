@@ -27,7 +27,7 @@ module.exports = merge(common, {
         })*/
         new CompressionPlugin({
             test: /\.(js|svg)/,
-            asset: '[path][query]'
+            asset: '[path].gz[query]'
         })
     ]
 });

@@ -3,7 +3,7 @@ import { call, put, take } from 'redux-saga/effects';
 import { addProfile } from './../actions/profile';
 import { setProvidedAccounts } from './../actions/providedAccounts';
 
-// TODO: remove 3box from scripts and import package
+// TODO: lazy load 3box package as it is 1MB+ gzipped (maybe because of ipfs)
 const Box = require('3box');
 
 export default function* initializeSaga() {
@@ -12,8 +12,6 @@ export default function* initializeSaga() {
     const accounts = yield initializeAction.payload.ethereum.enable();
 
     yield put(setProvidedAccounts(accounts));
-
-    // fetch profiles
 
     for (const address of accounts) {
         try {
@@ -24,7 +22,7 @@ export default function* initializeSaga() {
 
             yield put(addProfile(address, image, name));
         } catch (error) {
-            console.log('No profile');
+            //
         }
     }
 }
