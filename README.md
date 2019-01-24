@@ -44,6 +44,8 @@ have replacements for linting or other enhancements Totem supports.
 * npm
 * g++
 * libpng-dev
+* libusb-1.0-0-dev
+* libudev-dev
 * make
 * rust
 
