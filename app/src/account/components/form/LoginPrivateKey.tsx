@@ -27,7 +27,7 @@ export interface ILoginPrivateKeyProps {
 
 type LoginPrivateKeyProps = ILoginPrivateKeyProps &
     InjectedFormProps<ILoginPrivateKeyData, ILoginPrivateKeyProps> &
-    WithStyles<'buttonWrapper'>;
+    WithStyles;
 
 class LoginPrivateKey extends Component<LoginPrivateKeyProps> {
 

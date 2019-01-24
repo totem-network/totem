@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
-import App from './app/components/App';
+import App from './App';
 import DevTools from './app/containers/DevTools';
 import startupSaga, { sagaMiddleware } from './sagas';
 import { history, store } from './state';
@@ -32,10 +32,10 @@ const render = (AppComponent: any) => {
 render(App);
 
 if (process.env.NODE !== 'production' && module.hot) {
-    module.hot.accept('./app/components/App', async () => {
+    /*module.hot.accept('./app/components/App', async () => {
         const nextAppComponent = await import('./app/components/App');
         render(nextAppComponent);
-    });
+    });*/
 
     module.hot.accept('./reducers', async () => {
         const nextReducer = await import('./reducers');

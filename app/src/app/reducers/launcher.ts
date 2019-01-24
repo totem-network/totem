@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 import { IImmutableStateMap } from 'redux-utils';
-import { HIDE_LAUNCHER, LauncherAction, SHOW_LAUNCHER } from './../actions/launcher';
+import { HIDE_LAUNCHER, LauncherAction, SHOW_LAUNCHER } from '../actions/launcher';
 
 interface ILauncherState {
     showLauncher: boolean;

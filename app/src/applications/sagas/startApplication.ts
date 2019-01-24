@@ -6,13 +6,13 @@ import {
 import {
     IStartApplicationAction,
     START_APPLICATION,
-} from './../actions/application';
-import { addInstance } from './../actions/instances';
-import { addWindow } from './../actions/windows';
+} from '../actions/application';
+import { addInstance } from '../actions/instances';
+import { addWindow } from '../actions/windows';
 import {
     fetchManifest,
     fetchMetaData,
-} from './../metadata';
+} from '../metadata';
 
 function generateId() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
@@ -26,7 +26,7 @@ function generateId() {
 
 function* startApplication(action: IStartApplicationAction) {
     try {
-        const metaData = yield call(fetchMetaData, action.payload.application);
+        const metaData = yield call(fetchMetaData, action.payload.application, action.payload.manifestUrl);
 
         const id = yield call(generateId);
 

@@ -31,8 +31,8 @@ const DesktopLoadable = LoadableMap({
             <Fragment>
                 <GesturesContainer />
                 <WindowsContainer />
-                <SideNavContainer />
                 <LaunchBarContainer />
+                <SideNavContainer />
                 <LauncherContainer />
             </Fragment>
         );

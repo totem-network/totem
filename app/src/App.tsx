@@ -2,8 +2,8 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import { theme } from 'themes';
-import IntlProvider from './../containers/Intl';
-import Layout from './Layout';
+import Layout from './app/components/Layout';
+import IntlProvider from './app/containers/Intl';
 
 interface IAppProps {}
 

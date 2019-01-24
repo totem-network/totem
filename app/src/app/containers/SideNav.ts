@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { hideSideNav } from './../actions/sideNav';
-import sideNavSelector from './../selectors/sideNav';
+import { hideSideNav } from '../actions/sideNav';
+import sideNavSelector from '../selectors/sideNav';
 
-import SideNav from './../components/side-nav/SideNav';
+import SideNav from '../components/side-nav/SideNav';
 
 const mapStateToProps = (state: any) => {
     return sideNavSelector(state);

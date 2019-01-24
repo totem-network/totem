@@ -1,7 +1,7 @@
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
 import withWidth, { isWidthUp, WithWidthProps } from '@material-ui/core/withWidth';
 import Apps from '@material-ui/icons/Apps';
-import { IShowLauncherAction } from 'applications/actions/launcher';
+import { IShowLauncherAction } from 'app/actions/launcher';
 import React, { Component, ComponentType  } from 'react';
 
 interface ILauncherProps {
@@ -31,6 +31,7 @@ class Launcher extends Component<LauncherProps, ILauncherState> {
 
 const style: StyleRules = {
     launcher: {
+        cursor: 'pointer',
         fontSize: '2.4vw',
         marginBottom: '.5vw',
         marginLeft: '.5vw',

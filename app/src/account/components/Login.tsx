@@ -106,7 +106,7 @@ const style: StyleRulesCallback = (theme: Theme) => {
             [theme.breakpoints.up('lg')]: {
                 margin: '2rem',
                 padding: '0',
-                width: '15vw',
+                width: '30vw',
             },
             margin: '1rem 2rem',
             padding: '5vh 0',

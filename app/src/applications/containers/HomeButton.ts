@@ -1,9 +1,8 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { hideTaskManager } from './../actions/taskManager';
-import { minimizeAll } from './../actions/windows';
+import { hideTaskManager } from '../actions/taskManager';
 
-import HomeButton from './../components/task-manager/HomeButton';
+import HomeButton from '../components/task-manager/HomeButton';
 
 const mapStateToProps = (state: any, props: any) => {
     return {};
@@ -12,7 +11,6 @@ const mapStateToProps = (state: any, props: any) => {
 const mapDispatchToProps = (dispatch: any) => {
     return bindActionCreators({
         hideTaskManager,
-        minimizeAll,
     }, dispatch);
 };
 

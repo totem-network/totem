@@ -14,7 +14,7 @@ import {
     WindowsAction,
 } from './../actions/windows';
 
-interface IWindowsState {
+export interface IWindowsState {
     height: number;
     instance: string;
     minimized: boolean;

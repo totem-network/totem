@@ -12,7 +12,7 @@ const initialState = fromJS({
     showSideNav: false,
 });
 
-function navReducer(state: IImmutableNavState = initialState, action: NavAction): IImmutableNavState {
+function sideNavReducer(state: IImmutableNavState = initialState, action: NavAction): IImmutableNavState {
 
     switch (action.type) {
         case SHOW_SIDE_NAV:
@@ -24,4 +24,4 @@ function navReducer(state: IImmutableNavState = initialState, action: NavAction)
     return state;
 }
 
-export default navReducer;
+export default sideNavReducer;

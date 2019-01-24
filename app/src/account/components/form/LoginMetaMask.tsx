@@ -32,7 +32,7 @@ interface ILoginMetaMaskState {}
 
 type LoginMetaMaskProps = ILoginMetaMaskProps &
     InjectedFormProps<ILoginMetaMaskData, ILoginMetaMaskProps> &
-    WithStyles<'buttonWrapper' | 'avatar' | 'name'>;
+    WithStyles;
 
 class LoginMetaMask extends Component<LoginMetaMaskProps, ILoginMetaMaskState> {
 

@@ -2,12 +2,10 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import HomeIcon from '@material-ui/icons/Home';
 import React, { Component, ComponentType } from 'react';
-import { IHideTaskManagerAction } from './../../actions/taskManager';
-import { IMinimizeAllAction } from './../../actions/windows';
+import { IHideTaskManagerAction } from '../../actions/taskManager';
 
 interface IHomeButtonProps {
     hideTaskManager: () => IHideTaskManagerAction;
-    minimizeAll: () => IMinimizeAllAction;
 }
 
 interface IHomeButtonState {}
@@ -23,10 +21,9 @@ class HomeButton extends Component<HomeButtonProps, IHomeButtonState> {
     }
 
     public handleClick() {
-        const { hideTaskManager, minimizeAll } = this.props;
+        const { hideTaskManager } = this.props;
 
         hideTaskManager();
-        minimizeAll();
     }
 
     public render() {

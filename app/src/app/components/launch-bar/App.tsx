@@ -2,7 +2,7 @@ import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/wit
 import React, { Component } from 'react';
 
 interface IAppProps {
-    launchApplication: (application: string) => void;
+    launchApplication: (application: string, manifest?: string) => void;
 }
 
 interface IAppState {}
@@ -18,7 +18,7 @@ class App extends Component<AppProps, IAppState> {
     }
 
     public launchApplication() {
-        this.props.launchApplication('https://3box.io/');
+        this.props.launchApplication('https://3box.io/', '/apps/3box.json');
     }
 
     public render() {
@@ -40,11 +40,11 @@ class App extends Component<AppProps, IAppState> {
 
 const style: StyleRules = {
     container: {
-        textAlign: 'center',
-        width: '5vw',
+        height: '7.5vh',
+        padding: '1.25vh',
     },
     image: {
-        width: '100%',
+        height: '100%',
     },
 };
 

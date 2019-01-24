@@ -4,7 +4,7 @@ import { addProfile } from './../actions/profile';
 import { setProvidedAccounts } from './../actions/providedAccounts';
 
 // TODO: remove 3box from scripts and import package
-const Box = (window as any).Box; // require('3box');
+const Box = require('3box');
 
 export default function* initializeSaga() {
     const initializeAction = yield take(INITIALIZE);

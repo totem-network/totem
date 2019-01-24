@@ -21,12 +21,16 @@ const config = {
     module: {
         rules: [
             {
+                test: /\.jsx?$/,
+                exclude: /node_modules/,
+                use: ['babel-loader']
+            },
+            {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
                 /*resolve: {
                     mainFields: ['browser', 'main']
                 },*/
-                sideEffects: false,
                 use: ['babel-loader', 'ts-loader']
             },
             {
@@ -72,6 +76,10 @@ const config = {
                 to: 'fonts'
             },
             {
+                from: 'app/assets/apps',
+                to: 'apps'
+            },
+            {
                 from: 'app/assets/manifest.json'
             },
             {
@@ -99,7 +107,10 @@ const config = {
             path.resolve('./app/src'),
             path.resolve('./app/assets'),
             path.resolve('./build/contracts'),
-            path.resolve('./node_modules')
+            path.resolve('./node_modules'),
+            // only needed for ipfs:
+            path.resolve('./node_modules/ipfs/node_modules'),
+            path.resolve('./node_modules/libp2p-switch/node_modules')
         ],
         plugins: [
             new TsconfigPathsPlugin({})

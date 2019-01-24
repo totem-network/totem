@@ -20,12 +20,14 @@ export const parseManifest = (manifest: any) => {
     //
 };
 
-const getManifest = async (url: string, doc: Document) => {
+const getManifest = async (url: string, doc: Document, manifestUrl?: string) => {
     const manifestElement = doc.querySelector('link[rel="manifest"]');
 
     url = url.replace(/\/$/, '');
 
-    let manifestUrl: string = url + '/manifest.json';
+    if (!manifestUrl) {
+        manifestUrl = url + '/manifest.json';
+    }
 
     if (manifestElement && manifestElement.hasAttribute('href')) {
         manifestUrl = manifestElement.getAttribute('href') || manifestUrl;
@@ -40,7 +42,7 @@ const getManifest = async (url: string, doc: Document) => {
     return fetchManifest(manifestUrl);
 };
 
-const fetchMetaData = async (url: string) => {
+const fetchMetaData = async (url: string, manifestUrl?: string) => {
     // TODO: first from installed applications
     const response = await fetch(url, {
         mode: 'no-cors',
@@ -56,7 +58,7 @@ const fetchMetaData = async (url: string) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
 
-    const manifest = await getManifest(url, doc);
+    const manifest = await getManifest(url, doc, manifestUrl);
 
     const title = parseTitle(manifest, doc);
     const icon = parseIcon(manifest, url, doc);

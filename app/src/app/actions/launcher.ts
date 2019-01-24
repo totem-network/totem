@@ -2,8 +2,8 @@ import { Action } from 'redux';
 
 // Show launcher
 
-export type SHOW_LAUNCHER = 'applications/SHOW_LAUNCHER';
-export const SHOW_LAUNCHER: SHOW_LAUNCHER = 'applications/SHOW_LAUNCHER';
+export type SHOW_LAUNCHER = 'app/SHOW_LAUNCHER';
+export const SHOW_LAUNCHER: SHOW_LAUNCHER = 'app/SHOW_LAUNCHER';
 
 export interface IShowLauncherAction extends Action {
     type: SHOW_LAUNCHER;
@@ -21,8 +21,8 @@ export function showLauncher(): IShowLauncherAction {
 
 // Hide launcher
 
-export type HIDE_LAUNCHER = 'applications/HIDE_LAUNCHER';
-export const HIDE_LAUNCHER: HIDE_LAUNCHER = 'applications/HIDE_LAUNCHER';
+export type HIDE_LAUNCHER = 'app/HIDE_LAUNCHER';
+export const HIDE_LAUNCHER: HIDE_LAUNCHER = 'app/HIDE_LAUNCHER';
 
 export interface IHideLauncherAction extends Action {
     type: HIDE_LAUNCHER;

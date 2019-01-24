@@ -1,4 +1,4 @@
-import { showLauncher } from 'applications/actions/launcher';
+import { showLauncher } from 'app/actions/launcher';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 

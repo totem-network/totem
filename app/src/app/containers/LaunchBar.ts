@@ -1,14 +1,12 @@
-import {
-    launcherSelector,
-    startApplication,
-} from 'applications';
+import { startApplication } from 'applications';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import launchBarSelector from '../selectors/launchBar';
 
 import LaunchBar from '../components/launch-bar/LaunchBar';
 
 const mapStateToProps = (state: any) => {
-    return launcherSelector(state);
+    return launchBarSelector(state);
 };
 
 const mapDispatchToProps = (dispatch: any) => {

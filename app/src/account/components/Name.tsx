@@ -12,10 +12,17 @@ type NameProps = INameProps;
 class Name extends Component<NameProps, INameState> {
 
     public render() {
-        const { name } = this.props;
+        const {
+            address,
+            name,
+        } = this.props;
 
         if (!name) {
-            return null;
+            return (
+                <span>
+                    {address}
+                </span>
+            );
         }
 
         return (

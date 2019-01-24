@@ -1,14 +1,14 @@
 import {
     call,
     put,
-    takeLatest,
+    takeEvery,
 } from 'redux-saga/effects';
 import {
     CLOSE_APPLICATION,
     ICloseApplicationAction,
-} from './../actions/application';
-import { closeInstance } from './../actions/instances';
-import { closeWindow } from './../actions/windows';
+} from '../actions/application';
+import { closeInstance } from '../actions/instances';
+import { closeWindow } from '../actions/windows';
 
 function* closeApplication(action: ICloseApplicationAction) {
     // TODO: let developers open a dialog: are you sure to quit
@@ -23,5 +23,5 @@ function* closeApplication(action: ICloseApplicationAction) {
 }
 
 export default function* closeApplicationSaga() {
-    yield takeLatest(CLOSE_APPLICATION, closeApplication);
+    yield takeEvery(CLOSE_APPLICATION, closeApplication);
 }

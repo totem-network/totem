@@ -3,7 +3,6 @@ import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/st
 import {
     IFocusWindowAction,
     IStartApplicationAction,
-    StartApplicationDialog,
 } from 'applications';
 import React, {
     Component,
@@ -27,76 +26,20 @@ export interface ITasksProps {
     startApplication: (url: string) => IStartApplicationAction;
 }
 
-export interface ITasksState {
-    taskDialog: boolean;
-    taskUrl: string;
-}
+export interface ITasksState {}
 
 type TasksProps = ITasksProps & WithStyles;
 
 class Tasks extends Component<TasksProps, ITasksState> {
 
-    constructor(props: TasksProps, context: any) {
-        super(props, context);
-
-        this.state = {
-            taskDialog: false,
-            taskUrl: '',
-        };
-
-        this.openDialog = this.openDialog.bind(this);
-        this.closeDialog = this.closeDialog.bind(this);
-        this.changeUrl = this.changeUrl.bind(this);
-        this.addTask = this.addTask.bind(this);
-    }
-
-    public openDialog() {
-        this.setState({
-            ...this.state,
-            taskDialog: true,
-        });
-    }
-
-    public closeDialog() {
-        this.setState({
-            ...this.state,
-            taskDialog: false,
-        });
-    }
-
-    public changeUrl(event: any) {
-        this.setState({
-            ...this.state,
-            taskUrl: event.target.value,
-        });
-    }
-
-    public addTask() {
-        this.props.startApplication(this.state.taskUrl);
-        this.setState({
-            taskDialog: false,
-            taskUrl: '',
-        });
-    }
-
     public render() {
-        const { taskDialog } = this.state;
-        const { addTask, tasks } = this.props.classes;
+        const { tasks } = this.props.classes;
 
         return (
             <Fragment>
                 <ul className={tasks}>
                     {this.renderTasks()}
-                    <li className={addTask} onClick={this.openDialog}>
-                        +
-                    </li>
                 </ul>
-                <StartApplicationDialog
-                    open={taskDialog}
-                    changeUrl={this.changeUrl}
-                    closeHandler={this.closeDialog}
-                    startApplication={this.addTask}
-                />
             </Fragment>
         );
     }
@@ -124,40 +67,6 @@ class Tasks extends Component<TasksProps, ITasksState> {
 
 const style: StyleRulesCallback = (theme: Theme) => {
     return {
-        addTask: {
-            [theme.breakpoints.down('md') + ' and (orientation:landscape)']: {
-                fontSize: '8vw',
-                height: 'calc(9vw - 4px)',
-                lineHeight: '7vw',
-                marginLeft: '1.5vw',
-                marginTop: '1.5vw',
-                width: 'calc(9vw - 4px)',
-            },
-            [theme.breakpoints.up('lg')]: {
-                display: 'block',
-                fontSize: '3vw',
-                height: 'calc(3vw - 4px)',
-                lineHeight: '2.7vw',
-                marginLeft: '.2vw',
-                marginTop: '.5vw',
-                width: 'calc(3vw - 4px)',
-            },
-            border: '2px solid #ccc',
-            borderRadius: '5% 20% 5%',
-            color: '#ccc',
-            cursor: 'pointer',
-            display: 'inline-block',
-            fontSize: '16vw',
-            height: 'calc(18vw - 4px)',
-            lineHeight: '14vw',
-            listStyleType: 'none',
-            marginLeft: '3.5vw',
-            marginTop: '3.5vw',
-            opacity: 0.5,
-            overflow: 'hidden',
-            textAlign: 'center',
-            width: 'calc(18vw - 4px)',
-        },
         task: {
             [theme.breakpoints.down('md') + ' and (orientation:landscape)']: {
                 height: '9vw',

@@ -95,6 +95,8 @@ class Windows extends Component<WindowsProps, IWindowsState> {
         });
 
         return List(windows).sort((a: IWindow, b: IWindow) => {
+            // sorting by instance is required to prevent reloading of applications iframe
+            // to change the order in the view change the orderedWindows object
             return a.instance.localeCompare(b.instance);
         }).map((window) => {
             if (!window) {
@@ -115,12 +117,12 @@ class Windows extends Component<WindowsProps, IWindowsState> {
                 focused = true;
 
                 // TODO: replace focusedIndex with index from sorted windows
-                let sortetIndex = focusedIndex;
+                let sortedIndex = focusedIndex;
                 if (focusedIndex === -1) {
-                    sortetIndex = 0;
+                    sortedIndex = 0;
                 }
 
-                offset = orderedWindows[window.instance] - sortetIndex;
+                offset = orderedWindows[window.instance] - sortedIndex;
 
                 taskStyle = {
                     left: offset * 75 + 'vw',
@@ -196,6 +198,7 @@ class Windows extends Component<WindowsProps, IWindowsState> {
 const style: StyleRules = {
     container: {
         height: '100%',
+        overflow: 'hidden',
         position: 'absolute',
         width: '100%',
     },

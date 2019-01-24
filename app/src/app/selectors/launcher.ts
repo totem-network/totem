@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
-import { IImmutableState } from './../../reducers';
+import { IImmutableState } from '../../reducers';
 
 const launcherSelector = (state: IImmutableState) => {
-    return state.get('applications').get('launcher').toJS();
+    return state.get('app').get('launcher').toJS();
 };
 
 export default createSelector(

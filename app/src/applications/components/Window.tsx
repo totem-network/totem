@@ -14,6 +14,7 @@ import {
     ICloseApplicationAction,
 } from './../actions/application';
 import {
+    IHideTaskManagerAction,
     IShowTaskManagerAction,
 } from './../actions/taskManager';
 import {
@@ -33,7 +34,7 @@ interface IWindowProps {
     finishChange: () => void;
     focus: (instance: string) => IFocusWindowAction;
     focused: boolean;
-    windowHeight: number;
+    hideTaskManager: () => IHideTaskManagerAction;
     instance: string;
     minimize: (instance: string) => IMinimizeWindowAction;
     minimized: boolean;
@@ -45,6 +46,7 @@ interface IWindowProps {
     taskStyle: CSSProperties;
     themeColor: string;
     title: string;
+    windowHeight: number;
     windowWidth: number;
     x: number;
     y: number;
@@ -295,14 +297,27 @@ class Window extends Component<WindowProps, IWindowState> {
     }
 
     protected renderTaskOverlay() {
-        const { task } = this.props;
+        const {
+            focus,
+            hideTaskManager,
+            instance,
+            task,
+        } = this.props;
         const { taskOverlay } = this.props.classes;
+
+        const focusTask = () => {
+            focus(instance);
+            hideTaskManager();
+        };
 
         return task ? (
             <Swipeable
                 onSwipeUp={this.close}
             >
-                <div className={taskOverlay} />
+                <div
+                    className={taskOverlay}
+                    onClick={focusTask}
+                />
             </Swipeable>
         ) : null;
     }

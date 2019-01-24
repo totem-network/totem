@@ -1,16 +1,14 @@
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
-import {
-    IHideLauncherAction,
-    IStartApplicationAction,
-} from 'applications';
+import { IStartApplicationAction } from 'applications';
 import classNames from 'classnames';
 import React, { Component, ComponentType  } from 'react';
+import { IHideLauncherAction } from '../../actions/launcher';
 import App from './App';
 
 interface ILauncherProps {
     isVisible: boolean;
     hideLauncher: () => IHideLauncherAction;
-    startApplication: (application: string) => IStartApplicationAction;
+    startApplication: (application: string, manifest?: string) => IStartApplicationAction;
 }
 
 interface ILauncherState {}
@@ -25,11 +23,11 @@ class Launcher extends Component<LauncherProps, ILauncherState> {
         this.launchApplication = this.launchApplication.bind(this);
     }
 
-    public launchApplication(application: string) {
+    public launchApplication(application: string, manifest?: string) {
         const { hideLauncher, startApplication } = this.props;
 
         hideLauncher();
-        startApplication(application);
+        startApplication(application, manifest);
     }
 
     public render() {
@@ -66,8 +64,12 @@ class Launcher extends Component<LauncherProps, ILauncherState> {
 
 const style: StyleRules = {
     container: {
-        margin: '0 auto',
-        width: '80%',
+        left: '20%',
+        margin: '0',
+        padding: '0',
+        position: 'absolute',
+        top: '10%',
+        width: '60%',
     },
     launcher: {
         backgroundImage: 'url("/images/launcher-background.svg")',
@@ -76,6 +78,7 @@ const style: StyleRules = {
         margin: 0,
         opacity: 0,
         padding: 0,
+        position: 'relative',
         transform: 'translateY(-102%)',
         transition: 'opacity .2s ease-out',
         width: '100%',
