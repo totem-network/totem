@@ -2,7 +2,7 @@ import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/wit
 import Add from '@material-ui/icons/Add';
 import Clear from '@material-ui/icons/Clear';
 import Remove from '@material-ui/icons/Remove';
-import React, { Component, ComponentType, MouseEvent } from 'react';
+import React, { Component, MouseEvent } from 'react';
 
 interface IButtonsProps {
     backgroundColor: string;
@@ -84,4 +84,4 @@ const style: StyleRules = {
     },
 };
 
-export default withStyles(style)(Buttons) as ComponentType<IButtonsProps>;
+export default withStyles(style)(Buttons);

@@ -6,7 +6,6 @@ import {
 } from 'applications';
 import React, {
     Component,
-    ComponentType,
     CSSProperties,
     Fragment,
     MouseEvent,
@@ -105,4 +104,4 @@ const style: StyleRulesCallback = (theme: Theme) => {
     };
 };
 
-export default withStyles(style)(Tasks) as ComponentType<ITasksProps>;
+export default withStyles(style)(Tasks);

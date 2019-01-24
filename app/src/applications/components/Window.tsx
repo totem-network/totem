@@ -1,6 +1,6 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import withWidth, { isWidthDown, isWidthUp, WithWidthProps } from '@material-ui/core/withWidth';
+import withWidth, { isWidthDown, isWidthUp, WithWidth } from '@material-ui/core/withWidth';
 import classNames from 'classnames';
 import { SwipeFromBottom } from 'gestures';
 import React, {
@@ -55,7 +55,7 @@ interface IWindowProps {
 
 interface IWindowState {}
 
-type WindowProps = IWindowProps & WithStyles & WithWidthProps;
+type WindowProps = IWindowProps & WithStyles & WithWidth;
 
 class Window extends Component<WindowProps, IWindowState> {
 
@@ -373,5 +373,5 @@ const style: StyleRulesCallback = (theme: Theme) => {
 };
 
 export default withStyles(style)(
-    withWidth()(Window) as ComponentType<IWindowProps & WithStyles>,
-) as ComponentType<IWindowProps>;
+    withWidth()(Window),
+);

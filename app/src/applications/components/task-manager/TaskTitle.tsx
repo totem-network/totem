@@ -1,6 +1,6 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component, ComponentType } from 'react';
+import React, { Component } from 'react';
 
 interface ITaskTitleProps {
     icon: string;
@@ -55,4 +55,4 @@ const style: StyleRulesCallback = (theme: Theme) => {
     };
 };
 
-export default withStyles(style)(TaskTitle) as ComponentType<ITaskTitleProps>;
+export default withStyles(style)(TaskTitle);

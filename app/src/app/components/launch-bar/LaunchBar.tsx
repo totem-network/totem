@@ -1,5 +1,5 @@
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
-import withWidth, { isWidthDown, WithWidthProps } from '@material-ui/core/withWidth';
+import withWidth, { isWidthDown, WithWidth } from '@material-ui/core/withWidth';
 import {
     IStartApplicationAction,
 } from 'applications';
@@ -14,7 +14,7 @@ interface ILaunchBarProps {
 
 interface ILaunchBarState {}
 
-type LaunchBarProps = ILaunchBarProps & WithStyles & WithWidthProps;
+type LaunchBarProps = ILaunchBarProps & WithStyles & WithWidth;
 
 class LaunchBar extends Component<LaunchBarProps, ILaunchBarState> {
 
@@ -78,5 +78,5 @@ const style: StyleRules = {
 };
 
 export default withStyles(style)(
-    withWidth()(LaunchBar) as ComponentType<ILaunchBarProps & WithStyles>,
-) as ComponentType<ILaunchBarProps>;
+    withWidth()(LaunchBar as any),
+);

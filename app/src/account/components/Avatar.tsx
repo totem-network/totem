@@ -1,6 +1,6 @@
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
 import makeBlockie from 'ethereum-blockies-base64';
-import React, { Component, ComponentType } from 'react';
+import React, { Component } from 'react';
 
 export interface IAvatarProps {
     address: string;
@@ -9,7 +9,7 @@ export interface IAvatarProps {
 
 interface IAvatarState {}
 
-type AvatarProps = IAvatarProps & WithStyles<'avatar'>;
+type AvatarProps = IAvatarProps & WithStyles;
 
 class Avatar extends Component<AvatarProps, IAvatarState> {
 
@@ -47,4 +47,4 @@ const style: StyleRules = {
     },
 };
 
-export default withStyles(style)(Avatar) as ComponentType<IAvatarProps>;
+export default withStyles(style)(Avatar);

@@ -1,7 +1,7 @@
 import Button from '@material-ui/core/Button';
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
 import { LogoFlat } from 'app';
-import React, { Component, ComponentType } from 'react';
+import React, { Component } from 'react';
 import {
     Form,
     InjectedFormProps,
@@ -16,7 +16,7 @@ export interface IPayButtonProps {}
 
 interface IPayButtonState {}
 
-type PayButtonProps = IPayButtonProps &
+export type PayButtonProps = IPayButtonProps &
     InjectedFormProps<IPayButtonData, IPayButtonProps> &
     WithStyles;
 
@@ -70,7 +70,4 @@ const style: StyleRules = {
     },
 };
 
-export default withStyles(style)(PayButton) as ComponentType<
-    IPayButtonProps &
-    InjectedFormProps<IPayButtonData, IPayButtonProps>
->;
+export default withStyles(style)(PayButton);

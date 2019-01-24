@@ -1,6 +1,6 @@
 import Button from '@material-ui/core/Button';
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component, ComponentType } from 'react';
+import React, { Component } from 'react';
 import {
     Form,
     InjectedFormProps,
@@ -81,7 +81,4 @@ const style: StyleRules = {
     },
 };
 
-export default withStyles(style)(LoginPrivateKey) as ComponentType<
-    ILoginPrivateKeyProps &
-    InjectedFormProps<ILoginPrivateKeyData, ILoginPrivateKeyProps>
->;
+export default withStyles(style)(LoginPrivateKey);

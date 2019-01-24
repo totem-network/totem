@@ -1,7 +1,6 @@
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
 import React, {
     Component,
-    ComponentType,
     Fragment,
 } from 'react';
 import Direction from './resize/Direction';
@@ -146,4 +145,4 @@ const style: StyleRules = {
     },
 };
 
-export default withStyles(style)(Resize) as ComponentType<IResizeProps>;
+export default withStyles(style)(Resize);

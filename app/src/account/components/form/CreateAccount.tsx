@@ -1,6 +1,6 @@
 import Button from '@material-ui/core/Button';
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component, ComponentType } from 'react';
+import React, { Component } from 'react';
 import {
     Form,
     InjectedFormProps,
@@ -26,7 +26,7 @@ interface ICreateAccountState {}
 
 type CreateAccountProps = ICreateAccountProps &
     InjectedFormProps<ICreateAccountData, ICreateAccountProps> &
-    WithStyles<'buttonWrapper' | 'avatar'>;
+    WithStyles;
 
 class CreateAccount extends Component<CreateAccountProps, ICreateAccountState> {
 
@@ -75,7 +75,4 @@ const style: StyleRules = {
     },
 };
 
-export default withStyles(style)(CreateAccount) as ComponentType<
-    ICreateAccountProps &
-    InjectedFormProps<ICreateAccountData, ICreateAccountProps>
->;
+export default withStyles(style)(CreateAccount);

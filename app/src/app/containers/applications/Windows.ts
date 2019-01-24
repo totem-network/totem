@@ -1,6 +1,5 @@
 import {
     instancesSelector,
-    startApplication,
     taskManagerSelector,
     windowsSelector,
  } from 'applications';
@@ -24,4 +23,4 @@ const mapDispatchToProps = (dispatch: any) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(Windows);
+)(Windows as any);

@@ -13,7 +13,7 @@ import validate from '../validators/loginMetaMask';
 const LoginMetaMaskForm = reduxForm<ILoginMetaMaskData, ILoginMetaMaskProps>({
     form: 'loginMetaMask',
     validate,
-})(LoginMetaMask);
+})(LoginMetaMask as any);
 
 const mapStateToProps = (state: any) => {
     return {

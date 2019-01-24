@@ -2,7 +2,6 @@ import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/wit
 import classNames from 'classnames';
 import React, {
     Component,
-    ComponentType,
     CSSProperties,
     MouseEvent as ReactMouseEvent,
 } from 'react';
@@ -153,4 +152,4 @@ const style: StyleRules = {
     },
 };
 
-export default withStyles(style)(Header) as ComponentType<IHeaderProps>;
+export default withStyles(style)(Header);

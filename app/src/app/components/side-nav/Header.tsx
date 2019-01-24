@@ -1,8 +1,8 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import withWidth, { isWidthDown, WithWidthProps } from '@material-ui/core/withWidth';
+import withWidth, { isWidthDown, WithWidth } from '@material-ui/core/withWidth';
 import { Avatar } from 'account';
-import React, { Component, ComponentType  } from 'react';
+import React, { Component } from 'react';
 
 interface IHeaderProps {
     address: string;
@@ -10,7 +10,7 @@ interface IHeaderProps {
 
 interface IHeaderState {}
 
-type HeaderProps = IHeaderProps & WithStyles & WithWidthProps;
+type HeaderProps = IHeaderProps & WithStyles & WithWidth;
 
 class Header extends Component<HeaderProps, IHeaderState> {
 
@@ -71,5 +71,5 @@ const style: StyleRulesCallback = (theme: Theme) => {
 };
 
 export default withStyles(style)(
-    withWidth()(Header) as ComponentType<IHeaderProps & WithStyles>,
-) as ComponentType<IHeaderProps>;
+    withWidth()(Header),
+);

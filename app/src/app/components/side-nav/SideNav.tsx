@@ -1,10 +1,9 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import withWidth, { isWidthDown, WithWidthProps } from '@material-ui/core/withWidth';
+import withWidth, { isWidthDown, WithWidth } from '@material-ui/core/withWidth';
 import classNames from 'classnames';
 import React, {
     Component,
-    ComponentType,
     Fragment,
     MouseEvent,
     TouchEvent,
@@ -21,7 +20,7 @@ interface ISideNavProps {
 
 interface ISideNavState {}
 
-type SideNavProps = ISideNavProps & WithStyles & WithWidthProps;
+type SideNavProps = ISideNavProps & WithStyles & WithWidth;
 
 class SideNav extends Component<SideNavProps, ISideNavState> {
 
@@ -70,7 +69,6 @@ class SideNav extends Component<SideNavProps, ISideNavState> {
     public render() {
         const { isVisible } = this.props;
         const {
-            backgroundBlur,
             container,
             containerBefore,
             containerVisible,
@@ -198,5 +196,5 @@ const style: StyleRulesCallback = (theme: Theme) => {
 };
 
 export default withStyles(style)(
-    withWidth()(SideNav) as ComponentType<ISideNavProps & WithStyles>,
-) as ComponentType<ISideNavProps>;
+    withWidth()(SideNav as any),
+);

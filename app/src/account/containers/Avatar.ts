@@ -18,4 +18,4 @@ const mapStateToProps = (state: IImmutableState, props: IAvatarProps) => {
 
 export default connect(
     mapStateToProps,
-)(Avatar);
+)(Avatar as any);

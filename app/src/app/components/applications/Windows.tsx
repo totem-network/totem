@@ -2,7 +2,7 @@ import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/wit
 import { HomeButton, TaskTitle, Window } from 'applications';
 import classNames from 'classnames';
 import { List } from 'immutable';
-import React, { Component, ComponentType, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 
 interface IInstance {
     application: string;
@@ -211,4 +211,4 @@ const style: StyleRules = {
     },
 };
 
-export default withStyles(style)(Windows) as ComponentType<IWindowsProps>;
+export default withStyles(style)(Windows);

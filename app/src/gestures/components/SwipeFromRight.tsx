@@ -1,5 +1,5 @@
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component, ComponentType } from 'react';
+import React, { Component } from 'react';
 import Swipeable from 'touch/components/Swipeable';
 
 interface ISwipeFromRightProps {
@@ -35,4 +35,4 @@ const style: StyleRules = {
     },
 };
 
-export default withStyles(style)(SwipeFromRight) as ComponentType<ISwipeFromRightProps>;
+export default withStyles(style)(SwipeFromRight);

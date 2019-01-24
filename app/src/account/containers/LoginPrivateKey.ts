@@ -11,7 +11,7 @@ import validate from './../validators/loginPrivateKey';
 const LoginPrivateKeyForm = reduxForm<ILoginPrivateKeyData, ILoginPrivateKeyProps>({
     form: 'loginPrivateKey',
     validate,
-})(LoginPrivateKey);
+})(LoginPrivateKey as any);
 
 const mapStateToProps = (state: any) => {
     return {};

@@ -8,7 +8,7 @@ import PayButton, {
 
 const PayButtonForm = reduxForm<IPayButtonData, IPayButtonProps>({
     form: 'payment',
-})(PayButton);
+})(PayButton as any);
 
 const mapStateToProps = (state: any) => {
     return {};

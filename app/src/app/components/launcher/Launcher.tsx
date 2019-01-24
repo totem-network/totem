@@ -1,7 +1,7 @@
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
 import { IStartApplicationAction } from 'applications';
 import classNames from 'classnames';
-import React, { Component, ComponentType  } from 'react';
+import React, { Component  } from 'react';
 import { IHideLauncherAction } from '../../actions/launcher';
 import App from './App';
 
@@ -90,4 +90,4 @@ const style: StyleRules = {
     },
 };
 
-export default withStyles(style)(Launcher) as ComponentType<ILauncherProps>;
+export default withStyles(style)(Launcher as any);

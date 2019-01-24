@@ -24,4 +24,4 @@ const mapDispatchToProps = (dispatch: any) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(Tasks);
+)(Tasks as any);

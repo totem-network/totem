@@ -1,7 +1,7 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
-import React, { Component, ComponentType } from 'react';
+import React, { Component } from 'react';
 
 interface ISandboxProps {
     pointerEvents: boolean;
@@ -50,4 +50,4 @@ const style: StyleRulesCallback = (theme: Theme) => {
     };
 };
 
-export default withStyles(style)(Sandbox) as ComponentType<ISandboxProps>;
+export default withStyles(style)(Sandbox);

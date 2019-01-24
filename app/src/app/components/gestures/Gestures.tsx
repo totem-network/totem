@@ -1,7 +1,7 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import { SwipeFromLeft } from 'gestures';
-import React, { Component, ComponentType } from 'react';
+import React, { Component } from 'react';
 
 interface IGesturesProps {
     swipeFromLeft: () => any;
@@ -41,4 +41,4 @@ const style: StyleRulesCallback = (theme: Theme) => {
     };
 };
 
-export default withStyles(style)(Gestures) as ComponentType<IGesturesProps>;
+export default withStyles(style)(Gestures);

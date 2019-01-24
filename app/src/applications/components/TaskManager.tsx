@@ -1,9 +1,7 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import withWidth, { isWidthDown, isWidthUp, WithWidthProps } from '@material-ui/core/withWidth';
-import classNames from 'classnames';
-import { List } from 'immutable';
-import React, { Component, ComponentType } from 'react';
+import withWidth, { isWidthDown, WithWidth } from '@material-ui/core/withWidth';
+import React, { Component } from 'react';
 import Sandbox from './window/Sandbox';
 
 interface IWindow {
@@ -22,7 +20,7 @@ interface ITaskManagerProps {
 
 interface ITaskManagerState {}
 
-type TaskManagerProps = ITaskManagerProps & WithStyles & WithWidthProps;
+type TaskManagerProps = ITaskManagerProps & WithStyles & WithWidth;
 
 class TaskManager extends Component<TaskManagerProps, ITaskManagerState> {
 
@@ -84,5 +82,5 @@ const style: StyleRulesCallback = (theme: Theme) => {
 };
 
 export default withStyles(style)(
-    withWidth()(TaskManager) as ComponentType<ITaskManagerProps & WithStyles>,
-) as ComponentType<ITaskManagerProps>;
+    withWidth()(TaskManager),
+);

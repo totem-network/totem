@@ -1,6 +1,6 @@
 import Button from '@material-ui/core/Button';
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component, ComponentType, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
     Form,
     InjectedFormProps,
@@ -107,7 +107,4 @@ const style: StyleRules = {
     },
 };
 
-export default withStyles(style)(LoginMetaMask) as ComponentType<
-    ILoginMetaMaskProps &
-    InjectedFormProps<ILoginMetaMaskData, ILoginMetaMaskProps>
->;
+export default withStyles(style)(LoginMetaMask);

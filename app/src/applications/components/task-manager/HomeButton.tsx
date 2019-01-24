@@ -1,7 +1,7 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import HomeIcon from '@material-ui/icons/Home';
-import React, { Component, ComponentType } from 'react';
+import React, { Component } from 'react';
 import { IHideTaskManagerAction } from '../../actions/taskManager';
 
 interface IHomeButtonProps {
@@ -51,4 +51,4 @@ const style: StyleRulesCallback = (theme: Theme) => {
     };
 };
 
-export default withStyles(style)(HomeButton) as ComponentType<IHomeButtonProps>;
+export default withStyles(style)(HomeButton);

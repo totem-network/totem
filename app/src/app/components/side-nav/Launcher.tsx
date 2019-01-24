@@ -1,8 +1,8 @@
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
-import withWidth, { isWidthUp, WithWidthProps } from '@material-ui/core/withWidth';
+import withWidth, { isWidthUp, WithWidth } from '@material-ui/core/withWidth';
 import Apps from '@material-ui/icons/Apps';
 import { IShowLauncherAction } from 'app/actions/launcher';
-import React, { Component, ComponentType  } from 'react';
+import React, { Component  } from 'react';
 
 interface ILauncherProps {
     showLauncher: () => IShowLauncherAction;
@@ -10,7 +10,7 @@ interface ILauncherProps {
 
 interface ILauncherState {}
 
-type LauncherProps = ILauncherProps & WithStyles & WithWidthProps;
+type LauncherProps = ILauncherProps & WithStyles & WithWidth;
 
 class Launcher extends Component<LauncherProps, ILauncherState> {
 
@@ -41,5 +41,5 @@ const style: StyleRules = {
 };
 
 export default withStyles(style)(
-    withWidth()(Launcher) as ComponentType<ILauncherProps & WithStyles>,
-) as ComponentType<ILauncherProps>;
+    withWidth()(Launcher),
+);
