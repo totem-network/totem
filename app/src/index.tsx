@@ -37,10 +37,10 @@ if (process.env.NODE !== 'production' && module.hot) {
         render(nextAppComponent);
     });*/
 
-    module.hot.accept('./reducers', async () => {
+    /*module.hot.accept('./reducers', async () => {
         const nextReducer = await import('./reducers');
         store.replaceReducer(nextReducer.default);
-    });
+    });*/
 
     // TODO: does it work for lazy loaded sagas?
     /*module.hot.accept('./sagas', async () => {
