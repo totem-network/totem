@@ -14,9 +14,9 @@ module.exports = merge(common, {
             }
         }),
         // TODO: prepack not working
-        new PrepackWebpackPlugin({
+        /*new PrepackWebpackPlugin({
             test: /\.(js)/
-        }),
+        }),*/
         /*new BrotliPlugin({
             test: /\.(js|svg)/,
             filename: '[path].br[query]'
@@ -25,9 +25,5 @@ module.exports = merge(common, {
             test: /\.(js|svg)/,
             filename: '[path].gz[query]'
         })*/
-        new CompressionPlugin({
-            test: /\.(js|svg)/,
-            filename: '[path][query]'
-        })
     ]
 });
