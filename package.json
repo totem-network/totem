@@ -12,6 +12,7 @@
     "ethereum": "ganache-cli -m \"exclude virus file basket confirm sock ten guide actress sketch dizzy race\"",
     "ipfs": "jsipfs daemon",
     "serve:web": "webpack-dev-server --config webpack.development.js --https",
+    "serve:web:production": "webpack-dev-server --config webpack.production.js --https",
     "serve:electron": "gulp electron:serve",
     "test": "NODE_PATH=./app/src mocha --require babel-register --require ts-node/register --recursive tests/app/**/*.test.ts || true",
     "test:functional": "NODE_PATH=./app/src mocha --require babel-register --require ts-node/register --require babel-polyfill --recursive tests/app/functional/**/*.test.ts || true",
