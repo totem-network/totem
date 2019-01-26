@@ -81,6 +81,7 @@ After you setup the development environment, clone this repository
 Install the npm dependencies
 
     npm install
+    npx lerna bootstrap
 
 #### Electron
 
