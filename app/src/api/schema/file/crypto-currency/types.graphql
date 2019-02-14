@@ -1,0 +1,21 @@
+type CryptoCurrency {
+    balance: String
+    icon: String
+    name: String
+    data: CryptoCurrencyData
+}
+
+type NativeCurrencyData {
+    network: Int
+}
+
+type TokenData {
+    contract: String
+}
+
+union CryptoCurrencyData = NativeCurrencyData | TokenData
+
+type Query {
+  cryptoCurrencies: [CryptoCurrency]
+  cryptoCurrenciesByAccount(address: String!): [CryptoCurrency]
+}

@@ -34,6 +34,11 @@ const config = {
                 use: ['babel-loader', 'ts-loader']
             },
             {
+                test: /\.(graphql|gql)$/,
+                exclude: /node_modules/,
+                loader: 'graphql-tag/loader'
+            },
+            {
                 test: /\.(jpe?g|png|gif|svg)$/,
                 use: [
                     {
@@ -72,6 +77,10 @@ const config = {
                 to: 'images'
             },
             {
+                from: 'node_modules/cryptocurrency-icons/svg/icon',
+                to: 'images/cryptocurrency-icons'
+            },
+            {
                 from: 'app/assets/fonts',
                 to: 'fonts'
             },
@@ -101,7 +110,7 @@ const config = {
             /*"react": "preact-compat",
             "react-dom": "preact-compat"*/
         },
-        extensions: ['.ts', '.tsx', '.js', '.json'],
+        extensions: ['.mjs', '.ts', '.tsx', '.js', '.json'],
         //mainFields: ['browser', 'main'],
         modules: [
             path.resolve('./app/src'),

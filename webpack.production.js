@@ -17,13 +17,13 @@ module.exports = merge(common, {
         /*new PrepackWebpackPlugin({
             test: /\.(js)/
         }),*/
-        /*new BrotliPlugin({
+        new BrotliPlugin({
             test: /\.(js|svg)/,
             filename: '[path].br[query]'
         }),
         new CompressionPlugin({
             test: /\.(js|svg)/,
             filename: '[path].gz[query]'
-        })*/
+        })
     ]
 });

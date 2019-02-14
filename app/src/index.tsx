@@ -1,4 +1,9 @@
+import { rootResolver, schema } from 'api';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloClient } from 'apollo-client';
+import { SchemaLink } from 'apollo-link-schema';
 import React from 'react';
+import { ApolloProvider } from 'react-apollo';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
@@ -13,16 +18,29 @@ if ('serviceWorker' in navigator && process.type !== 'renderer') {
     });
 }
 
-let sagaTask = sagaMiddleware.run(startupSaga);
+/*let sagaTask = */
+sagaMiddleware.run(startupSaga);
+
+const apolloLink = new SchemaLink({
+    rootValue: rootResolver,
+    schema,
+});
+
+const apolloClient = new ApolloClient({
+    cache: new InMemoryCache(),
+    link: apolloLink,
+});
 
 const render = (AppComponent: any) => {
     return ReactDOM.render(
         <Provider store={store}>
             <ConnectedRouter history={history}>
-                <div>
-                    <AppComponent />
-                    {(process.env.NODE !== 'production') ? <DevTools /> : ''}
-                </div>
+                <ApolloProvider client={apolloClient}>
+                    <div>
+                        <AppComponent />
+                        {(process.env.NODE !== 'production') ? <DevTools /> : ''}
+                    </div>
+                </ApolloProvider>
             </ConnectedRouter>
         </Provider>,
         document.getElementById('app'),

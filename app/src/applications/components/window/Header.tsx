@@ -12,6 +12,7 @@ interface IHeaderProps {
     finish: () => void;
     minimize: (event: ReactMouseEvent<HTMLElement>) => void;
     move: (x: number, y: number) => void;
+    noHeader?: boolean;
     themeColor: string;
     title: string;
 }
@@ -86,8 +87,17 @@ class Header extends Component<HeaderProps, IHeaderState> {
 
     public render() {
         const { mouseDown } = this.state;
-        const { close, minimize, themeColor, title } = this.props;
-        const { header, headerMove } = this.props.classes;
+        const {
+            close,
+            minimize,
+            noHeader,
+            themeColor,
+            title,
+        } = this.props;
+        const {
+            header,
+            headerMove,
+        } = this.props.classes;
 
         let color = 'rgba(247, 247, 247, 0.8)';
         let buttonBackground = 'rgba(247, 247, 247, 0.65)';
@@ -100,6 +110,28 @@ class Header extends Component<HeaderProps, IHeaderState> {
             backgroundColor: themeColor,
             color,
         };
+
+        if (noHeader) {
+            return (
+                <div
+                    className={classNames(
+                        header,
+                        this.props.classes.noHeader,
+                        {
+                            [headerMove]: mouseDown,
+                        },
+                    )}
+                    onMouseDown={this.onMouseDown}
+                >
+                    <Buttons
+                        backgroundColor={buttonBackground}
+                        close={close}
+                        color={themeColor}
+                        minimize={minimize}
+                    />
+                </div>
+            );
+        }
 
         return (
             <div
@@ -149,6 +181,12 @@ const style: StyleRules = {
     },
     headerMove: {
         cursor: 'grabbing',
+    },
+    noHeader: {
+        background: 'none',
+        boxShadow: 'none',
+        position: 'absolute',
+        zIndex: 1,
     },
 };
 

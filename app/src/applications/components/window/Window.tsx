@@ -5,30 +5,27 @@ import classNames from 'classnames';
 import { SwipeFromBottom } from 'gestures';
 import React, {
     Component,
-    ComponentType,
     CSSProperties,
     MouseEvent,
 } from 'react';
 import { Swipeable } from 'touch';
 import {
     ICloseApplicationAction,
-} from './../actions/application';
+} from '../../actions/application';
 import {
     IHideTaskManagerAction,
     IShowTaskManagerAction,
-} from './../actions/taskManager';
+} from '../../actions/taskManager';
 import {
     IFocusWindowAction,
     IMinimizeWindowAction,
     IMoveWindowAction,
     IResizeWindowAction,
-} from './../actions/windows';
-import Header from './window/Header';
-import Resize from './window/Resize';
-import Sandbox from './window/Sandbox';
+} from '../../actions/windows';
+import Header from './Header';
+import Resize from './Resize';
 
 interface IWindowProps {
-    application: string;
     changing: boolean;
     close: (instance: string) => ICloseApplicationAction;
     finishChange: () => void;
@@ -39,6 +36,7 @@ interface IWindowProps {
     minimize: (instance: string) => IMinimizeWindowAction;
     minimized: boolean;
     move: (instance: string, x: number, y: number) => IMoveWindowAction;
+    noHeader?: boolean;
     resize: (instance: string, width: number, height: number) => IResizeWindowAction;
     showTaskManager: () => IShowTaskManagerAction;
     startChange: () => void;
@@ -197,8 +195,7 @@ class Window extends Component<WindowProps, IWindowState> {
 
     public render() {
         const {
-            application,
-            changing,
+            children,
             classes,
             focused,
             minimized,
@@ -242,10 +239,7 @@ class Window extends Component<WindowProps, IWindowState> {
                 onMouseDownCapture={this.focus}
             >
                 {this.renderHeader()}
-                <Sandbox
-                    pointerEvents={changing || task}
-                    src={application}
-                />
+                {children}
                 {this.renderMobileTaskManagerGesture()}
                 {this.renderResize()}
                 {this.renderTaskOverlay()}
@@ -255,6 +249,7 @@ class Window extends Component<WindowProps, IWindowState> {
 
     protected renderHeader() {
         const {
+            noHeader,
             themeColor,
             title,
             width,
@@ -266,6 +261,7 @@ class Window extends Component<WindowProps, IWindowState> {
                 finish={this.finish}
                 minimize={this.minimize}
                 move={this.move}
+                noHeader={noHeader}
                 themeColor={themeColor}
                 title={title}
             />

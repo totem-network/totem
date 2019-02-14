@@ -1,6 +1,10 @@
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
-import { HomeButton, TaskTitle, Window } from 'applications';
+import { ApplicationWindow, HomeButton, TaskTitle } from 'applications';
 import classNames from 'classnames';
+import {
+    APPLICATION_ID as FILESYSTEM_APPLICATION_ID,
+    FileSystemWindow,
+} from 'filesystem';
 import { List } from 'immutable';
 import React, { Component, Fragment } from 'react';
 
@@ -130,12 +134,18 @@ class Windows extends Component<WindowsProps, IWindowsState> {
                 };
             }
 
+            // TODO: switch if ApplicationWindow / FileSystemWindow / ...
+            const WindowComponent = this.getWindowComponent(window.instance);
+
             return (
                 <Fragment key={window.instance}>
-                    <Window
+                    <WindowComponent
+                        changing={changing}
+                        finishChange={this.finishChange}
                         focused={focused}
                         instance={window.instance}
                         minimized={minimized}
+                        startChange={this.startChange}
                         task={showTaskManager}
                         taskStyle={taskStyle}
                         windowHeight={window.height}
@@ -143,9 +153,6 @@ class Windows extends Component<WindowsProps, IWindowsState> {
                         x={window.x}
                         y={window.y}
                         zIndex={orderedWindows[window.instance]}
-                        changing={changing}
-                        startChange={this.startChange}
-                        finishChange={this.finishChange}
                     />
                     {this.renderTaskInfo(window.instance, offset)}
                 </Fragment>
@@ -153,9 +160,30 @@ class Windows extends Component<WindowsProps, IWindowsState> {
         });
     }
 
-    protected renderTaskInfo(instanceId: string, offset: number) {
-        const { classes, instances, showTaskManager } = this.props;
+    protected getWindowComponent(instanceId: string) {
+        const { instances } = this.props;
 
+        // TODO: instances list as a protected property which updates when instances changes for better performance
+        const windowInstance = List(instances).find((instance) => {
+            if (!instance) {
+                return false;
+            }
+
+            return (instance.id === instanceId);
+        });
+
+        switch (windowInstance.application) {
+            case FILESYSTEM_APPLICATION_ID:
+                return FileSystemWindow;
+            default:
+                return ApplicationWindow;
+        }
+    }
+
+    protected renderTaskInfo(instanceId: string, offset: number) {
+        const { instances, showTaskManager } = this.props;
+
+        // TODO: instances list as a protected property which updates when instances changes for better performance
         const taskInstance = List(instances).find((instance) => {
             if (!instance) {
                 return false;

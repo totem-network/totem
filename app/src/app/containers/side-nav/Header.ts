@@ -1,4 +1,5 @@
 import { accountAddressSelector } from 'account';
+import { startApplication } from 'applications';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -11,7 +12,9 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = (dispatch: any) => {
-    return bindActionCreators({}, dispatch);
+    return bindActionCreators({
+        startApplication,
+    }, dispatch);
 };
 
 export default connect(

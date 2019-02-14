@@ -37,7 +37,7 @@ export function addInstance(
     };
 }
 
-// close a Instance
+// close a instance
 
 export type CLOSE_INSTANCE = 'applications/CLOSE_INSTANCE';
 export const CLOSE_INSTANCE: CLOSE_INSTANCE = 'applications/CLOSE_INSTANCE';
@@ -62,7 +62,7 @@ export function closeInstance(
     };
 }
 
-// close a Instance
+// update a instance
 
 export type UPDATE_INSTANCE = 'applications/UPDATE_INSTANCE';
 export const UPDATE_INSTANCE: UPDATE_INSTANCE = 'applications/UPDATE_INSTANCE';

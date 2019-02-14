@@ -8,14 +8,12 @@ import React, {
     MouseEvent,
     TouchEvent,
 } from 'react';
-import { IHideSideNavAction } from './../../actions/sideNav';
-import Header from './../../containers/side-nav/Header';
-import Launcher from './../../containers/side-nav/Launcher';
-import Tasks from './../../containers/side-nav/Tasks';
+import Categories from '../../containers/side-nav/Categories';
 
 interface ISideNavProps {
+    instance: string;
     isVisible: boolean;
-    hideSideNav: () => IHideSideNavAction;
+    hideSideNav: (instance: string) => any;
 }
 
 interface ISideNavState {}
@@ -107,14 +105,16 @@ class SideNav extends Component<SideNavProps, ISideNavState> {
     }
 
     public render() {
-        const { isVisible } = this.props;
+        const {
+            instance,
+            isVisible,
+        } = this.props;
         const {
             container,
             containerBefore,
             containerVisible,
             containerVisibleBefore,
             nav,
-            navBackground,
             navVisible,
         } = this.props.classes;
 
@@ -149,10 +149,9 @@ class SideNav extends Component<SideNavProps, ISideNavState> {
                         )}
                         ref={this.setRef}
                     >
-                        <div className={navBackground} />
-                        <Header />
-                        <Tasks />
-                        <Launcher />
+                        <Categories
+                            instance={instance}
+                        />
                     </nav>
                 </aside>
             </Fragment>
@@ -160,7 +159,12 @@ class SideNav extends Component<SideNavProps, ISideNavState> {
     }
 
     protected hideSideNav() {
-        this.props.hideSideNav();
+        const {
+            instance,
+            hideSideNav,
+        } = this.props;
+
+        hideSideNav(instance);
 
         if (!this.domNode) {
             return;
@@ -176,6 +180,7 @@ const style: StyleRulesCallback = (theme: Theme) => {
             [theme.breakpoints.up('lg')]: {
                 overflow: 'visible',
                 pointerEvents: 'auto',
+                position: 'static',
                 width: '3vw',
             },
             height: '100%',
@@ -217,11 +222,13 @@ const style: StyleRulesCallback = (theme: Theme) => {
                 flexDirection: 'row',
             },
             [theme.breakpoints.up('lg')]: {
+                boxShadow: '2px 0 6px rgba(0, 0, 0, 0.1)',
                 overflow: 'visible',
                 transform: 'none',
-                width: '3.4vw',
+                width: '220px',
                 willChange: 'auto',
             },
+            background: '#f8f8f8',
             boxShadow: '2px 0 12px rgba(0, 0, 0, 0.4)',
             display: 'flex',
             flexDirection: 'column',
@@ -233,13 +240,6 @@ const style: StyleRulesCallback = (theme: Theme) => {
             // transition: 'transform .3s ease-out',
             width: '90%',
             willChange: 'transform',
-        },
-        navBackground: {
-            background: 'rgba(0, 0, 30, 0.6)',
-            height: '100%',
-            position: 'absolute',
-            width: '100%',
-            zIndex: -1,
         },
         navVisible: {
             transform: 'none',

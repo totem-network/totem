@@ -25,7 +25,7 @@ class TaskTitle extends Component<TaskTitleProps, ITaskTitleState> {
 
         const offsetStyle = {
             left: offset * 75 + 20 + 'vw',
-        }
+        };
 
         return (
             <div className={taskInfo} style={offsetStyle}>

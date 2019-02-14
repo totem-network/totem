@@ -2,10 +2,13 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import withWidth, { isWidthDown, WithWidth } from '@material-ui/core/withWidth';
 import { Avatar } from 'account';
+import { IStartApplicationAction } from 'applications';
+import { APPLICATION_ID } from 'filesystem';
 import React, { Component } from 'react';
 
 interface IHeaderProps {
     address: string;
+    startApplication: (application: string, manifestUrl?: string) => IStartApplicationAction;
 }
 
 interface IHeaderState {}
@@ -14,12 +17,16 @@ type HeaderProps = IHeaderProps & WithStyles & WithWidth;
 
 class Header extends Component<HeaderProps, IHeaderState> {
 
-    public renderMobile() {
-        const { width } = this.props;
+    constructor(props: HeaderProps, context?: any) {
+        super(props, context);
 
-        // TODO: add some info about logged in identity
+        this.openFileSystem = this.openFileSystem.bind(this);
+    }
 
-        return isWidthDown('md', width) ?  null : null;
+    public openFileSystem() {
+        const { startApplication } = this.props;
+
+        startApplication(APPLICATION_ID, '/apps/FileSystem.json');
     }
 
     public render() {
@@ -28,12 +35,20 @@ class Header extends Component<HeaderProps, IHeaderState> {
 
         return (
             <header className={header}>
-                <div className={avatar}>
+                <div className={avatar} onClick={this.openFileSystem}>
                     <Avatar address={address} />
                 </div>
                 {this.renderMobile()}
             </header>
         );
+    }
+
+    protected renderMobile() {
+        const { width } = this.props;
+
+        // TODO: add some info about logged in identity
+
+        return isWidthDown('md', width) ?  null : null;
     }
 
 }
@@ -46,6 +61,7 @@ const style: StyleRulesCallback = (theme: Theme) => {
                 transform: 'none',
                 width: '100%',
             },
+            cursor: 'pointer',
             left: '50%',
             position: 'absolute',
             top: '50%',
