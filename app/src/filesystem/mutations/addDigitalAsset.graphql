@@ -1,0 +1,5 @@
+mutation addDigitalAsset($platform: String, $network: String, $contract: String) {
+    addDigitalAsset(platform: $platform, network: $network, contract: $contract) {
+        result
+    }
+}

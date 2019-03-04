@@ -1,0 +1,5 @@
+mutation addToken($platform: String, $network: String, $contract: String) {
+    addToken(platform: $platform, network: $network, contract: $contract) {
+        result
+    }
+}

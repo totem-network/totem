@@ -35,5 +35,5 @@ interface IOtherAction extends Action {
     payload?: any;
 }
 
-export type AccountAction = IAddAccountAction |
+export type AccountsAction = IAddAccountAction |
     IOtherAction;

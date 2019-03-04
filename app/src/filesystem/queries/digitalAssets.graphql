@@ -1,0 +1,7 @@
+query digitalAssets {
+    digitalAssets {
+        contract
+        images
+        name
+    }
+}

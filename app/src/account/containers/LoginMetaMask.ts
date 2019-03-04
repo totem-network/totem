@@ -1,3 +1,4 @@
+import { web3InitializedSelector } from 'app';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { reduxForm } from 'redux-form/immutable';
@@ -18,7 +19,7 @@ const LoginMetaMaskForm = reduxForm<ILoginMetaMaskData, ILoginMetaMaskProps>({
 const mapStateToProps = (state: any) => {
     return {
         account: providedAccountSelector(state),
-        // ...profileSelector(state),
+        web3: web3InitializedSelector(state),
     };
 };
 

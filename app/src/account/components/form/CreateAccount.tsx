@@ -66,12 +66,12 @@ class CreateAccount extends Component<CreateAccountProps, ICreateAccountState> {
 
 const style: StyleRules = {
     avatar: {
-        'height': '4rem',
-        'margin': 'auto',
-        'width': '4rem',
+        height: '4rem',
+        margin: 'auto',
+        width: '4rem',
     },
     buttonWrapper: {
-        'marginTop': '2rem',
+        marginTop: '2rem',
     },
 };
 

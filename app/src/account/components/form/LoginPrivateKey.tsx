@@ -77,7 +77,7 @@ class LoginPrivateKey extends Component<LoginPrivateKeyProps> {
 
 const style: StyleRules = {
     buttonWrapper: {
-        'marginTop': '2rem',
+        marginTop: '2rem',
     },
 };
 

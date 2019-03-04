@@ -1,4 +1,4 @@
-import { IAccountConfig } from './../../actions/blockchain/account';
+import { IAccountConfig } from '../../actions/blockchain/accounts';
 import AbstractAccount from './../AbstractAccount';
 import IAccountFactory from './../IAccountFactory';
 import PrivateKeyAccount, { IPrivateKeyAccountConfig } from './PrivateKeyAccount';

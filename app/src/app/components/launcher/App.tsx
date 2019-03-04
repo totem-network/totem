@@ -2,7 +2,11 @@ import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/wit
 import React, { Component } from 'react';
 
 interface IAppProps {
+    imageUrl: string;
     launchApplication: (application: string, manifest?: string) => void;
+    manifest: string;
+    name: string;
+    url: string;
 }
 
 interface IAppState {}
@@ -18,10 +22,20 @@ class App extends Component<AppProps, IAppState> {
     }
 
     public launchApplication() {
-        this.props.launchApplication('https://3box.io/', '/apps/3box.json');
+        const {
+            manifest,
+            url,
+        } = this.props;
+
+        this.props.launchApplication(url, manifest);
     }
 
     public render() {
+        const {
+            imageUrl,
+            name,
+        } = this.props;
+
         const {
             container,
             image,
@@ -32,8 +46,8 @@ class App extends Component<AppProps, IAppState> {
                 className={container}
                 onClick={this.launchApplication}
             >
-                <img src="/images/apps/3box_256x256.png" className={image} />
-                3Box
+                <img src={imageUrl} className={image} />
+                {name}
             </div>
         );
     }
@@ -42,6 +56,7 @@ class App extends Component<AppProps, IAppState> {
 const style: StyleRules = {
     container: {
         cursor: 'pointer',
+        margin: '0 2vw',
         textAlign: 'center',
         width: '5vw',
     },

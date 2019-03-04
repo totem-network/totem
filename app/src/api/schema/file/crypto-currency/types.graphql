@@ -1,8 +1,8 @@
 type CryptoCurrency {
     balance: String
+    data: CryptoCurrencyData
     icon: String
     name: String
-    data: CryptoCurrencyData
 }
 
 type NativeCurrencyData {
@@ -15,7 +15,16 @@ type TokenData {
 
 union CryptoCurrencyData = NativeCurrencyData | TokenData
 
+type AddTokenResponse {
+    cryptoCurrency: CryptoCurrency
+    result: Boolean
+}
+
 type Query {
-  cryptoCurrencies: [CryptoCurrency]
-  cryptoCurrenciesByAccount(address: String!): [CryptoCurrency]
+    cryptoCurrencies: [CryptoCurrency]
+    cryptoCurrenciesByAccount(address: String!): [CryptoCurrency]
+}
+
+type Mutation {
+    addToken(contract: String!): AddTokenResponse
 }

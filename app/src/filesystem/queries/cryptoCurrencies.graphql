@@ -1,4 +1,4 @@
-query CryptoCurrencies {
+query cryptoCurrencies {
     cryptoCurrencies {
         balance
         icon

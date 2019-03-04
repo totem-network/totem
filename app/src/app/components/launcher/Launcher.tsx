@@ -52,9 +52,20 @@ class Launcher extends Component<LauncherProps, ILauncherState> {
                 className={launcherClass}
             >
                 <div className={container}>
-                    <div>
-                        <App launchApplication={this.launchApplication} />
-                    </div>
+                    <App
+                        imageUrl={'/images/apps/filesystem_256x256.png'}
+                        launchApplication={this.launchApplication}
+                        manifest={'/apps/filesystem.json'}
+                        name={'Files'}
+                        url={'filesystem'}
+                    />
+                    <App
+                        imageUrl={'/images/apps/3box_256x256.png'}
+                        launchApplication={this.launchApplication}
+                        manifest={'/apps/3box.json'}
+                        name={'3Box'}
+                        url={'https://3box.io/'}
+                    />
                 </div>
             </aside>
         );
@@ -64,6 +75,7 @@ class Launcher extends Component<LauncherProps, ILauncherState> {
 
 const style: StyleRules = {
     container: {
+        display: 'flex',
         left: '20%',
         margin: '0',
         padding: '0',

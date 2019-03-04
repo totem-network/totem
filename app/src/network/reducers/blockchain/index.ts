@@ -1,19 +1,22 @@
 import { combineReducers } from 'redux-immutable';
 import { IImmutableStateMap } from 'redux-utils';
-import accountReducer, { IImmutableAccountState } from './account';
-import contractReducer, { IImmutableContractState } from './contract';
-import transactionReducer, { IImmutableTransactionState } from './transaction';
+import accountsReducer, { IImmutableAccountsState } from './accounts';
+import contractsReducer, { IImmutableContractsState } from './contracts';
+import currentNetworkReducer, { IImmutableCurrentNetworkState } from './currentNetwork';
+import transactionsReducer, { IImmutableTransactionsState } from './transactions';
 
 interface IBlockchainState {
-    account: IImmutableAccountState;
-    contract: IImmutableContractState;
-    transaction: IImmutableTransactionState;
+    accounts: IImmutableAccountsState;
+    contracts: IImmutableContractsState;
+    currentNetwork: IImmutableCurrentNetworkState;
+    transactions: IImmutableTransactionsState;
 }
 
 export interface IImmutableBlockchainState extends IImmutableStateMap<IBlockchainState> {}
 
 export default combineReducers({
-    account: accountReducer,
-    contract: contractReducer,
-    transaction: transactionReducer,
+    accounts: accountsReducer,
+    contracts: contractsReducer,
+    currentNetwork: currentNetworkReducer,
+    transactions: transactionsReducer,
 });

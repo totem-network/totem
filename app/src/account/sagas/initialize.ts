@@ -1,15 +1,14 @@
-import { INITIALIZE } from 'app';
+import { INITIALIZE, web3Initialized } from 'app';
 import { call, put, take } from 'redux-saga/effects';
 import { addProfile } from './../actions/profile';
 import { setProvidedAccounts } from './../actions/providedAccounts';
-
-// TODO: lazy load 3box package as it is 1MB+ gzipped (maybe because of ipfs)
-// const Box = require('3box');
 
 export default function* initializeSaga() {
     const initializeAction = yield take(INITIALIZE);
 
     const accounts = yield initializeAction.payload.ethereum.enable();
+
+    yield put(web3Initialized());
 
     yield put(setProvidedAccounts(accounts));
 

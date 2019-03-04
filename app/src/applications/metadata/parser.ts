@@ -1,3 +1,4 @@
+import internApplications from './internApplications';
 
 export const parseTitle = (manifest?: string, appDocument?: Document): string => {
     if (manifest) {
@@ -19,7 +20,7 @@ export const parseIcon = (manifest?: string, url?: string, appDocument?: Documen
     if (manifest) {
         const manifestObject = JSON.parse(manifest);
 
-        if (!url) {
+        if (!url || internApplications.indexOf(url)) {
             url = '';
         }
 

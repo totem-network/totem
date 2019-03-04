@@ -1,5 +1,8 @@
 import Button from '@material-ui/core/Button';
-import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
+import Paper from '@material-ui/core/Paper';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
+import Typography from '@material-ui/core/Typography';
 import React, { Component, Fragment } from 'react';
 import {
     Form,
@@ -26,6 +29,7 @@ export interface ILoginMetaMaskProps {
     image?: string;
     login: () => ILoginMetaMaskAction;
     name?: string;
+    web3: boolean;
 }
 
 interface ILoginMetaMaskState {}
@@ -55,7 +59,74 @@ class LoginMetaMask extends Component<LoginMetaMaskProps, ILoginMetaMaskState> {
     }
 
     public render() {
-        const { buttonWrapper } = this.props.classes;
+        const { account, web3 } = this.props;
+        const {
+            browser,
+            buttonWrapper,
+            installMetaMask,
+        } = this.props.classes;
+
+        if (!web3) {
+            return null;
+        }
+
+        if (!account && web3) {
+            return (
+                <Paper className={installMetaMask}>
+                    <Typography variant="h5" component="h3">
+                        No Web3 provider found!
+                    </Typography>
+                    <Typography component="p">
+                        To access Totem please install MetaMask for your browser!
+                    </Typography>
+                    <a
+                        className={browser}
+                        href='https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn'
+                        target='_blank'
+                    >
+                        <img
+                            src='/images/browser-logos/chrome/chrome_64x64.png'
+                            srcSet='/images/browser-logos/chrome/chrome_64x64.png 1x,
+                                /images/browser-logos/chrome/chrome_128x128.png 2x,
+                                /images/browser-logos/chrome/chrome_256x256.png 4x'
+                        />
+                        <div>
+                            Chrome
+                        </div>
+                    </a>
+                    <a
+                        className={browser}
+                        href='https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn'
+                        target='_blank'
+                    >
+                        <img
+                            src='/images/browser-logos/firefox/firefox_64x64.png'
+                            srcSet='/images/browser-logos/firefox/firefox_64x64.png 1x,
+                                /images/browser-logos/firefox/firefox_128x128.png 2x,
+                                /images/browser-logos/firefox/firefox_256x256.png 4x'
+                        />
+                        <div>
+                            Firefox
+                        </div>
+                    </a>
+                    <a
+                        className={browser}
+                        href='https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn'
+                        target='_blank'
+                    >
+                        <img
+                            src='/images/browser-logos/opera/opera_64x64.png'
+                            srcSet='/images/browser-logos/opera/opera_64x64.png 1x,
+                                /images/browser-logos/opera/opera_128x128.png 2x,
+                                /images/browser-logos/opera/opera_256x256.png 4x'
+                        />
+                        <div>
+                            Opera
+                        </div>
+                    </a>
+                </Paper>
+            );
+        }
 
         return (
             <Form onSubmit={this.props.handleSubmit(this.onSubmit)}>
@@ -92,19 +163,35 @@ class LoginMetaMask extends Component<LoginMetaMaskProps, ILoginMetaMaskState> {
     }
 }
 
-const style: StyleRules = {
-    avatar: {
-        'height': '4rem',
-        'margin': 'auto',
-        'width': '4rem',
-    },
-    buttonWrapper: {
-        'marginTop': '2rem',
-    },
-    name: {
-        'fontSize': '1.4rem',
-        'marginTop': '1.4rem',
-    },
+const style: StyleRulesCallback = (theme: Theme) => {
+    return {
+        avatar: {
+            height: '4rem',
+            margin: 'auto',
+            width: '4rem',
+        },
+        browser: {
+            [theme.breakpoints.up('sm')]: {
+                margin: '2rem',
+            },
+            color: '#333333',
+            display: 'inline-block',
+            margin: '1rem',
+            textAlign: 'center',
+            textDecoration: 'none',
+        },
+        buttonWrapper: {
+            marginTop: '2rem',
+        },
+        installMetaMask: {
+            paddingBottom: theme.spacing.unit * 2,
+            paddingTop: theme.spacing.unit * 2,
+        },
+        name: {
+            fontSize: '1.4rem',
+            marginTop: '1.4rem',
+        },
+    };
 };
 
 export default withStyles(style)(LoginMetaMask);

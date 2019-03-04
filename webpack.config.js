@@ -81,6 +81,10 @@ const config = {
                 to: 'images/cryptocurrency-icons'
             },
             {
+                from: 'node_modules/@browser-logos',
+                to: 'images/browser-logos'
+            },
+            {
                 from: 'app/assets/fonts',
                 to: 'fonts'
             },

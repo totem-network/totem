@@ -9,6 +9,7 @@
         "paths": {
             "@totem/*": ["../../packages/*"]
         },
+        "resolveJsonModule": true,
         "skipLibCheck": true,
         "sourceMap": true,
         "strict": true,

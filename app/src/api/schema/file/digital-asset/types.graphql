@@ -1,0 +1,29 @@
+type DigitalAsset {
+    contract: String
+    images: [String]
+    name: String
+}
+
+type DigitalAssetToken {
+    description: String
+    digitalAsset: DigitalAsset
+    id: String
+    image: String
+    name: String
+}
+
+type AddDigitalAssetResponse {
+    digitalAsset: DigitalAsset
+    result: Boolean
+}
+
+type Query {
+    digitalAsset(contract: String!): [DigitalAssetToken]
+    digitalAssetByAccount(contract: String!, address: String!): [DigitalAssetToken]
+    digitalAssets: [DigitalAsset]
+    digitalAssetsByAccount(address: String!): [DigitalAsset]
+}
+
+type Mutation {
+    addDigitalAsset(contract: String!): AddDigitalAssetResponse
+}

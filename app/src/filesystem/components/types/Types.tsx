@@ -1,9 +1,12 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import React, { Component } from 'react';
-import CryptoCurrencies from './CryptoCurrencies';
+import CryptoCurrencies from '../../containers/types/CryptoCurrencies';
+import DigitalAssets from '../../containers/types/DigitalAssets';
 
-export interface ITypesProps {}
+export interface ITypesProps {
+    instanceCategory: string;
+}
 
 export interface ITypesState {}
 
@@ -16,10 +19,26 @@ class Types extends Component<TypesProps, ITypesState> {
 
         return (
             <div className={container}>
-                <CryptoCurrencies />
+                {this.renderCategory()}
             </div>
         );
     }
+
+    protected renderCategory() {
+        const { instanceCategory } = this.props;
+
+        switch (instanceCategory) {
+            case 'crypto-currencies':
+                return (
+                    <CryptoCurrencies />
+                );
+            case 'digital-assets':
+                return (
+                    <DigitalAssets />
+                );
+        }
+    }
+
 }
 
 const style: StyleRulesCallback = (theme: Theme) => {
@@ -30,7 +49,6 @@ const style: StyleRulesCallback = (theme: Theme) => {
             },
             bottom: 0,
             color: '#333',
-            flexDirection: 'row',
             left: '220px',
             margin: '0',
             padding: '2rem 0 0 0',

@@ -26,7 +26,7 @@ class Header extends Component<HeaderProps, IHeaderState> {
     public openFileSystem() {
         const { startApplication } = this.props;
 
-        startApplication(APPLICATION_ID, '/apps/FileSystem.json');
+        startApplication(APPLICATION_ID, '/apps/filesystem.json');
     }
 
     public render() {

@@ -40,6 +40,7 @@ function* loginWithMetaMask(action: ILoginMetaMaskAction) {
     // TODO: will be replaced by network module, then something like
     // put(addAccountAction), take(ACCOUNT_ADDED)
 
+    // TODO: take provider from ProviderManager
     if (
         !((window as any).Web3 &&
         (window as any).web3 &&

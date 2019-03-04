@@ -23,9 +23,29 @@ export function initialize(ethereum?: any): IInitializeAction {
     };
 }
 
+// initialize
+
+export type WEB3_INITIALIZED = 'app/WEB3_INITIALIZED';
+export const WEB3_INITIALIZED: WEB3_INITIALIZED = 'app/WEB3_INITIALIZED';
+
+export interface IWeb3InitializedAction extends Action {
+    type: WEB3_INITIALIZED;
+    payload: IWeb3InitializedPayload;
+}
+
+export interface IWeb3InitializedPayload {}
+
+export function web3Initialized(): IWeb3InitializedAction {
+    return {
+        payload: {},
+        type: WEB3_INITIALIZED,
+    };
+}
+
 interface IOtherAction extends Action {
     payload?: any;
 }
 
 export type InitializeAction = IInitializeAction |
-        IOtherAction;
+    IWeb3InitializedAction |
+    IOtherAction;
