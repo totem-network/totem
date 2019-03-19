@@ -1,0 +1,162 @@
+{
+  "contracts": {
+    "Badges": {
+      "address": "0xca0811D7Dc4A1C6658DF57bc191cB526C8642e56",
+      "constructorCode": "608060405234801561001057600080fd5b50611b8f806100206000396000f3fe",
+      "bodyBytecodeHash": "f6495cf3f95ba32bad8f01fd84f7499b8a6e7a1402104f336b51ed9203ebb3ff",
+      "localBytecodeHash": "aabd182c68ac1d9777e252e3b2ea079852b6c9902dce601d69145a176e05c275",
+      "deployedBytecodeHash": "aabd182c68ac1d9777e252e3b2ea079852b6c9902dce601d69145a176e05c275",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        },
+        "t_mapping<t_uint256>": {
+          "id": "t_mapping<t_uint256>",
+          "valueType": "t_uint256",
+          "label": "mapping(key => uint256)",
+          "kind": "mapping"
+        },
+        "t_string": {
+          "id": "t_string",
+          "kind": "elementary",
+          "label": "string"
+        },
+        "t_array:dyn<t_string>": {
+          "id": "t_array:dyn<t_string>",
+          "valueType": "t_string",
+          "length": "dyn",
+          "kind": "array",
+          "label": "string[]"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "zos-lib/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 2642,
+          "type": "t_bool",
+          "src": "757:24:21"
+        },
+        {
+          "contract": "Initializable",
+          "path": "zos-lib/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 2644,
+          "type": "t_bool",
+          "src": "876:25:21"
+        },
+        {
+          "contract": "Initializable",
+          "path": "zos-lib/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 2693,
+          "type": "t_array:50<t_uint256>",
+          "src": "1891:29:21"
+        },
+        {
+          "contract": "Ownable",
+          "path": "openzeppelin-eth/contracts/ownership/Ownable.sol",
+          "label": "_owner",
+          "astId": 954,
+          "type": "t_address",
+          "src": "302:22:9"
+        },
+        {
+          "contract": "Ownable",
+          "path": "openzeppelin-eth/contracts/ownership/Ownable.sol",
+          "label": "______gap",
+          "astId": 1065,
+          "type": "t_array:50<t_uint256>",
+          "src": "2186:29:9"
+        },
+        {
+          "contract": "Badges",
+          "path": "contracts/Badges.sol",
+          "label": "_token",
+          "astId": 31,
+          "type": "t_address",
+          "src": "783:31:0"
+        },
+        {
+          "contract": "Badges",
+          "path": "contracts/Badges.sol",
+          "label": "_price",
+          "astId": 35,
+          "type": "t_mapping<t_uint256>",
+          "src": "821:30:0"
+        },
+        {
+          "contract": "Badges",
+          "path": "contracts/Badges.sol",
+          "label": "_expires",
+          "astId": 39,
+          "type": "t_mapping<t_uint256>",
+          "src": "857:32:0"
+        },
+        {
+          "contract": "Badges",
+          "path": "contracts/Badges.sol",
+          "label": "_badges",
+          "astId": 42,
+          "type": "t_array:dyn<t_string>",
+          "src": "896:23:0"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": []
+      }
+    }
+  },
+  "solidityLibs": {},
+  "proxies": {
+    "@totem/badges/Badges": [
+      {
+        "address": "0x4907319B2D31A94280805A8BD6ecb122231e6673",
+        "version": "0.1.0",
+        "implementation": "0xca0811D7Dc4A1C6658DF57bc191cB526C8642e56"
+      }
+    ],
+    "openzeppelin-eth/StandaloneERC721": [
+      {
+        "address": "0xeC2f6A349bbfEa8aB918E65c0db05d6D74C88814",
+        "version": "2.1.3",
+        "implementation": "0x841cef29b1f6279A0108679033f76806dE57AB0b"
+      }
+    ]
+  },
+  "zosversion": "2.2",
+  "version": "0.1.0",
+  "dependencies": {
+    "openzeppelin-eth": {
+      "package": "0xa44bb80b290de8a465d17b14269df53cf0b9bf4f",
+      "version": "2.1.3"
+    }
+  },
+  "proxyAdmin": {
+    "address": "0xaA4EB7F32f66E420e7ebccedE43918043E85498b"
+  }
+}

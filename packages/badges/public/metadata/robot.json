@@ -1,0 +1,6 @@
+{
+    "description": "Just a bull",
+    "image": "http://localhost:3000/images/bull.png", 
+    "name": "Bull",
+    "attributes": []
+}
