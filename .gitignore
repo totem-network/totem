@@ -1,2 +1,5 @@
-/build
+build
 node_modules
+packages/**/build
+packages/**/.zos.session
+packages/**/zos.dev-*
