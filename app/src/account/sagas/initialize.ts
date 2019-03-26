@@ -6,6 +6,12 @@ import { setProvidedAccounts } from './../actions/providedAccounts';
 export default function* initializeSaga() {
     const initializeAction = yield take(INITIALIZE);
 
+    if (!initializeAction.payload.ethereum) {
+        yield put(web3Initialized());
+
+        return;
+    }
+
     const accounts = yield initializeAction.payload.ethereum.enable();
 
     yield put(web3Initialized());

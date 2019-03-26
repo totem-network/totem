@@ -1,18 +1,18 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import React, { Component } from 'react';
-import CryptoCurrencies from '../../containers/types/CryptoCurrencies';
-import DigitalAssets from '../../containers/types/DigitalAssets';
+import CryptoCurrencies from '../../containers/views/CryptoCurrencies';
+import DigitalAssets from '../../containers/views/DigitalAssets';
 
-export interface ITypesProps {
+export interface IViewsProps {
     instanceCategory: string;
 }
 
-export interface ITypesState {}
+export interface IViewsState {}
 
-type TypesProps = ITypesProps & WithStyles;
+type ViewsProps = IViewsProps & WithStyles;
 
-class Types extends Component<TypesProps, ITypesState> {
+class Views extends Component<ViewsProps, IViewsState> {
 
     public render() {
         const { container } = this.props.classes;
@@ -59,4 +59,4 @@ const style: StyleRulesCallback = (theme: Theme) => {
     };
 };
 
-export default withStyles(style)(Types);
+export default withStyles(style)(Views);

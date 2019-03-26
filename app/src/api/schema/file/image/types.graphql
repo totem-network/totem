@@ -1,0 +1,18 @@
+type Image {
+    file: String
+    height: Int
+    width: Int
+}
+
+type AddImageResponse {
+    image: Image
+    result: Boolean
+}
+
+type Query {
+    images: [Image]
+}
+
+type Mutation {
+    addImage: AddImageResponse
+}

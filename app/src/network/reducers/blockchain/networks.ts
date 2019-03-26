@@ -1,5 +1,4 @@
-import { fromJS } from 'immutable';
-import { IImmutableStateMap } from 'redux-utils';
+import { fromJS, Map } from 'immutable';
 import { AccountsAction } from '../../actions/blockchain/accounts';
 
 interface INetwork {
@@ -9,12 +8,7 @@ interface INetwork {
     // ...
 }
 
-// TODO: or List?
-interface INetworksState {
-    [key: string]: INetwork;
-}
-
-export interface IImmutableNetworksState extends IImmutableStateMap<INetworksState> {}
+export interface IImmutableNetworksState extends Map<string, INetwork> {}
 
 const initialState = fromJS({});
 

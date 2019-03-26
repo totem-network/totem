@@ -10,15 +10,22 @@ export default function* initializeSaga() {
     const network = initializeAction.payload.ethereum.networkVersion;
 
     try {
+        const provider = new providers.Web3Provider(initializeAction.payload.ethereum);
+
         ProviderManager.setProvider(
             'ethereum',
             network,
-            // TODO: are ethers.js providers compatible with web3 providers (MetaMask)?
-            new providers.Web3Provider(initializeAction.payload.ethereum),
+            provider,
         );
+
+        ProviderManager.setSigner(
+            'ethereum',
+            network,
+            provider.getSigner(),
+        );
+
+        yield put(setCurrentNetwork(network, 'ethereum'));
     } catch (error) {
         //
     }
-
-    yield put(setCurrentNetwork(network, 'ethereum'));
 }

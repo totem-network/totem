@@ -6,6 +6,7 @@ import { Query } from "react-apollo";
 import digitalAssetQuery from '../../../queries/digitalAsset.graphql';
 import Error from '../../Error';
 import LoadingBar from '../../LoadingBar';
+import AssetCard from './AssetCard';
 
 export interface IDigitalAssetProps {
     selectedAsset: string;
@@ -45,25 +46,27 @@ class DigitalAsset extends Component<DigitalAssetProps, IDigitalAssetState> {
                             }
                             if (error) {
                                 return (
-                                    <Error />
+                                    <Error
+                                        error={error}
+                                    />
                                 );
                             }
 
                             let name = '';
                             if (data.digitalAsset.length > 0) {
-                                name = data.digitalAsset[0].digitalAsset.name;
+                                name = data.digitalAsset[0].asset.name;
                             }
 
                             const tokens = data.digitalAsset.map((asset: any, index: number) => {
-                                const imageStyle = {
-                                    backgroundImage: `url(${asset.image})`,
-                                };
-
                                 return (
-                                    <div key={index} className={assetContainer}>
-                                        <div className={image} style={imageStyle} />
-                                        {asset.name}
-                                    </div>
+                                    <AssetCard
+                                        key={index}
+                                        contract={selectedAsset}
+                                        description={asset.description}
+                                        image={asset.image}
+                                        name={asset.name}
+                                        token={asset.id}
+                                    />
                                 );
                             });
 

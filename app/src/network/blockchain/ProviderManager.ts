@@ -3,20 +3,31 @@ import { Provider } from 'ethers/providers/abstract-provider';
 
 // const ProviderBridge = require('ethers-provider-bridge');
 
-interface INetworks {
+interface IProviderNetworks {
     [key: string]: Provider;
 }
 
-interface IPlatforms {
-    [key: string]: INetworks;
+interface IProviders {
+    [key: string]: IProviderNetworks;
+}
+
+interface ISignerNetworks {
+    [key: string]: Signer;
+}
+
+interface ISigners {
+    [key: string]: ISignerNetworks;
 }
 
 class ProviderManager {
 
-    protected platforms: IPlatforms;
+    protected providers: IProviders;
+
+    protected signers: ISigners;
 
     constructor() {
-        this.platforms = {};
+        this.providers = {};
+        this.signers = {};
     }
 
     public setProvider(
@@ -24,33 +35,59 @@ class ProviderManager {
         network: string,
         provider: Provider,
     ): ProviderManager {
-        if (!this.platforms[platform]) {
-            this.platforms[platform] = {};
+        if (!this.providers[platform]) {
+            this.providers[platform] = {};
         }
 
-        this.platforms[platform][network] = provider;
+        this.providers[platform][network] = provider;
 
         return this;
     }
 
     public getProvider(platform: string, network: string): Provider | undefined {
-        if (!this.platforms[platform]) {
+        if (!this.providers[platform]) {
             return;
         }
 
-        if (!this.platforms[platform][network]) {
+        if (!this.providers[platform][network]) {
             const provider = this.createProvider(platform, network);
             if (provider) {
-                this.platforms[platform][network] = provider;
+                this.providers[platform][network] = provider;
             }
         }
 
-        return this.platforms[platform][network];
+        return this.providers[platform][network];
     }
 
     public bridgeProvider(provider: Provider, signer: Signer) {
         // TODO: metamask as a signer
         // return new ProviderBridge(provider, signer);
+    }
+
+    public setSigner(
+        platform: string,
+        network: string,
+        signer: Signer,
+    ): ProviderManager {
+        if (!this.signers[platform]) {
+            this.signers[platform] = {};
+        }
+
+        this.signers[platform][network] = signer;
+
+        return this;
+    }
+
+    public getSigner(platform: string, network: string): Signer | undefined {
+        if (!this.signers[platform]) {
+            return;
+        }
+
+        if (!this.signers[platform][network]) {
+            return;
+        }
+
+        return this.signers[platform][network];
     }
 
     protected createProvider(platform: string, network: string): Provider | undefined {

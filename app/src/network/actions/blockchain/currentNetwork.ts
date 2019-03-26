@@ -1,9 +1,9 @@
 import { Action } from 'redux';
 
-// add account
+// set current network
 
-export type SET_CURRENT_NETWORK = 'network/SET_CURRENT_NETWORK';
-export const SET_CURRENT_NETWORK: SET_CURRENT_NETWORK = 'network/SET_CURRENT_NETWORK';
+export type SET_CURRENT_NETWORK = 'network/blockchain/SET_CURRENT_NETWORK';
+export const SET_CURRENT_NETWORK: SET_CURRENT_NETWORK = 'network/blockchain/SET_CURRENT_NETWORK';
 
 export interface ISetCurrentNetworkAction extends Action {
     type: SET_CURRENT_NETWORK;

@@ -1,7 +1,18 @@
 query cryptoCurrencies {
     cryptoCurrencies {
         balance
+        data {
+            ... on NativeCurrencyData {
+                platform
+            }
+            ... on TokenData {
+                contract
+            }
+        }
+        decimals
         icon
         name
+        price
+        symbol
     }
 }

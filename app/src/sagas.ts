@@ -1,4 +1,5 @@
 import { sagas as accountSagas } from 'account';
+import { sagas as apiSagas } from 'api';
 import { initializeSaga } from 'app';
 import { sagas as applicationsSagas } from 'applications';
 import { sagas as networkSagas } from 'network';
@@ -10,6 +11,7 @@ export const sagaMiddleware = createSagaMiddleware();
 export default function* startupSaga() {
     yield all([
         fork(accountSagas),
+        fork(apiSagas),
         fork(applicationsSagas),
         fork(networkSagas),
     ]);

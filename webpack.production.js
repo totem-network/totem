@@ -7,6 +7,7 @@ const PrepackWebpackPlugin = require('prepack-webpack-plugin').default;
 
 module.exports = merge(common, {
     mode: 'production',
+    devtool: 'source-map',
     plugins: [
         new webpack.DefinePlugin({
             'process.env': {
@@ -19,10 +20,12 @@ module.exports = merge(common, {
         }),*/
         new BrotliPlugin({
             test: /\.(js|svg)/,
+            exclude: /\.(map)/, // TODO: BrotliPlugin does not use excludes
             filename: '[path].br[query]'
         }),
         new CompressionPlugin({
             test: /\.(js|svg)/,
+            exclude: /\.(map)/,
             filename: '[path].gz[query]'
         })
     ]

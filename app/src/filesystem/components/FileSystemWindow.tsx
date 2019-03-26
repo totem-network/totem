@@ -5,7 +5,7 @@ import React, {
     CSSProperties,
 } from 'react';
 import SideNav from '../containers/SideNav';
-import Types from '../containers/Types';
+import Views from '../containers/Views';
 
 interface IFileSystemWindowProps {
     changing: boolean;
@@ -67,7 +67,7 @@ class FileSystemWindow extends Component<FileSystemWindowProps, IFileSystemWindo
                     <SideNav
                         instance={instance}
                     />
-                    <Types
+                    <Views
                         instance={instance}
                     />
                 </div>

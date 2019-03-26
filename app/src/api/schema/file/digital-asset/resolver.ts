@@ -3,7 +3,10 @@ import { Contract, utils } from 'ethers';
 import { Provider } from 'ethers/providers/abstract-provider';
 import { BlockchainProviderManager, currentNetworkSelector } from 'network';
 import { store } from 'state';
+import { containsAddress } from 'utils/ethereum';
 import ERC721Abi from './erc721';
+
+// TODO: functions to interact with contracts, that are catching errors and providing alternative data sources
 
 interface IDigitalAsset {
     contract: string;
@@ -13,11 +16,48 @@ interface IDigitalAsset {
 
 interface IDigitalAssetToken {
     description: string;
-    digitalAsset: IDigitalAsset;
+    asset: IDigitalAsset;
     id: string;
     image: string;
     name: string;
 }
+
+const updateERC721Contracts = async (account: string, space: any) => {
+    const openSeaResult = await fetch(
+        `https://api.opensea.io/api/v1/assets?owner=${account}`,
+    );
+
+    const openSeaDataJSON = await openSeaResult.text();
+    const openSeaData = JSON.parse(openSeaDataJSON);
+
+    const openSeaErc721Contracts = [];
+
+    for (const asset of openSeaData.assets) {
+        if (!containsAddress(openSeaErc721Contracts, asset.asset_contract.address)) {
+            openSeaErc721Contracts.push(asset.asset_contract.address);
+        }
+    }
+
+    let erc721Contracts: string[] | null = await space.private.get('digitalAssets');
+
+    if (!erc721Contracts) {
+        erc721Contracts = [];
+    }
+
+    let changed = false;
+    for (const contract of openSeaErc721Contracts) {
+        if (!containsAddress(erc721Contracts, contract)) {
+            erc721Contracts.push(contract);
+            changed = true;
+        }
+    }
+
+    if (changed) {
+        await space.private.set('digitalAssets', erc721Contracts);
+    }
+
+    return;
+};
 
 const getERC721Contracts = async (account: string, provider: Provider) => {
     // TODO: make 3box compatible with ethers.js providers
@@ -31,6 +71,8 @@ const getERC721Contracts = async (account: string, provider: Provider) => {
     const box = await boxes.openBox(account, (window as any).ethereum);
 
     const space = await box.openSpace('totem');
+
+    await updateERC721Contracts(account, space);
 
     let erc721Contracts: string[] | null = await space.private.get('digitalAssets');
 
@@ -78,16 +120,34 @@ const getERC721Data = async (account: string, contract: string) => {
     }
 
     const images: string[] = [];
+    let queryOpenSea = false;
     for (let i = 0; i < maxTokens; i++) {
-        const tokenId = await assetContract.tokenOfOwnerByIndex(account, i);
-        const tokenURI = await assetContract.tokenURI(tokenId);
+        try {
+            const tokenId = await assetContract.tokenOfOwnerByIndex(account, i);
+            const tokenURI = await assetContract.tokenURI(tokenId);
 
-        const tokenMetaDataResponse = await fetch(tokenURI);
-        const tokenMetaDataJSON = await tokenMetaDataResponse.text();
+            const tokenMetaDataResponse = await fetch(tokenURI);
+            const tokenMetaDataJSON = await tokenMetaDataResponse.text();
 
-        const tokenMetaData = JSON.parse(tokenMetaDataJSON);
+            const tokenMetaData = JSON.parse(tokenMetaDataJSON);
 
-        images.push(tokenMetaData.image);
+            images.push(tokenMetaData.image);
+        } catch (error) {
+            queryOpenSea = true;
+        }
+    }
+
+    if (queryOpenSea) {
+        const openSeaResult = await fetch(
+            `https://api.opensea.io/api/v1/assets?owner=${account}&asset_contract_address=${contract}&limit=4`,
+        );
+
+        const openSeaDataJSON = await openSeaResult.text();
+        const openSeaData = JSON.parse(openSeaDataJSON);
+
+        for (const token of openSeaData.assets) {
+            images.push(token.image_url);
+        }
     }
 
     return {
@@ -121,10 +181,28 @@ const getERC721Tokens = async (account: string, contract: string) => {
     const balance = await assetContract.balanceOf(account);
 
     const tokenIds: string[] = [];
+    let queryOpenSea = false;
     for (let i = 0; i < balance; i++) {
-        const tokenId = await assetContract.tokenOfOwnerByIndex(account, i);
+        try {
+            const tokenId = await assetContract.tokenOfOwnerByIndex(account, i);
+            tokenIds.push(tokenId);
+        } catch (error) {
+            queryOpenSea = true;
+            break;
+        }
+    }
 
-        tokenIds.push(tokenId);
+    if (queryOpenSea) {
+        const openSeaResult = await fetch(
+            `https://api.opensea.io/api/v1/assets?owner=${account}&asset_contract_address=${contract}`,
+        );
+
+        const openSeaDataJSON = await openSeaResult.text();
+        const openSeaData = JSON.parse(openSeaDataJSON);
+
+        for (const token of openSeaData.assets) {
+            tokenIds.push(token.token_id);
+        }
     }
 
     return tokenIds;
@@ -141,12 +219,12 @@ const getERC721TokenData = async (contract: string, tokenId: string) => {
 
     if (!web3) {
         return {
-            description: '',
-            digitalAsset: {
+            asset: {
                 contract,
                 images: [],
                 name: '???',
             },
+            description: '',
             id: tokenId,
             image: '',
             name: '???',
@@ -160,158 +238,227 @@ const getERC721TokenData = async (contract: string, tokenId: string) => {
 
     if (!name) {
         return {
-            description: '',
-            digitalAsset: {
+            asset: {
                 contract,
                 images: [],
                 name: '???',
             },
+            description: '',
             id: tokenId,
             image: '',
             name: '???',
         };
     }
 
-    const tokenURI = await assetContract.tokenURI(tokenId);
+    try {
+        const tokenURI = await assetContract.tokenURI(tokenId);
 
-    const tokenMetaDataResponse = await fetch(tokenURI);
-    const tokenMetaDataJSON = await tokenMetaDataResponse.text();
+        const tokenMetaDataResponse = await fetch(tokenURI);
+        const tokenMetaDataJSON = await tokenMetaDataResponse.text();
 
-    const tokenMetaData = JSON.parse(tokenMetaDataJSON);
+        const tokenMetaData = JSON.parse(tokenMetaDataJSON);
+
+        return {
+            asset: {
+                contract,
+                images: [
+                    tokenMetaData.image,
+                ],
+                name,
+            },
+            description: tokenMetaData.description,
+            id: tokenId.toString(),
+            image: tokenMetaData.image,
+            name: tokenMetaData.name,
+        };
+    // tslint:disable-next-line:no-empty
+    } catch (error) {}
+
+    const openSeaResult = await fetch(
+        `https://api.opensea.io/api/v1/asset/${contract}/${tokenId}/`,
+    );
+
+    const openSeaDataJSON = await openSeaResult.text();
+    const openSeaData = JSON.parse(openSeaDataJSON);
 
     return {
-        description: tokenMetaData.description,
-        digitalAsset: {
+        asset: {
             contract,
             images: [
-                tokenMetaData.image,
+                openSeaData.image_url,
             ],
             name,
         },
+        description: openSeaData.name,
         id: tokenId,
-        image: tokenMetaData.image,
-        name: tokenMetaData.name,
+        image: openSeaData.image_url,
+        name: openSeaData.name,
     };
 };
 
+const sendToken = async (contract: string, token: string, to: string, fee: string) => {
+    const state = store.getState();
+    const account = accountAddressSelector(state);
+    const currentNetwork = currentNetworkSelector(state);
+
+    const web3Signer = BlockchainProviderManager.getSigner(
+        currentNetwork.platform,
+        currentNetwork.network,
+    );
+
+    if (!web3Signer) {
+        return false;
+    }
+
+    const tokenContract = new Contract(contract, ERC721Abi, web3Signer);
+
+    await tokenContract.transferFrom(account, to, token, {
+        gasLimit: utils.bigNumberify('500000'),
+        gasPrice: utils.bigNumberify(fee),
+    });
+
+    return true;
+};
+
 export default {
-    addDigitalAsset: async (args: any) => {
-        const state = store.getState();
-        const account = accountAddressSelector(state);
-        const currentNetwork = currentNetworkSelector(state);
 
-        const web3 = BlockchainProviderManager.getProvider(
-            currentNetwork.platform,
-            currentNetwork.network,
-        );
+    Mutation: {
+        addDigitalAsset: async (schema: any, {
+            contract,
+        }: any) => {
+            const state = store.getState();
+            const account = accountAddressSelector(state);
+            const currentNetwork = currentNetworkSelector(state);
 
-        if (!web3) {
+            const web3 = BlockchainProviderManager.getProvider(
+                currentNetwork.platform,
+                currentNetwork.network,
+            );
+
+            if (!web3) {
+                return {
+                    result: false,
+                };
+            }
+
+            const assetContract = new Contract(contract, ERC721Abi, web3);
+
+            const balance = await assetContract.balanceOf(account);
+
+            if (!balance) {
+                return {
+                    result: false,
+                };
+            }
+
+            // TODO: make 3box compatible with ethers.js providers
+
+            if (!(
+                (window as any).ethereum
+            )) {
+                return {
+                    result: false,
+                };
+            }
+
+            const box = await boxes.openBox(account, (window as any).ethereum);
+
+            const space = await box.openSpace('totem');
+
+            let erc721Contracts: string[] | null = await space.private.get('digitalAssets');
+
+            if (!erc721Contracts) {
+                erc721Contracts = [];
+            }
+
+            if (!containsAddress(erc721Contracts, contract)) {
+                erc721Contracts.push(contract);
+
+                await space.private.set('digitalAssets', erc721Contracts);
+
+                return {
+                    result: true,
+                };
+            }
+
             return {
                 result: false,
             };
-        }
+        },
 
-        const assetContract = new Contract(args.contract, ERC721Abi, web3);
-
-        const balance = await assetContract.balanceOf(account);
-
-        if (!balance) {
-            return {
-                result: false,
-            };
-        }
-
-        // TODO: make 3box compatible with ethers.js providers
-
-        if (!(
-            (window as any).ethereum
-        )) {
-            return {
-                result: false,
-            };
-        }
-
-        const box = await boxes.openBox(account, (window as any).ethereum);
-
-        const space = await box.openSpace('totem');
-
-        let erc721Contracts: string[] | null = await space.private.get('digitalAssets');
-
-        if (!erc721Contracts) {
-            erc721Contracts = [];
-        }
-
-        // TODO: only add if not already added
-        erc721Contracts.push(args.contract);
-
-        space.private.set('digitalAssets', erc721Contracts);
-
-        return {
-            result: true,
-        };
+        sendDigitalAsset: async (schema: any, {
+            contract,
+            fee,
+            to,
+            token,
+        }: any) => {
+            return sendToken(contract, token, to, fee);
+        },
     },
 
-    digitalAsset: async (args: any) => {
-        const digitalAssetTokens: Array<{
-            name: string;
-        }> = [];
+    Query: {
+        digitalAsset: async (schema: any, {
+            contract,
+        }: any) => {
+            const digitalAssetTokens: IDigitalAssetToken[] = [];
 
-        const state = store.getState();
-        const account = accountAddressSelector(state);
-        const currentNetwork = currentNetworkSelector(state);
+            const state = store.getState();
+            const account = accountAddressSelector(state);
+            const currentNetwork = currentNetworkSelector(state);
 
-        const web3 = BlockchainProviderManager.getProvider(
-            currentNetwork.platform,
-            currentNetwork.network,
-        );
+            const web3 = BlockchainProviderManager.getProvider(
+                currentNetwork.platform,
+                currentNetwork.network,
+            );
 
-        if (!web3) {
+            if (!web3) {
+                return digitalAssetTokens;
+            }
+
+            const erc721Tokens = await getERC721Tokens(account, contract);
+
+            for (const token of erc721Tokens) {
+                digitalAssetTokens.push(
+                    await getERC721TokenData(contract, token),
+                );
+            }
+
             return digitalAssetTokens;
-        }
+        },
 
-        const erc721Tokens = await getERC721Tokens(account, args.contract);
+        digitalAssetByAccount: async (schema: any, {}: any) => {
+            // TODO: add optional account field to digitalAsset
+        },
 
-        for (const token of erc721Tokens) {
-            digitalAssetTokens.push(
-                await getERC721TokenData(args.contract, token),
+        digitalAssets: async () => {
+            const digitalAssets: IDigitalAsset[] = [];
+
+            const state = store.getState();
+            const account = accountAddressSelector(state);
+            const currentNetwork = currentNetworkSelector(state);
+
+            const web3 = BlockchainProviderManager.getProvider(
+                currentNetwork.platform,
+                currentNetwork.network,
             );
-        }
 
-        return digitalAssetTokens;
-    },
+            if (!web3) {
+                return digitalAssets;
+            }
 
-    digitalAssetByAccount: async (args: any) => {
-        //
-    },
+            const erc721Contracts = await getERC721Contracts(account, web3);
 
-    digitalAssets: async () => {
-        const digitalAssets: IDigitalAsset[] = [];
+            for (const asset of erc721Contracts) {
+                digitalAssets.push(
+                    await getERC721Data(account, asset),
+                );
+            }
 
-        const state = store.getState();
-        const account = accountAddressSelector(state);
-        const currentNetwork = currentNetworkSelector(state);
-
-        const web3 = BlockchainProviderManager.getProvider(
-            currentNetwork.platform,
-            currentNetwork.network,
-        );
-
-        if (!web3) {
             return digitalAssets;
-        }
+        },
 
-        const erc721Contracts = await getERC721Contracts(account, web3);
-
-        for (const asset of erc721Contracts) {
-            digitalAssets.push(
-                await getERC721Data(account, asset),
-            );
-        }
-
-        return digitalAssets;
-    },
-
-    digitalAssetsByAccount: async (args: any) => {
-        //
+        digitalAssetsByAccount: async (schema: any, {}: any) => {
+            // TODO: add optional account field to digitalAsset
+        },
     },
 };

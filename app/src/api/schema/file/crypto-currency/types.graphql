@@ -1,16 +1,22 @@
 type CryptoCurrency {
     balance: String
     data: CryptoCurrencyData
+    decimals: Int
     icon: String
     name: String
+    price: String
+    symbol: String
 }
 
 type NativeCurrencyData {
-    network: Int
+    network: String
+    platform: String
 }
 
 type TokenData {
     contract: String
+    network: String
+    platform: String
 }
 
 union CryptoCurrencyData = NativeCurrencyData | TokenData
@@ -20,6 +26,11 @@ type AddTokenResponse {
     result: Boolean
 }
 
+type SendCryptoCurrencyResponse {
+    result: Boolean
+    transactionHash: String
+}
+
 type Query {
     cryptoCurrencies: [CryptoCurrency]
     cryptoCurrenciesByAccount(address: String!): [CryptoCurrency]
@@ -27,4 +38,5 @@ type Query {
 
 type Mutation {
     addToken(contract: String!): AddTokenResponse
+    sendCryptoCurrency(currencyOrToken: String!, amount: String!, to: String!, fee: String!): SendCryptoCurrencyResponse
 }

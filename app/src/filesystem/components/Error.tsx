@@ -3,13 +3,24 @@ import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/st
 import ErrorOutline from '@material-ui/icons/ErrorOutline';
 import React, { Component } from 'react';
 
-export interface IErrorProps {}
+export interface IErrorProps {
+    error: any;
+}
 
 export interface IErrorState {}
 
 type ErrorProps = IErrorProps & WithStyles;
 
 class Error extends Component<ErrorProps, IErrorState> {
+
+    // TODO: log error to sentry
+    public componentDidMount() {
+        const {
+            error,
+        } = this.props;
+
+        console.log(error);
+    }
 
     public render() {
         const {

@@ -2,8 +2,8 @@ import { Action } from 'redux';
 
 // add network
 
-export type ADD_NETWORK = 'network/ADD_NETWORK';
-export const ADD_NETWORK: ADD_NETWORK = 'network/ADD_NETWORK';
+export type ADD_NETWORK = 'network/blockchain/ADD_NETWORK';
+export const ADD_NETWORK: ADD_NETWORK = 'network/blockchain/ADD_NETWORK';
 
 export interface IAddNetworkAction extends Action {
     type: ADD_NETWORK;

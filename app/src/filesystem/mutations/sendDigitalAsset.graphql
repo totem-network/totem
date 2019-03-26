@@ -1,0 +1,5 @@
+mutation sendDigitalAsset($contract: String, $token: String, $to: String, $fee: String) {
+    sendDigitalAsset(contract: $contract, token: $token, to: $to, fee: $fee) {
+        result
+    }
+}

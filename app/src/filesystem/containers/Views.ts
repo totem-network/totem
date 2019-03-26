@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import instanceCategorySelector from '../selectors/instanceCategory';
 
-import Types from '../components/types/Types';
+import Views from '../components/views/Views';
 
 const mapStateToProps = (state: any, props: any) => {
     return {
@@ -17,4 +17,4 @@ const mapDispatchToProps = (dispatch: any) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(Types as any);
+)(Views as any);

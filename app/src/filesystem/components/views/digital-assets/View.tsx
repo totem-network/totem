@@ -8,31 +8,30 @@ import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/st
 import React, { Component, Fragment } from 'react';
 import { Mutation, Query } from "react-apollo";
 import { FormAction } from 'redux-form';
-import AddDigitalAssetForm from '../../../containers/types/digital-assets/AddDigitalAssetForm';
-import addDigitalAssetMutation from '../../../mutations/addDigitalAsset.graphql';
 import digitalAssetsQuery from '../../../queries/digitalAssets.graphql';
 import BottomButtons from '../../bottom-buttons/BottomButtons';
 import BottomButton from '../../bottom-buttons/Button';
 import Error from '../../Error';
 import LoadingBar from '../../LoadingBar';
-import CategoryImage from './CategoryImage';
+import AddDigitalAssetDialog from './AddDigitalAssetDialog';
+import CategoryCard from './CategoryCard';
 import DigitalAsset from './DigitalAsset';
 
-export interface IDigitalAssetsProps {
+export interface IDigitalAssetsViewProps {
     addDigitalAssetSubmit: (form: string) => FormAction;
 }
 
 // TODO: When user clicks on Digital Assets in the menu, reset selectedAsset
-export interface IDigitalAssetsState {
+export interface IDigitalAssetsViewState {
     addDigitalAssetDialog: boolean;
     selectedAsset?: string;
 }
 
-type DigitalAssetsProps = IDigitalAssetsProps & WithStyles;
+type DigitalAssetsViewProps = IDigitalAssetsViewProps & WithStyles;
 
-class DigitalAssets extends Component<DigitalAssetsProps, IDigitalAssetsState> {
+class DigitalAssetsView extends Component<DigitalAssetsViewProps, IDigitalAssetsViewState> {
 
-    constructor(props: DigitalAssetsProps, context?: any) {
+    constructor(props: DigitalAssetsViewProps, context?: any) {
         super(props, context);
 
         this.addDigitalAsset = this.addDigitalAsset.bind(this);
@@ -73,6 +72,7 @@ class DigitalAssets extends Component<DigitalAssetsProps, IDigitalAssetsState> {
 
     public render() {
         const {
+            addDigitalAssetDialog,
             selectedAsset,
         } = this.state;
 
@@ -102,22 +102,20 @@ class DigitalAssets extends Component<DigitalAssetsProps, IDigitalAssetsState> {
                             }
                             if (error) {
                                 return (
-                                    <Error />
+                                    <Error
+                                        error={error}
+                                    />
                                 );
                             }
 
                             return data.digitalAssets.map((asset: any, index: number) => {
                                 return (
-                                    <div
-                                        className={assetContainer}
+                                    <CategoryCard
                                         key={index}
+                                        image={asset.images[0]}
+                                        name={asset.name}
                                         onClick={this.selectAsset.bind(this, asset.contract)}
-                                    >
-                                        <CategoryImage
-                                            images={asset.images}
-                                        />
-                                        {asset.name}
-                                    </div>
+                                    />
                                 );
                             });
                         }}
@@ -130,53 +128,12 @@ class DigitalAssets extends Component<DigitalAssetsProps, IDigitalAssetsState> {
                         Add asset
                     </BottomButton>
                 </BottomButtons>
-                {this.renderAddDigitalAssetDialog()}
+                <AddDigitalAssetDialog
+                    addDigitalAssetSubmit={this.addDigitalAsset}
+                    closeDialog={this.closeAddDigitalAssetDialog}
+                    open={addDigitalAssetDialog}
+                />
             </Fragment>
-        );
-    }
-
-    protected renderAddDigitalAssetDialog() {
-        return (
-            <Dialog
-                open={this.state.addDigitalAssetDialog}
-                onClose={this.closeAddDigitalAssetDialog}
-            >
-                <Mutation mutation={addDigitalAssetMutation}>
-                    {(addDigitalAsset) => {
-                        const handleSubmit = (values: any) => {
-                            this.closeAddDigitalAssetDialog();
-                            addDigitalAsset({
-                                variables: {
-                                    contract: values.get('contract'),
-                                },
-                            });
-                        };
-
-                        return (
-                            <Fragment>
-                                <DialogTitle>
-                                    Add digital asset
-                                </DialogTitle>
-                                <DialogContent>
-                                    <AddDigitalAssetForm
-                                        onSubmit={handleSubmit}
-                                    />
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button
-                                        onClick={this.closeAddDigitalAssetDialog}
-                                    >
-                                        Cancel
-                                    </Button>
-                                        <Button onClick={this.addDigitalAsset}>
-                                            Add asset
-                                        </Button>
-                                </DialogActions>
-                            </Fragment>
-                        );
-                    }}
-                </Mutation>
-            </Dialog>
         );
     }
 }
@@ -199,4 +156,4 @@ const style: StyleRulesCallback = (theme: Theme) => {
     };
 };
 
-export default withStyles(style)(DigitalAssets);
+export default withStyles(style)(DigitalAssetsView);

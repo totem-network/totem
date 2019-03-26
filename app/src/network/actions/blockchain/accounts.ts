@@ -2,8 +2,8 @@ import { Action } from 'redux';
 
 // add account
 
-export type ADD_ACCOUNT = 'network/ADD_ACCOUNT';
-export const ADD_ACCOUNT: ADD_ACCOUNT = 'network/ADD_ACCOUNT';
+export type ADD_ACCOUNT = 'network/blockchain/ADD_ACCOUNT';
+export const ADD_ACCOUNT: ADD_ACCOUNT = 'network/blockchain/ADD_ACCOUNT';
 
 export interface IAddAccountAction extends Action {
     type: ADD_ACCOUNT;

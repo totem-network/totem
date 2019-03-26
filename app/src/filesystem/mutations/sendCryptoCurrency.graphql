@@ -1,0 +1,5 @@
+mutation sendCryptoCurrency($currencyOrToken: String, $amount: String, $to: String, $fee: String) {
+    sendCryptoCurrency(currencyOrToken: $currencyOrToken, amount: $amount, to: $to, fee: $fee) {
+        result
+    }
+}

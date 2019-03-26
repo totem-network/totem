@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser';
 import { rootResolver, schema } from 'api';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
@@ -11,6 +12,12 @@ import App from './App';
 import DevTools from './app/containers/DevTools';
 import startupSaga, { sagaMiddleware } from './sagas';
 import { history, store } from './state';
+
+if (process.env.NODE === 'production') {
+    Sentry.init({
+        dsn: 'https://cb5c94cc3f014e19a13e6d91fd57814b@sentry.io/1408216',
+    });
+}
 
 if ('serviceWorker' in navigator && process.type !== 'renderer') {
     window.addEventListener('load', () => {

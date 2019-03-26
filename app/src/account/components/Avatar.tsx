@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 export interface IAvatarProps {
     address: string;
     image?: string;
+    noProfile?: boolean;
 }
 
 interface IAvatarState {}
@@ -14,7 +15,7 @@ type AvatarProps = IAvatarProps & WithStyles;
 class Avatar extends Component<AvatarProps, IAvatarState> {
 
     public render() {
-        const { address, image } = this.props;
+        const { address, image, noProfile } = this.props;
         const { avatar } = this.props.classes;
 
         if (!address && !image) {
@@ -26,7 +27,7 @@ class Avatar extends Component<AvatarProps, IAvatarState> {
             );
         }
 
-        if (image) {
+        if (image && !noProfile) {
             return (
                 <img src={image} className={avatar} />
             );

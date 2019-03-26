@@ -6,7 +6,7 @@ type DigitalAsset {
 
 type DigitalAssetToken {
     description: String
-    digitalAsset: DigitalAsset
+    asset: DigitalAsset
     id: String
     image: String
     name: String
@@ -15,6 +15,11 @@ type DigitalAssetToken {
 type AddDigitalAssetResponse {
     digitalAsset: DigitalAsset
     result: Boolean
+}
+
+type SendDigitalAssetResponse {
+    result: Boolean
+    transactionHash: String
 }
 
 type Query {
@@ -26,4 +31,5 @@ type Query {
 
 type Mutation {
     addDigitalAsset(contract: String!): AddDigitalAssetResponse
+    sendDigitalAsset(contract: String!, token: String!, to: String!, fee: String!): SendDigitalAssetResponse
 }

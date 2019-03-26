@@ -1,9 +1,11 @@
 query digitalAsset($contract: String) {
     digitalAsset(contract: $contract) {
-        digitalAsset {
-            name
-        }
+        description
+        id
         image
         name
+        asset {
+            name
+        }
     }
 }

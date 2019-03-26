@@ -5,12 +5,12 @@ import {
     SET_CURRENT_NETWORK,
 } from '../../actions/blockchain/currentNetwork';
 
-interface INavState {
+interface ICurrentNetworkState {
     network?: string;
     platform?: string;
 }
 
-export interface IImmutableCurrentNetworkState extends IImmutableStateMap<INavState> {}
+export interface IImmutableCurrentNetworkState extends IImmutableStateMap<ICurrentNetworkState> {}
 
 const initialState = fromJS({});
 
