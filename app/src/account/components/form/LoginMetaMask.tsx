@@ -96,7 +96,7 @@ class LoginMetaMask extends Component<LoginMetaMaskProps, ILoginMetaMaskState> {
                     </a>
                     <a
                         className={browser}
-                        href='https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn'
+                        href='https://addons.mozilla.org/en-US/firefox/addon/ether-metamask/'
                         target='_blank'
                     >
                         <img
@@ -111,7 +111,7 @@ class LoginMetaMask extends Component<LoginMetaMaskProps, ILoginMetaMaskState> {
                     </a>
                     <a
                         className={browser}
-                        href='https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn'
+                        href='https://addons.opera.com/en/extensions/details/metamask/'
                         target='_blank'
                     >
                         <img
