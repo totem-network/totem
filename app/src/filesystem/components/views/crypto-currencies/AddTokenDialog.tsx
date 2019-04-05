@@ -43,6 +43,9 @@ class AddTokenDialog extends Component<AddTokenDialogProps, IAddTokenDialogState
                     {(addToken) => {
                         const handleSubmit = (values: any) => {
                             addToken({
+                                refetchQueries: [
+                                    'cryptoCurrencies',
+                                ],
                                 variables: {
                                     contract: values.get('contract'),
                                 },

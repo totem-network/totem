@@ -38,6 +38,10 @@ class AddDigitalAssetDialog extends Component<AddDigitalAssetDialogProps, IAddDi
                     {(addDigitalAsset) => {
                         const handleSubmit = (values: any) => {
                             addDigitalAsset({
+                                refetchQueries: [
+                                    'digitalAsset',
+                                    'digitalAssets',
+                                ],
                                 variables: {
                                     contract: values.get('contract'),
                                 },
