@@ -12,7 +12,7 @@ module.exports = {
     rinkeby: {
       provider: function() {
           return new HDWalletProvider(
-            '8B7E0218A6EE39EA6AF202A7381EFB3633B9FA16B54E8957DA8479475E8C0C4D',
+            '',
             'https://rinkeby.infura.io/v3/1ed0e304e8c246df99cfb67eadd9144c'
           );
       },

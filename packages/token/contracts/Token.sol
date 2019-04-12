@@ -11,14 +11,19 @@ contract Token is Initializable, ERC20Detailed, ERC20Mintable, ERC20Burnable, Ow
     string private constant ERROR_SELL_AMOUNT = "ERROR_SELL_AMOUNT";
     string private constant ERROR_SENDER_ZERO = "ERROR_SENDER_ZERO";
     string private constant ERROR_ZERO_ETH = "ERROR_ZERO_ETH";
+    string private constant ERROR_ZERO_FOUNDER_DAO_TOKENS = "ERROR_ZERO_FOUNDER_DAO_TOKENS";
 
     uint internal constant TOKEN_PRICE_INITIAL = 0.0000001 ether;
     uint internal constant TOKEN_PRICE_INCREMENTAL = 0.00000001 ether;
 
+    uint internal constant MAX_FOUNDER_DAO_TOKENS = 1000000;
+
     uint public _reserveBalance;
     uint public _gasPrice;
 
-    uint private _decimalMultiplicator;
+    uint private _totalFounderDaoTokens;
+    uint private _founderTokensWithdrawn;
+    uint private _daoTokensWithdrawn;
 
     modifier validGasPrice() {
         assert(tx.gasprice <= _gasPrice);
@@ -44,7 +49,6 @@ contract Token is Initializable, ERC20Detailed, ERC20Mintable, ERC20Burnable, Ow
         Ownable.initialize(sender);
 
         _gasPrice = gasPrice;
-        _decimalMultiplicator = 10 ** uint(decimals);
     }
     
     function setGasPrice(uint gasPrice) public onlyOwner {
@@ -65,7 +69,7 @@ contract Token is Initializable, ERC20Detailed, ERC20Mintable, ERC20Burnable, Ow
             )
         );
 
-        uint tokensReceived = 
+        uint tokenAmount = 
             root.sub(
                 tokenPriceInitial
             ).div(
@@ -74,7 +78,7 @@ contract Token is Initializable, ERC20Detailed, ERC20Mintable, ERC20Burnable, Ow
                 totalSupply()
             );
 
-        return tokensReceived;
+        return tokenAmount;
     }
 
     function _calculateSaleReturn(uint sellAmount) public view returns (uint) {
@@ -83,7 +87,7 @@ contract Token is Initializable, ERC20Detailed, ERC20Mintable, ERC20Burnable, Ow
         uint tokens = (sellAmount + 1e18);
         uint tokenSupply = (totalSupply() + 1e18);
 
-        uint etherReceived =      
+        uint etherAmount =      
             TOKEN_PRICE_INITIAL.add(
                 TOKEN_PRICE_INCREMENTAL.mul(tokenSupply.div(1e18))
             ).sub(
@@ -96,7 +100,27 @@ contract Token is Initializable, ERC20Detailed, ERC20Mintable, ERC20Burnable, Ow
                 1e18
             ).div(5);
         
-        return etherReceived;
+        return etherAmount;
+    }
+
+    function _calculateTokensPrice(uint tokenAmount) public view returns (uint) {
+        uint tokens = (tokenAmount + 1e18);
+        uint tokenSupply = (totalSupply() + tokenAmount + 1e18);
+
+        uint etherAmount =      
+            TOKEN_PRICE_INITIAL.add(
+                TOKEN_PRICE_INCREMENTAL.mul(tokenSupply.div(1e18))
+            ).sub(
+                TOKEN_PRICE_INCREMENTAL
+            ).mul(
+                tokens.sub(1e18)
+            ).sub(
+                (TOKEN_PRICE_INCREMENTAL.mul(((tokens**2).sub(tokens)).div(1e18))).div(2)
+            ).div(
+                1e18
+            );
+        
+        return etherAmount;
     }
 
     function sqrt(uint x) public pure returns (uint y) {
@@ -113,9 +137,30 @@ contract Token is Initializable, ERC20Detailed, ERC20Mintable, ERC20Burnable, Ow
     function buy() public payable {
         require(msg.value > 0, ERROR_ZERO_ETH);
 
+        // buy user tokens
         uint tokensToMint = _calculatePurchaseReturn(msg.value);
         _mint(address(msg.sender), tokensToMint);
         _reserveBalance = _reserveBalance.add(msg.value.div(5));
+
+        uint maxTokensWithDecimals = MAX_FOUNDER_DAO_TOKENS.mul(10 ** uint(decimals()));
+        
+        // buy founder&dao tokens
+        if (_totalFounderDaoTokens < maxTokensWithDecimals) {
+            uint founderDaoTokensToMint = _calculatePurchaseReturn(msg.value.div(4));
+            uint founderDaoReserve = msg.value.div(20);
+
+            // Special case: totalFounderDaoTokens + founderDaoTokensToMint > maxTokensWithDecimals
+            // only mint till 1000000 reached and add only price for purchased tokens to reserve
+            if (_totalFounderDaoTokens.add(founderDaoTokensToMint) > maxTokensWithDecimals) {
+                founderDaoTokensToMint = maxTokensWithDecimals.sub(_totalFounderDaoTokens);
+                founderDaoReserve = _calculateTokensPrice(founderDaoTokensToMint);
+            }
+
+            _mint(address(this), founderDaoTokensToMint);
+            _reserveBalance = _reserveBalance.add(founderDaoReserve);
+
+            _totalFounderDaoTokens = _totalFounderDaoTokens.add(founderDaoTokensToMint);
+        }
     }
 
     function sell(uint sellAmount) validGasPrice public {
@@ -127,17 +172,30 @@ contract Token is Initializable, ERC20Detailed, ERC20Mintable, ERC20Burnable, Ow
         _reserveBalance = _reserveBalance.sub(ethAmount);
     }
 
-    function withdrawEther() public onlyOwner {
-        // TODO: transfer to dao and tweet about it
-        // beneficiary.transfer(address(this).balance.sub(_reserveBalance));
+    function withdrawEther(address payable beneficiary) public onlyOwner {
+        uint amount = address(this).balance.sub(_reserveBalance);
+
+        beneficiary.transfer(amount);
     }
 
-    function withdrawDaoTokens() public onlyOwner {
-        // TODO
+    function withdrawDaoTokens(address payable beneficiary) public onlyOwner {
+        require(_totalFounderDaoTokens > 0, ERROR_ZERO_FOUNDER_DAO_TOKENS);
+
+        uint tokensToWithdraw = _totalFounderDaoTokens.div(2).sub(_daoTokensWithdrawn);
+
+        _transfer(address(this), beneficiary, tokensToWithdraw);
+
+        _daoTokensWithdrawn = _daoTokensWithdrawn.add(tokensToWithdraw);
     }
 
     function withdrawFounderTokens(address payable beneficiary) public onlyOwner {
-        // TODO
+        require(_totalFounderDaoTokens > 0, ERROR_ZERO_FOUNDER_DAO_TOKENS);
+
+        uint tokensToWithdraw = _totalFounderDaoTokens.div(2).sub(_founderTokensWithdrawn);
+
+        _transfer(address(this), beneficiary, tokensToWithdraw);
+
+        _founderTokensWithdrawn = _founderTokensWithdrawn.add(tokensToWithdraw);
     }
 
 }
