@@ -381,7 +381,7 @@ class Buy extends Component<IBuyProps, IBuyState> {
             return (
                 <>
                     <CardContent>
-                        <Typography gutterBottom={true} variant="h5" component="h2">
+                        <Typography gutterBottom={true} variant="h5">
                             Sell
                         </Typography>
                         {this.renderSell()}
@@ -398,7 +398,7 @@ class Buy extends Component<IBuyProps, IBuyState> {
         return (
             <>
                 <CardContent>
-                    <Typography gutterBottom={true} variant="h5" component="h2">
+                    <Typography gutterBottom={true} variant="h5">
                         Buy
                     </Typography>
                     {this.renderBuy()}
