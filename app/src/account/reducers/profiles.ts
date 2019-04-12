@@ -9,14 +9,14 @@ interface IProfileState {
     name?: string;
 }
 
-export interface IImmutableProfileState extends Map<string, IProfileState> {}
+export interface IImmutableProfilesState extends Map<string, IProfileState> {}
 
 const initialState = fromJS({});
 
-function profileReducer(
-    state: IImmutableProfileState = initialState,
+function profilesReducer(
+    state: IImmutableProfilesState = initialState,
     action: ProfileAction,
-): IImmutableProfileState {
+): IImmutableProfilesState {
 
     switch (action.type) {
         case ADD_PROFILE:
@@ -29,4 +29,4 @@ function profileReducer(
     return state;
 }
 
-export default profileReducer;
+export default profilesReducer;

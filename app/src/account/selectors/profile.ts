@@ -2,7 +2,7 @@ import { IImmutableState } from 'reducers';
 import { createSelector } from 'reselect';
 
 const profileSelector = (state: IImmutableState, address: string) => {
-    return state.get('account').get('profile').get(address);
+    return state.get('account').get('profiles').get(address);
 };
 
 export default createSelector(

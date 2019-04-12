@@ -17,6 +17,7 @@ interface IAddressFieldProps {
 }
 
 interface IAddressFieldState {
+    domain?: string;
     to?: string;
 }
 
@@ -44,6 +45,10 @@ class AddressField extends Component<AddressFieldProps, IAddressFieldState> {
         if (isAddress(to)) {
             this.setState({
                 to,
+            });
+        } else if (to.endsWith('.eth')) {
+            this.setState({
+                domain: to,
             });
         } else {
             if (this.state.to) {
@@ -91,10 +96,11 @@ class AddressField extends Component<AddressFieldProps, IAddressFieldState> {
 
     protected renderAvatar() {
         const {
+            domain,
             to,
         } = this.state;
 
-        if (!to) {
+        if (!to && !domain) {
             return (
                 <AccountCircle />
             );
@@ -106,7 +112,7 @@ class AddressField extends Component<AddressFieldProps, IAddressFieldState> {
                     width: '24px',
                 }}
             >
-                <Avatar address={to} noProfile={true} />
+                <Avatar address={to} domain={domain} noProfile={true} />
             </div>
         );
     }

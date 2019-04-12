@@ -1,11 +1,16 @@
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import ErrorOutline from '@material-ui/icons/ErrorOutline';
 import makeBlockie from 'ethereum-blockies-base64';
 import React, { Component } from 'react';
+import { isAddress } from 'utils/ethereum';
 
 export interface IAvatarProps {
-    address: string;
+    address?: string;
+    domain?: string;
     image?: string;
     noProfile?: boolean;
+    resolveDomain: (domain: string) => any;
 }
 
 interface IAvatarState {}
@@ -14,22 +19,55 @@ type AvatarProps = IAvatarProps & WithStyles;
 
 class Avatar extends Component<AvatarProps, IAvatarState> {
 
+    public componentDidMount() {
+        const { address, domain, resolveDomain } = this.props;
+
+        if (address && isAddress(address)) {
+            return;
+        }
+
+        if (domain && domain.endsWith('.eth')) {
+            resolveDomain(domain);
+        }
+    }
+
+    public componentDidUpdate() {
+        const { address, domain, resolveDomain } = this.props;
+
+        if (address && isAddress(address)) {
+            return;
+        }
+
+        if (domain && domain.endsWith('.eth')) {
+            resolveDomain(domain);
+        }
+    }
+
     public render() {
-        const { address, image, noProfile } = this.props;
+        const { address, domain, image, noProfile } = this.props;
         const { avatar } = this.props.classes;
 
-        if (!address && !image) {
-            // TODO:
+        if (!address && !image && !domain) {
             return (
-                <div>
-                    Test
-                </div>
+                <ErrorOutline />
             );
         }
 
         if (image && !noProfile) {
             return (
                 <img src={image} className={avatar} />
+            );
+        }
+
+        if (!address && domain) {
+            return (
+                <AccountCircle />
+            );
+        }
+
+        if (!address) {
+            return (
+                <ErrorOutline />
             );
         }
 
