@@ -5,10 +5,13 @@ import Table from '@material-ui/core/Table';
 import React, { Component, Fragment } from 'react';
 import { Query } from "react-apollo";
 import { FormAction } from 'redux-form';
+import RecieveDialog from '../../../containers/views/crypto-currencies/recieve/RecieveDialog';
 import cryptoCurrenciesQuery from '../../../queries/cryptoCurrencies.graphql';
 import BottomButtons from '../../bottom-buttons/BottomButtons';
 import BottomButton from '../../bottom-buttons/Button';
 import Error from '../../Error';
+import HeaderButton from '../../header/Button';
+import Header from '../../header/Header';
 import LoadingBar from '../../LoadingBar';
 import AddTokenDialog from './AddTokenDialog';
 import Head from './Head';
@@ -20,6 +23,7 @@ export interface ICryptoCurrenciesViewProps {
 
 export interface ICryptoCurrenciesViewState {
     addTokenDialog: boolean;
+    recieveDialog: boolean;
 }
 
 type CryptoCurrenciesViewProps = ICryptoCurrenciesViewProps & WithStyles;
@@ -32,9 +36,12 @@ class CryptoCurrenciesView extends Component<CryptoCurrenciesViewProps, ICryptoC
         this.addToken = this.addToken.bind(this);
         this.openAddTokenDialog = this.openAddTokenDialog.bind(this);
         this.closeAddTokenDialog = this.closeAddTokenDialog.bind(this);
+        this.openRecieveDialog = this.openRecieveDialog.bind(this);
+        this.closeRecieveDialog = this.closeRecieveDialog.bind(this);
 
         this.state = {
             addTokenDialog: false,
+            recieveDialog: false,
         };
     }
 
@@ -58,9 +65,24 @@ class CryptoCurrenciesView extends Component<CryptoCurrenciesViewProps, ICryptoC
         });
     }
 
+    public openRecieveDialog() {
+        this.setState({
+            ...this.state,
+            recieveDialog: true,
+        });
+    }
+
+    public closeRecieveDialog() {
+        this.setState({
+            ...this.state,
+            recieveDialog: false,
+        });
+    }
+
     public render() {
         const {
             addTokenDialog,
+            recieveDialog,
         } = this.state;
 
         const {
@@ -69,6 +91,14 @@ class CryptoCurrenciesView extends Component<CryptoCurrenciesViewProps, ICryptoC
 
         return (
             <Fragment>
+                <Header>
+                    <HeaderButton>
+                        Exchange
+                    </HeaderButton>
+                    <HeaderButton onClick={this.openRecieveDialog}>
+                        Recieve
+                    </HeaderButton>
+                </Header>
                 <div className={container}>
                     <Query query={cryptoCurrenciesQuery}>
                         {({ loading, error, data }) => {
@@ -122,6 +152,10 @@ class CryptoCurrenciesView extends Component<CryptoCurrenciesViewProps, ICryptoC
                     addTokenSubmit={this.addToken}
                     closeDialog={this.closeAddTokenDialog}
                     open={addTokenDialog}
+                />
+                <RecieveDialog
+                    closeDialog={this.closeRecieveDialog}
+                    open={recieveDialog}
                 />
             </Fragment>
         );
