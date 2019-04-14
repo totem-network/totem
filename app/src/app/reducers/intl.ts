@@ -1,7 +1,6 @@
 import { fromJS } from 'immutable';
-import { combineReducers } from 'redux';
 import { IImmutableStateMap } from 'redux-utils';
-import { CHANGE_LOCALE, IntlAction } from './../actions/intl';
+import { CHANGE_LOCALE, IntlAction } from '../actions/intl';
 
 interface IIntlState {
     locale: string;
