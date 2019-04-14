@@ -266,6 +266,12 @@ export default {
 
             const etherPriceResponse = await fetch(
                 'https://api.etherscan.io/api?module=stats&action=ethprice&apikey=SKPYR2WCP5MM2RPAMQF2W4VIYVMKIBQU6J',
+                {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                },
             );
 
             const etherPriceDataJSON = await etherPriceResponse.text();
