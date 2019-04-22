@@ -38,7 +38,7 @@ class DigitalAsset extends Component<DigitalAssetProps, IDigitalAssetState> {
             <Fragment>
                 <div className={container}>
                     <Query query={digitalAssetQuery} variables={queryVariables}>
-                        {({ loading, error, data }) => {
+                        {({ loading, error, data }: any) => {
                             if (loading) {
                                 return (
                                     <LoadingBar />

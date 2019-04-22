@@ -35,7 +35,7 @@ class AddDigitalAssetDialog extends Component<AddDigitalAssetDialogProps, IAddDi
                 onClose={closeDialog}
             >
                 <Mutation mutation={addDigitalAssetMutation}>
-                    {(addDigitalAsset) => {
+                    {(addDigitalAsset: any) => {
                         const handleSubmit = (values: any) => {
                             addDigitalAsset({
                                 refetchQueries: [

@@ -74,7 +74,7 @@ class SendDigitalAssetDialog extends Component<SendDigitalAssetDialogProps, ISen
                 aria-labelledby="form-dialog-title"
             >
                 <Mutation mutation={sendDigitalAssetMutation}>
-                    {(sendDigitalAsset) => {
+                    {(sendDigitalAsset: any) => {
                         const handleSubmit = (values: any) => {
                             let fee = gasPriceSafeLow;
                             if (values.get('fee')) {

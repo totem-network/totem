@@ -40,7 +40,7 @@ class AddTokenDialog extends Component<AddTokenDialogProps, IAddTokenDialogState
                 aria-labelledby="form-dialog-title"
             >
                 <Mutation mutation={addTokenMutation}>
-                    {(addToken) => {
+                    {(addToken: any) => {
                         const handleSubmit = (values: any) => {
                             addToken({
                                 refetchQueries: [

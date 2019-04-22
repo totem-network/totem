@@ -101,7 +101,7 @@ class CryptoCurrenciesView extends Component<CryptoCurrenciesViewProps, ICryptoC
                 </Header>
                 <div className={container}>
                     <Query query={cryptoCurrenciesQuery}>
-                        {({ loading, error, data }) => {
+                        {({ loading, error, data }: any) => {
                             if (loading) {
                                 return (
                                     <LoadingBar />

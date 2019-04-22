@@ -75,7 +75,7 @@ class SendCryptoCurrencyDialog extends Component<SendCryptoCurrencyDialogProps, 
                 aria-labelledby="form-dialog-title"
             >
                 <Mutation mutation={sendCryptoCurrencyMutation}>
-                    {(sendCryptoCurrency) => {
+                    {(sendCryptoCurrency: any) => {
                         const handleSubmit = (values: any) => {
                             let fee = gasPriceSafeLow;
                             if (values.get('fee')) {

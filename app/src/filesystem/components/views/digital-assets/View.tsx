@@ -94,7 +94,7 @@ class DigitalAssetsView extends Component<DigitalAssetsViewProps, IDigitalAssets
             <Fragment>
                 <div className={container}>
                     <Query query={digitalAssetsQuery}>
-                        {({ loading, error, data }) => {
+                        {({ loading, error, data }: any) => {
                             if (loading) {
                                 return (
                                     <LoadingBar />

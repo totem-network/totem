@@ -68,7 +68,7 @@ class ImagesView extends Component<ImagesViewProps, IImagesViewState> {
             <Fragment>
                 <div className={container}>
                     <Query query={cryptoCurrenciesQuery}>
-                        {({ loading, error, data }) => {
+                        {({ loading, error, data }: any) => {
                             if (loading) {
                                 return (
                                     <LoadingBar />
