@@ -4,7 +4,7 @@
 // shimming does not work
 // remove 3box package from index.html if resolved
 
-const openBox = (window as any).Box.openBox;
+const box = require('3box/dist/3box.min.js');
 
 class Boxes {
 
@@ -16,7 +16,7 @@ class Boxes {
 
     public async openBox(address: string, provider: any) {
         if (!this.boxes[address]) {
-            this.boxes[address] = await openBox(address, provider);
+            this.boxes[address] = await box.openBox(address, provider);
         }
 
         return this.boxes[address];
