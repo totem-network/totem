@@ -6,7 +6,7 @@
   "build": {},
   "scripts": {
     "build": "npm run build:web && npm run build:electron",
-    "build:web": "npm run clean && webpack --config webpack.production.js",
+    "build:web": "npm run clean && cross-env NODE_OPTIONS=--max_old_space_size=8192 webpack --config webpack.production.js",
     "build:electron": "gulp electron:build",
     "clean": "rimraf build/app",
     "ethereum": "ganache-cli -m \"exclude virus file basket confirm sock ten guide actress sketch dizzy race\"",
@@ -63,6 +63,7 @@
     "chai-enzyme": "^1.0.0-beta.1",
     "compression-webpack-plugin": "^2.0.0",
     "copy-webpack-plugin": "^4.6.0",
+    "cross-env": "^5.2.0",
     "electron": "^4.1.4",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
