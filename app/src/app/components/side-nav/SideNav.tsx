@@ -235,7 +235,10 @@ const style: StyleRulesCallback = (theme: Theme) => {
             willChange: 'transform',
         },
         navBackground: {
-            background: 'rgba(0, 0, 30, 0.6)',
+            [theme.breakpoints.up('lg')]: {
+                background: 'rgba(0, 0, 30, 0.6)',
+            },
+            background: '#f0f0f0',
             height: '100%',
             position: 'absolute',
             width: '100%',
