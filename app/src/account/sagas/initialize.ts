@@ -18,7 +18,7 @@ export default function* initializeSaga() {
 
     yield put(setProvidedAccounts(accounts));
 
-    const boxImport = yield import(/* webpackChunkName: '3box' */ '3box');
+    const boxImport = yield import(/* webpackChunkName: '3box' */ '3box/dist/3box.min.js');
 
     const Box = boxImport.default;
 
