@@ -23,14 +23,17 @@ const config = {
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
+                resolve: {
+                    mainFields: ['browser', 'main']
+                },
                 use: ['babel-loader']
             },
             {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
-                /*resolve: {
+                resolve: {
                     mainFields: ['browser', 'main']
-                },*/
+                },
                 use: ['babel-loader', 'ts-loader']
             },
             {
@@ -56,7 +59,6 @@ const config = {
             }
         ]
     },
-    // TODO: not in electron version
     node: {
         fs: 'empty',
         child_process: 'empty'
@@ -109,21 +111,12 @@ const config = {
         })
     ],
     resolve: {
-        // TODO: when material ui supports this: https://github.com/developit/preact-compat/issues/476
-        alias: {
-            /*"react": "preact-compat",
-            "react-dom": "preact-compat"*/
-        },
         extensions: ['.mjs', '.ts', '.tsx', '.js', '.json'],
-        //mainFields: ['browser', 'main'],
         modules: [
             path.resolve('./app/src'),
             path.resolve('./app/assets'),
             path.resolve('./build/contracts'),
-            path.resolve('./node_modules'),
-            // only needed for ipfs:
-            path.resolve('./node_modules/ipfs/node_modules'),
-            path.resolve('./node_modules/libp2p-switch/node_modules')
+            path.resolve('./node_modules')
         ],
         plugins: [
             new TsconfigPathsPlugin({})
