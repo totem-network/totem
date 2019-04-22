@@ -8,12 +8,10 @@ const PrepackWebpackPlugin = require('prepack-webpack-plugin').default;
 module.exports = merge(common, {
     mode: 'production',
     devtool: 'source-map',
+    optimization: {
+        nodeEnv: 'production',
+    },
     plugins: [
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify('production')
-            }
-        }),
         // TODO: prepack not working
         /*new PrepackWebpackPlugin({
             test: /\.(js)/
