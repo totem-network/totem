@@ -1,7 +1,7 @@
 // TODO: export store from index.tsx
+import { routerMiddleware as createRouterMiddleware } from 'connected-react-router/immutable';
 import { createBrowserHistory } from 'history';
 import { Map } from 'immutable';
-import { routerMiddleware as createRouterMiddleware } from 'react-router-redux';
 import {
     AnyAction,
     applyMiddleware,
@@ -10,7 +10,7 @@ import {
 } from 'redux';
 import { createLogger } from 'redux-logger';
 import DevTools from './app/containers/DevTools';
-import reducer, { IImmutableState } from './reducers';
+import createReducers, { IImmutableState } from './reducers';
 import { sagaMiddleware } from './sagas';
 
 const initialState = Map({});
@@ -37,8 +37,10 @@ if (process.env.NODE !== 'production') {
     );
 }
 
+export const reducers = createReducers(history);
+
 export const store = createStore<IImmutableState, AnyAction, {}, {}>(
-    reducer,
+    reducers,
     initialState,
     enhancer,
 );

@@ -1,5 +1,7 @@
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { apolloClient } from 'api';
 import React, { Component } from 'react';
+import { ApolloProvider } from 'react-apollo';
 import { hot } from 'react-hot-loader';
 import { theme } from 'themes';
 import Layout from './app/components/Layout';
@@ -13,11 +15,13 @@ class App extends Component<IAppProps, IAppState> {
 
     public render() {
         return (
-            <MuiThemeProvider theme={theme}>
-                <IntlProvider>
-                    <Layout />
-                </IntlProvider>
-            </MuiThemeProvider>
+            <ApolloProvider client={apolloClient}>
+                <MuiThemeProvider theme={theme}>
+                    <IntlProvider>
+                        <Layout />
+                    </IntlProvider>
+                </MuiThemeProvider>
+            </ApolloProvider>
         );
     }
 

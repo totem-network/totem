@@ -23,6 +23,11 @@ module.exports = merge(common, {
     watchOptions: {
         ignored: /node_modules/
     },
+    resolve: {
+        alias: {
+          'react-dom': '@hot-loader/react-dom'
+        }
+    },
     devServer: {
         historyApiFallback: {
             index: '/'

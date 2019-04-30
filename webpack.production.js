@@ -3,7 +3,6 @@ const merge = require('webpack-merge');
 const common = require('./webpack.config.js');
 const CompressionPlugin = require("compression-webpack-plugin");
 const BrotliPlugin = require("brotli-webpack-plugin");
-const PrepackWebpackPlugin = require('prepack-webpack-plugin').default;
 
 module.exports = merge(common, {
     mode: 'production',
@@ -12,10 +11,6 @@ module.exports = merge(common, {
         nodeEnv: 'production',
     },
     plugins: [
-        // TODO: prepack not working
-        /*new PrepackWebpackPlugin({
-            test: /\.(js)/
-        }),*/
         new BrotliPlugin({
             test: /\.(js|svg)/,
             exclude: /\.(map)/, // TODO: BrotliPlugin does not use excludes
