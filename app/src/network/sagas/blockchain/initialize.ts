@@ -24,7 +24,7 @@ export default function* initializeSaga() {
             provider.getSigner(),
         );
 
-        yield put(setCurrentNetwork(network, 'ethereum'));
+        yield put(setCurrentNetwork('ethereum', network));
     } catch (error) {
         //
     }

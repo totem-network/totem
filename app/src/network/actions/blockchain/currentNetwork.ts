@@ -20,8 +20,8 @@ export interface ISetCurrentNetworkPayload {
 }
 
 export function setCurrentNetwork(
-    network: string,
     platform: string,
+    network: string,
 ): ISetCurrentNetworkAction {
     return {
         payload: {
