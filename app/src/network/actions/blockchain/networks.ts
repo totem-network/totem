@@ -15,8 +15,8 @@ export interface INetworkConfig {
 }
 
 export interface IAddNetworkPayload {
-    platform: string;
     network: string;
+    platform: string;
 }
 
 export function addNetwork(platform: string, network: string): IAddNetworkAction {
