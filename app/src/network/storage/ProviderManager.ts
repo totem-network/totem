@@ -30,13 +30,13 @@ class ProviderManager {
         return this;
     }
 
-    public getProvider(platform: string, network: string): any | undefined {
+    public async getProvider(platform: string, network: string): Promise<any | undefined> {
         if (!this.providers[platform]) {
             return;
         }
 
         if (!this.providers[platform][network]) {
-            const provider = this.createProvider(platform, network);
+            const provider = await this.createProvider(platform, network);
             if (provider) {
                 this.providers[platform][network] = provider;
             }
@@ -45,7 +45,7 @@ class ProviderManager {
         return this.providers[platform][network];
     }
 
-    protected createProvider(platform: string, network: string): any | undefined {
+    protected async createProvider(platform: string, network: string): Promise<any | undefined> {
         if (platform === 'ipfs') {
             if (network === '1') {
                 // TODO: different IPFS networks
