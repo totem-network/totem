@@ -1,4 +1,5 @@
 import { graphql } from 'graphql';
+import apolloClient from './client';
 import schema from './schema';
 import rootResolver from './schema/resolvers';
 import types from './schema/types';
@@ -11,6 +12,7 @@ const api = (query: string) => {
 
 export {
     api,
+    apolloClient,
     rootResolver,
     schema,
     types,
