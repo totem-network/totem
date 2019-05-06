@@ -1,11 +1,8 @@
 import Button from '@material-ui/core/Button';
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
 import { LogoFlat } from 'app';
+import { Form, Formik } from 'formik';
 import React, { Component } from 'react';
-import {
-    Form,
-    InjectedFormProps,
-} from 'redux-form';
 
 // TODO: TypeScript fix
 const Field = require('redux-form/immutable').Field;
@@ -17,7 +14,6 @@ export interface IPayButtonProps {}
 interface IPayButtonState {}
 
 export type PayButtonProps = IPayButtonProps &
-    InjectedFormProps<IPayButtonData, IPayButtonProps> &
     WithStyles;
 
 class PayButton extends Component<PayButtonProps, IPayButtonState> {
@@ -28,10 +24,10 @@ class PayButton extends Component<PayButtonProps, IPayButtonState> {
     ) {
         super(props, context);
 
-        this.onSubmit = this.onSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    public onSubmit(values: any) {
+    public handleSubmit(values: any) {
         const password = values.get('password');
     }
 
@@ -44,14 +40,19 @@ class PayButton extends Component<PayButtonProps, IPayButtonState> {
         const { buttonWrapper, logo } = this.props.classes;
 
         return (
-            <Form onSubmit={this.props.handleSubmit(this.onSubmit)}>
-                <div className={buttonWrapper}>
-                    <Button type='submit' color='primary' variant="contained">
-                        <LogoFlat className={logo} />
-                        Pay
-                    </Button>
-                </div>
-            </Form>
+            <Formik
+                initialValues={{}}
+                onSubmit={this.handleSubmit}
+            >
+                <Form>
+                    <div className={buttonWrapper}>
+                        <Button type='submit' color='primary' variant="contained">
+                            <LogoFlat className={logo} />
+                            Pay
+                        </Button>
+                    </div>
+                </Form>
+            </Formik>
         );
     }
 

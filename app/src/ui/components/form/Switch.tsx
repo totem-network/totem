@@ -1,55 +1,56 @@
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import { Field, FieldProps } from 'formik';
 import React, { Component } from 'react';
-import { BaseFieldProps, WrappedFieldProps } from 'redux-form';
 
 interface ISwitchFieldProps {
-    input?: any;
     label?: string;
-    meta?: {
-        touched?: any;
-        error?: any;
-    };
+    name: string;
+    [key: string]: any;
 }
 
 interface ISwitchFieldState {}
 
-class SwitchField extends Component<
-    WrappedFieldProps & BaseFieldProps<ISwitchFieldProps> & ISwitchFieldProps,
-    ISwitchFieldState
-> {
+class SwitchField extends Component<ISwitchFieldProps, ISwitchFieldState> {
+
+    constructor(props: ISwitchFieldProps, context?: any) {
+        super(props, context);
+
+        this.renderSwitch = this.renderSwitch.bind(this);
+    }
 
     public render() {
-
         const {
-            input,
+            name,
+        } = this.props;
+
+        return (
+            <Field name={name}>
+                {this.renderSwitch}
+            </Field>
+        );
+    }
+
+    public renderSwitch({
+        field,
+    }: FieldProps) {
+        const {
             label,
-            meta,
             ...custom
         } = this.props;
 
-        let error = false;
-        if (meta) {
-            if (meta.touched && meta.error) {
-                error = true;
-            }
-        }
-
         return (
-            <FormControl fullWidth={true}>
-                <FormControlLabel
-                    control={
-                        <Switch
-                            checked={input.value}
-                            value={input.value}
-                            {...input}
-                            {...custom}
-                        />
-                    }
-                    label={label}
-                />
-            </FormControl>
+            <FormControlLabel
+                control={
+                    <Switch
+                        checked={field.value}
+                        {...field}
+                        {...custom}
+                    />
+                }
+                label={label}
+            />
         );
     }
 

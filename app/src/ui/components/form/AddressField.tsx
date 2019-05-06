@@ -1,19 +1,17 @@
-import FormControl from '@material-ui/core/FormControl';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { Avatar } from 'account';
-import React, { Component, FormEvent } from 'react';
-import { BaseFieldProps, WrappedFieldProps } from 'redux-form';
+import { Field, FieldProps } from 'formik';
+import React, {
+    ChangeEvent,
+    Component,
+} from 'react';
 import { isAddress } from 'utils/ethereum';
 
 interface IAddressFieldProps {
-    input?: any;
-    label?: string;
-    meta?: {
-        touched?: any;
-        error?: any;
-    };
+    label: string;
+    name: string;
 }
 
 interface IAddressFieldState {
@@ -21,26 +19,21 @@ interface IAddressFieldState {
     to?: string;
 }
 
-type AddressFieldProps = WrappedFieldProps & BaseFieldProps<IAddressFieldProps> & IAddressFieldProps;
+class AddressField extends Component<IAddressFieldProps, IAddressFieldState> {
 
-class AddressField extends Component<AddressFieldProps, IAddressFieldState> {
-
-    constructor(props: AddressFieldProps, context?: any) {
+    constructor(props: IAddressFieldProps, context?: any) {
         super(props, context);
 
         this.handleChange = this.handleChange.bind(this);
+        this.renderAddressField = this.renderAddressField.bind(this);
 
         this.state = {};
     }
 
-    public handleChange(event: FormEvent<HTMLInputElement>) {
+    public handleChange(onChange: any, event: ChangeEvent<HTMLInputElement>) {
         const to = event.currentTarget.value;
 
-        const {
-            input,
-        } = this.props;
-
-        input.onChange(event);
+        onChange(event);
 
         if (isAddress(to)) {
             this.setState({
@@ -61,36 +54,42 @@ class AddressField extends Component<AddressFieldProps, IAddressFieldState> {
 
     public render() {
         const {
-            input,
+            name,
+        } = this.props;
+
+        return (
+            <Field name={name}>
+                {this.renderAddressField}
+            </Field>
+        );
+    }
+
+    public renderAddressField({
+        field,
+        form: {
+            errors,
+        },
+    }: FieldProps) {
+        const {
             label,
-            meta,
             ...custom
         } = this.props;
 
-        let error = false;
-        if (meta) {
-            if (meta.touched && meta.error) {
-                error = true;
-            }
-        }
-
         return (
-            <FormControl fullWidth={true}>
-                <TextField
-                    error={error}
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                {this.renderAvatar()}
-                            </InputAdornment>
-                        ),
-                    }}
-                    label={label}
-                    {...input}
-                    onChange={this.handleChange}
-                    {...custom}
-                />
-            </FormControl>
+            <TextField
+                error={(errors[field.name] !== undefined && errors[field.name] !== '')}
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            {this.renderAvatar()}
+                        </InputAdornment>
+                    ),
+                }}
+                label={label}
+                {...field}
+                onChange={this.handleChange.bind(this, field.onChange)}
+                {...custom}
+            />
         );
     }
 

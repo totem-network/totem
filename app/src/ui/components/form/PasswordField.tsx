@@ -5,29 +5,23 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@material-ui/core/InputLabel';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { Field, FieldProps } from 'formik';
 import React, { Component } from 'react';
-import { BaseFieldProps, WrappedFieldProps } from 'redux-form';
 
 interface IFormPasswordProps {
-    input?: any;
-    label?: string;
-    meta?: {
-        touched?: any;
-        error?: any;
-    };
+    label: string;
+    name: string;
+    [key: string]: any;
 }
 
 interface IFormPasswordState {
     showPassword: boolean;
 }
 
-class FormPassword extends Component<
-    WrappedFieldProps & BaseFieldProps<IFormPasswordProps> & IFormPasswordProps,
-    IFormPasswordState
-> {
+class FormPassword extends Component<IFormPasswordProps, IFormPasswordState> {
 
     constructor(
-        props: WrappedFieldProps & BaseFieldProps<IFormPasswordProps> & IFormPasswordProps,
+        props: IFormPasswordProps,
         context?: any,
     ) {
         super(props, context);
@@ -37,6 +31,7 @@ class FormPassword extends Component<
         };
 
         this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
+        this.renderPasswordField = this.renderPasswordField.bind(this);
     }
 
     public handleClickShowPassword() {
@@ -50,22 +45,29 @@ class FormPassword extends Component<
     }
 
     public render() {
-
         const {
-            input,
+            name,
+        } = this.props;
+
+        return (
+            <Field name={name}>
+                {this.renderPasswordField}
+            </Field>
+        );
+    }
+
+    public renderPasswordField({
+        field,
+        form: {
+            errors,
+        },
+    }: FieldProps) {
+        const {
             label,
-            meta,
             ...custom
         } = this.props;
 
         const { showPassword } = this.state;
-
-        let error = false;
-        if (meta) {
-            if (meta.touched && meta.error) {
-                error = true;
-            }
-        }
 
         return (
             <FormControl fullWidth={true}>
@@ -84,10 +86,9 @@ class FormPassword extends Component<
                             </IconButton>
                         </InputAdornment>
                     }
-                    error={error}
+                    error={(errors[field.name] !== undefined && errors[field.name] !== '')}
                     type={showPassword ? 'text' : 'password'}
-                    value={input.value}
-                    {...input}
+                    {...field}
                     {...custom}
                 />
             </FormControl>

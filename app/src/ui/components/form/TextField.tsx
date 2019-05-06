@@ -1,50 +1,53 @@
-import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
+import { Field, FieldProps } from 'formik';
 import React, { Component } from 'react';
-import { BaseFieldProps, WrappedFieldProps } from 'redux-form';
 
 interface IFormTextFieldProps {
-    input?: any;
-    label?: string;
-    meta?: {
-        touched?: any;
-        error?: any;
-    };
+    label: string;
+    name: string;
+    [key: string]: any;
 }
 
 interface IFormTextFieldState {}
 
-class FormTextField extends Component<
-    WrappedFieldProps & BaseFieldProps<IFormTextFieldProps> & IFormTextFieldProps,
-    IFormTextFieldState
-> {
+class FormTextField extends Component<IFormTextFieldProps, IFormTextFieldState> {
+
+    constructor(props: IFormTextFieldProps, context?: any) {
+        super(props, context);
+
+        this.renderTextField = this.renderTextField.bind(this);
+    }
 
     public render() {
-
         const {
-            input,
+            name,
+        } = this.props;
+
+        return (
+            <Field name={name}>
+                {this.renderTextField}
+            </Field>
+        );
+    }
+
+    public renderTextField({
+        field,
+        form: {
+            errors,
+        },
+    }: FieldProps) {
+        const {
             label,
-            meta,
             ...custom
         } = this.props;
 
-        let error = false;
-        if (meta) {
-            if (meta.touched && meta.error) {
-                error = true;
-            }
-        }
-
         return (
-            <FormControl fullWidth={true}>
-                <TextField
-                    error={error}
-                    label={label}
-                    value={input.value}
-                    {...input}
-                    {...custom}
-                />
-            </FormControl>
+            <TextField
+                error={(errors[field.name] !== undefined && errors[field.name] !== '')}
+                label={label}
+                {...field}
+                {...custom}
+            />
         );
     }
 
