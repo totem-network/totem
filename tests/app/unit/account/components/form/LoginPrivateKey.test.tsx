@@ -16,11 +16,6 @@ import {
 import Adapter from 'enzyme-adapter-react-16';
 import 'mocha';
 import React from 'react';
-import {
-    Field,
-    Form,
-    InjectedFormProps,
-} from 'redux-form';
 import { spy, stub } from 'sinon';
 
 configureEnzyme({
@@ -29,15 +24,13 @@ configureEnzyme({
 
 chaiUse(chaiEnzyme());
 
-type Props = ILoginPrivateKeyProps & InjectedFormProps<ILoginPrivateKeyData, ILoginPrivateKeyProps>;
-
 describe('Account components', () => {
     describe('<LoginPrivateKey />', () => {
         it('should render the login form', () => {
             const props = {
                 handleSubmit: (fn: any) => fn,
                 login: stub(),
-            } as any as Props;
+            } as any as ILoginPrivateKeyProps;
 
             const wrapper = shallow(<LoginPrivateKey {...props} />);
 
@@ -57,7 +50,7 @@ describe('Account components', () => {
                     });
                 },
                 login,
-            } as any as Props;
+            } as any as ILoginPrivateKeyProps;
 
             const wrapper = shallow(<LoginPrivateKey {...props} />);
 
