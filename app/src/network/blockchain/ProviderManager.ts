@@ -44,13 +44,13 @@ class ProviderManager {
         return this;
     }
 
-    public getProvider(platform: string, network: string): Provider | undefined {
+    public async getProvider(platform: string, network: string): Promise<Provider | undefined> {
         if (!this.providers[platform]) {
             return;
         }
 
         if (!this.providers[platform][network]) {
-            const provider = this.createProvider(platform, network);
+            const provider = await this.createProvider(platform, network);
             if (provider) {
                 this.providers[platform][network] = provider;
             }
@@ -78,7 +78,7 @@ class ProviderManager {
         return this;
     }
 
-    public getSigner(platform: string, network: string): Signer | undefined {
+    public async getSigner(platform: string, network: string): Promise<Signer | undefined> {
         if (!this.signers[platform]) {
             return;
         }
@@ -90,7 +90,7 @@ class ProviderManager {
         return this.signers[platform][network];
     }
 
-    protected createProvider(platform: string, network: string): Provider | undefined {
+    protected async createProvider(platform: string, network: string): Promise<Provider | undefined> {
         if (platform === 'ethereum') {
             if (network === '1') {
                 return new providers.InfuraProvider();

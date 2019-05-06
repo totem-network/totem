@@ -6,7 +6,7 @@ function* resolveDomainSaga(resolveDomainAction: IResolveDomainAction) {
     const { domain } = resolveDomainAction.payload;
 
     const currentNetwork = yield select(currentNetworkSelector);
-    const provider = BlockchainProviderManager.getProvider(
+    const provider = yield BlockchainProviderManager.getProvider(
         currentNetwork.platform,
         currentNetwork.network,
     );

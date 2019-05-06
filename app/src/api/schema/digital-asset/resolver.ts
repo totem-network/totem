@@ -87,7 +87,7 @@ const getERC721Data = async (account: string, contract: string) => {
     const state = store.getState();
     const currentNetwork = currentNetworkSelector(state);
 
-    const web3 = BlockchainProviderManager.getProvider(
+    const web3 = await BlockchainProviderManager.getProvider(
         currentNetwork.platform,
         currentNetwork.network,
     );
@@ -161,7 +161,7 @@ const getERC721Tokens = async (account: string, contract: string) => {
     const state = store.getState();
     const currentNetwork = currentNetworkSelector(state);
 
-    const web3 = BlockchainProviderManager.getProvider(
+    const web3 = await BlockchainProviderManager.getProvider(
         currentNetwork.platform,
         currentNetwork.network,
     );
@@ -212,7 +212,7 @@ const getERC721TokenData = async (contract: string, tokenId: string) => {
     const state = store.getState();
     const currentNetwork = currentNetworkSelector(state);
 
-    const web3 = BlockchainProviderManager.getProvider(
+    const web3 = await BlockchainProviderManager.getProvider(
         currentNetwork.platform,
         currentNetwork.network,
     );
@@ -301,7 +301,7 @@ const sendToken = async (contract: string, token: string, to: string, fee: strin
     const account = accountAddressSelector(state);
     const currentNetwork = currentNetworkSelector(state);
 
-    const web3Signer = BlockchainProviderManager.getSigner(
+    const web3Signer = await BlockchainProviderManager.getSigner(
         currentNetwork.platform,
         currentNetwork.network,
     );
@@ -330,7 +330,7 @@ export default {
             const account = accountAddressSelector(state);
             const currentNetwork = currentNetworkSelector(state);
 
-            const web3 = BlockchainProviderManager.getProvider(
+            const web3 = await BlockchainProviderManager.getProvider(
                 currentNetwork.platform,
                 currentNetwork.network,
             );
@@ -437,7 +437,7 @@ export default {
             const account = accountAddressSelector(state);
             const currentNetwork = currentNetworkSelector(state);
 
-            const web3 = BlockchainProviderManager.getProvider(
+            const web3 = await BlockchainProviderManager.getProvider(
                 currentNetwork.platform,
                 currentNetwork.network,
             );
