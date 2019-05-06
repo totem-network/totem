@@ -6,10 +6,11 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import { utils } from 'ethers';
-import React, { Component, Fragment } from 'react';
+import { Form, Formik } from 'formik';
+import React, { Component } from 'react';
 import { Mutation } from "react-apollo";
-import SendCryptoCurrencyForm from '../../../containers/views/crypto-currencies/SendCryptoCurrencyForm';
 import sendCryptoCurrencyMutation from '../../../mutations/sendCryptoCurrency.graphql';
+import SendCryptoCurrencyForm from './SendCryptoCurrencyForm';
 
 export interface ISendCryptoCurrencyDialogProps {
     closeDialog: () => any;
@@ -23,7 +24,6 @@ export interface ISendCryptoCurrencyDialogProps {
     network: string;
     open: boolean;
     platform: string;
-    submit: (form: string) => any;
 }
 
 export interface ISendCryptoCurrencyDialogState {}
@@ -31,12 +31,6 @@ export interface ISendCryptoCurrencyDialogState {}
 type SendCryptoCurrencyDialogProps = ISendCryptoCurrencyDialogProps & WithStyles;
 
 class SendCryptoCurrencyDialog extends Component<SendCryptoCurrencyDialogProps, ISendCryptoCurrencyDialogState> {
-
-    constructor(props: SendCryptoCurrencyDialogProps, context?: any) {
-        super(props, context);
-
-        this.submit = this.submit.bind(this);
-    }
 
     public componentDidMount() {
         const {
@@ -46,10 +40,6 @@ class SendCryptoCurrencyDialog extends Component<SendCryptoCurrencyDialogProps, 
         } = this.props;
 
         fetchFee(platform, network);
-    }
-
-    public submit() {
-        this.props.submit('sendCryptoCurrency');
     }
 
     public render() {
@@ -78,12 +68,12 @@ class SendCryptoCurrencyDialog extends Component<SendCryptoCurrencyDialogProps, 
                     {(sendCryptoCurrency: any) => {
                         const handleSubmit = (values: any) => {
                             let fee = gasPriceSafeLow;
-                            if (values.get('fee')) {
+                            if (values.fee) {
                                 fee = gasPriceFast;
                             }
 
                             const amount = utils.parseUnits(
-                                values.get('amount'),
+                                values.amount,
                                 decimals,
                             ).toString();
 
@@ -92,43 +82,50 @@ class SendCryptoCurrencyDialog extends Component<SendCryptoCurrencyDialogProps, 
                                     amount,
                                     currencyOrToken,
                                     fee,
-                                    to: values.get('to'),
+                                    to: values.to,
                                 },
                             });
                             closeDialog();
                         };
 
                         return (
-                            <Fragment>
-                                <DialogTitle>
-                                    Send {currencyName}
-                                    <object data={currencyIcon} className={icon}>
-                                        <img
-                                            src='/images/cryptocurrency-icons/generic.svg'
-                                            className={icon}
-                                        />
-                                    </object>
-                                </DialogTitle>
-                                <DialogContent>
-                                    <SendCryptoCurrencyForm
-                                        onSubmit={handleSubmit}
-                                    />
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button
-                                        onClick={closeDialog}
-                                    >
-                                        Cancel
-                                    </Button>
-                                    <Button
-                                        color='primary'
-                                        onClick={this.submit}
-                                        variant='contained'
-                                    >
-                                        Send
-                                    </Button>
-                                </DialogActions>
-                            </Fragment>
+                            <Formik
+                                initialValues={{
+                                    amount: '',
+                                    fee: false,
+                                    to: '',
+                                }}
+                                onSubmit={handleSubmit}
+                            >
+                                <Form>
+                                    <DialogTitle>
+                                        Send {currencyName}
+                                        <object data={currencyIcon} className={icon}>
+                                            <img
+                                                src='/images/cryptocurrency-icons/generic.svg'
+                                                className={icon}
+                                            />
+                                        </object>
+                                    </DialogTitle>
+                                    <DialogContent>
+                                        <SendCryptoCurrencyForm />
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button
+                                            onClick={closeDialog}
+                                        >
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            color='primary'
+                                            type='submit'
+                                            variant='contained'
+                                        >
+                                            Send
+                                        </Button>
+                                    </DialogActions>
+                                </Form>
+                            </Formik>
                         );
                     }}
                 </Mutation>

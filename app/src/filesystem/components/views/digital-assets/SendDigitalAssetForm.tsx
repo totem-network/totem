@@ -2,16 +2,9 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import React, { Component } from 'react';
 import {
-    Form,
-    InjectedFormProps,
-} from 'redux-form';
-import {
     AddressField,
     Switch,
 } from 'ui';
-
-// TODO: TypeScript fix
-const Field = require('redux-form/immutable').Field;
 
 export interface ISendDigitalAssetFormData {
     fee: string;
@@ -20,14 +13,12 @@ export interface ISendDigitalAssetFormData {
 
 export interface ISendDigitalAssetFormProps {
     assetImage: string;
-    onSubmit: (values: ISendDigitalAssetFormData) => any;
     token: string;
 }
 
 export interface ISendDigitalAssetFormState {}
 
 type SendDigitalAssetFormProps = ISendDigitalAssetFormProps &
-    InjectedFormProps<ISendDigitalAssetFormData, ISendDigitalAssetFormProps> &
     WithStyles;
 
 class SendDigitalAssetForm extends Component<SendDigitalAssetFormProps, ISendDigitalAssetFormState> {
@@ -36,36 +27,30 @@ class SendDigitalAssetForm extends Component<SendDigitalAssetFormProps, ISendDig
         const {
             assetImage,
             classes,
-            handleSubmit,
-            onSubmit,
         } = this.props;
 
         return (
-            <Form onSubmit={handleSubmit(onSubmit)}>
-                <div className={classes.form}>
-                    <Field
-                        component={AddressField}
-                        label='To'
-                        name='to'
-                    />
-                    <img
-                        className={classes.asset}
-                        src={assetImage}
-                    />
-                    <div className={classes.fee}>
-                        <div>
-                            <Field
-                                component={Switch}
-                                color='primary'
-                                name='fee'
-                            />
-                        </div>
-                        <div className={classes.fast}>
-                            Fast?
-                        </div>
+            <div className={classes.form}>
+                <AddressField
+                    label='To'
+                    name='to'
+                />
+                <img
+                    className={classes.asset}
+                    src={assetImage}
+                />
+                <div className={classes.fee}>
+                    <div>
+                        <Switch
+                            color='primary'
+                            name='fee'
+                        />
+                    </div>
+                    <div className={classes.fast}>
+                        Fast?
                     </div>
                 </div>
-            </Form>
+            </div>
         );
     }
 }

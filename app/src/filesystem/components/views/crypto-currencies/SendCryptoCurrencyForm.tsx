@@ -2,17 +2,10 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import React, { Component } from 'react';
 import {
-    Form,
-    InjectedFormProps,
-} from 'redux-form';
-import {
     AddressField,
     Switch,
     TextField,
 } from 'ui';
-
-// TODO: TypeScript fix
-const Field = require('redux-form/immutable').Field;
 
 export interface ISendCryptoCurrencyFormData {
     amount: string;
@@ -20,14 +13,11 @@ export interface ISendCryptoCurrencyFormData {
     to: string;
 }
 
-export interface ISendCryptoCurrencyFormProps {
-    onSubmit: (values: ISendCryptoCurrencyFormData) => any;
-}
+export interface ISendCryptoCurrencyFormProps {}
 
 export interface ISendCryptoCurrencyFormState {}
 
 type SendCryptoCurrencyFormProps = ISendCryptoCurrencyFormProps &
-    InjectedFormProps<ISendCryptoCurrencyFormData, ISendCryptoCurrencyFormProps> &
     WithStyles;
 
 class SendCryptoCurrencyForm extends Component<SendCryptoCurrencyFormProps, ISendCryptoCurrencyFormState> {
@@ -35,37 +25,30 @@ class SendCryptoCurrencyForm extends Component<SendCryptoCurrencyFormProps, ISen
     public render() {
         const {
             classes,
-            handleSubmit,
-            onSubmit,
         } = this.props;
 
         return (
-            <Form onSubmit={handleSubmit(onSubmit)}>
-                <div className={classes.form}>
-                    <Field
-                        component={AddressField}
-                        label='To'
-                        name='to'
-                    />
-                    <Field
-                        component={TextField}
-                        label='Amount'
-                        name='amount'
-                    />
-                    <div className={classes.fee}>
-                        <div>
-                            <Field
-                                component={Switch}
-                                color='primary'
-                                name='fee'
-                            />
-                        </div>
-                        <div className={classes.fast}>
-                            Fast?
-                        </div>
+            <div className={classes.form}>
+                <AddressField
+                    label='To'
+                    name='to'
+                />
+                <TextField
+                    label='Amount'
+                    name='amount'
+                />
+                <div className={classes.fee}>
+                    <div>
+                        <Switch
+                            color='primary'
+                            name='fee'
+                        />
+                    </div>
+                    <div className={classes.fast}>
+                        Fast?
                     </div>
                 </div>
-            </Form>
+            </div>
         );
     }
 }

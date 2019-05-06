@@ -5,7 +5,6 @@ import {
 } from 'network';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { submit } from 'redux-form';
 import SendCryptoCurrencyDialog from '../../../components/views/crypto-currencies/SendCryptoCurrencyDialog';
 
 const mapStateToProps = (state: any, props: any) => {
@@ -34,7 +33,6 @@ const mapStateToProps = (state: any, props: any) => {
 const mapDispatchToProps = (dispatch: any) => {
     return bindActionCreators({
         fetchFee,
-        submit,
     }, dispatch);
 };
 

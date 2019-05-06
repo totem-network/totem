@@ -1,13 +1,7 @@
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import React, { Component, Fragment } from 'react';
-import { Mutation, Query } from "react-apollo";
-import { FormAction } from 'redux-form';
+import { Query } from 'react-apollo';
 import digitalAssetsQuery from '../../../queries/digitalAssets.graphql';
 import BottomButtons from '../../bottom-buttons/BottomButtons';
 import BottomButton from '../../bottom-buttons/Button';
@@ -17,9 +11,7 @@ import AddDigitalAssetDialog from './AddDigitalAssetDialog';
 import CategoryCard from './CategoryCard';
 import DigitalAsset from './DigitalAsset';
 
-export interface IDigitalAssetsViewProps {
-    addDigitalAssetSubmit: (form: string) => FormAction;
-}
+export interface IDigitalAssetsViewProps {}
 
 // TODO: When user clicks on Digital Assets in the menu, reset selectedAsset
 export interface IDigitalAssetsViewState {
@@ -34,19 +26,12 @@ class DigitalAssetsView extends Component<DigitalAssetsViewProps, IDigitalAssets
     constructor(props: DigitalAssetsViewProps, context?: any) {
         super(props, context);
 
-        this.addDigitalAsset = this.addDigitalAsset.bind(this);
         this.openAddDigitalAssetDialog = this.openAddDigitalAssetDialog.bind(this);
         this.closeAddDigitalAssetDialog = this.closeAddDigitalAssetDialog.bind(this);
 
         this.state = {
             addDigitalAssetDialog: false,
         };
-    }
-
-    public addDigitalAsset() {
-        const { addDigitalAssetSubmit } = this.props;
-
-        addDigitalAssetSubmit('addDigitalAsset');
     }
 
     public openAddDigitalAssetDialog() {
@@ -129,7 +114,6 @@ class DigitalAssetsView extends Component<DigitalAssetsViewProps, IDigitalAssets
                     </BottomButton>
                 </BottomButtons>
                 <AddDigitalAssetDialog
-                    addDigitalAssetSubmit={this.addDigitalAsset}
                     closeDialog={this.closeAddDigitalAssetDialog}
                     open={addDigitalAssetDialog}
                 />

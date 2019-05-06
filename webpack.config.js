@@ -23,17 +23,11 @@ const config = {
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
-                resolve: {
-                    mainFields: ['browser', 'main']
-                },
                 use: ['babel-loader']
             },
             {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
-                resolve: {
-                    mainFields: ['browser', 'main']
-                },
                 use: ['babel-loader', 'ts-loader']
             },
             {
@@ -111,7 +105,9 @@ const config = {
         })
     ],
     resolve: {
+        aliasFields: ['browser'],
         extensions: ['.mjs', '.ts', '.tsx', '.js', '.json'],
+        mainFields: ['browser', 'module', 'main'],
         modules: [
             path.resolve('./app/src'),
             path.resolve('./app/assets'),

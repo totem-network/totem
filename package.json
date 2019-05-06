@@ -1,7 +1,7 @@
 {
   "name": "totem",
   "version": "0.0.1",
-  "description": "Next generation OS",
+  "description": "Your digital life in one app",
   "main": "app/src/index.tsx",
   "build": {},
   "scripts": {
@@ -51,7 +51,6 @@
     "@types/react-router": "^4.4.5",
     "@types/react-router-dom": "^4.3.2",
     "@types/react-router-redux": "^5.0.18",
-    "@types/redux-form": "^8.1.1",
     "@types/redux-immutable": "^4.0.1",
     "@types/redux-logger": "^3.0.7",
     "@types/reselect": "^2.2.0",
@@ -123,6 +122,7 @@
     "apollo-client": "=2.4.12",
     "apollo-link": "^1.2.11",
     "apollo-link-schema": "^1.2.2",
+    "bignumber.js": "^8.1.1",
     "buffer-compare": "^1.1.1",
     "classnames": "^2.2.6",
     "connected-react-router": "^5.0.1",
@@ -135,6 +135,7 @@
     "ethers": "^4.0.27",
     "ethers-web3-bridge": "0.0.1",
     "file-type": "^10.11.0",
+    "formik": "^1.5.4",
     "graphql": "^14.2.1",
     "graphql-tools": "^4.0.4",
     "history": "^4.9.0",
@@ -162,7 +163,6 @@
     "redux": "^4.0.1",
     "redux-dynamic-modules": "^3.5.0",
     "redux-dynamic-modules-saga": "^3.5.0",
-    "redux-form": "^8.2.0",
     "redux-immutable": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-saga": "^0.16.0",
@@ -171,6 +171,9 @@
     "workbox-sw": "^4.3.0"
   },
   "externalDependencies": [
+    "bignumber.js",
+    "buffer-compare",
+    "idb-readable-stream",
     "isobject"
   ]
 }

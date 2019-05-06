@@ -4,7 +4,6 @@ import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/st
 import Table from '@material-ui/core/Table';
 import React, { Component, Fragment } from 'react';
 import { Query } from "react-apollo";
-import { FormAction } from 'redux-form';
 import RecieveDialog from '../../../containers/views/crypto-currencies/recieve/RecieveDialog';
 import cryptoCurrenciesQuery from '../../../queries/cryptoCurrencies.graphql';
 import BottomButtons from '../../bottom-buttons/BottomButtons';
@@ -17,9 +16,7 @@ import AddTokenDialog from './AddTokenDialog';
 import Head from './Head';
 import Row from './Row';
 
-export interface ICryptoCurrenciesViewProps {
-    addTokenSubmit: (form: string) => FormAction;
-}
+export interface ICryptoCurrenciesViewProps {}
 
 export interface ICryptoCurrenciesViewState {
     addTokenDialog: boolean;
@@ -33,7 +30,6 @@ class CryptoCurrenciesView extends Component<CryptoCurrenciesViewProps, ICryptoC
     constructor(props: CryptoCurrenciesViewProps, context?: any) {
         super(props, context);
 
-        this.addToken = this.addToken.bind(this);
         this.openAddTokenDialog = this.openAddTokenDialog.bind(this);
         this.closeAddTokenDialog = this.closeAddTokenDialog.bind(this);
         this.openRecieveDialog = this.openRecieveDialog.bind(this);
@@ -43,12 +39,6 @@ class CryptoCurrenciesView extends Component<CryptoCurrenciesViewProps, ICryptoC
             addTokenDialog: false,
             recieveDialog: false,
         };
-    }
-
-    public addToken() {
-        const { addTokenSubmit } = this.props;
-
-        addTokenSubmit('addToken');
     }
 
     public openAddTokenDialog() {
@@ -149,7 +139,6 @@ class CryptoCurrenciesView extends Component<CryptoCurrenciesViewProps, ICryptoC
                     </BottomButton>
                 </BottomButtons>
                 <AddTokenDialog
-                    addTokenSubmit={this.addToken}
                     closeDialog={this.closeAddTokenDialog}
                     open={addTokenDialog}
                 />

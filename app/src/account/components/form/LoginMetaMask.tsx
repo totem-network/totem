@@ -3,21 +3,13 @@ import Paper from '@material-ui/core/Paper';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
-import React, { Component, Fragment } from 'react';
-import {
-    Form,
-    InjectedFormProps,
-} from 'redux-form';
-import { PasswordField } from 'ui';
+import { Form, Formik } from 'formik';
+import React, { Component } from 'react';
 import {
     ILoginMetaMaskAction,
 } from '../../actions/login';
 import Avatar from '../../containers/Avatar';
 import Name from '../../containers/Name';
-import CreateAccount from './CreateAccount';
-
-// TODO: TypeScript fix
-const Field = require('redux-form/immutable').Field;
 
 export interface ILoginMetaMaskData {
     password: string;
@@ -25,7 +17,6 @@ export interface ILoginMetaMaskData {
 
 export interface ILoginMetaMaskProps {
     account: string;
-    handleSubmit?: any;
     image?: string;
     login: () => ILoginMetaMaskAction;
     name?: string;
@@ -34,9 +25,7 @@ export interface ILoginMetaMaskProps {
 
 interface ILoginMetaMaskState {}
 
-type LoginMetaMaskProps = ILoginMetaMaskProps &
-    InjectedFormProps<ILoginMetaMaskData, ILoginMetaMaskProps> &
-    WithStyles;
+type LoginMetaMaskProps = ILoginMetaMaskProps & WithStyles;
 
 class LoginMetaMask extends Component<LoginMetaMaskProps, ILoginMetaMaskState> {
 
@@ -46,10 +35,10 @@ class LoginMetaMask extends Component<LoginMetaMaskProps, ILoginMetaMaskState> {
     ) {
         super(props, context);
 
-        this.onSubmit = this.onSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    public onSubmit() {
+    public handleSubmit() {
         this.props.login();
     }
 
@@ -129,14 +118,19 @@ class LoginMetaMask extends Component<LoginMetaMaskProps, ILoginMetaMaskState> {
         }
 
         return (
-            <Form onSubmit={this.props.handleSubmit(this.onSubmit)}>
-                {this.renderAvatar()}
-                <div className={buttonWrapper}>
-                    <Button type='submit' color='primary' variant="contained">
-                        Login
-                    </Button>
-                </div>
-            </Form>
+            <Formik
+                initialValues={{}}
+                onSubmit={this.handleSubmit}
+            >
+                <Form>
+                    {this.renderAvatar()}
+                    <div className={buttonWrapper}>
+                        <Button type='submit' color='primary' variant="contained">
+                            Login
+                        </Button>
+                    </div>
+                </Form>
+            </Formik>
         );
     }
 
@@ -151,14 +145,14 @@ class LoginMetaMask extends Component<LoginMetaMaskProps, ILoginMetaMaskState> {
         // TODO: if no 3box profile render createProfileForm
 
         return (
-            <Fragment>
+            <>
                 <div className={avatar}>
                     <Avatar address={account} />
                 </div>
                 <div className={name}>
                     <Name address={account} />
                 </div>
-            </Fragment>
+            </>
         );
     }
 }

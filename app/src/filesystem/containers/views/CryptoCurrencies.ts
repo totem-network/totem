@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { submit } from 'redux-form';
 import CryptoCurrencies from '../../components/views/crypto-currencies/View';
 
 const mapStateToProps = (state: any) => {
@@ -8,9 +7,7 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = (dispatch: any) => {
-    return bindActionCreators({
-        addTokenSubmit: submit,
-    }, dispatch);
+    return bindActionCreators({}, dispatch);
 };
 
 export default connect(

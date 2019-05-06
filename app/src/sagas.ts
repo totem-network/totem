@@ -1,5 +1,5 @@
 import { sagas as accountSagas } from 'account';
-import { initializeSaga } from 'app';
+import { appSagas, initializeSaga } from 'app';
 import { sagas as applicationsSagas } from 'applications';
 import { sagas as networkSagas } from 'network';
 import createSagaMiddleware from 'redux-saga';
@@ -9,6 +9,7 @@ export const sagaMiddleware = createSagaMiddleware();
 
 export default function* startupSaga() {
     yield all([
+        fork(appSagas),
         fork(accountSagas),
         fork(applicationsSagas),
         fork(networkSagas),

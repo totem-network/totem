@@ -4,7 +4,6 @@ import { connectRouter, RouterState } from 'connected-react-router/immutable';
 import { IImmutableFileSystemState, reducer as filesystemReducer } from 'filesystem';
 import { IImmutableNetworkState, reducer as networkReducer } from 'network';
 import { AnyAction, Reducer } from 'redux';
-import { reducer as formReducer } from 'redux-form/immutable';
 import { combineReducers } from 'redux-immutable';
 import { IImmutableStateMap } from 'redux-utils';
 import appReducer, { IImmutableAppState } from './app/reducers';
@@ -14,9 +13,8 @@ interface IState {
     app: IImmutableAppState;
     applications: IImmutableApplicationsState;
     filesystem: IImmutableFileSystemState;
-    form: any;
     network: IImmutableNetworkState;
-    router: RouterState;
+    router: any;
 }
 
 export interface IImmutableState extends IImmutableStateMap<IState> {}
@@ -27,7 +25,6 @@ export default (history: any) => combineReducers<IImmutableState>(
         app: appReducer,
         applications: applicationsReducer,
         filesystem: filesystemReducer,
-        form: formReducer,
         network: networkReducer,
         router: connectRouter(history),
     } as any,

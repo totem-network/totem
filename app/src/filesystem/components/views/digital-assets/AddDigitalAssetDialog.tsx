@@ -5,13 +5,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component, Fragment } from 'react';
+import { Form, Formik } from 'formik';
+import React, { Component } from 'react';
 import { Mutation } from "react-apollo";
-import AddDigitalAssetForm from '../../../containers/views/digital-assets/AddDigitalAssetForm';
+import { TextField } from 'ui';
 import addDigitalAssetMutation from '../../../mutations/addDigitalAsset.graphql';
 
 export interface IAddDigitalAssetDialogProps {
-    addDigitalAssetSubmit: () => any;
     closeDialog: () => any;
     open: boolean;
 }
@@ -24,7 +24,6 @@ class AddDigitalAssetDialog extends Component<AddDigitalAssetDialogProps, IAddDi
 
     public render() {
         const {
-            addDigitalAssetSubmit,
             closeDialog,
             open,
         } = this.props;
@@ -43,37 +42,45 @@ class AddDigitalAssetDialog extends Component<AddDigitalAssetDialogProps, IAddDi
                                     'digitalAssets',
                                 ],
                                 variables: {
-                                    contract: values.get('contract'),
+                                    contract: values.contract,
                                 },
                             });
                             closeDialog();
                         };
 
                         return (
-                            <Fragment>
-                                <DialogTitle>
-                                    Add digital asset
-                                </DialogTitle>
-                                <DialogContent>
-                                    <AddDigitalAssetForm
-                                        onSubmit={handleSubmit}
-                                    />
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button
-                                        onClick={closeDialog}
-                                    >
-                                        Cancel
-                                    </Button>
-                                    <Button
-                                        color='primary'
-                                        onClick={addDigitalAssetSubmit}
-                                        variant='contained'
-                                    >
-                                        Add asset
-                                    </Button>
-                                </DialogActions>
-                            </Fragment>
+                            <Formik
+                                initialValues={{
+                                    contract: '',
+                                }}
+                                onSubmit={handleSubmit}
+                            >
+                                <Form>
+                                    <DialogTitle>
+                                        Add digital asset
+                                    </DialogTitle>
+                                    <DialogContent>
+                                        <TextField
+                                            label='Address or ENS'
+                                            name='contract'
+                                        />
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button
+                                            onClick={closeDialog}
+                                        >
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            color='primary'
+                                            type='submit'
+                                            variant='contained'
+                                        >
+                                            Add asset
+                                        </Button>
+                                    </DialogActions>
+                                </Form>
+                            </Formik>
                         );
                     }}
                 </Mutation>

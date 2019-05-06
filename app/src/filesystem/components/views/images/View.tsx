@@ -4,16 +4,13 @@ import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/st
 import Table from '@material-ui/core/Table';
 import React, { Component, Fragment } from 'react';
 import { Query } from "react-apollo";
-import { FormAction } from 'redux-form';
 import cryptoCurrenciesQuery from '../../../queries/cryptoCurrencies.graphql';
 import BottomButtons from '../../bottom-buttons/BottomButtons';
 import BottomButton from '../../bottom-buttons/Button';
 import Error from '../../Error';
 import LoadingBar from '../../LoadingBar';
 
-export interface IImagesViewProps {
-    addTokenSubmit: (form: string) => FormAction;
-}
+export interface IImagesViewProps {}
 
 export interface IImagesViewState {
     addTokenDialog: boolean;
@@ -36,9 +33,7 @@ class ImagesView extends Component<ImagesViewProps, IImagesViewState> {
     }
 
     public addToken() {
-        const { addTokenSubmit } = this.props;
-
-        addTokenSubmit('addToken');
+        //
     }
 
     public openAddTokenDialog() {

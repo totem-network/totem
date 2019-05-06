@@ -5,13 +5,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component, Fragment } from 'react';
+import { Form, Formik } from 'formik';
+import React, { Component } from 'react';
 import { Mutation } from "react-apollo";
-import AddTokenForm from '../../../containers/views/crypto-currencies/AddTokenForm';
+import { TextField } from 'ui';
 import addTokenMutation from '../../../mutations/addToken.graphql';
 
 export interface IAddTokenDialogProps {
-    addTokenSubmit: () => any;
     closeDialog: () => any;
     open: boolean;
 }
@@ -24,7 +24,6 @@ class AddTokenDialog extends Component<AddTokenDialogProps, IAddTokenDialogState
 
     public render() {
         const {
-            addTokenSubmit,
             closeDialog,
             open,
         } = this.props;
@@ -47,37 +46,45 @@ class AddTokenDialog extends Component<AddTokenDialogProps, IAddTokenDialogState
                                     'cryptoCurrencies',
                                 ],
                                 variables: {
-                                    contract: values.get('contract'),
+                                    contract: values.contract,
                                 },
                             });
                             closeDialog();
                         };
 
                         return (
-                            <Fragment>
-                                <DialogTitle>
-                                    Add token
-                                </DialogTitle>
-                                <DialogContent>
-                                    <AddTokenForm
-                                        onSubmit={handleSubmit}
-                                    />
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button
-                                        onClick={closeDialog}
-                                    >
-                                        Cancel
-                                    </Button>
-                                    <Button
-                                        color='primary'
-                                        onClick={addTokenSubmit}
-                                        variant='contained'
-                                    >
-                                        Add Token
-                                    </Button>
-                                </DialogActions>
-                            </Fragment>
+                            <Formik
+                                initialValues={{
+                                    contract: '',
+                                }}
+                                onSubmit={handleSubmit}
+                            >
+                                <Form>
+                                    <DialogTitle>
+                                        Add token
+                                    </DialogTitle>
+                                    <DialogContent>
+                                        <TextField
+                                            label='Address or ENS'
+                                            name='contract'
+                                        />
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button
+                                            onClick={closeDialog}
+                                        >
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            color='primary'
+                                            type='submit'
+                                            variant='contained'
+                                        >
+                                            Add Token
+                                        </Button>
+                                    </DialogActions>
+                                </Form>
+                            </Formik>
                         );
                     }}
                 </Mutation>

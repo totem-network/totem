@@ -5,10 +5,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component, Fragment } from 'react';
+import { Form, Formik } from 'formik';
+import React, { Component } from 'react';
 import { Mutation } from "react-apollo";
-import SendDigitalAssetForm from '../../../containers/views/digital-assets/SendDigitalAssetForm';
 import sendDigitalAssetMutation from '../../../mutations/sendDigitalAsset.graphql';
+import SendDigitalAssetForm from './SendDigitalAssetForm';
 
 export interface ISendDigitalAssetDialogProps {
     assetImage: string;
@@ -21,7 +22,6 @@ export interface ISendDigitalAssetDialogProps {
     network: string;
     open: boolean;
     platform: string;
-    submit: (form: string) => any;
     token: string;
 }
 
@@ -31,12 +31,6 @@ type SendDigitalAssetDialogProps = ISendDigitalAssetDialogProps & WithStyles;
 
 class SendDigitalAssetDialog extends Component<SendDigitalAssetDialogProps, ISendDigitalAssetDialogState> {
 
-    constructor(props: SendDigitalAssetDialogProps, context?: any) {
-        super(props, context);
-
-        this.submit = this.submit.bind(this);
-    }
-
     public componentDidMount() {
         const {
             fetchFee,
@@ -45,10 +39,6 @@ class SendDigitalAssetDialog extends Component<SendDigitalAssetDialogProps, ISen
         } = this.props;
 
         fetchFee(platform, network);
-    }
-
-    public submit() {
-        this.props.submit('sendDigitalAsset');
     }
 
     public render() {
@@ -77,7 +67,7 @@ class SendDigitalAssetDialog extends Component<SendDigitalAssetDialogProps, ISen
                     {(sendDigitalAsset: any) => {
                         const handleSubmit = (values: any) => {
                             let fee = gasPriceSafeLow;
-                            if (values.get('fee')) {
+                            if (values.fee) {
                                 fee = gasPriceFast;
                             }
 
@@ -85,7 +75,7 @@ class SendDigitalAssetDialog extends Component<SendDigitalAssetDialogProps, ISen
                                 variables: {
                                     contract,
                                     fee,
-                                    to: values.get('to'),
+                                    to: values.to,
                                     token,
                                 },
                             });
@@ -93,32 +83,39 @@ class SendDigitalAssetDialog extends Component<SendDigitalAssetDialogProps, ISen
                         };
 
                         return (
-                            <Fragment>
-                                <DialogTitle>
-                                    Send {assetName}
-                                </DialogTitle>
-                                <DialogContent>
-                                    <SendDigitalAssetForm
-                                        assetImage={assetImage}
-                                        onSubmit={handleSubmit}
-                                        token={token}
-                                    />
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button
-                                        onClick={closeDialog}
-                                    >
-                                        Cancel
-                                    </Button>
-                                    <Button
-                                        color='primary'
-                                        onClick={this.submit}
-                                        variant='contained'
-                                    >
-                                        Send
-                                    </Button>
-                                </DialogActions>
-                            </Fragment>
+                            <Formik
+                                initialValues={{
+                                    fee: false,
+                                    to: '',
+                                }}
+                                onSubmit={handleSubmit}
+                            >
+                                <Form>
+                                    <DialogTitle>
+                                        Send {assetName}
+                                    </DialogTitle>
+                                    <DialogContent>
+                                        <SendDigitalAssetForm
+                                            assetImage={assetImage}
+                                            token={token}
+                                        />
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button
+                                            onClick={closeDialog}
+                                        >
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            color='primary'
+                                            type='submit'
+                                            variant='contained'
+                                        >
+                                            Send
+                                        </Button>
+                                    </DialogActions>
+                                </Form>
+                            </Formik>
                         );
                     }}
                 </Mutation>

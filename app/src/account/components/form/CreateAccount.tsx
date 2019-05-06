@@ -1,17 +1,10 @@
 import Button from '@material-ui/core/Button';
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
+import { Form, Formik } from 'formik';
 import React, { Component } from 'react';
-import {
-    Form,
-    InjectedFormProps,
-} from 'redux-form';
 import {
     ICreateAccountAction,
 } from './../../actions/create';
-
-// TODO: TypeScript fix
-const Field = require('redux-form/immutable').Field;
-const Box = require('3box');
 
 export interface ICreateAccountData {
     name: string;
@@ -25,7 +18,6 @@ export interface ICreateAccountProps {
 interface ICreateAccountState {}
 
 type CreateAccountProps = ICreateAccountProps &
-    InjectedFormProps<ICreateAccountData, ICreateAccountProps> &
     WithStyles;
 
 class CreateAccount extends Component<CreateAccountProps, ICreateAccountState> {
@@ -36,10 +28,10 @@ class CreateAccount extends Component<CreateAccountProps, ICreateAccountState> {
     ) {
         super(props, context);
 
-        this.onSubmit = this.onSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    public onSubmit() {
+    public handleSubmit() {
         this.props.createAccount();
     }
 
@@ -52,14 +44,18 @@ class CreateAccount extends Component<CreateAccountProps, ICreateAccountState> {
         const { buttonWrapper } = this.props.classes;
 
         return (
-            <Form onSubmit={this.props.handleSubmit(this.onSubmit)}>
-                <Field />
-                <div className={buttonWrapper}>
-                    <Button type='submit' color='primary' variant="contained">
-                        Create Profile
-                    </Button>
-                </div>
-            </Form>
+            <Formik
+                initialValues={{}}
+                onSubmit={this.handleSubmit}
+            >
+                <Form>
+                    <div className={buttonWrapper}>
+                        <Button type='submit' color='primary' variant="contained">
+                            Create Profile
+                        </Button>
+                    </div>
+                </Form>
+            </Formik>
         );
     }
 }
