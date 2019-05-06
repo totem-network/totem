@@ -1,0 +1,14 @@
+{
+    "extends": ["tslint:latest", "tslint-react"],
+    "enable": true,
+    "rules": {
+        "jsx-no-multiline-js": false,
+        "no-empty-interface": false,
+        "no-implicit-dependencies": false,
+        "no-object-literal-type-assertion": false,
+        "no-submodule-imports": false,
+        "no-var-requires": false,
+        "object-literal-key-quotes": false,
+        "quotemark": ["single", "avoid-escape"]
+    }
+}
