@@ -105,6 +105,9 @@ const config = {
         })
     ],
     resolve: {
+        alias: {
+            '3box': path.resolve('./node_modules/3box/dist/3box.min.js'),
+        },
         aliasFields: ['browser'],
         extensions: ['.mjs', '.ts', '.tsx', '.js', '.json'],
         mainFields: ['browser', 'module', 'main'],

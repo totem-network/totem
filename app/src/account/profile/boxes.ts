@@ -15,7 +15,7 @@ class Boxes {
 
     public async openBox(address: string, provider: any) {
         if (!this.box) {
-            const boxImport = await import(/* webpackChunkName: '3box' */ '3box/dist/3box.min.js');
+            const boxImport = await import(/* webpackChunkName: '3box' */ '3box');
 
             this.box = boxImport.default;
         }
