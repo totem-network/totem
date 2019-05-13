@@ -63,6 +63,7 @@ const getERC721Contracts = async (account: string, provider: Provider) => {
     // TODO: make 3box compatible with ethers.js providers
 
     if (!(
+        window &&
         (window as any).ethereum
     )) {
         return [];
@@ -354,6 +355,7 @@ export default {
             // TODO: make 3box compatible with ethers.js providers
 
             if (!(
+                window &&
                 (window as any).ethereum
             )) {
                 return {

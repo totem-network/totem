@@ -14,6 +14,7 @@ const getERC20Contracts = async (account: string, provider: Provider) => {
     // TODO: make 3box compatible with ethers.js providers
 
     if (!(
+        window &&
         (window as any).ethereum
     )) {
         return [];
@@ -95,6 +96,7 @@ const sendEther = async (amount: string, to: string, fee: string) => {
     const account = accountAddressSelector(state);
 
     if (!(
+        window &&
         (window as any).ethereum
     )) {
         return false;
@@ -185,6 +187,7 @@ export default {
             // TODO: make 3box compatible with ethers.js providers
 
             if (!(
+                window &&
                 (window as any).ethereum
             )) {
                 return {
