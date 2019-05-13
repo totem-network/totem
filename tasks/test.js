@@ -68,9 +68,6 @@ gulp.task('test:integration', function() {
         .once('error', err => {
             console.error(err);
             process.exit(1);
-        })
-        .once('end', () => {
-            process.exit();
         });
 });
 
@@ -86,8 +83,5 @@ gulp.task('test:unit', function() {
         .once('error', err => {
             console.error(err);
             process.exit(1);
-        })
-        .once('end', () => {
-            process.exit();
         });
 });
