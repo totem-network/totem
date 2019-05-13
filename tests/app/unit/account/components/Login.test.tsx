@@ -1,6 +1,6 @@
 import '@babel/polyfill';
 import Login from 'account/components/Login';
-import LoginPrivateKey from 'account/containers/LoginPrivateKey';
+import LoginMessage from 'account/components/LoginMessage';
 import {
     expect,
     use as chaiUse,
@@ -22,10 +22,10 @@ chaiUse(chaiEnzyme());
 
 describe('Account components', () => {
     describe('<Login />', () => {
-        it('should render the login forms', () => {
+        it('should render the login message', () => {
             const wrapper = shallow(<Login />);
 
-            // expect(wrapper.find(LoginPrivateKey)).to.have.lengthOf(1);
+            expect(wrapper.dive().find(LoginMessage)).to.have.lengthOf(1);
         });
     });
 });
