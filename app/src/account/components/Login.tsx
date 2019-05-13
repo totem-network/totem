@@ -69,6 +69,7 @@ class Login extends Component<LoginProps, ILoginState> {
     protected renderLoginForm() {
         // const { method } = this.state;
 
+        // TODO: remove process.type and query it from redux store -> makes it testable
         if (process.type !== 'renderer') {
             return (
                 <LoginMetaMask />
