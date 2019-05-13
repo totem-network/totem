@@ -7,10 +7,11 @@ import 'mocha';
 describe('Account selectors', () => {
     describe('loggedIn', () => {
         it('should return true when an account address exists', () => {
-            // TODO: add real address
             const state = Map({
                 account: Map({
-                    address: '0xe3...',
+                    address: Map({
+                        account: '0x738f85ba17262aa15bcd1ec3129b7f86dafd9fc9',
+                    }),
                 }),
             }) as any;
 
@@ -24,7 +25,9 @@ describe('Account selectors', () => {
         it('should return false when no account address exists', () => {
             const state = Map({
                 account: Map({
-                    address: null,
+                    address: Map({
+                        account: null,
+                    }),
                 }),
             }) as any;
 
