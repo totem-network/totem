@@ -11,7 +11,7 @@ import 'mocha';
 describe('Account actions', () => {
     describe('login', () => {
         it('should create an action to login with a private key', () => {
-            const privateKey = 'someid';
+            const privateKey = '0xeb318bc8d92cbe47029136b553c7ddcddbbc50ed7d055bc7b469effb0af55862';
 
             const expectedAction = {
                 payload: {
@@ -26,7 +26,7 @@ describe('Account actions', () => {
         });
 
         it('should create an action for a successful login', () => {
-            const address = 'someid';
+            const address = '0x738f85ba17262aa15bcd1ec3129b7f86dafd9fc9';
 
             const expectedAction = {
                 payload: {
