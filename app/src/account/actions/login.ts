@@ -23,7 +23,7 @@ export function loginPrivateKey(privateKey: string): ILoginPrivateKeyAction {
     };
 }
 
-// login with private key
+// login with meta mask
 
 export type LOGIN_METAMASK = 'account/LOGIN_METAMASK';
 export const LOGIN_METAMASK: LOGIN_METAMASK = 'account/LOGIN_METAMASK';
