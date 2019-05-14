@@ -4,7 +4,7 @@ import Select from '@material-ui/core/Select';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
-import React, { Component, ComponentType } from 'react';
+import React, { Component } from 'react';
 import LoginMetaMask from './../containers/LoginMetaMask';
 import LoginPrivateKey from './../containers/LoginPrivateKey';
 import LoginMessage from './LoginMessage';
