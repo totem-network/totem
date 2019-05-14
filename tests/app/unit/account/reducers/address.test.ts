@@ -1,5 +1,9 @@
 import '@babel/polyfill';
-import { LOGIN_SUCCESS } from 'account/actions/login';
+import {
+    ILoginSuccessAction,
+    LoginAction,
+    LOGIN_SUCCESS,
+} from 'account/actions/login';
 import addressReducer from 'account/reducers/address';
 import {
     expect,
@@ -14,8 +18,7 @@ chaiUse(chaiImmutable);
 describe('Account reducers', () => {
     describe('address', () => {
         it('should return the initial state', () => {
-            // TODO: add type
-            const action = {
+            const action: LoginAction = {
                 type: '',
             };
 
@@ -27,8 +30,7 @@ describe('Account reducers', () => {
         });
 
         it('should set the address of the state', () => {
-            // TODO: add type
-            const action = {
+            const action: ILoginSuccessAction = {
                 payload: {
                     address: '0x738f85ba17262aa15bcd1ec3129b7f86dafd9fc9',
                 },
