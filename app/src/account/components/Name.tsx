@@ -1,4 +1,4 @@
-import React, { Component, ComponentType } from 'react';
+import React, { Component } from 'react';
 
 export interface INameProps {
     address: string;
