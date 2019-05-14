@@ -119,7 +119,7 @@ describe('Account components', () => {
                 ),
             );
 
-            expect(resolveDomainSpy.calledOnceWithExactly(domain)).to.be.equal(true);
+            expect(resolveDomainSpy.calledOnceWithExactly(domain)).to.be.true;
         });
 
         it('should resolve the domain when set', () => {
@@ -134,14 +134,14 @@ describe('Account components', () => {
                 ),
             );
 
-            expect(resolveDomainSpy.notCalled).to.be.equal(true);
+            expect(resolveDomainSpy.notCalled).to.be.true;
 
             wrapper.setProps({
                 domain,
                 resolveDomain: resolveDomainSpy,
             });
 
-            expect(resolveDomainSpy.calledOnceWithExactly(domain)).to.be.equal(true);
+            expect(resolveDomainSpy.calledOnceWithExactly(domain)).to.be.true;
         });
     });
 });
