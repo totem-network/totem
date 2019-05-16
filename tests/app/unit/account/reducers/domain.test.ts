@@ -30,14 +30,14 @@ describe('Account reducers', () => {
         it('should add a domain to the state', () => {
             const action: IAddDomainAction = {
                 payload: {
-                    address: '0x738f85ba17262aa15bcd1ec3129b7f86dafd9fc9',
+                    address: '0x738f85bA17262aa15BcD1Ec3129b7f86DafD9Fc9',
                     domain: 'totem.eth',
                 },
                 type: ADD_DOMAIN,
             };
 
             const expectedState = fromJS({
-                'totem.eth': '0x738f85ba17262aa15bcd1ec3129b7f86dafd9fc9',
+                'totem.eth': '0x738f85bA17262aa15BcD1Ec3129b7f86DafD9Fc9',
             });
 
             expect(domainsReducer(undefined, action)).to.be.deep.equal(expectedState);

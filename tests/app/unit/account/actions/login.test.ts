@@ -42,7 +42,7 @@ describe('Account actions', () => {
         });
 
         it('should create an action for a successful login', () => {
-            const address = '0x738f85ba17262aa15bcd1ec3129b7f86dafd9fc9';
+            const address = '0x738f85bA17262aa15BcD1Ec3129b7f86DafD9Fc9';
 
             const expectedAction: ILoginSuccessAction = {
                 payload: {

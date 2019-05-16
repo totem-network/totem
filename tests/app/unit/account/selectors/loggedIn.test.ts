@@ -10,7 +10,7 @@ describe('Account selectors', () => {
             const state = Map({
                 account: Map({
                     address: Map({
-                        account: '0x738f85ba17262aa15bcd1ec3129b7f86dafd9fc9',
+                        account: '0x738f85bA17262aa15BcD1Ec3129b7f86DafD9Fc9',
                     }),
                 }),
             }) as any;

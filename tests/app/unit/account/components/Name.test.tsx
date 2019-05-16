@@ -22,7 +22,7 @@ chaiUse(chaiEnzyme());
 describe('Account components', () => {
     describe('<Name />', () => {
         it('should render the name', () => {
-            const address = '0x738f85ba17262aa15bcd1ec3129b7f86dafd9fc9';
+            const address = '0x738f85bA17262aa15BcD1Ec3129b7f86DafD9Fc9';
             const name = 'Totem';
 
             const wrapper = render(
@@ -38,7 +38,7 @@ describe('Account components', () => {
         });
 
         it('should render the address', () => {
-            const address = '0x738f85ba17262aa15bcd1ec3129b7f86dafd9fc9';
+            const address = '0x738f85bA17262aa15BcD1Ec3129b7f86DafD9Fc9';
 
             const wrapper = render(
                 (

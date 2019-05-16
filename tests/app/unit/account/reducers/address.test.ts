@@ -32,13 +32,13 @@ describe('Account reducers', () => {
         it('should set the address of the state', () => {
             const action: ILoginSuccessAction = {
                 payload: {
-                    address: '0x738f85ba17262aa15bcd1ec3129b7f86dafd9fc9',
+                    address: '0x738f85bA17262aa15BcD1Ec3129b7f86DafD9Fc9',
                 },
                 type: LOGIN_SUCCESS,
             };
 
             const expectedState = fromJS({
-                account: '0x738f85ba17262aa15bcd1ec3129b7f86dafd9fc9',
+                account: '0x738f85bA17262aa15BcD1Ec3129b7f86DafD9Fc9',
             });
 
             expect(addressReducer(undefined, action)).to.be.deep.equal(expectedState);
