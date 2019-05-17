@@ -1,6 +1,5 @@
 import '@babel/polyfill';
-import AvatarComponent from 'account/components/Avatar';
-import Avatar from 'account/containers/Avatar';
+import Name from 'account/containers/Name';
 import {
     expect,
     use as chaiUse,
@@ -16,7 +15,6 @@ import 'mocha';
 import React from 'react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { spy } from 'sinon';
 
 configureEnzyme({
     adapter: new Adapter(),
@@ -27,42 +25,16 @@ chaiUse(chaiEnzyme());
 const mockStore = configureMockStore();
 
 describe('Account containers', () => {
-    describe('<Avatar />', () => {
-        it('should resolve the domain when mounted', () => {
+    describe('<Name />', () => {
+        it('should render the name', () => {
             const address = '0x738f85bA17262aa15BcD1Ec3129b7f86DafD9Fc9';
-            const domain = 'totem.eth';
-
-            const store = mockStore(Map({
-                account: Map({
-                    domains: Map({
-                        [domain]: address,
-                    }),
-                    profiles: Map({}),
-                }),
-            }));
-
-            const wrapper = mount(
-                (   
-                    <Provider store={store}>
-                        <Avatar
-                            domain={domain}
-                        />
-                    </Provider>
-                ),
-            );
-
-            expect(wrapper.find(AvatarComponent).props().address).to.be.equal(address);
-        });
-
-        it('should pass the image to the component', () => {
-            const address = '0x738f85bA17262aa15BcD1Ec3129b7f86DafD9Fc9';
-            const image = 'https://ipfs.infura.io/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG';
+            const name = 'Totem';
 
             const store = mockStore(Map({
                 account: Map({
                     profiles: Map({
                         [address]: {
-                            image,
+                            name,
                         },
                     }),
                 }),
@@ -71,14 +43,36 @@ describe('Account containers', () => {
             const wrapper = mount(
                 (   
                     <Provider store={store}>
-                        <Avatar
+                        <Name
                             address={address}
                         />
                     </Provider>
                 ),
             );
 
-            expect(wrapper.find(AvatarComponent).props().image).to.be.equal(image);
+            expect(wrapper.text()).to.be.equal(name);
+        });
+
+        it('should render the address', () => {
+            const address = '0x738f85bA17262aa15BcD1Ec3129b7f86DafD9Fc9';
+
+            const store = mockStore(Map({
+                account: Map({
+                    profiles: Map({}),
+                }),
+            }));
+
+            const wrapper = mount(
+                (   
+                    <Provider store={store}>
+                        <Name
+                            address={address}
+                        />
+                    </Provider>
+                ),
+            );
+
+            expect(wrapper.text()).to.be.equal(address);
         });
     });
 });

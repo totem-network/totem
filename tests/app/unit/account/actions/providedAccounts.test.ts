@@ -1,7 +1,6 @@
 import '@babel/polyfill';
 import {
     ISetProvidedAccountsAction,
-    SET_PROVIDED_ACCOUNTS,
     setProvidedAccounts,
 } from 'account/actions/providedAccounts';
 import { expect } from 'chai';
@@ -18,7 +17,7 @@ describe('Account actions', () => {
                 payload: {
                     accounts,
                 },
-                type: SET_PROVIDED_ACCOUNTS,
+                type: 'account/SET_PROVIDED_ACCOUNTS',
             };
 
             expect(

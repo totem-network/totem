@@ -1,10 +1,8 @@
 import '@babel/polyfill';
 import {
-    ADD_DOMAIN,
     addDomain,
     IAddDomainAction,
     IResolveDomainAction,
-    RESOLVE_DOMAIN,
     resolveDomain,
 } from 'account/actions/domain';
 import { expect } from 'chai';
@@ -21,7 +19,7 @@ describe('Account actions', () => {
                     address,
                     domain,
                 },
-                type: ADD_DOMAIN,
+                type: 'account/ADD_DOMAIN',
             };
 
             expect(
@@ -36,7 +34,7 @@ describe('Account actions', () => {
                 payload: {
                     domain,
                 },
-                type: RESOLVE_DOMAIN,
+                type: 'account/RESOLVE_DOMAIN',
             };
 
             expect(

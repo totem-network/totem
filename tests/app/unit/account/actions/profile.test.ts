@@ -1,6 +1,5 @@
 import '@babel/polyfill';
 import {
-    ADD_PROFILE,
     addProfile,
     IAddProfileAction,
 } from 'account/actions/profile';
@@ -20,7 +19,7 @@ describe('Account actions', () => {
                     image,
                     name,
                 },
-                type: ADD_PROFILE,
+                type: 'account/ADD_PROFILE',
             };
 
             expect(

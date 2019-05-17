@@ -3,9 +3,6 @@ import {
     ILoginMetaMaskAction,
     ILoginPrivateKeyAction,
     ILoginSuccessAction,
-    LOGIN_METAMASK,
-    LOGIN_PRIVATE_KEY,
-    LOGIN_SUCCESS,
     loginMetaMask,
     loginPrivateKey,
     loginSuccess,
@@ -22,7 +19,7 @@ describe('Account actions', () => {
                 payload: {
                     privateKey,
                 },
-                type: LOGIN_PRIVATE_KEY,
+                type: 'account/LOGIN_PRIVATE_KEY',
             };
 
             expect(
@@ -33,7 +30,7 @@ describe('Account actions', () => {
         it('should create an action to login with MetaMask', () => {
             const expectedAction: ILoginMetaMaskAction = {
                 payload: {},
-                type: LOGIN_METAMASK,
+                type: 'account/LOGIN_METAMASK',
             };
 
             expect(
@@ -48,7 +45,7 @@ describe('Account actions', () => {
                 payload: {
                     address,
                 },
-                type: LOGIN_SUCCESS,
+                type: 'account/LOGIN_SUCCESS',
             };
 
             expect(

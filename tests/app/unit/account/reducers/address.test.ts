@@ -2,7 +2,6 @@ import '@babel/polyfill';
 import {
     ILoginSuccessAction,
     LoginAction,
-    LOGIN_SUCCESS,
 } from 'account/actions/login';
 import addressReducer from 'account/reducers/address';
 import {
@@ -10,7 +9,7 @@ import {
     use as chaiUse,
 } from 'chai';
 import chaiImmutable from 'chai-immutable';
-import { fromJS, List } from 'immutable';
+import { fromJS } from 'immutable';
 import 'mocha';
 
 chaiUse(chaiImmutable);
@@ -34,7 +33,7 @@ describe('Account reducers', () => {
                 payload: {
                     address: '0x738f85bA17262aa15BcD1Ec3129b7f86DafD9Fc9',
                 },
-                type: LOGIN_SUCCESS,
+                type: 'account/LOGIN_SUCCESS',
             };
 
             const expectedState = fromJS({
