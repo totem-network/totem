@@ -1,33 +1,76 @@
 import '@babel/polyfill';
-import loginSaga from 'account/sagas/login';
+import { loginSuccess } from 'account/actions/login';
+import loginSaga, {
+    createWallet,
+    getProvidedAccounts,
+    loginWithMetaMask,
+    loginWithPrivateKey,
+} from 'account/sagas/login';
 import { expect } from 'chai';
-import { Map } from 'immutable';
+import { utils } from 'ethers';
 import 'mocha';
-import { runSaga } from 'redux-saga';
-import { stub } from 'sinon';
+import { call, put, takeLatest } from 'redux-saga/effects';
 
 describe('Account sagas', () => {
     describe('login', () => {
-        it('should dispatch a successful login action', async () => {
-            const state = Map({}) as any;
-            const dispatched: any[] = [];
+        it('should create a saga for login actions', async () => {
+            const generator = loginSaga();
 
-            // TODO: use network module in loginSaga
+            expect(generator.next().value).to.be.deep.equal(
+                takeLatest('account/LOGIN_METAMASK', loginWithMetaMask),
+            );
 
-            /*stub(web3.eth.accounts.wallet, 'add').callsFake((privateKey: string) => {
-                return {};
-            });*/
+            expect(generator.next().value).to.be.deep.equal(
+                takeLatest('account/LOGIN_PRIVATE_KEY', loginWithPrivateKey),
+            );
 
-            /*const result = await runSaga({
-                dispatch: (action) => dispatched.push(action),
-                getState: () => (state),
-            }, loginSaga).done;*/
+            expect(generator.next().done).to.be.true;
+        });
 
-            const expectedResult = true;
+        it('should login with a private key', async () => {
+            const generator = loginWithPrivateKey({
+                payload: {
+                    privateKey: '0xeb318bc8d92cbe47029136b553c7ddcddbbc50ed7d055bc7b469effb0af55862',
+                },
+                type: 'account/LOGIN_PRIVATE_KEY',
+            });
 
-            expect(
-                true,
-            ).to.be.equal(expectedResult);
+            expect(generator.next().value).to.be.deep.equal(
+                call(utils.hexlify, '0xeb318bc8d92cbe47029136b553c7ddcddbbc50ed7d055bc7b469effb0af55862'),
+            );
+
+            expect(generator.next(
+                '0xeb318bc8d92cbe47029136b553c7ddcddbbc50ed7d055bc7b469effb0af55862'
+            ).value).to.be.deep.equal(
+                call(createWallet, '0xeb318bc8d92cbe47029136b553c7ddcddbbc50ed7d055bc7b469effb0af55862'),
+            );
+
+            expect(generator.next({
+                address: '0x738f85bA17262aa15BcD1Ec3129b7f86DafD9Fc9',
+            }).value).to.be.deep.equal(
+                put(loginSuccess('0x738f85bA17262aa15BcD1Ec3129b7f86DafD9Fc9')),
+            );
+
+            expect(generator.next().done).to.be.true;
+        });
+
+        it('should login with MetaMask', async () => {
+            const generator = loginWithMetaMask({
+                payload: {},
+                type: 'account/LOGIN_METAMASK',
+            });
+
+            expect(generator.next().value).to.be.deep.equal(
+                call(getProvidedAccounts),
+            );
+
+            expect(generator.next([
+                '0x738f85bA17262aa15BcD1Ec3129b7f86DafD9Fc9',
+            ]).value).to.be.deep.equal(
+                put(loginSuccess('0x738f85bA17262aa15BcD1Ec3129b7f86DafD9Fc9')),
+            );
+
+            expect(generator.next().done).to.be.true;
         });
     });
 });

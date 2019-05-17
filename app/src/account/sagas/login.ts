@@ -1,5 +1,5 @@
-// import { addAccount } from 'network';
-import { put, takeLatest } from 'redux-saga/effects';
+import { utils, Wallet } from 'ethers';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import {
     ILoginMetaMaskAction,
     ILoginPrivateKeyAction,
@@ -13,34 +13,11 @@ import {
 
 // TODO: use different accounts for different purposes, e.g. ledger for money, priv key for files, ...
 
-function* loginWithPrivateKey(action: ILoginPrivateKeyAction) {
-    const privateKey = action.payload.privateKey;
+export const createWallet = (privateKey: string) => {
+    return new Wallet(privateKey);
+};
 
-    // TODO: should also be part of the network module!
-    // privateKey = utils.hexlify(privateKey);
-
-    // TODO: will be replaced by network module, then something like
-    // put(addAccountAction), take(ACCOUNT_ADDED)
-    // should be in a web worker because its expensive
-    // import TestWorker from 'worker-loader!test.worker';
-    const account = {address: '1'}; // new Wallet(privateKey);
-
-    // TODO
-    // yield put(addAccount());
-
-    if (account) {
-        yield put(loginSuccess(account.address));
-    } else {
-        // TODO
-    }
-}
-
-function* loginWithMetaMask(action: ILoginMetaMaskAction) {
-
-    // TODO: will be replaced by network module, then something like
-    // put(addAccountAction), take(ACCOUNT_ADDED)
-
-    // TODO: take provider from ProviderManager
+export const getProvidedAccounts = () => {
     if (
         !((window as any).Web3 &&
         (window as any).web3 &&
@@ -51,21 +28,34 @@ function* loginWithMetaMask(action: ILoginMetaMaskAction) {
 
     const web3 = new (window as any).Web3((window as any).web3.currentProvider);
 
-    const accounts = yield web3.eth.accounts;
+    return web3.eth.accounts;
+};
 
-    // TODO
-    // yield put(addAccount());
+export function* loginWithPrivateKey(action: ILoginPrivateKeyAction) {
+    const privateKey = yield call(utils.hexlify, action.payload.privateKey);
 
-    if (accounts[0]) {
+    // TODO: should be in a web worker because its expensive
+    // import TestWorker from 'worker-loader!test.worker';
+    const account = yield call(createWallet, privateKey);
+
+    if (account) {
+        yield put(loginSuccess(account.address));
+    } else {
+        // TODO: put login error
+    }
+}
+
+export function* loginWithMetaMask(action: ILoginMetaMaskAction) {
+    const accounts = yield call(getProvidedAccounts);
+
+    if (accounts && accounts[0]) {
         yield put(loginSuccess(accounts[0]));
     } else {
-        // TODO
+        // TODO: put login error
     }
-
-    yield true;
 }
 
 export default function* loginSaga() {
-    yield takeLatest(LOGIN_PRIVATE_KEY, loginWithPrivateKey);
     yield takeLatest(LOGIN_METAMASK, loginWithMetaMask);
+    yield takeLatest(LOGIN_PRIVATE_KEY, loginWithPrivateKey);
 }
