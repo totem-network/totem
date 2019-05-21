@@ -103,7 +103,7 @@
     "tslint-react": "^4.0.0",
     "typescript": "^3.4.5",
     "webextension-toolbox": "^3.0.0",
-    "webpack": "=4.28.4",
+    "webpack": "^4.32.0",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.4.1",
