@@ -1,5 +1,8 @@
 import blue from '@material-ui/core/colors/blue';
+import green from '@material-ui/core/colors/green';
+import orange from '@material-ui/core/colors/orange';
 import pink from '@material-ui/core/colors/pink';
+import yellow from '@material-ui/core/colors/yellow';
 import {
     List,
 } from 'immutable';
@@ -27,17 +30,20 @@ const initialState = List<ICategoriesState>([
         title: 'Digital Assets',
     },
     {
-        color: '#dddd22',
+        color: yellow.A400,
+        contrastText: '#333333',
         id: 'images',
         title: 'Images',
     },
     {
-        color: '#dddd22',
+        color: green.A400,
+        contrastText: '#f8f8f8',
         id: 'music',
         title: 'Music',
     },
     {
-        color: '#dddd22',
+        color: orange[500],
+        contrastText: '#f8f8f8',
         id: 'videos',
         title: 'Videos',
     },

@@ -4,7 +4,6 @@ import withWidth, { isWidthDown, WithWidth } from '@material-ui/core/withWidth';
 import classNames from 'classnames';
 import React, {
     Component,
-    Fragment,
     MouseEvent,
     TouchEvent,
 } from 'react';
@@ -119,7 +118,7 @@ class SideNav extends Component<SideNavProps, ISideNavState> {
         } = this.props.classes;
 
         return (
-            <Fragment>
+            <>
                 <div
                     className={classNames(
                         containerBefore,
@@ -154,7 +153,7 @@ class SideNav extends Component<SideNavProps, ISideNavState> {
                         />
                     </nav>
                 </aside>
-            </Fragment>
+            </>
         );
     }
 

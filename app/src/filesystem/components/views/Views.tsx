@@ -44,12 +44,12 @@ class Views extends Component<ViewsProps, IViewsState> {
 const style: StyleRulesCallback = (theme: Theme) => {
     return {
         container: {
-            [theme.breakpoints.down('md') + ' and (orientation:landscape)']: {
-                width: '50%',
+            [theme.breakpoints.up('md')]: {
+                left: '220px',
             },
             bottom: 0,
             color: '#333',
-            left: '220px',
+            left: 0,
             margin: '0',
             padding: '2rem 0 0 0',
             position: 'absolute',

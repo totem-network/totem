@@ -1,4 +1,5 @@
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
+import withWidth, { isWidthDown, WithWidth } from '@material-ui/core/withWidth';
 import { Window } from 'applications';
 import React, {
     Component,
@@ -25,7 +26,7 @@ interface IFileSystemWindowProps {
 
 interface IFileSystemWindowState {}
 
-type FileSystemWindowProps = IFileSystemWindowProps & WithStyles;
+type FileSystemWindowProps = IFileSystemWindowProps & WithStyles & WithWidth;
 
 class FileSystemWindow extends Component<FileSystemWindowProps, IFileSystemWindowState> {
 
@@ -46,8 +47,6 @@ class FileSystemWindow extends Component<FileSystemWindowProps, IFileSystemWindo
             zIndex,
         } = this.props;
 
-        const { container } = this.props.classes;
-
         return (
             <Window
                 finishChange={finishChange}
@@ -63,15 +62,38 @@ class FileSystemWindow extends Component<FileSystemWindowProps, IFileSystemWindo
                 y={y}
                 zIndex={zIndex}
             >
+                {this.renderWindowContent()}
+            </Window>
+        );
+    }
+
+    public renderWindowContent() {
+        const {
+            instance,
+            width,
+        } = this.props;
+
+        const { container } = this.props.classes;
+
+        if (isWidthDown('sm', width)) {
+            return (
                 <div className={container}>
-                    <SideNav
-                        instance={instance}
-                    />
                     <Views
                         instance={instance}
                     />
                 </div>
-            </Window>
+            );
+        }
+
+        return (
+            <div className={container}>
+                <SideNav
+                    instance={instance}
+                />
+                <Views
+                    instance={instance}
+                />
+            </div>
         );
     }
 }
@@ -84,4 +106,6 @@ const style: StyleRules = {
     },
 };
 
-export default withStyles(style)(FileSystemWindow);
+export default withStyles(style)(
+    withWidth()(FileSystemWindow as any),
+);

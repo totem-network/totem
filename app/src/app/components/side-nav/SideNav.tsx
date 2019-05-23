@@ -4,11 +4,11 @@ import withWidth, { isWidthDown, WithWidth } from '@material-ui/core/withWidth';
 import classNames from 'classnames';
 import React, {
     Component,
-    Fragment,
     MouseEvent,
     TouchEvent,
 } from 'react';
 import { IHideSideNavAction } from './../../actions/sideNav';
+import Categories from './../../containers/side-nav/Categories';
 import Header from './../../containers/side-nav/Header';
 import Launcher from './../../containers/side-nav/Launcher';
 import Tasks from './../../containers/side-nav/Tasks';
@@ -114,12 +114,11 @@ class SideNav extends Component<SideNavProps, ISideNavState> {
             containerVisible,
             containerVisibleBefore,
             nav,
-            navBackground,
             navVisible,
         } = this.props.classes;
 
         return (
-            <Fragment>
+            <>
                 <div
                     className={classNames(
                         containerBefore,
@@ -149,13 +148,36 @@ class SideNav extends Component<SideNavProps, ISideNavState> {
                         )}
                         ref={this.setRef}
                     >
-                        <div className={navBackground} />
-                        <Header />
-                        <Tasks />
-                        <Launcher />
+                        {this.renderNavContent()}
                     </nav>
                 </aside>
-            </Fragment>
+            </>
+        );
+    }
+
+    protected renderNavContent() {
+        const { width } = this.props;
+        const {
+            navBackground,
+        } = this.props.classes;
+
+        if (isWidthDown('xs', width)) {
+            return (
+                <>
+                    <div className={navBackground} />
+                    <Header />
+                    <Categories />
+                </>
+            );
+        }
+
+        return (
+            <>
+                <div className={navBackground} />
+                <Header />
+                <Tasks />
+                <Launcher />
+            </>
         );
     }
 
@@ -217,12 +239,12 @@ const style: StyleRulesCallback = (theme: Theme) => {
                 flexDirection: 'row',
             },
             [theme.breakpoints.up('lg')]: {
+                boxShadow: '2px 0 12px rgba(0, 0, 0, 0.4)',
                 overflow: 'visible',
                 transform: 'none',
                 width: '3.4vw',
                 willChange: 'auto',
             },
-            boxShadow: '2px 0 12px rgba(0, 0, 0, 0.4)',
             display: 'flex',
             flexDirection: 'column',
             height: '100%',
@@ -245,6 +267,7 @@ const style: StyleRulesCallback = (theme: Theme) => {
             zIndex: -1,
         },
         navVisible: {
+            boxShadow: '2px 0 12px rgba(0, 0, 0, 0.4)',
             transform: 'none',
         },
     };
