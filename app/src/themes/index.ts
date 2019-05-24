@@ -42,7 +42,6 @@ const theme = createMuiTheme({
         subtitle1: {
             fontWeight: 300,
         },
-        useNextVariants: true,
     },
 });
 

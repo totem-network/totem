@@ -29,7 +29,7 @@ class Head extends Component<HeadProps, IHeadState> {
                         }}
                     />
                     <TableCell align="left">Name</TableCell>
-                    <TableCell align="right" padding="dense">Balance</TableCell>
+                    <TableCell align="right" size="small">Balance</TableCell>
                     <TableCell
                         align="right"
                         classes={{

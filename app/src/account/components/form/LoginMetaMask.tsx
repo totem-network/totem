@@ -178,8 +178,8 @@ const style: StyleRulesCallback = (theme: Theme) => {
             marginTop: '2rem',
         },
         installMetaMask: {
-            paddingBottom: theme.spacing.unit * 2,
-            paddingTop: theme.spacing.unit * 2,
+            paddingBottom: theme.spacing(2),
+            paddingTop: theme.spacing(2),
         },
         name: {
             fontSize: '1.4rem',

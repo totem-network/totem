@@ -111,7 +111,7 @@ class Row extends Component<RowProps, IRowState> {
                         </object>
                     </TableCell>
                     <TableCell align="left">{name} ({symbol})</TableCell>
-                    <TableCell align="right" padding="dense">{this.formatCurrency(balance)}</TableCell>
+                    <TableCell align="right" size="small">{this.formatCurrency(balance)}</TableCell>
                     <TableCell
                         align="right"
                         classes={{
