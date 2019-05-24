@@ -1,18 +1,15 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import withWidth, { isWidthDown, WithWidth } from '@material-ui/core/withWidth';
+import withWidth, { WithWidth } from '@material-ui/core/withWidth';
 import classNames from 'classnames';
 import React, {
     Component,
-    MouseEvent,
-    TouchEvent,
 } from 'react';
 import Categories from '../../containers/side-nav/Categories';
 
 interface ISideNavProps {
     instance: string;
     isVisible: boolean;
-    hideSideNav: (instance: string) => any;
 }
 
 interface ISideNavState {}
@@ -20,88 +17,6 @@ interface ISideNavState {}
 type SideNavProps = ISideNavProps & WithStyles & WithWidth;
 
 class SideNav extends Component<SideNavProps, ISideNavState> {
-
-    protected touchStartX: number;
-
-    protected touchCurrentX: number;
-
-    protected willHide: boolean;
-
-    protected domNode?: HTMLElement;
-
-    constructor(props: SideNavProps, context: any) {
-        super(props, context);
-
-        this.handleClick = this.handleClick.bind(this);
-        this.handleTouchStart = this.handleTouchStart.bind(this);
-        this.handleTouchMove = this.handleTouchMove.bind(this);
-        this.handleTouchEnd = this.handleTouchEnd.bind(this);
-        this.setRef = this.setRef.bind(this);
-
-        this.touchStartX = 0;
-        this.touchCurrentX = 0;
-        this.willHide = false;
-    }
-
-    public setRef(element: any) {
-        this.domNode = element;
-    }
-
-    public blockClick(event: MouseEvent<HTMLElement>) {
-        event.stopPropagation();
-    }
-
-    public handleClick() {
-        const { width } = this.props;
-
-        if (isWidthDown('md', width)) {
-            this.hideSideNav();
-        }
-    }
-
-    public handleTouchStart(event: TouchEvent<HTMLElement>) {
-        this.touchStartX = event.touches[0].pageX;
-        this.touchCurrentX = this.touchStartX;
-
-        // TODO: add transition and remove on end with react spring
-    }
-
-    public handleTouchMove(event: TouchEvent<HTMLElement>) {
-        const { isVisible } = this.props;
-
-        this.touchCurrentX = event.touches[0].pageX;
-
-        const deltaX = this.touchCurrentX - this.touchStartX;
-
-        this.willHide = (deltaX < -50);
-
-        // TODO set willHide to false if last swipe was in other direction
-
-        if (!this.domNode) {
-            return;
-        }
-
-        if (!isVisible) {
-            return;
-        }
-
-        const translateX = Math.min(0, deltaX);
-
-        this.domNode.style.transform = `translateX(${translateX}px)`;
-    }
-
-    public handleTouchEnd(event: TouchEvent<HTMLElement>) {
-        if (this.willHide) {
-            this.hideSideNav();
-            return;
-        }
-
-        if (!this.domNode) {
-            return;
-        }
-
-        this.domNode.style.transform = null;
-    }
 
     public render() {
         const {
@@ -128,10 +43,6 @@ class SideNav extends Component<SideNavProps, ISideNavState> {
                     )}
                 />
                 <aside
-                    onClick={this.handleClick}
-                    onTouchStart={this.handleTouchStart}
-                    onTouchMove={this.handleTouchMove}
-                    onTouchEnd={this.handleTouchEnd}
                     className={classNames(
                         container,
                         {
@@ -146,7 +57,6 @@ class SideNav extends Component<SideNavProps, ISideNavState> {
                                 [navVisible]: isVisible,
                             },
                         )}
-                        ref={this.setRef}
                     >
                         <Categories
                             instance={instance}
@@ -155,21 +65,6 @@ class SideNav extends Component<SideNavProps, ISideNavState> {
                 </aside>
             </>
         );
-    }
-
-    protected hideSideNav() {
-        const {
-            instance,
-            hideSideNav,
-        } = this.props;
-
-        hideSideNav(instance);
-
-        if (!this.domNode) {
-            return;
-        }
-
-        this.domNode.style.transform = null;
     }
 }
 

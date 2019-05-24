@@ -13,16 +13,19 @@ export interface IStartApplicationAction extends Action {
 export interface IStartApplicationPayload {
     application: string;
     manifestUrl?: string;
+    options: object;
 }
 
 export function startApplication(
     application: string,
     manifestUrl?: string,
+    options: object = {},
 ): IStartApplicationAction {
     return {
         payload: {
             application,
             manifestUrl,
+            options,
         },
         type: START_APPLICATION,
     };

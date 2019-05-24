@@ -14,6 +14,7 @@ export interface IAddInstancePayload {
     application: string;
     icon: string;
     id: string;
+    options: object;
     themeColor: string;
     title: string;
 }
@@ -24,12 +25,14 @@ export function addInstance(
     icon: string,
     themeColor: string,
     title: string,
+    options: object = {},
 ): IAddInstanceAction {
     return {
         payload: {
             application,
             icon,
             id,
+            options,
             themeColor,
             title,
         },

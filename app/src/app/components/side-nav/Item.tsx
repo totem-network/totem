@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 interface IItemProps {
     color: string;
     label: string;
+    onClick: any;
 }
 
 interface IItemState {}
@@ -17,6 +18,7 @@ class Item extends Component<ItemProps, IItemState> {
         const {
             color,
             label,
+            onClick,
         } = this.props;
         const { item } = this.props.classes;
 
@@ -25,7 +27,7 @@ class Item extends Component<ItemProps, IItemState> {
         };
 
         return (
-            <li className={item} style={style}>
+            <li className={item} style={style} onClick={onClick}>
                 {label}
             </li>
         );

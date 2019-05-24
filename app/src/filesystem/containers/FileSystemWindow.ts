@@ -1,22 +1,20 @@
-import { categoriesSelector, sideNavSelectCategory } from 'filesystem';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { showSideNav } from 'app';
 
-import Categories from './../../components/side-nav/Categories';
+import FileSystemWindow from '../components/FileSystemWindow';
 
 const mapStateToProps = (state: any) => {
-    return {
-        categories: categoriesSelector(state),
-    };
+    return {};
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return bindActionCreators({
-        selectCategory: sideNavSelectCategory,
+        showSideNav,
     }, dispatch);
 };
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(Categories as any);
+)(FileSystemWindow);

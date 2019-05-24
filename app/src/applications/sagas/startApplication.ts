@@ -36,6 +36,7 @@ function* startApplication(action: IStartApplicationAction) {
             metaData.icon,
             metaData.themeColor,
             metaData.title,
+            action.payload.options,
         ));
 
         yield put(addWindow(

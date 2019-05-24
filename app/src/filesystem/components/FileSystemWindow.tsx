@@ -1,6 +1,8 @@
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
 import withWidth, { isWidthDown, WithWidth } from '@material-ui/core/withWidth';
+import { IShowSideNavAction } from 'app';
 import { Window } from 'applications';
+import { SwipeFromLeft } from 'gestures';
 import React, {
     Component,
     CSSProperties,
@@ -14,6 +16,7 @@ interface IFileSystemWindowProps {
     focused: boolean;
     instance: string;
     minimized: boolean;
+    showSideNav: () => IShowSideNavAction;
     startChange: () => void;
     task: boolean;
     taskStyle: CSSProperties;
@@ -70,16 +73,21 @@ class FileSystemWindow extends Component<FileSystemWindowProps, IFileSystemWindo
     public renderWindowContent() {
         const {
             instance,
+            showSideNav,
             width,
         } = this.props;
 
         const { container } = this.props.classes;
 
         if (isWidthDown('sm', width)) {
+            // TODO: swipe from left -> show sidenav
             return (
                 <div className={container}>
                     <Views
                         instance={instance}
+                    />
+                    <SwipeFromLeft
+                        onSwipe={showSideNav}
                     />
                 </div>
             );

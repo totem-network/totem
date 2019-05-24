@@ -1,5 +1,6 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
+import { ISideNavSelectCategoryAction } from 'filesystem';
 import React, { Component } from 'react';
 import Item from './Item';
 
@@ -12,6 +13,7 @@ interface ICategory {
 
 interface ICategoriesProps {
     categories: ICategory[];
+    selectCategory: (category: string) => ISideNavSelectCategoryAction;
 }
 
 interface ICategoriesState {}
@@ -21,13 +23,15 @@ type CategoriesProps = ICategoriesProps & WithStyles;
 class Categories extends Component<CategoriesProps, ICategoriesState> {
 
     public render() {
-        const { categories } = this.props;
+        const { categories, selectCategory } = this.props;
         const { list } = this.props.classes;
 
-        const items = categories.map((category: ICategory) => (
+        const items = categories.map((category: ICategory, index: number) => (
             <Item
                 color={category.color}
+                key={index}
                 label={category.title}
+                onClick={() => selectCategory(category.id)}
             />
         ));
 
