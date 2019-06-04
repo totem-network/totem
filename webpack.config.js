@@ -106,7 +106,9 @@ const config = {
     ],
     resolve: {
         alias: {
-            '3box': path.resolve('./node_modules/3box/dist/3box.min.js'),
+            '3box': path.resolve('./node_modules/3box/dist/3box.min.js')/*,
+            'react': 'preact/compat',
+            'react-dom': 'preact/compat'*/
         },
         aliasFields: ['browser'],
         extensions: ['.mjs', '.ts', '.tsx', '.js', '.json'],

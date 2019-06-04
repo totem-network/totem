@@ -1,5 +1,5 @@
 {
-    "extends": ["tslint:latest", "tslint-react", "tslint-no-unused-expression-chai"],
+    "extends": ["tslint:latest", "tslint-react"],
     "enable": true,
     "rules": {
         "jsx-no-multiline-js": false,
