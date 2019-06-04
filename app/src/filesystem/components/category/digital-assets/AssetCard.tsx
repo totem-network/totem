@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SendIcon from '@material-ui/icons/Send';
 import React, { Component } from 'react';
-import SendDigitalAssetDialog from '../../../containers/views/digital-assets/SendDigitalAssetDialog';
+import SendDigitalAssetDialog from '../../../containers/category/digital-assets/SendDigitalAssetDialog';
 
 export interface IAssetCardProps {
     contract: string;

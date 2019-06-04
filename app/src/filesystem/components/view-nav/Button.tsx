@@ -1,33 +1,52 @@
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import Chip from '@material-ui/core/Chip';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
+import withWidth, { isWidthDown, WithWidth } from '@material-ui/core/withWidth';
 import React, { Component } from 'react';
 
 export interface IButtonProps {
+    icon?: any;
+    label: string;
     onClick?: () => any;
 }
 
 export interface IButtonState {}
 
-type ButtonProps = IButtonProps & WithStyles;
+type ButtonProps = IButtonProps & WithStyles & WithWidth;
 
 class Button extends Component<ButtonProps, IButtonState> {
 
     public render() {
         const {
-            children,
+            icon,
+            label,
             onClick,
+            width,
         } = this.props;
+
         const {
             button,
         } = this.props.classes;
 
+        if (isWidthDown('md', width)) {
+            return (
+                <BottomNavigationAction
+                    icon={icon}
+                    label={label}
+                    showLabel={true}
+                />
+            );
+        }
+
         return (
-            <button
+            <Chip
                 className={button}
+                color="primary"
+                icon={icon}
                 onClick={onClick}
-            >
-                {children}
-            </button>
+                label={label}
+            />
         );
     }
 }
@@ -35,19 +54,13 @@ class Button extends Component<ButtonProps, IButtonState> {
 const style: StyleRulesCallback = (theme: Theme) => {
     return {
         button: {
-            background: theme.palette.primary.main,
-            border: 0,
-            borderRadius: '.6rem',
-            color: theme.palette.primary.contrastText,
             cursor: 'pointer',
-            fontSize: '.8rem',
             margin: '.5rem',
-            outline: '0',
-            padding: '.1rem .5rem',
             pointerEvents: 'auto',
-            textDecoration: 'none',
         },
     };
 };
 
-export default withStyles(style)(Button);
+export default withStyles(style)(
+    withWidth()(Button),
+);

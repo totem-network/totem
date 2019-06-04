@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Images from '../../components/views/images/View';
+import Images from '../../components/category/images/View';
 
 const mapStateToProps = (state: any) => {
     return {};

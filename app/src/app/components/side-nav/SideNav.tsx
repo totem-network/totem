@@ -161,7 +161,7 @@ class SideNav extends Component<SideNavProps, ISideNavState> {
             navBackground,
         } = this.props.classes;
 
-        if (isWidthDown('xs', width)) {
+        if (isWidthDown('md', width)) {
             return (
                 <>
                     <div className={navBackground} />
@@ -207,6 +207,7 @@ const style: StyleRulesCallback = (theme: Theme) => {
             position: 'fixed',
             top: 0,
             width: '100%',
+            zIndex: theme.zIndex.drawer,
         },
         containerBefore: {
             [theme.breakpoints.up('lg')]: {
@@ -224,6 +225,7 @@ const style: StyleRulesCallback = (theme: Theme) => {
             transition: 'opacity .3s ease-out',
             width: '100%',
             willChange: 'opacity',
+            zIndex: theme.zIndex.drawer,
         },
         containerVisible: {
             pointerEvents: 'auto',

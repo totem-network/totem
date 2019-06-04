@@ -1,8 +1,8 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import React, { Component } from 'react';
-import CryptoCurrencies from '../../containers/views/CryptoCurrencies';
-import DigitalAssets from '../../containers/views/DigitalAssets';
+import CryptoCurrencies from '../../containers/category/CryptoCurrencies';
+import DigitalAssets from '../../containers/category/DigitalAssets';
 
 export interface IViewsProps {
     instanceCategory: string;
@@ -44,7 +44,7 @@ class Views extends Component<ViewsProps, IViewsState> {
 const style: StyleRulesCallback = (theme: Theme) => {
     return {
         container: {
-            [theme.breakpoints.up('md')]: {
+            [theme.breakpoints.up('lg')]: {
                 left: '220px',
             },
             bottom: 0,

@@ -2,15 +2,18 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import Table from '@material-ui/core/Table';
+import AccountBalanceWalletRoundedIcon from '@material-ui/icons/AccountBalanceWalletRounded';
+import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
+import SwapHorizontalCircleIcon from '@material-ui/icons/SwapHorizontalCircle';
 import React, { Component, Fragment } from 'react';
 import { Query } from "react-apollo";
-import RecieveDialog from '../../../containers/views/crypto-currencies/recieve/RecieveDialog';
+import ActionButtons from '../../../containers/action-buttons/ActionButtons';
+import RecieveDialog from '../../../containers/category/crypto-currencies/recieve/RecieveDialog';
 import cryptoCurrenciesQuery from '../../../queries/cryptoCurrencies.graphql';
-import BottomButtons from '../../bottom-buttons/BottomButtons';
-import BottomButton from '../../bottom-buttons/Button';
+import ActionButton from '../../action-buttons/Button';
 import Error from '../../Error';
-import HeaderButton from '../../header/Button';
-import Header from '../../header/Header';
+import ViewNavButton from '../../view-nav/Button';
+import ViewNav from '../../view-nav/ViewNav';
 import LoadingBar from '../../LoadingBar';
 import AddTokenDialog from './AddTokenDialog';
 import Head from './Head';
@@ -81,14 +84,21 @@ class CryptoCurrenciesView extends Component<CryptoCurrenciesViewProps, ICryptoC
 
         return (
             <Fragment>
-                <Header>
-                    <HeaderButton>
-                        Exchange
-                    </HeaderButton>
-                    <HeaderButton onClick={this.openRecieveDialog}>
-                        Recieve
-                    </HeaderButton>
-                </Header>
+                <ViewNav>
+                    <ViewNavButton
+                        icon={<ArrowDropDownCircleIcon />}
+                        label={'Recieve'}
+                        onClick={this.openRecieveDialog}
+                    />
+                    <ViewNavButton
+                        icon={<AccountBalanceWalletRoundedIcon />}
+                        label={'Wallet'}
+                    />
+                    <ViewNavButton
+                        icon={<SwapHorizontalCircleIcon />}
+                        label={'Exchange'}
+                    />
+                </ViewNav>
                 <div className={container}>
                     <Query query={cryptoCurrenciesQuery}>
                         {({ loading, error, data }: any) => {
@@ -131,13 +141,13 @@ class CryptoCurrenciesView extends Component<CryptoCurrenciesViewProps, ICryptoC
                         }}
                     </Query>
                 </div>
-                <BottomButtons>
-                    <BottomButton
+                <ActionButtons>
+                    <ActionButton
                         onClick={this.openAddTokenDialog}
                     >
                         Add token
-                    </BottomButton>
-                </BottomButtons>
+                    </ActionButton>
+                </ActionButtons>
                 <AddTokenDialog
                     closeDialog={this.closeAddTokenDialog}
                     open={addTokenDialog}

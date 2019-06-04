@@ -4,9 +4,9 @@ import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/st
 import Table from '@material-ui/core/Table';
 import React, { Component, Fragment } from 'react';
 import { Query } from "react-apollo";
+import ActionButtons from '../../../containers/action-buttons/ActionButtons';
 import cryptoCurrenciesQuery from '../../../queries/cryptoCurrencies.graphql';
-import BottomButtons from '../../bottom-buttons/BottomButtons';
-import BottomButton from '../../bottom-buttons/Button';
+import ActionButton from '../../action-buttons/Button';
 import Error from '../../Error';
 import LoadingBar from '../../LoadingBar';
 
@@ -89,13 +89,13 @@ class ImagesView extends Component<ImagesViewProps, IImagesViewState> {
                         }}
                     </Query>
                 </div>
-                <BottomButtons>
-                    <BottomButton
+                <ActionButtons>
+                    <ActionButton
                         onClick={this.openAddTokenDialog}
                     >
                         Add token
-                    </BottomButton>
-                </BottomButtons>
+                    </ActionButton>
+                </ActionButtons>
             </Fragment>
         );
     }

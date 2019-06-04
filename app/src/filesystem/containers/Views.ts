@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import instanceCategorySelector from '../selectors/instanceCategory';
 
-import Views from '../components/views/Views';
+import Views from '../components/category/Views';
 
 const mapStateToProps = (state: any, props: any) => {
     return {

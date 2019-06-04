@@ -5,7 +5,7 @@ import {
 } from 'network';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import SendDigitalAssetDialog from '../../../components/views/digital-assets/SendDigitalAssetDialog';
+import SendDigitalAssetDialog from '../../../components/category/digital-assets/SendDigitalAssetDialog';
 
 const mapStateToProps = (state: any, props: any) => {
     const {

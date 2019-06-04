@@ -5,7 +5,7 @@ import {
 } from 'network';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import SendCryptoCurrencyDialog from '../../../components/views/crypto-currencies/SendCryptoCurrencyDialog';
+import SendCryptoCurrencyDialog from '../../../components/category/crypto-currencies/SendCryptoCurrencyDialog';
 
 const mapStateToProps = (state: any, props: any) => {
     const {

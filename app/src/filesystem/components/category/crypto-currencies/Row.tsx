@@ -11,7 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SendIcon from '@material-ui/icons/Send';
 import React, { Component } from 'react';
-import SendCryptoCurrencyDialog from '../../../containers/views/crypto-currencies/SendCryptoCurrencyDialog';
+import SendCryptoCurrencyDialog from '../../../containers/category/crypto-currencies/SendCryptoCurrencyDialog';
 
 export interface IRowProps {
     balance: string;

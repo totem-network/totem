@@ -2,9 +2,9 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import React, { Component, Fragment } from 'react';
 import { Query } from 'react-apollo';
+import ActionButtons from '../../../containers/action-buttons/ActionButtons';
 import digitalAssetsQuery from '../../../queries/digitalAssets.graphql';
-import BottomButtons from '../../bottom-buttons/BottomButtons';
-import BottomButton from '../../bottom-buttons/Button';
+import ActionButton from '../../action-buttons/Button';
 import Error from '../../Error';
 import LoadingBar from '../../LoadingBar';
 import AddDigitalAssetDialog from './AddDigitalAssetDialog';
@@ -106,13 +106,13 @@ class DigitalAssetsView extends Component<DigitalAssetsViewProps, IDigitalAssets
                         }}
                     </Query>
                 </div>
-                <BottomButtons>
-                    <BottomButton
+                <ActionButtons>
+                    <ActionButton
                         onClick={this.openAddDigitalAssetDialog}
                     >
                         Add asset
-                    </BottomButton>
-                </BottomButtons>
+                    </ActionButton>
+                </ActionButtons>
                 <AddDigitalAssetDialog
                     closeDialog={this.closeAddDigitalAssetDialog}
                     open={addDigitalAssetDialog}

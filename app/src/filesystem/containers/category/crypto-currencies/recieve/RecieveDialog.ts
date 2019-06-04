@@ -3,7 +3,7 @@ import {
 } from 'account';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import RecieveDialog from '../../../../components/views/crypto-currencies/recieve/RecieveDialog';
+import RecieveDialog from '../../../../components/category/crypto-currencies/recieve/RecieveDialog';
 
 const mapStateToProps = (state: any, props: any) => {
     const address = accountAddressSelector(state);

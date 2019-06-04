@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import DigitalAssets from '../../components/views/digital-assets/View';
+import DigitalAssets from '../../components/category/digital-assets/View';
 
 const mapStateToProps = (state: any) => {
     return {};

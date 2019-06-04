@@ -5,7 +5,7 @@ export default {
         addImages: async (schema: any, {
             images,
         }: any) => {
-            //
+            console.log(images);
         },
     },
 
