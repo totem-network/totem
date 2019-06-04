@@ -12,7 +12,7 @@ export default function* initializeSaga() {
         return;
     }
 
-    const accounts = yield initializeAction.payload.ethereum.enable();
+    const accounts = yield call(initializeAction.payload.ethereum.enable);
 
     yield put(web3Initialized());
 
