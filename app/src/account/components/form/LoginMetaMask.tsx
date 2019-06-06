@@ -8,7 +8,7 @@ import React, { Component } from 'react';
 import {
     ILoginMetaMaskAction,
 } from '../../actions/login';
-import Avatar from '../../containers/Avatar';
+import Avatar from '../../components/Avatar';
 import Name from '../../containers/Name';
 
 export interface ILoginMetaMaskData {

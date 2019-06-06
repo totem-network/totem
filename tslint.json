@@ -10,5 +10,5 @@
         "no-var-requires": false,
         "object-literal-key-quotes": false,
         "quotemark": ["single", "avoid-escape"]
-    },
+    }
 }

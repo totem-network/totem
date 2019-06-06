@@ -1,0 +1,6 @@
+query getAvatarByAddress($address: String) {
+    getProfile(address: $address) {
+        address,
+        image,
+    }
+}

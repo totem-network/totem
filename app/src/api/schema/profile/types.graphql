@@ -1,0 +1,10 @@
+type GetProfileResponse {
+    address: String
+    header: String
+    image: String
+    name: String
+}
+
+type Query {
+    getProfile(address: String, domain: String): GetProfileResponse
+}

@@ -1,5 +1,5 @@
+import Avatar from './components/Avatar';
 import Login from './components/Login';
-import Avatar from './containers/Avatar';
 import LoggedIn from './containers/LoggedIn';
 import NotLoggedIn from './containers/NotLoggedIn';
 import boxes from './profile/boxes';

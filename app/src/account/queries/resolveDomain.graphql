@@ -1,0 +1,5 @@
+query resolveDomain($domain: String) {
+    resolveDomain(domain: $domain) {
+        address
+    }
+}

@@ -1,0 +1,6 @@
+query getAvatarByDomain($domain: String) {
+    getProfile(domain: $domain) {
+        address
+        image,
+    }
+}

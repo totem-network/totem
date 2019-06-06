@@ -12,9 +12,9 @@ import RecieveDialog from '../../../containers/category/crypto-currencies/reciev
 import cryptoCurrenciesQuery from '../../../queries/cryptoCurrencies.graphql';
 import ActionButton from '../../action-buttons/Button';
 import Error from '../../Error';
+import LoadingBar from '../../LoadingBar';
 import ViewNavButton from '../../view-nav/Button';
 import ViewNav from '../../view-nav/ViewNav';
-import LoadingBar from '../../LoadingBar';
 import AddTokenDialog from './AddTokenDialog';
 import Head from './Head';
 import Row from './Row';

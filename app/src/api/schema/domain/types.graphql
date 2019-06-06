@@ -1,0 +1,9 @@
+type ResolveAddressOrDomainResponse {
+    address: String
+    domain: String
+}
+
+type Query {
+    resolveAddress(address: String!): ResolveAddressOrDomainResponse
+    resolveDomain(domain: String!): ResolveAddressOrDomainResponse
+}
