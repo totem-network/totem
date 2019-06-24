@@ -24,7 +24,7 @@ class LoadingBar extends Component<LoadingBarProps, ILoadingBarState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, ILoadingBarProps> = (theme: Theme) => {
     return {
         container: {
             pointerEvents: 'none',

@@ -68,7 +68,7 @@ class SideNav extends Component<SideNavProps, ISideNavState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, ISideNavProps> = (theme: Theme) => {
     return {
         container: {
             [theme.breakpoints.up('lg')]: {

@@ -21,6 +21,15 @@ type TokenData {
 
 union CryptoCurrencyData = NativeCurrencyData | TokenData
 
+type ExchangeCryptoCurrency {
+    address: String
+    decimals: Int
+    name: String
+    rateEth: String
+    rateUsd: String
+    symbol: String
+}
+
 type AddTokenResponse {
     cryptoCurrency: CryptoCurrency
     result: Boolean
@@ -32,8 +41,8 @@ type SendCryptoCurrencyResponse {
 }
 
 type Query {
-    cryptoCurrencies: [CryptoCurrency]
-    cryptoCurrenciesByAccount(address: String!): [CryptoCurrency]
+    cryptoCurrencies(address: String): [CryptoCurrency]
+    cryptoCurrenciesOnExchange: [ExchangeCryptoCurrency]
 }
 
 type Mutation {

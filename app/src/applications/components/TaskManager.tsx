@@ -58,7 +58,7 @@ class TaskManager extends Component<TaskManagerProps, ITaskManagerState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, ITaskManagerProps> = (theme: Theme) => {
     return {
         container: {
             [theme.breakpoints.up('lg')]: {

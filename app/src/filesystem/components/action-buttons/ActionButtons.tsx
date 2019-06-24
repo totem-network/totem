@@ -55,7 +55,7 @@ class ActionButtons extends Component<ActionButtonsProps, IActionButtonsState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, IActionButtonsProps> = (theme: Theme) => {
     return {
         container: {
             [theme.breakpoints.up('lg')]: {

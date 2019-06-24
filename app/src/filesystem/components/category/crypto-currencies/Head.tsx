@@ -49,7 +49,7 @@ class Head extends Component<HeadProps, IHeadState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, IHeadProps> = (theme: Theme) => {
     return {
         action: {
             padding: '4px 12px',

@@ -122,7 +122,7 @@ class DigitalAssetsView extends Component<DigitalAssetsViewProps, IDigitalAssets
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, IDigitalAssetsViewProps> = (theme: Theme) => {
     return {
         assetContainer: {
             cursor: 'pointer',

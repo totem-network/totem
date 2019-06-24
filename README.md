@@ -40,7 +40,7 @@ have replacements for linting or other enhancements Totem supports.
 
 ### Requirements
 
-* nodejs (Version 8)
+* nodejs (Version 10)
 * npm
 * g++
 * libpng-dev

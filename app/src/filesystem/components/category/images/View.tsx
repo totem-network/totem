@@ -101,7 +101,7 @@ class ImagesView extends Component<ImagesViewProps, IImagesViewState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, IImagesViewProps> = (theme: Theme) => {
     return {
         container: {
             alignContent: 'flex-start',

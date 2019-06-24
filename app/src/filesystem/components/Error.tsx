@@ -41,7 +41,7 @@ class Error extends Component<ErrorProps, IErrorState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, IErrorProps> = (theme: Theme) => {
     return {
         container: {
             color: theme.palette.error.main,

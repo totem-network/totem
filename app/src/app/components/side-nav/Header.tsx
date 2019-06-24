@@ -53,7 +53,7 @@ class Header extends Component<HeaderProps, IHeaderState> {
 
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, IHeaderProps> = (theme: Theme) => {
     return {
         avatar: {
             [theme.breakpoints.up('lg')]: {

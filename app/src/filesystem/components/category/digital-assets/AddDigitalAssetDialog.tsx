@@ -89,7 +89,7 @@ class AddDigitalAssetDialog extends Component<AddDigitalAssetDialogProps, IAddDi
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, IAddDigitalAssetDialogProps> = (theme: Theme) => {
     return {};
 };
 

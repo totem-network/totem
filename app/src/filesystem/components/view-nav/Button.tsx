@@ -51,7 +51,7 @@ class Button extends Component<ButtonProps, IButtonState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, IButtonProps> = (theme: Theme) => {
     return {
         button: {
             cursor: 'pointer',

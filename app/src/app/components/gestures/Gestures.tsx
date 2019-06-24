@@ -9,9 +9,9 @@ interface IGesturesProps {
 
 interface IGesturesState {}
 
-type GestureProps = IGesturesProps & WithStyles;
+type GesturesProps = IGesturesProps & WithStyles;
 
-class Gestures extends Component<GestureProps, IGesturesState> {
+class Gestures extends Component<GesturesProps, IGesturesState> {
 
     public render() {
         const { swipeFromLeft } = this.props;
@@ -25,7 +25,7 @@ class Gestures extends Component<GestureProps, IGesturesState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, IGesturesProps> = (theme: Theme) => {
     return {
         container: {
             [theme.breakpoints.up('lg')]: {

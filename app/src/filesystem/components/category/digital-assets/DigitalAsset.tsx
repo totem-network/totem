@@ -88,7 +88,7 @@ class DigitalAsset extends Component<DigitalAssetProps, IDigitalAssetState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, IDigitalAssetProps> = (theme: Theme) => {
     return {
         assetContainer: {
             margin: '0 20px 20px 20px',

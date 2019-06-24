@@ -141,7 +141,7 @@ class AssetCard extends Component<AssetCardProps, IAssetCardState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, IAssetCardProps> = (theme: Theme) => {
     return {
         card: {
             margin: '1rem',

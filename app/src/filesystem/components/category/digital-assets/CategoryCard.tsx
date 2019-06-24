@@ -40,7 +40,7 @@ class CategoryCard extends Component<CategoryCardProps, ICategoryCardState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, ICategoryCardProps> = (theme: Theme) => {
     return {
         card: {
             cursor: 'pointer',

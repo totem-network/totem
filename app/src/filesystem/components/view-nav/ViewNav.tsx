@@ -40,7 +40,7 @@ class ViewNav extends Component<ViewNavProps, IViewNavState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, IViewNavProps> = (theme: Theme) => {
     return {
         container: {
             [theme.breakpoints.up('lg')]: {

@@ -319,7 +319,7 @@ class Window extends Component<WindowProps, IWindowState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, IWindowProps> = (theme: Theme) => {
     return {
         focused: {
             [theme.breakpoints.down('md')]: {

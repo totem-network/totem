@@ -94,7 +94,7 @@ class Login extends Component<LoginProps, ILoginState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, ILoginProps> = (theme: Theme) => {
     return {
         content: {
             [theme.breakpoints.down('md') + ' and (orientation:landscape)']: {

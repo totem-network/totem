@@ -55,7 +55,7 @@ class SendDigitalAssetForm extends Component<SendDigitalAssetFormProps, ISendDig
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, ISendDigitalAssetFormProps> = (theme: Theme) => {
     return {
         asset: {
             maxWidth: '250px',

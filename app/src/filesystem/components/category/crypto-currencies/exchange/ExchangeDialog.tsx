@@ -58,7 +58,7 @@ class ExchangeDialog extends Component<ExchangeDialogProps, IExchangeDialogState
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, IExchangeDialogProps> = (theme: Theme) => {
     return {
         addressContainer: {
             color: theme.palette.text.primary,

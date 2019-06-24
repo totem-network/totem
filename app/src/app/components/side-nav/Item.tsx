@@ -35,7 +35,7 @@ class Item extends Component<ItemProps, IItemState> {
 
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const styles: StyleRulesCallback<Theme, IItemProps> = (theme: Theme) => {
     return {
         item: {
             borderBottom: '1px solid #ddd',
@@ -50,4 +50,4 @@ const style: StyleRulesCallback = (theme: Theme) => {
     };
 };
 
-export default withStyles(style)(Item);
+export default withStyles(styles)(Item);

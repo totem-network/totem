@@ -51,7 +51,7 @@ const getERC20Data = async (account: string, contract: string) => {
                 platform: '???',
             },
             decimals: 0,
-            icon: '/images/cryptocurrency-icons/generic.svg',
+            icon: '/images/cryptokyberCurrency-icons/generic.svg',
             name: '???',
             price: '???',
             symbol: '???',
@@ -84,7 +84,7 @@ const getERC20Data = async (account: string, contract: string) => {
             platform: 'ethereum',
         },
         decimals,
-        icon: `/images/cryptocurrency-icons/${symbol}.svg`,
+        icon: `/images/cryptokyberCurrency-icons/${symbol}.svg`,
         name,
         price: '???',
         symbol,
@@ -222,16 +222,16 @@ export default {
 
         sendCryptoCurrency: async (schema: any, {
             amount,
-            currencyOrToken,
+            kyberCurrencyOrToken,
             fee,
             to,
         }: any) => {
             let result = false;
-            switch (currencyOrToken) {
+            switch (kyberCurrencyOrToken) {
                 case 'ethereum':
                     result = await sendEther(amount, to, fee);
                 default:
-                    result = await sendToken(currencyOrToken, amount, to, fee);
+                    result = await sendToken(kyberCurrencyOrToken, amount, to, fee);
             }
 
             return {
@@ -241,7 +241,9 @@ export default {
     },
 
     Query: {
-        cryptoCurrencies: async () => {
+        cryptoCurrencies: async (schema: any, {
+            address,
+        }: any) => {
             const cryptoCurrencies: Array<{
                 balance: string;
                 data: any;
@@ -289,7 +291,7 @@ export default {
                     platform: 'ethereum',
                 },
                 decimals: 18,
-                icon: '/images/cryptocurrency-icons/eth.svg',
+                icon: '/images/cryptokyberCurrency-icons/eth.svg',
                 name: 'Ether',
                 price: etherPrice,
                 symbol: 'ETH',
@@ -306,8 +308,42 @@ export default {
             return cryptoCurrencies;
         },
 
-        cryptoCurrenciesByAccount: async (schema: any, {}: any) => {
-            // TODO: add optional account field to cryptoCurrencies
+        cryptoCurrenciesOnExchange: async (schema: any, {}: any) => {
+            const kyberCurrenciesResult = await fetch('https://api.kyber.network/currencies');
+            const kyberCurrenciesJson = await kyberCurrenciesResult.text();
+            const kyberCurrencies = JSON.parse(kyberCurrenciesJson);
+
+            if (!kyberCurrencies) {
+                return [];
+            }
+
+            const kyberRatesResult = await fetch('https://api.kyber.network/change24h');
+            const kyberRatesJson = await kyberRatesResult.text();
+            const kyberRates = JSON.parse(kyberRatesJson);
+
+            if (!kyberRates) {
+                return [];
+            }
+
+            const currencies = kyberCurrencies.data.map((kyberCurrency: any) => {
+                const currency = {
+                    address: kyberCurrency.address,
+                    decimals: kyberCurrency.decimals,
+                    name: kyberCurrency.name,
+                    rateEth: '',
+                    rateUsd: '',
+                    symbol: kyberCurrency.symbol,
+                };
+
+                if (kyberRates[`ETH_${kyberCurrency.symbol}`]) {
+                    currency.rateEth = kyberRates[`ETH_${kyberCurrency.symbol}`].rate_eth_now;
+                    currency.rateUsd = kyberRates[`ETH_${kyberCurrency.symbol}`].rate_usd_now;
+                }
+
+                return currency;
+            });
+
+            return currencies;
         },
     },
 

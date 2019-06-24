@@ -41,7 +41,7 @@ class Views extends Component<ViewsProps, IViewsState> {
 
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, IViewsProps> = (theme: Theme) => {
     return {
         container: {
             [theme.breakpoints.up('lg')]: {

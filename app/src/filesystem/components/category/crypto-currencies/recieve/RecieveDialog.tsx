@@ -68,7 +68,7 @@ class RecieveDialog extends Component<RecieveDialogProps, IRecieveDialogState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, IRecieveDialogProps> = (theme: Theme) => {
     return {
         addressContainer: {
             color: theme.palette.text.primary,

@@ -75,7 +75,7 @@ class Categories extends Component<CategoriesProps, ICategoriesState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, ICategoriesProps> = (theme: Theme) => {
     return {
         categories: {
             [theme.breakpoints.down('md') + ' and (orientation:landscape)']: {

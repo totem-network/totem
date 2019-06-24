@@ -161,7 +161,7 @@ class CryptoCurrenciesView extends Component<CryptoCurrenciesViewProps, ICryptoC
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, ICryptoCurrenciesViewProps> = (theme: Theme) => {
     return {
         container: {
             alignContent: 'flex-start',

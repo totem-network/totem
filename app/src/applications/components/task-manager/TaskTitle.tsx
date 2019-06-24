@@ -38,7 +38,7 @@ class TaskTitle extends Component<TaskTitleProps, ITaskTitleState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, ITaskTitleProps> = (theme: Theme) => {
     return {
         taskIcon: {
             borderRadius: '5% 20% 5%',

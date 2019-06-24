@@ -168,7 +168,7 @@ class Row extends Component<RowProps, IRowState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, IRowProps> = (theme: Theme) => {
     return {
         action: {
             padding: '4px 12px',

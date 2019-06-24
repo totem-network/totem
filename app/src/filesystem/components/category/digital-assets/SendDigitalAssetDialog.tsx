@@ -124,7 +124,7 @@ class SendDigitalAssetDialog extends Component<SendDigitalAssetDialogProps, ISen
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, ISendDigitalAssetDialogProps> = (theme: Theme) => {
     return {
         icon: {
             marginLeft: '.5rem',

@@ -27,8 +27,8 @@ const updateERC721Contracts = async (account: string, space: any) => {
         `https://api.opensea.io/api/v1/assets?owner=${account}`,
     );
 
-    const openSeaDataJSON = await openSeaResult.text();
-    const openSeaData = JSON.parse(openSeaDataJSON);
+    const openSeaDataJson = await openSeaResult.text();
+    const openSeaData = JSON.parse(openSeaDataJson);
 
     const openSeaErc721Contracts = [];
 
@@ -128,9 +128,9 @@ const getERC721Data = async (account: string, contract: string) => {
             const tokenURI = await assetContract.tokenURI(tokenId);
 
             const tokenMetaDataResponse = await fetch(tokenURI);
-            const tokenMetaDataJSON = await tokenMetaDataResponse.text();
+            const tokenMetaDataJson = await tokenMetaDataResponse.text();
 
-            const tokenMetaData = JSON.parse(tokenMetaDataJSON);
+            const tokenMetaData = JSON.parse(tokenMetaDataJson);
 
             images.push(tokenMetaData.image);
         } catch (error) {
@@ -143,8 +143,8 @@ const getERC721Data = async (account: string, contract: string) => {
             `https://api.opensea.io/api/v1/assets?owner=${account}&asset_contract_address=${contract}&limit=4`,
         );
 
-        const openSeaDataJSON = await openSeaResult.text();
-        const openSeaData = JSON.parse(openSeaDataJSON);
+        const openSeaDataJson = await openSeaResult.text();
+        const openSeaData = JSON.parse(openSeaDataJson);
 
         for (const token of openSeaData.assets) {
             images.push(token.image_url);
@@ -198,8 +198,8 @@ const getERC721Tokens = async (account: string, contract: string) => {
             `https://api.opensea.io/api/v1/assets?owner=${account}&asset_contract_address=${contract}`,
         );
 
-        const openSeaDataJSON = await openSeaResult.text();
-        const openSeaData = JSON.parse(openSeaDataJSON);
+        const openSeaDataJson = await openSeaResult.text();
+        const openSeaData = JSON.parse(openSeaDataJson);
 
         for (const token of openSeaData.assets) {
             tokenIds.push(token.token_id);
@@ -255,9 +255,9 @@ const getERC721TokenData = async (contract: string, tokenId: string) => {
         const tokenURI = await assetContract.tokenURI(tokenId);
 
         const tokenMetaDataResponse = await fetch(tokenURI);
-        const tokenMetaDataJSON = await tokenMetaDataResponse.text();
+        const tokenMetaDataJson = await tokenMetaDataResponse.text();
 
-        const tokenMetaData = JSON.parse(tokenMetaDataJSON);
+        const tokenMetaData = JSON.parse(tokenMetaDataJson);
 
         return {
             asset: {
@@ -279,8 +279,8 @@ const getERC721TokenData = async (contract: string, tokenId: string) => {
         `https://api.opensea.io/api/v1/asset/${contract}/${tokenId}/`,
     );
 
-    const openSeaDataJSON = await openSeaResult.text();
-    const openSeaData = JSON.parse(openSeaDataJSON);
+    const openSeaDataJson = await openSeaResult.text();
+    const openSeaData = JSON.parse(openSeaDataJson);
 
     return {
         asset: {

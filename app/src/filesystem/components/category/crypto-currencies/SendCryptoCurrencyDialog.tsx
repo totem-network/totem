@@ -134,7 +134,7 @@ class SendCryptoCurrencyDialog extends Component<SendCryptoCurrencyDialogProps, 
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, ISendCryptoCurrencyDialogProps> = (theme: Theme) => {
     return {
         icon: {
             marginLeft: '.5rem',

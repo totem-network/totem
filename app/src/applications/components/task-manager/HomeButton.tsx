@@ -37,7 +37,7 @@ class HomeButton extends Component<HomeButtonProps, IHomeButtonState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, IHomeButtonProps> = (theme: Theme) => {
     return {
         homeButton: {
             background: '#fff',

@@ -53,7 +53,7 @@ class SendCryptoCurrencyForm extends Component<SendCryptoCurrencyFormProps, ISen
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, ISendCryptoCurrencyFormProps> = (theme: Theme) => {
     return {
         fast: {
             color: 'rgba(0, 0, 0, 0.87)',

@@ -157,7 +157,7 @@ class LoginMetaMask extends Component<LoginMetaMaskProps, ILoginMetaMaskState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, ILoginMetaMaskProps> = (theme: Theme) => {
     return {
         avatar: {
             height: '4rem',

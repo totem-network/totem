@@ -33,7 +33,7 @@ class Sandbox extends Component<SandboxProps, ISandboxState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, ISandboxProps> = (theme: Theme) => {
     return {
         iframe: {
             [theme.breakpoints.up('lg')]: {

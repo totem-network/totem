@@ -93,7 +93,7 @@ class AddTokenDialog extends Component<AddTokenDialogProps, IAddTokenDialogState
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, IAddTokenDialogProps> = (theme: Theme) => {
     return {
         price: {
             padding: '4px 24px',

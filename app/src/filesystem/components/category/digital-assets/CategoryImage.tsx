@@ -46,7 +46,7 @@ class CategoryImage extends Component<CategoryImageProps, ICategoryImageState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, ICategoryImageProps> = (theme: Theme) => {
     return {
         image: {
             backgroundPositionX: 'center',

@@ -64,7 +64,7 @@ class Tasks extends Component<TasksProps, ITasksState> {
     }
 }
 
-const style: StyleRulesCallback = (theme: Theme) => {
+const style: StyleRulesCallback<Theme, ITasksProps> = (theme: Theme) => {
     return {
         task: {
             [theme.breakpoints.down('md') + ' and (orientation:landscape)']: {
