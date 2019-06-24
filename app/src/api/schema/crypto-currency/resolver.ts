@@ -34,6 +34,20 @@ const getERC20Contracts = async (account: string, provider: Provider) => {
 };
 
 const getERC20Data = async (account: string, contract: string) => {
+    const defaultResult = {
+        balance: '0',
+        data: {
+            contract: '???',
+            network: '???',
+            platform: '???',
+        },
+        decimals: 0,
+        icon: '/images/cryptocurrency-icons/generic.svg',
+        name: '???',
+        price: '???',
+        symbol: '???',
+    };
+
     const state = store.getState();
     const currentNetwork = currentNetworkSelector(state);
 
@@ -43,52 +57,44 @@ const getERC20Data = async (account: string, contract: string) => {
     );
 
     if (!web3) {
-        return {
-            balance: '0',
-            data: {
-                contract: '???',
-                network: '???',
-                platform: '???',
-            },
-            decimals: 0,
-            icon: '/images/cryptokyberCurrency-icons/generic.svg',
-            name: '???',
-            price: '???',
-            symbol: '???',
-        };
+        return defaultResult;
     }
 
     const tokenContract = new Contract(contract, ERC20Abi, web3);
 
-    const balance = await tokenContract.balanceOf(account);
-    const name = await tokenContract.name();
-    const symbol = await tokenContract.symbol();
-    const decimals = await tokenContract.decimals();
+    try {
+        const balance = await tokenContract.balanceOf(account);
+        const name = await tokenContract.name();
+        const symbol = await tokenContract.symbol();
+        const decimals = await tokenContract.decimals();
 
-    let divisor = utils.bigNumberify(10);
-    if (decimals === 0) {
-        divisor = utils.bigNumberify(1);
+        let divisor = utils.bigNumberify(10);
+        if (decimals === 0) {
+            divisor = utils.bigNumberify(1);
+        }
+
+        for (let i = 1; i < decimals; i++) {
+            divisor = divisor.mul(10);
+        }
+
+        const userBalance = balance.div(divisor).toString();
+
+        return {
+            balance: userBalance,
+            data: {
+                contract,
+                network: currentNetwork.network,
+                platform: 'ethereum',
+            },
+            decimals,
+            icon: `/images/cryptocurrency-icons/${symbol}.svg`,
+            name,
+            price: '???',
+            symbol,
+        };
+    } catch (error) {
+        return defaultResult;
     }
-
-    for (let i = 1; i < decimals; i++) {
-        divisor = divisor.mul(10);
-    }
-
-    const userBalance = balance.div(divisor).toString();
-
-    return {
-        balance: userBalance,
-        data: {
-            contract,
-            network: currentNetwork.network,
-            platform: 'ethereum',
-        },
-        decimals,
-        icon: `/images/cryptokyberCurrency-icons/${symbol}.svg`,
-        name,
-        price: '???',
-        symbol,
-    };
 };
 
 const sendEther = async (amount: string, to: string, fee: string) => {
@@ -291,7 +297,7 @@ export default {
                     platform: 'ethereum',
                 },
                 decimals: 18,
-                icon: '/images/cryptokyberCurrency-icons/eth.svg',
+                icon: '/images/cryptocurrency-icons/eth.svg',
                 name: 'Ether',
                 price: etherPrice,
                 symbol: 'ETH',
