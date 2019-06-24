@@ -122,6 +122,7 @@
     "@sentry/browser": "^5.4.3",
     "@tensorflow/tfjs": "^1.2.1",
     "apollo-cache-inmemory": "=1.4.2",
+    "apollo-cache-persist": "^0.1.1",
     "apollo-client": "=2.4.12",
     "apollo-link": "^1.2.12",
     "apollo-link-schema": "^1.2.3",

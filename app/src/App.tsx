@@ -1,6 +1,6 @@
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import { apolloClient } from 'api';
-import React, { Component } from 'react';
+import { getApolloClient } from 'api';
+import React, { useEffect, useState } from 'react';
 import { ApolloProvider } from 'react-apollo';
 import { hot } from 'react-hot-loader';
 import { theme } from 'themes';
@@ -9,23 +9,37 @@ import IntlProvider from './app/containers/Intl';
 
 interface IAppProps {}
 
-interface IAppState {}
+const App = (props: IAppProps) => {
+    const [apolloClient, setApolloClient] = useState<any>(null);
 
-class App extends Component<IAppProps, IAppState> {
+    useEffect(() => {
+        const initializeApp = async () => {
+            const client = await getApolloClient();
 
-    public render() {
+            setApolloClient(client);
+        };
+
+        initializeApp();
+    });
+
+    if (!apolloClient) {
         return (
-            <ApolloProvider client={apolloClient}>
-                <MuiThemeProvider theme={theme}>
-                    <IntlProvider>
-                        <Layout />
-                    </IntlProvider>
-                </MuiThemeProvider>
-            </ApolloProvider>
+            <div>
+                ...Loading
+            </div>
         );
     }
 
-}
+    return (
+        <ApolloProvider client={apolloClient}>
+            <MuiThemeProvider theme={theme}>
+                <IntlProvider>
+                    <Layout />
+                </IntlProvider>
+            </MuiThemeProvider>
+        </ApolloProvider>
+    );
+};
 
 let exportedApp = App;
 if (process.env.NODE !== 'production' && module.hot) {

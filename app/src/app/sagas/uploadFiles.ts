@@ -1,10 +1,12 @@
-import { apolloClient } from 'api';
+import { getApolloClient } from 'api';
 import addImagesMutation from 'filesystem/mutations/addImages.graphql';
 import { getFileType } from 'filesystem/utils/files';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { IUploadFilesAction, UPLOAD_FILES } from '../actions/uploadFiles';
 
 function* uploadFiles(action: IUploadFilesAction) {
+    const apolloClient = yield call(getApolloClient);
+
     for (const file of action.payload.files) {
         const type = yield call(getFileType, file);
 
