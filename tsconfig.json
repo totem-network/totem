@@ -2,6 +2,7 @@
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
         "baseUrl": "app/src",
+        "esModuleInterop": true,
         "experimentalDecorators": true,
         "jsx": "preserve",
         "module": "esnext",

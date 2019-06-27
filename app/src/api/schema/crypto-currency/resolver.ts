@@ -228,16 +228,16 @@ export default {
 
         sendCryptoCurrency: async (schema: any, {
             amount,
-            kyberCurrencyOrToken,
+            currencyOrToken,
             fee,
             to,
         }: any) => {
             let result = false;
-            switch (kyberCurrencyOrToken) {
+            switch (currencyOrToken) {
                 case 'ethereum':
                     result = await sendEther(amount, to, fee);
                 default:
-                    result = await sendToken(kyberCurrencyOrToken, amount, to, fee);
+                    result = await sendToken(currencyOrToken, amount, to, fee);
             }
 
             return {

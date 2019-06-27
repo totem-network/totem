@@ -11,6 +11,7 @@ import reducer, { IImmutableNetworkState } from './reducers';
 import sagas from './sagas';
 import currentNetworkSelector from './selectors/currentNetwork';
 import feeSelector from './selectors/fee';
+import StorageProviderManager from './storage/ProviderManager';
 
 export {
     ADD_ACCOUNT,
@@ -23,4 +24,5 @@ export {
     IImmutableNetworkState,
     reducer,
     sagas,
+    StorageProviderManager,
 };

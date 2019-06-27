@@ -11,7 +11,7 @@ export const getCurrentNetworkSigner = async () => {
     );
 
     return web3Signer;
-}
+};
 
 export const getCurrentNetworkProvider = async () => {
     const state = store.getState();
@@ -23,5 +23,4 @@ export const getCurrentNetworkProvider = async () => {
     );
 
     return web3Provider;
-}
-    
+};
