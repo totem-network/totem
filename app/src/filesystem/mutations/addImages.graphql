@@ -1,5 +1,5 @@
-mutation addImages($files: [Upload]) {
-    addImages(files: $files) {
+mutation addImages($images: [ImageInput]) {
+    addImages(images: $images) {
         result
     }
 }
