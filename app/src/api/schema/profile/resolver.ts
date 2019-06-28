@@ -44,7 +44,7 @@ export default {
             const profile = await Box.getProfile(address);
 
             if (profile.name) {
-                result.name = name;
+                result.name = profile.name;
             }
 
             if (

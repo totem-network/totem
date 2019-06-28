@@ -1,0 +1,6 @@
+query getNameByAddress($address: String) {
+    getProfile(address: $address) {
+        address,
+        name,
+    }
+}

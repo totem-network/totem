@@ -9,7 +9,7 @@ import {
     ILoginMetaMaskAction,
 } from '../../actions/login';
 import Avatar from '../../components/Avatar';
-import Name from '../../containers/Name';
+import Name from '../../components/Name';
 
 export interface ILoginMetaMaskData {
     password: string;

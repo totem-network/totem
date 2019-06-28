@@ -32,7 +32,7 @@ describe('Account components', () => {
                 login: stub(),
             } as any as ILoginPrivateKeyProps;
 
-            const wrapper = shallow(<LoginPrivateKey {...props} />);
+            // const wrapper = shallow(<LoginPrivateKey {...props} />);
 
             // expect(wrapper.find(Form)).to.have.lengthOf(1);
             // expect(wrapper.find(Field)).to.have.lengthOf(1); // TODO: not working
@@ -52,7 +52,7 @@ describe('Account components', () => {
                 login,
             } as any as ILoginPrivateKeyProps;
 
-            const wrapper = shallow(<LoginPrivateKey {...props} />);
+            // const wrapper = shallow(<LoginPrivateKey {...props} />);
 
             // wrapper.find(Form).simulate('submit');
 
