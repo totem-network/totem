@@ -148,7 +148,6 @@
     "ipfs": "^0.36.4",
     "ipfs-api": "^26.1.2",
     "isobject": "^3.0.1",
-    "jimp": "^0.6.4",
     "justified-layout": "^2.1.2",
     "lunr": "^2.3.6",
     "merge-graphql-schemas": "^1.5.8",

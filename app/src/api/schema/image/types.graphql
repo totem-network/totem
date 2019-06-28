@@ -9,15 +9,10 @@ type AddImagesResponse {
     result: Boolean
 }
 
-input ImageInput {
-    name: String
-    dataUrl: String
-}
-
 type Query {
     images: [Image]
 }
 
 type Mutation {
-    addImages(images: [ImageInput]): AddImagesResponse
+    addImages(images: [String]): AddImagesResponse
 }

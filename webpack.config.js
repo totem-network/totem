@@ -64,9 +64,6 @@ const config = {
         runtimeChunk: true
     },
     plugins: [
-        new webpack.DefinePlugin({
-            'process.browser': 'true'
-        }),
         new HtmlWebpackPlugin({
             template: 'app/src/index.html'
         }),
