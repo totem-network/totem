@@ -1,4 +1,4 @@
-import { getCurrentNetworkProvider } from '../../utils/blockchain';
+import { getCurrentNetworkProvider } from 'utils/blockchain';
 
 export default {
 

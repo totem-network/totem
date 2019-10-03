@@ -103,7 +103,7 @@ class SideNav extends Component<SideNavProps, ISideNavState> {
             return;
         }
 
-        this.domNode.style.transform = null;
+        this.domNode.style.transform = '';
     }
 
     public render() {
@@ -188,7 +188,7 @@ class SideNav extends Component<SideNavProps, ISideNavState> {
             return;
         }
 
-        this.domNode.style.transform = null;
+        this.domNode.style.transform = '';
     }
 }
 

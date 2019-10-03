@@ -14,6 +14,9 @@ class ProviderManager {
 
     constructor() {
         this.providers = {};
+
+        this.setProvider = this.setProvider.bind(this);
+        this.getProvider = this.getProvider.bind(this);
     }
 
     public setProvider(
@@ -32,7 +35,7 @@ class ProviderManager {
 
     public async getProvider(platform: string, network: string): Promise<any | undefined> {
         if (!this.providers[platform]) {
-            return;
+            this.providers[platform] = {};
         }
 
         if (!this.providers[platform][network]) {
@@ -51,7 +54,9 @@ class ProviderManager {
                 // TODO: different IPFS networks
             }
 
-            return new IPFS();
+            return IPFS.create({
+                EXPERIMENTAL: { pubsub: true },
+            });
         }
 
         return;

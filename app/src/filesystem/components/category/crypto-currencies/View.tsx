@@ -101,16 +101,23 @@ class CryptoCurrenciesView extends Component<CryptoCurrenciesViewProps, ICryptoC
                 </ViewNav>
                 <div className={container}>
                     <Query query={cryptoCurrenciesQuery}>
-                        {({ loading, error, data }: any) => {
+                        {({ loading, error, data, refetch }: any) => {
                             if (loading) {
                                 return (
                                     <LoadingBar />
                                 );
                             }
                             if (error) {
+                                const retry = () => {
+                                    refetch();
+                                    // TODO: refetch not reloading
+                                    // https://github.com/apollographql/react-apollo/issues/321
+                                };
+
                                 return (
                                     <Error
                                         error={error}
+                                        retry={retry}
                                     />
                                 );
                             }

@@ -7,6 +7,26 @@ import ProviderManager from '../../blockchain/ProviderManager';
 export default function* initializeSaga() {
     const initializeAction = yield take(INITIALIZE);
 
+    /*try {
+        const provider = new providers.InfuraProvider();
+
+        ProviderManager.setProvider(
+            'ethereum',
+            '1',
+            provider,
+        );
+
+        ProviderManager.setSigner(
+            'ethereum',
+            '1',
+            provider.getSigner(),
+        );
+
+        yield put(setCurrentNetwork('ethereum', '1'));
+    } catch (error) {
+        //
+    }*/
+
     const network = initializeAction.payload.ethereum.networkVersion;
 
     try {

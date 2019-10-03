@@ -27,6 +27,16 @@ class Boxes {
         return this.boxes[address];
     }
 
+    public async verifyClaim(claim: any, options: any) {
+        if (!this.box) {
+            const boxImport = await import(/* webpackChunkName: '3box' */ '3box');
+
+            this.box = boxImport.default;
+        }
+
+        return this.box.idUtils.verifyClaim(claim, options);
+    }
+
 }
 
 export default new Boxes();

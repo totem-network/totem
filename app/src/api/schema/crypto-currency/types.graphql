@@ -17,6 +17,7 @@ type TokenData {
     contract: String
     network: String
     platform: String
+    tokenStandard: String
 }
 
 union CryptoCurrencyData = NativeCurrencyData | TokenData
@@ -41,11 +42,13 @@ type SendCryptoCurrencyResponse {
 }
 
 type Query {
+    # TODO: by platform and network
     cryptoCurrencies(address: String): [CryptoCurrency]
     cryptoCurrenciesOnExchange: [ExchangeCryptoCurrency]
 }
 
 type Mutation {
+    # TODO: add platform and network
     addToken(contract: String!): AddTokenResponse
     sendCryptoCurrency(currencyOrToken: String!, amount: String!, to: String!, fee: String!): SendCryptoCurrencyResponse
 }

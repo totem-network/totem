@@ -55,7 +55,9 @@ const config = {
     },
     node: {
         fs: 'empty',
-        child_process: 'empty'
+        child_process: 'empty',
+        net: 'empty',
+        tls: 'empty'
     },
     optimization: {
         splitChunks: {
@@ -109,7 +111,9 @@ const config = {
     ],
     resolve: {
         alias: {
-            '3box': path.resolve('./node_modules/3box/dist/3box.min.js')/*,
+            '3box': path.resolve('./node_modules/3box/dist/3box.min.js'),
+            'ipfs': path.resolve('./node_modules/ipfs/dist/index.min.js'),
+            /*'orbit-db': path.resolve('./node_modules/orbit-db/dist/orbitdb.min.js')/*,
             'react': 'preact/compat',
             'react-dom': 'preact/compat'*/
         },

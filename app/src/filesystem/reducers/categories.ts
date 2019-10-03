@@ -8,7 +8,8 @@ import {
 } from 'immutable';
 
 interface ICategoriesState {
-    color: string;
+    colorFrom: string;
+    colorTo: string;
     contrastText?: string;
     id: string;
     title: string;
@@ -18,31 +19,36 @@ export interface IImmutableCategoriesState extends List<ICategoriesState> {}
 
 const initialState = List<ICategoriesState>([
     {
-        color: blue[400],
+        colorFrom: blue[400],
+        colorTo: blue[700],
         contrastText: '#f8f8f8',
         id: 'crypto-currencies',
         title: 'Crypto Currencies',
     },
     {
-        color: pink.A200,
+        colorFrom: pink.A200,
+        colorTo: pink.A700,
         contrastText: '#f8f8f8',
         id: 'digital-assets',
         title: 'Digital Assets',
     },
     {
-        color: yellow.A400,
-        contrastText: '#333333',
+        colorFrom: orange.A200,
+        colorTo: yellow.A400,
+        contrastText: '#f8f8f8',
         id: 'images',
         title: 'Images',
     },
     {
-        color: green.A400,
+        colorFrom: green.A700,
+        colorTo: green.A200,
         contrastText: '#f8f8f8',
         id: 'music',
         title: 'Music',
     },
     {
-        color: orange[500],
+        colorFrom: orange[500],
+        colorTo: orange[800],
         contrastText: '#f8f8f8',
         id: 'videos',
         title: 'Videos',

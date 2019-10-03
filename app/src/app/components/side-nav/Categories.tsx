@@ -6,7 +6,8 @@ import Item from './Item';
 
 interface ICategory {
     id: string;
-    color: string;
+    colorFrom: string;
+    colorTo: string;
     contrastText?: string;
     title: string;
 }
@@ -28,7 +29,8 @@ class Categories extends Component<CategoriesProps, ICategoriesState> {
 
         const items = categories.map((category: ICategory, index: number) => (
             <Item
-                color={category.color}
+                colorFrom={category.colorFrom}
+                colorTo={category.colorTo}
                 key={index}
                 label={category.title}
                 onClick={() => selectCategory(category.id)}

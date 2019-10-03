@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 
 export interface IErrorProps {
     error: any;
+    retry: () => void;
 }
 
 export interface IErrorState {}
@@ -24,8 +25,13 @@ class Error extends Component<ErrorProps, IErrorState> {
 
     public render() {
         const {
+            retry,
+        } = this.props;
+
+        const {
             container,
             message,
+            retryButton,
         } = this.props.classes;
 
         return (
@@ -35,6 +41,9 @@ class Error extends Component<ErrorProps, IErrorState> {
                 />
                 <div className={message}>
                     Error: Could not load files
+                </div>
+                <div className={retryButton} onClick={retry}>
+                    Retry
                 </div>
             </div>
         );
@@ -56,6 +65,12 @@ const style: StyleRulesCallback<Theme, IErrorProps> = (theme: Theme) => {
         message: {
             fontSize: '1rem',
             marginTop: '.5rem',
+        },
+        retryButton: {
+            cursor: 'pointer',
+            fontSize: '1rem',
+            fontWeight: 'bold',
+            pointerEvents: 'auto',
         },
     };
 };

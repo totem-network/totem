@@ -1,6 +1,20 @@
+import { accountAddressSelector, boxes } from 'account';
 import { getImageSize, IImageSize } from 'filesystem/utils/images';
 import Jimp from 'jimp';
+import { store } from 'state';
+import DatabaseProviderManager from './../../database/ProviderManager';
 import uploadImage from './../../uploader/image';
+
+const getTotemSpace = async () => {
+    const state = store.getState();
+    const account = accountAddressSelector(state);
+
+    const box = await boxes.openBox(account, (window as any).ethereum);
+
+    const space = await box.openSpace('totem');
+
+    return space;
+};
 
 const getMimeTypeFromJimpImage = (jimpImage: any) => {
     if (jimpImage.hasAlpha()) {
@@ -34,7 +48,9 @@ export default {
         addImages: async (schema: any, {
             images,
         }: any) => {
-            // TODO: show notification with loading bar while images are being processed
+            // TODO: show notification with loading bar while images are being processed (needs subscription)
+            const imageHashes = [];
+            const imagesData = [];
 
             for (const image of images) {
                 const jimpImage = await Jimp.read(image.dataUrl);
@@ -90,7 +106,7 @@ export default {
                 const thumbnail2xRetinaDataUrl = await thumbnail2xRetina.getBase64Async(mimeType);
 
                 const uploadResult = await uploadImage({
-                    fileDataUrl: image,
+                    fileDataUrl: image.dataUrl,
                     lowResolutionPlaceholderDataUrl,
                     name: image.name,
                     thumbnail2xDataUrl,
@@ -99,14 +115,101 @@ export default {
                     thumbnailRetinaDataUrl,
                     type: 'pixel',
                 });
+
+                if (!uploadResult.hash || !uploadResult.data) {
+                    return {
+                        images: [],
+                        result: false,
+                    };
+                }
+
+                imageHashes.push(uploadResult.hash);
+                imagesData.push(uploadResult.data);
             }
+
+            const space = await getTotemSpace();
+            const orbitDbHash = await space.private.get('images');
+            let database = null;
+
+            if (!orbitDbHash) {
+                database = await DatabaseProviderManager.createDatabase({
+                    name: 'images',
+                    // TODO: network and platform from state
+                    network: '1',
+                    platform: 'ipfs',
+                    provider: 'orbit-db',
+                    type: 'feed',
+                });
+
+                if (!database) {
+                    return {
+                        images: [],
+                        result: false,
+                    };
+                }
+
+                await space.private.set('images', database.id);
+            } else {
+                database = await DatabaseProviderManager.openDatabase({
+                    // TODO: network and platform from state
+                    network: '1',
+                    path: orbitDbHash,
+                    platform: 'ipfs',
+                    provider: 'orbit-db',
+                    type: 'feed',
+                });
+
+                // TODO: check if user is allowed to write to db
+
+                if (!database) {
+                    // TODO: if hash was outdated create new db
+
+                    return {
+                        images: [],
+                        result: false,
+                    };
+                }
+            }
+
+            if (!database) {
+                return {
+                    images: [],
+                    result: false,
+                };
+            }
+
+            for (const imageHash of imageHashes) {
+                await database.add(imageHash);
+            }
+
+            return {
+                images: imagesData,
+                result: true,
+            };
         },
     },
 
     Query: {
-        images: async () => {
-            //
+
+        image: async (schema: any, {
+            hash,
+            size,
+        }: any) => {
+            // single image data
+            const space = await getTotemSpace();
         },
+
+        images: async () => {
+            // Todo: query from orbit db and send metadata of all images
+            const space = await getTotemSpace();
+
+            /*const all = database.iterator({ limit: -1 })
+                .collect()
+                .map((e: any) => e.payload.value);
+
+            console.log(all);*/
+        },
+
     },
 
 };

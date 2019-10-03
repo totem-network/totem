@@ -1,6 +1,6 @@
+import { showSideNav } from 'app';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { showSideNav } from 'app';
 
 import ActionButtons from '../../components/action-buttons/ActionButtons';
 
@@ -17,4 +17,4 @@ const mapDispatchToProps = (dispatch: any) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(ActionButtons);
+)(ActionButtons as any);

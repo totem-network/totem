@@ -1,9 +1,13 @@
 import { BlockchainProviderManager, currentNetworkSelector } from 'network';
 import { store } from 'state';
 
-export const getCurrentNetworkSigner = async () => {
+export const getCurrentNetwork = () => {
     const state = store.getState();
-    const currentNetwork = currentNetworkSelector(state);
+    return currentNetworkSelector(state);
+};
+
+export const getCurrentNetworkSigner = async () => {
+    const currentNetwork = getCurrentNetwork();
 
     const web3Signer = await BlockchainProviderManager.getSigner(
         currentNetwork.platform,
@@ -14,8 +18,7 @@ export const getCurrentNetworkSigner = async () => {
 };
 
 export const getCurrentNetworkProvider = async () => {
-    const state = store.getState();
-    const currentNetwork = currentNetworkSelector(state);
+    const currentNetwork = getCurrentNetwork();
 
     const web3Provider = await BlockchainProviderManager.getProvider(
         currentNetwork.platform,

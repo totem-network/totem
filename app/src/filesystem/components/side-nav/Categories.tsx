@@ -12,7 +12,8 @@ import {
 
 interface ICategory {
     id: string;
-    color: string;
+    colorFrom: string;
+    colorTo: string;
     contrastText?: string;
     title: string;
 }
@@ -59,7 +60,11 @@ class Categories extends Component<CategoriesProps, ICategoriesState> {
             const categoryBackground: CSSProperties  = {};
 
             if (selectedCategory === category.id) {
-                categoryBackground.backgroundColor = category.color;
+                categoryBackground.background = `linear-gradient(
+                    to right,
+                    ${category.colorFrom},
+                    ${category.colorTo}
+                )`;
 
                 if (category.contrastText) {
                     categoryBackground.color = category.contrastText;

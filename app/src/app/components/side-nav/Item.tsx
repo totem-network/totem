@@ -3,7 +3,8 @@ import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/st
 import React, { Component } from 'react';
 
 interface IItemProps {
-    color: string;
+    colorFrom: string;
+    colorTo: string;
     label: string;
     onClick: any;
 }
@@ -16,14 +17,17 @@ class Item extends Component<ItemProps, IItemState> {
 
     public render() {
         const {
-            color,
+            colorFrom,
+            colorTo,
             label,
             onClick,
         } = this.props;
         const { item } = this.props.classes;
 
         const style = {
-            borderLeft: `4px solid ${color}`,
+            borderImage: `linear-gradient(to bottom, ${colorFrom}, ${colorTo}) 1 100%`,
+            borderStyle: 'solid',
+            borderWidth: '4px',
         };
 
         return (

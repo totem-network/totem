@@ -16,7 +16,7 @@ function* uploadFiles(action: IUploadFilesAction) {
 
         switch (type) {
             case 'image':
-                yield call(apolloClient.mutate, {
+                const addImagesResult = yield apolloClient.mutate({
                     mutation: addImagesMutation,
                     variables: {
                         images: [{
@@ -25,6 +25,18 @@ function* uploadFiles(action: IUploadFilesAction) {
                         }],
                     },
                 });
+                /*const addImagesResult = yield call(apolloClient.mutate, {
+                    mutation: addImagesMutation,
+                    variables: {
+                        images: [{
+                            dataUrl,
+                            name: 'Test',
+                        }],
+                    },
+                });*/
+                console.log(1);
+                console.log(2);
+                console.log(addImagesResult);
                 break;
         }
     }

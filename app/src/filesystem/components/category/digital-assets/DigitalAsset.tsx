@@ -38,16 +38,23 @@ class DigitalAsset extends Component<DigitalAssetProps, IDigitalAssetState> {
             <Fragment>
                 <div className={container}>
                     <Query query={digitalAssetQuery} variables={queryVariables}>
-                        {({ loading, error, data }: any) => {
+                        {({ loading, error, data, refetch }: any) => {
                             if (loading) {
                                 return (
                                     <LoadingBar />
                                 );
                             }
                             if (error) {
+                                const retry = () => {
+                                    refetch();
+                                    // TODO: refetch not reloading
+                                    // https://github.com/apollographql/react-apollo/issues/321
+                                };
+
                                 return (
                                     <Error
                                         error={error}
+                                        retry={retry}
                                     />
                                 );
                             }

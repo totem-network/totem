@@ -2,6 +2,7 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import Table from '@material-ui/core/Table';
+import PhotoAlbumIcon from '@material-ui/icons/PhotoAlbum';
 import React, { Component, Fragment } from 'react';
 import { Query } from "react-apollo";
 import ActionButtons from '../../../containers/action-buttons/ActionButtons';
@@ -9,6 +10,8 @@ import cryptoCurrenciesQuery from '../../../queries/cryptoCurrencies.graphql';
 import ActionButton from '../../action-buttons/Button';
 import Error from '../../Error';
 import LoadingBar from '../../LoadingBar';
+import ViewNavButton from '../../view-nav/Button';
+import ViewNav from '../../view-nav/ViewNav';
 
 export interface IImagesViewProps {}
 
@@ -61,18 +64,31 @@ class ImagesView extends Component<ImagesViewProps, IImagesViewState> {
 
         return (
             <Fragment>
+                <ViewNav>
+                    <ViewNavButton
+                        icon={<PhotoAlbumIcon />}
+                        label={'Albums'}
+                    />
+                </ViewNav>
                 <div className={container}>
                     <Query query={cryptoCurrenciesQuery}>
-                        {({ loading, error, data }: any) => {
+                        {({ loading, error, data, refetch }: any) => {
                             if (loading) {
                                 return (
                                     <LoadingBar />
                                 );
                             }
                             if (error) {
+                                const retry = () => {
+                                    refetch();
+                                    // TODO: refetch not reloading
+                                    // https://github.com/apollographql/react-apollo/issues/321
+                                };
+
                                 return (
                                     <Error
                                         error={error}
+                                        retry={retry}
                                     />
                                 );
                             }
@@ -82,9 +98,9 @@ class ImagesView extends Component<ImagesViewProps, IImagesViewState> {
                             });
 
                             return (
-                                <Table>
-                                    {rows}
-                                </Table>
+                                <div>
+                                    Test
+                                </div>
                             );
                         }}
                     </Query>

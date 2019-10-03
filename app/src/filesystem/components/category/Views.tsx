@@ -3,6 +3,7 @@ import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/st
 import React, { Component } from 'react';
 import CryptoCurrencies from '../../containers/category/CryptoCurrencies';
 import DigitalAssets from '../../containers/category/DigitalAssets';
+import Images from '../../containers/category/Images';
 
 export interface IViewsProps {
     instanceCategory: string;
@@ -35,6 +36,10 @@ class Views extends Component<ViewsProps, IViewsState> {
             case 'digital-assets':
                 return (
                     <DigitalAssets />
+                );
+            case 'images':
+                return (
+                    <Images />
                 );
         }
     }

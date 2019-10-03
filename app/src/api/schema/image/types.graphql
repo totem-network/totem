@@ -4,8 +4,19 @@ type Image {
     width: Int
 }
 
+type ImageMetaData {
+    fileHash: String
+    lowResolutionPlaceholderHash: String
+    name: String
+    thumbnail2xHash: String
+    thumbnail2xRetinaHash: String
+    thumbnailHash: String
+    thumbnailRetinaHash: String
+    type: String
+}
+
 type AddImagesResponse {
-    images: [Image]
+    images: [ImageMetaData]
     result: Boolean
 }
 
@@ -15,7 +26,8 @@ input ImageInput {
 }
 
 type Query {
-    images: [Image]
+    image(hash: String, size: String): Image
+    images: [ImageMetaData]
 }
 
 type Mutation {

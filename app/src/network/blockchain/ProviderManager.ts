@@ -28,6 +28,12 @@ class ProviderManager {
     constructor() {
         this.providers = {};
         this.signers = {};
+
+        this.setProvider = this.setProvider.bind(this);
+        this.getProvider = this.getProvider.bind(this);
+
+        this.setSigner = this.setSigner.bind(this);
+        this.getSigner = this.getSigner.bind(this);
     }
 
     public setProvider(

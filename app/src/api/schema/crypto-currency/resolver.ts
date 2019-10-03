@@ -24,6 +24,10 @@ const getERC20Contracts = async (account: string, provider: Provider) => {
 
     const space = await box.openSpace('totem');
 
+    if (!space || !space.private) {
+        return [];
+    }
+
     let erc20Contracts: string[] | null = await space.private.get('cryptoCurrencies');
 
     if (!erc20Contracts) {
@@ -40,6 +44,7 @@ const getERC20Data = async (account: string, contract: string) => {
             contract: '???',
             network: '???',
             platform: '???',
+            tokenStandard: '???',
         },
         decimals: 0,
         icon: '/images/cryptocurrency-icons/generic.svg',
@@ -85,6 +90,7 @@ const getERC20Data = async (account: string, contract: string) => {
                 contract,
                 network: currentNetwork.network,
                 platform: 'ethereum',
+                tokenStandard: 'ERC20',
             },
             decimals,
             icon: `/images/cryptocurrency-icons/${symbol}.svg`,
@@ -204,6 +210,10 @@ export default {
             const box = await boxes.openBox(account, (window as any).ethereum);
 
             const space = await box.openSpace('totem');
+
+            if (!space || !space.private) {
+                return [];
+            }
 
             let erc20Contracts: string[] | null = await space.private.get('cryptoCurrencies');
 
