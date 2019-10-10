@@ -1,8 +1,5 @@
-import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, {
-    Component,
-    Fragment,
-} from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
 import Direction from './resize/Direction';
 
 interface IResizeProps {
@@ -11,72 +8,7 @@ interface IResizeProps {
     resize: (width: number, height: number) => void;
 }
 
-interface IResizeState {}
-
-type ResizeProps = IResizeProps & WithStyles;
-
-class Resize extends Component<ResizeProps, IResizeState> {
-
-    public render() {
-        const {
-            bottom,
-            bottomLeft,
-            bottomRight,
-            left,
-            right,
-            top,
-            topLeft,
-            topRight,
-        } = this.props.classes;
-
-        return (
-            <Fragment>
-                <Direction
-                    className={topLeft}
-                    direction='ne'
-                    {...this.props}
-                />
-                <Direction
-                    className={topRight}
-                    direction='nw'
-                    {...this.props}
-                />
-                <Direction
-                    className={bottomLeft}
-                    direction='se'
-                    {...this.props}
-                />
-                <Direction
-                    className={bottomRight}
-                    direction='sw'
-                    {...this.props}
-                />
-                <Direction
-                    className={top}
-                    direction='n'
-                    {...this.props}
-                />
-                <Direction
-                    className={left}
-                    direction='e'
-                    {...this.props}
-                />
-                <Direction
-                    className={right}
-                    direction='w'
-                    {...this.props}
-                />
-                <Direction
-                    className={bottom}
-                    direction='s'
-                    {...this.props}
-                />
-            </Fragment>
-        );
-    }
-}
-
-const style: StyleRules = {
+const useStyles = makeStyles({
     bottom: {
         bottom: '0',
         cursor: 's-resize',
@@ -124,6 +56,7 @@ const style: StyleRules = {
         position: 'absolute',
         top: '0',
         width: '100%',
+        zIndex: 1,
     },
     topLeft: {
         cursor: 'nw-resize',
@@ -132,7 +65,7 @@ const style: StyleRules = {
         position: 'absolute',
         top: '0',
         width: '7px',
-        zIndex: 1,
+        zIndex: 2,
     },
     topRight: {
         cursor: 'ne-resize',
@@ -141,8 +74,57 @@ const style: StyleRules = {
         right: '0',
         top: '0',
         width: '10px',
-        zIndex: 1,
+        zIndex: 2,
     },
+});
+
+const Resize = (props: IResizeProps) => {
+    const classes = useStyles();
+
+    return (
+        <>
+            <Direction
+                className={classes.topLeft}
+                direction='ne'
+                {...props}
+            />
+            <Direction
+                className={classes.topRight}
+                direction='nw'
+                {...props}
+            />
+            <Direction
+                className={classes.bottomLeft}
+                direction='se'
+                {...props}
+            />
+            <Direction
+                className={classes.bottomRight}
+                direction='sw'
+                {...props}
+            />
+            <Direction
+                className={classes.top}
+                direction='n'
+                {...props}
+            />
+            <Direction
+                className={classes.left}
+                direction='e'
+                {...props}
+            />
+            <Direction
+                className={classes.right}
+                direction='w'
+                {...props}
+            />
+            <Direction
+                className={classes.bottom}
+                direction='s'
+                {...props}
+            />
+        </>
+    );
 };
 
-export default withStyles(style)(Resize);
+export default Resize;

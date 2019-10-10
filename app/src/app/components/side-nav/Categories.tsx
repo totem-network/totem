@@ -1,7 +1,6 @@
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
+import { makeStyles } from '@material-ui/styles';
 import { ISideNavSelectCategoryAction } from 'filesystem';
-import React, { Component } from 'react';
+import React from 'react';
 import Item from './Item';
 
 interface ICategory {
@@ -17,42 +16,38 @@ interface ICategoriesProps {
     selectCategory: (category: string) => ISideNavSelectCategoryAction;
 }
 
-interface ICategoriesState {}
+const useStyles = makeStyles({
+    list: {
+        padding: 0,
+        width: '100%',
+    },
+});
 
-type CategoriesProps = ICategoriesProps & WithStyles;
+const Categories = ({
+    categories,
+    selectCategory,
+}: ICategoriesProps) => {
+    const classes = useStyles();
 
-class Categories extends Component<CategoriesProps, ICategoriesState> {
+    const items = categories.map((category: ICategory, index: number) => {
+        const handleClick = () => selectCategory(category.id);
 
-    public render() {
-        const { categories, selectCategory } = this.props;
-        const { list } = this.props.classes;
-
-        const items = categories.map((category: ICategory, index: number) => (
+        return (
             <Item
                 colorFrom={category.colorFrom}
                 colorTo={category.colorTo}
                 key={index}
                 label={category.title}
-                onClick={() => selectCategory(category.id)}
+                onClick={handleClick}
             />
-        ));
-
-        return (
-            <ul className={list}>
-                {items}
-            </ul>
         );
-    }
+    });
 
-}
-
-const style: StyleRulesCallback<Theme, ICategoriesProps> = (theme: Theme) => {
-    return {
-        list: {
-            padding: 0,
-            width: '100%',
-        },
-    };
+    return (
+        <ul className={classes.list}>
+            {items}
+        </ul>
+    );
 };
 
-export default withStyles(style)(Categories);
+export default Categories;

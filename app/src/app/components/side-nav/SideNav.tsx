@@ -1,12 +1,12 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import withWidth, { isWidthDown, WithWidth } from '@material-ui/core/withWidth';
+import { isWidthDown } from '@material-ui/core/withWidth';
+import { makeStyles } from '@material-ui/styles';
 import classNames from 'classnames';
 import React, {
-    Component,
     MouseEvent,
     TouchEvent,
 } from 'react';
+import { useWidth } from 'ui';
 import { IHideSideNavAction } from './../../actions/sideNav';
 import Categories from './../../containers/side-nav/Categories';
 import Header from './../../containers/side-nav/Header';
@@ -18,181 +18,7 @@ interface ISideNavProps {
     hideSideNav: () => IHideSideNavAction;
 }
 
-interface ISideNavState {}
-
-type SideNavProps = ISideNavProps & WithStyles & WithWidth;
-
-class SideNav extends Component<SideNavProps, ISideNavState> {
-
-    protected touchStartX: number;
-
-    protected touchCurrentX: number;
-
-    protected willHide: boolean;
-
-    protected domNode?: HTMLElement;
-
-    constructor(props: SideNavProps, context: any) {
-        super(props, context);
-
-        this.handleClick = this.handleClick.bind(this);
-        this.handleTouchStart = this.handleTouchStart.bind(this);
-        this.handleTouchMove = this.handleTouchMove.bind(this);
-        this.handleTouchEnd = this.handleTouchEnd.bind(this);
-        this.setRef = this.setRef.bind(this);
-
-        this.touchStartX = 0;
-        this.touchCurrentX = 0;
-        this.willHide = false;
-    }
-
-    public setRef(element: any) {
-        this.domNode = element;
-    }
-
-    public blockClick(event: MouseEvent<HTMLElement>) {
-        event.stopPropagation();
-    }
-
-    public handleClick() {
-        const { width } = this.props;
-
-        if (isWidthDown('md', width)) {
-            this.hideSideNav();
-        }
-    }
-
-    public handleTouchStart(event: TouchEvent<HTMLElement>) {
-        this.touchStartX = event.touches[0].pageX;
-        this.touchCurrentX = this.touchStartX;
-
-        // TODO: add transition and remove on end with react spring
-    }
-
-    public handleTouchMove(event: TouchEvent<HTMLElement>) {
-        const { isVisible } = this.props;
-
-        this.touchCurrentX = event.touches[0].pageX;
-
-        const deltaX = this.touchCurrentX - this.touchStartX;
-
-        this.willHide = (deltaX < -50);
-
-        // TODO set willHide to false if last swipe was in other direction
-
-        if (!this.domNode) {
-            return;
-        }
-
-        if (!isVisible) {
-            return;
-        }
-
-        const translateX = Math.min(0, deltaX);
-
-        this.domNode.style.transform = `translateX(${translateX}px)`;
-    }
-
-    public handleTouchEnd(event: TouchEvent<HTMLElement>) {
-        if (this.willHide) {
-            this.hideSideNav();
-            return;
-        }
-
-        if (!this.domNode) {
-            return;
-        }
-
-        this.domNode.style.transform = '';
-    }
-
-    public render() {
-        const { isVisible } = this.props;
-        const {
-            container,
-            containerBefore,
-            containerVisible,
-            containerVisibleBefore,
-            nav,
-            navVisible,
-        } = this.props.classes;
-
-        return (
-            <>
-                <div
-                    className={classNames(
-                        containerBefore,
-                        {
-                            [containerVisibleBefore]: isVisible,
-                        },
-                    )}
-                />
-                <aside
-                    onClick={this.handleClick}
-                    onTouchStart={this.handleTouchStart}
-                    onTouchMove={this.handleTouchMove}
-                    onTouchEnd={this.handleTouchEnd}
-                    className={classNames(
-                        container,
-                        {
-                            [containerVisible]: isVisible,
-                        },
-                    )}
-                >
-                    <nav
-                        className={classNames(
-                            nav,
-                            {
-                                [navVisible]: isVisible,
-                            },
-                        )}
-                        ref={this.setRef}
-                    >
-                        {this.renderNavContent()}
-                    </nav>
-                </aside>
-            </>
-        );
-    }
-
-    protected renderNavContent() {
-        const { width } = this.props;
-        const {
-            navBackground,
-        } = this.props.classes;
-
-        if (isWidthDown('md', width)) {
-            return (
-                <>
-                    <div className={navBackground} />
-                    <Header />
-                    <Categories />
-                </>
-            );
-        }
-
-        return (
-            <>
-                <div className={navBackground} />
-                <Header />
-                <Tasks />
-                <Launcher />
-            </>
-        );
-    }
-
-    protected hideSideNav() {
-        this.props.hideSideNav();
-
-        if (!this.domNode) {
-            return;
-        }
-
-        this.domNode.style.transform = '';
-    }
-}
-
-const style: StyleRulesCallback<Theme, ISideNavProps> = (theme: Theme) => {
+const useStyles = makeStyles((theme: Theme) => {
     return {
         container: {
             [theme.breakpoints.up('lg')]: {
@@ -273,8 +99,138 @@ const style: StyleRulesCallback<Theme, ISideNavProps> = (theme: Theme) => {
             transform: 'none',
         },
     };
+});
+
+const SideNav = ({
+    isVisible,
+    hideSideNav,
+}: ISideNavProps) => {
+    const classes = useStyles();
+    const width = useWidth();
+
+    let touchStartX = 0;
+    let touchCurrentX = 0;
+    let willHide = false;
+    let domNode: any = null;
+
+    const setRef = (element: any) => {
+        domNode = element;
+    };
+
+    const hide = () => {
+        hideSideNav();
+
+        if (!domNode) {
+            return;
+        }
+
+        domNode.style.transform = '';
+    };
+
+    const blockClick = (event: MouseEvent<HTMLElement>) => {
+        event.stopPropagation();
+    };
+
+    const handleClick = () => {
+        if (isWidthDown('md', width)) {
+            hide();
+        }
+    };
+
+    const handleTouchStart = (event: TouchEvent<HTMLElement>) => {
+        touchStartX = event.touches[0].pageX;
+        touchCurrentX = touchStartX;
+
+        // TODO: add transition and remove on end with react spring
+    };
+
+    const handleTouchMove = (event: TouchEvent<HTMLElement>) => {
+
+        touchCurrentX = event.touches[0].pageX;
+
+        const deltaX = touchCurrentX - touchStartX;
+
+        willHide = (deltaX < -50);
+
+        // TODO set willHide to false if last swipe was in other direction
+
+        if (!domNode) {
+            return;
+        }
+
+        if (!isVisible) {
+            return;
+        }
+
+        const translateX = Math.min(0, deltaX);
+
+        domNode.style.transform = `translateX(${translateX}px)`;
+    };
+
+    const handleTouchEnd = (event: TouchEvent<HTMLElement>) => {
+        if (willHide) {
+            hide();
+            return;
+        }
+
+        if (!domNode) {
+            return;
+        }
+
+        domNode.style.transform = '';
+    };
+
+    const content = (isWidthDown('md', width)) ? (
+        <>
+            <div className={classes.navBackground} />
+            <Header />
+            <Categories />
+        </>
+    ) : (
+        <>
+            <div className={classes.navBackground} />
+            <Header />
+            <Tasks />
+            <Launcher />
+        </>
+    );
+
+    return (
+        <>
+            <div
+                className={classNames(
+                    classes.containerBefore,
+                    {
+                        [classes.containerVisibleBefore]: isVisible,
+                    },
+                )}
+            />
+            <aside
+                onClick={handleClick}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+                className={classNames(
+                    classes.container,
+                    {
+                        [classes.containerVisible]: isVisible,
+                    },
+                )}
+            >
+                <nav
+                    className={classNames(
+                        classes.nav,
+                        {
+                            [classes.navVisible]: isVisible,
+                        },
+                    )}
+                    ref={setRef}
+                >
+                    {content}
+                </nav>
+            </aside>
+        </>
+    );
 };
 
-export default withStyles(style)(
-    withWidth()(SideNav as any),
-);
+export default SideNav;

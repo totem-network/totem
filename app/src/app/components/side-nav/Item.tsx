@@ -1,6 +1,5 @@
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
 
 interface IItemProps {
     colorFrom: string;
@@ -9,49 +8,38 @@ interface IItemProps {
     onClick: any;
 }
 
-interface IItemState {}
+const useStyles = makeStyles({
+    item: {
+        borderBottom: '1px solid #ddd',
+        color: '#333',
+        fontSize: '1.4rem',
+        fontWeight: 'lighter',
+        listStyle: 'none',
+        margin: 0,
+        padding: '.8rem .5rem',
+        width: 'calc(100% - 4px - 1rem)',
+    },
+});
 
-type ItemProps = IItemProps & WithStyles;
+const Item = ({
+    colorFrom,
+    colorTo,
+    label,
+    onClick,
+}: IItemProps) => {
+    const classes = useStyles();
 
-class Item extends Component<ItemProps, IItemState> {
-
-    public render() {
-        const {
-            colorFrom,
-            colorTo,
-            label,
-            onClick,
-        } = this.props;
-        const { item } = this.props.classes;
-
-        const style = {
-            borderImage: `linear-gradient(to bottom, ${colorFrom}, ${colorTo}) 1 100%`,
-            borderStyle: 'solid',
-            borderWidth: '4px',
-        };
-
-        return (
-            <li className={item} style={style} onClick={onClick}>
-                {label}
-            </li>
-        );
-    }
-
-}
-
-const styles: StyleRulesCallback<Theme, IItemProps> = (theme: Theme) => {
-    return {
-        item: {
-            borderBottom: '1px solid #ddd',
-            color: '#333',
-            fontSize: '1.4rem',
-            fontWeight: 'lighter',
-            listStyle: 'none',
-            margin: 0,
-            padding: '.8rem .5rem',
-            width: 'calc(100% - 4px - 1rem)',
-        },
+    const style = {
+        borderImage: `linear-gradient(to bottom, ${colorFrom}, ${colorTo}) 1 100%`,
+        borderStyle: 'solid',
+        borderWidth: '4px',
     };
+
+    return (
+        <li className={classes.item} style={style} onClick={onClick}>
+            {label}
+        </li>
+    );
 };
 
-export default withStyles(styles)(Item);
+export default Item;

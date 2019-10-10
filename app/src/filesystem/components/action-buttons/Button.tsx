@@ -1,38 +1,13 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
 
 export interface IButtonProps {
+    children: any;
     onClick?: () => any;
 }
 
-export interface IButtonState {}
-
-type ButtonProps = IButtonProps & WithStyles;
-
-class Button extends Component<ButtonProps, IButtonState> {
-
-    public render() {
-        const {
-            children,
-            onClick,
-        } = this.props;
-        const {
-            button,
-        } = this.props.classes;
-
-        return (
-            <button
-                className={button}
-                onClick={onClick}
-            >
-                {children}
-            </button>
-        );
-    }
-}
-
-const style: StyleRulesCallback<Theme, IButtonProps> = (theme: Theme) => {
+const useStyles = makeStyles((theme: Theme) => {
     return {
         button: {
             background: theme.palette.primary.main,
@@ -45,6 +20,22 @@ const style: StyleRulesCallback<Theme, IButtonProps> = (theme: Theme) => {
             padding: '.5rem 1rem',
         },
     };
+});
+
+const Button = ({
+    children,
+    onClick,
+}: IButtonProps) => {
+    const classes = useStyles();
+
+    return (
+        <button
+            className={classes.button}
+            onClick={onClick}
+        >
+            {children}
+        </button>
+    );
 };
 
-export default withStyles(style)(Button);
+export default Button;

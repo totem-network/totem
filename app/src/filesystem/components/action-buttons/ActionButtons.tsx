@@ -1,61 +1,19 @@
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import Toolbar from '@material-ui/core/Toolbar';
-import withWidth, { isWidthDown, WithWidth } from '@material-ui/core/withWidth';
+import { isWidthDown } from '@material-ui/core/withWidth';
 import MenuIcon from '@material-ui/icons/Menu';
-import React, { Component } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
+import { useWidth } from 'ui';
 
 export interface IActionButtonsProps {
+    children: any;
     showSideNav: any;
 }
 
-export interface IActionButtonsState {}
-
-type ActionButtonsProps = IActionButtonsProps & WithStyles & WithWidth;
-
-class ActionButtons extends Component<ActionButtonsProps, IActionButtonsState> {
-
-    public render() {
-        const {
-            showSideNav,
-            width,
-        } = this.props;
-
-        const {
-            container,
-        } = this.props.classes;
-
-        if (isWidthDown('md', width)) {
-            return (
-                <AppBar
-                    className={container}
-                >
-                    <Toolbar>
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            aria-label="Menu"
-                            onClick={showSideNav}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        {this.props.children}
-                    </Toolbar>
-                </AppBar>
-            );
-        }
-
-        return (
-            <div className={container}>
-                {this.props.children}
-            </div>
-        );
-    }
-}
-
-const style: StyleRulesCallback<Theme, IActionButtonsProps> = (theme: Theme) => {
+const useStyles = makeStyles((theme: Theme) => {
     return {
         container: {
             [theme.breakpoints.up('lg')]: {
@@ -68,8 +26,40 @@ const style: StyleRulesCallback<Theme, IActionButtonsProps> = (theme: Theme) => 
             top: '0',
         },
     };
+});
+
+const ActionButtons = ({
+    children,
+    showSideNav,
+}: IActionButtonsProps) => {
+    const classes = useStyles();
+    const width = useWidth();
+
+    if (isWidthDown('md', width)) {
+        return (
+            <AppBar
+                className={classes.container}
+            >
+                <Toolbar>
+                    <IconButton
+                        edge="start"
+                        color="inherit"
+                        aria-label="Menu"
+                        onClick={showSideNav}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    {children}
+                </Toolbar>
+            </AppBar>
+        );
+    }
+
+    return (
+        <div className={classes.container}>
+            {children}
+        </div>
+    );
 };
 
-export default withStyles(style)(
-    withWidth()(ActionButtons),
-);
+export default ActionButtons;

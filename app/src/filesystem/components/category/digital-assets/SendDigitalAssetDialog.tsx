@@ -3,10 +3,9 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
+import { makeStyles } from '@material-ui/styles';
 import { Form, Formik } from 'formik';
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { Mutation } from "react-apollo";
 import sendDigitalAssetMutation from '../../../mutations/sendDigitalAsset.graphql';
 import SendDigitalAssetForm from './SendDigitalAssetForm';
@@ -25,112 +24,97 @@ export interface ISendDigitalAssetDialogProps {
     token: string;
 }
 
-export interface ISendDigitalAssetDialogState {}
+const useStyles = makeStyles({
+    icon: {
+        marginLeft: '.5rem',
+        verticalAlign: 'middle',
+    },
+});
 
-type SendDigitalAssetDialogProps = ISendDigitalAssetDialogProps & WithStyles;
+const SendDigitalAssetDialog = ({
+    assetImage,
+    assetName,
+    closeDialog,
+    contract,
+    fetchFee,
+    gasPriceFast,
+    gasPriceSafeLow,
+    network,
+    open,
+    platform,
+    token,
+}: ISendDigitalAssetDialogProps) => {
+    const classes = useStyles();
 
-class SendDigitalAssetDialog extends Component<SendDigitalAssetDialogProps, ISendDigitalAssetDialogState> {
-
-    public componentDidMount() {
-        const {
-            fetchFee,
-            network,
-            platform,
-        } = this.props;
-
+    useEffect(() => {
+        // TODO: fetch fee via graphql
         fetchFee(platform, network);
-    }
+    }, []);
 
-    public render() {
-        const {
-            assetImage,
-            assetName,
-            closeDialog,
-            contract,
-            gasPriceFast,
-            gasPriceSafeLow,
-            open,
-            token,
-        } = this.props;
+    return (
+        <Dialog
+            open={open}
+            onClose={closeDialog}
+            aria-labelledby="form-dialog-title"
+        >
+            <Mutation mutation={sendDigitalAssetMutation}>
+                {(sendDigitalAsset: any) => {
+                    const handleSubmit = (values: any) => {
+                        let fee = gasPriceSafeLow;
+                        if (values.fee) {
+                            fee = gasPriceFast;
+                        }
 
-        const {
-            icon,
-        } = this.props.classes;
+                        sendDigitalAsset({
+                            variables: {
+                                contract,
+                                fee,
+                                to: values.to,
+                                token,
+                            },
+                        });
+                        closeDialog();
+                    };
 
-        return (
-            <Dialog
-                open={open}
-                onClose={closeDialog}
-                aria-labelledby="form-dialog-title"
-            >
-                <Mutation mutation={sendDigitalAssetMutation}>
-                    {(sendDigitalAsset: any) => {
-                        const handleSubmit = (values: any) => {
-                            let fee = gasPriceSafeLow;
-                            if (values.fee) {
-                                fee = gasPriceFast;
-                            }
-
-                            sendDigitalAsset({
-                                variables: {
-                                    contract,
-                                    fee,
-                                    to: values.to,
-                                    token,
-                                },
-                            });
-                            closeDialog();
-                        };
-
-                        return (
-                            <Formik
-                                initialValues={{
-                                    fee: false,
-                                    to: '',
-                                }}
-                                onSubmit={handleSubmit}
-                            >
-                                <Form>
-                                    <DialogTitle>
-                                        Send {assetName}
-                                    </DialogTitle>
-                                    <DialogContent>
-                                        <SendDigitalAssetForm
-                                            assetImage={assetImage}
-                                            token={token}
-                                        />
-                                    </DialogContent>
-                                    <DialogActions>
-                                        <Button
-                                            onClick={closeDialog}
-                                        >
-                                            Cancel
-                                        </Button>
-                                        <Button
-                                            color='primary'
-                                            type='submit'
-                                            variant='contained'
-                                        >
-                                            Send
-                                        </Button>
-                                    </DialogActions>
-                                </Form>
-                            </Formik>
-                        );
-                    }}
-                </Mutation>
-            </Dialog>
-        );
-    }
-}
-
-const style: StyleRulesCallback<Theme, ISendDigitalAssetDialogProps> = (theme: Theme) => {
-    return {
-        icon: {
-            marginLeft: '.5rem',
-            verticalAlign: 'middle',
-        },
-    };
+                    return (
+                        <Formik
+                            initialValues={{
+                                fee: false,
+                                to: '',
+                            }}
+                            onSubmit={handleSubmit}
+                        >
+                            <Form>
+                                <DialogTitle>
+                                    Send {assetName}
+                                </DialogTitle>
+                                <DialogContent>
+                                    <SendDigitalAssetForm
+                                        assetImage={assetImage}
+                                        token={token}
+                                    />
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button
+                                        onClick={closeDialog}
+                                    >
+                                        Cancel
+                                    </Button>
+                                    <Button
+                                        color='primary'
+                                        type='submit'
+                                        variant='contained'
+                                    >
+                                        Send
+                                    </Button>
+                                </DialogActions>
+                            </Form>
+                        </Formik>
+                    );
+                }}
+            </Mutation>
+        </Dialog>
+    );
 };
 
-export default withStyles(style)(SendDigitalAssetDialog);
+export default SendDigitalAssetDialog;

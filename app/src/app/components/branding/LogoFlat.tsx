@@ -1,36 +1,30 @@
-import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
+import { makeStyles } from '@material-ui/styles';
 import classNames from 'classnames';
-import React, { Component } from 'react';
+import React from 'react';
 
 interface ILogoFlatProps {
     className?: string;
 }
 
-interface ILogoFlatState {}
-
-type LogoFlatProps = ILogoFlatProps & WithStyles;
-
-class LogoFlat extends Component<LogoFlatProps, ILogoFlatState> {
-
-    public render() {
-        const { className } = this.props;
-        const { image } = this.props.classes;
-
-        const logoClass = classNames(
-            image,
-            className,
-        );
-
-        return (
-            <img src="/images/logo-flat.svg" className={logoClass} />
-        );
-    }
-}
-
-const style: StyleRules = {
+const useStyles = makeStyles({
     image: {
         width: '100%',
     },
+});
+
+const LogoFlat = ({
+    className,
+}: ILogoFlatProps) => {
+    const classes = useStyles();
+
+    const logoClass = classNames(
+        classes.image,
+        className,
+    );
+
+    return (
+        <img src="/images/logo-flat.svg" className={logoClass} />
+    );
 };
 
-export default withStyles(style)(LogoFlat);
+export default LogoFlat;

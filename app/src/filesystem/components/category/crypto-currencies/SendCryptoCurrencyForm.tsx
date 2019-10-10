@@ -1,6 +1,5 @@
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
 import {
     AddressField,
     Switch,
@@ -15,58 +14,46 @@ export interface ISendCryptoCurrencyFormData {
 
 export interface ISendCryptoCurrencyFormProps {}
 
-export interface ISendCryptoCurrencyFormState {}
+const useStyles = makeStyles({
+    fast: {
+        color: 'rgba(0, 0, 0, 0.87)',
+        margin: '.8rem 0',
+    },
+    fee: {
+        display: 'flex',
+        float: 'right',
+    },
+    form: {
+        maxWidth: '260px',
+    },
+});
 
-type SendCryptoCurrencyFormProps = ISendCryptoCurrencyFormProps &
-    WithStyles;
+const SendCryptoCurrencyForm = ({}: ISendCryptoCurrencyFormProps) => {
+    const classes = useStyles();
 
-class SendCryptoCurrencyForm extends Component<SendCryptoCurrencyFormProps, ISendCryptoCurrencyFormState> {
-
-    public render() {
-        const {
-            classes,
-        } = this.props;
-
-        return (
-            <div className={classes.form}>
-                <AddressField
-                    label='To'
-                    name='to'
-                />
-                <TextField
-                    label='Amount'
-                    name='amount'
-                />
-                <div className={classes.fee}>
-                    <div>
-                        <Switch
-                            color='primary'
-                            name='fee'
-                        />
-                    </div>
-                    <div className={classes.fast}>
-                        Fast?
-                    </div>
+    return (
+        <div className={classes.form}>
+            <AddressField
+                label='To'
+                name='to'
+            />
+            <TextField
+                label='Amount'
+                name='amount'
+            />
+            <div className={classes.fee}>
+                <div>
+                    <Switch
+                        color='primary'
+                        name='fee'
+                    />
+                </div>
+                <div className={classes.fast}>
+                    Fast?
                 </div>
             </div>
-        );
-    }
-}
-
-const style: StyleRulesCallback<Theme, ISendCryptoCurrencyFormProps> = (theme: Theme) => {
-    return {
-        fast: {
-            color: 'rgba(0, 0, 0, 0.87)',
-            margin: '.8rem 0',
-        },
-        fee: {
-            display: 'flex',
-            float: 'right',
-        },
-        form: {
-            maxWidth: '260px',
-        },
-    };
+        </div>
+    );
 };
 
-export default withStyles(style)(SendCryptoCurrencyForm);
+export default SendCryptoCurrencyForm;

@@ -1,11 +1,9 @@
-
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import Table from '@material-ui/core/Table';
 import AccountBalanceWalletRoundedIcon from '@material-ui/icons/AccountBalanceWalletRounded';
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
 import SwapHorizontalCircleIcon from '@material-ui/icons/SwapHorizontalCircle';
-import React, { Component, Fragment } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React, { useState } from 'react';
 import { Query } from "react-apollo";
 import ActionButtons from '../../../containers/action-buttons/ActionButtons';
 import RecieveDialog from '../../../containers/category/crypto-currencies/recieve/RecieveDialog';
@@ -21,163 +19,121 @@ import Row from './Row';
 
 export interface ICryptoCurrenciesViewProps {}
 
-export interface ICryptoCurrenciesViewState {
-    addTokenDialog: boolean;
-    recieveDialog: boolean;
-}
+const useStyles = makeStyles({
+    container: {
+        alignContent: 'flex-start',
+        display: 'flex',
+        flexWrap: 'wrap',
+        height: '100%',
+        overflowY: 'auto',
+    },
+});
 
-type CryptoCurrenciesViewProps = ICryptoCurrenciesViewProps & WithStyles;
+const CryptoCurrenciesView = ({}: ICryptoCurrenciesViewProps) => {
+    const classes = useStyles();
 
-class CryptoCurrenciesView extends Component<CryptoCurrenciesViewProps, ICryptoCurrenciesViewState> {
+    const [addTokenDialog, setAddTokenDialog] = useState(false);
+    const [recieveDialog, setRecieveDialog] = useState(false);
 
-    constructor(props: CryptoCurrenciesViewProps, context?: any) {
-        super(props, context);
+    const openAddTokenDialog = () => {
+        setAddTokenDialog(true);
+    };
 
-        this.openAddTokenDialog = this.openAddTokenDialog.bind(this);
-        this.closeAddTokenDialog = this.closeAddTokenDialog.bind(this);
-        this.openRecieveDialog = this.openRecieveDialog.bind(this);
-        this.closeRecieveDialog = this.closeRecieveDialog.bind(this);
+    const closeAddTokenDialog = () => {
+        setAddTokenDialog(false);
+    };
 
-        this.state = {
-            addTokenDialog: false,
-            recieveDialog: false,
-        };
-    }
+    const openRecieveDialog = () => {
+        setRecieveDialog(true);
+    };
 
-    public openAddTokenDialog() {
-        this.setState({
-            ...this.state,
-            addTokenDialog: true,
-        });
-    }
+    const closeRecieveDialog = () => {
+        setRecieveDialog(false);
+    };
 
-    public closeAddTokenDialog() {
-        this.setState({
-            ...this.state,
-            addTokenDialog: false,
-        });
-    }
-
-    public openRecieveDialog() {
-        this.setState({
-            ...this.state,
-            recieveDialog: true,
-        });
-    }
-
-    public closeRecieveDialog() {
-        this.setState({
-            ...this.state,
-            recieveDialog: false,
-        });
-    }
-
-    public render() {
-        const {
-            addTokenDialog,
-            recieveDialog,
-        } = this.state;
-
-        const {
-            container,
-        } = this.props.classes;
-
-        return (
-            <Fragment>
-                <ViewNav>
-                    <ViewNavButton
-                        icon={<ArrowDropDownCircleIcon />}
-                        label={'Recieve'}
-                        onClick={this.openRecieveDialog}
-                    />
-                    <ViewNavButton
-                        icon={<AccountBalanceWalletRoundedIcon />}
-                        label={'Wallet'}
-                    />
-                    <ViewNavButton
-                        icon={<SwapHorizontalCircleIcon />}
-                        label={'Exchange'}
-                    />
-                </ViewNav>
-                <div className={container}>
-                    <Query query={cryptoCurrenciesQuery}>
-                        {({ loading, error, data, refetch }: any) => {
-                            if (loading) {
-                                return (
-                                    <LoadingBar />
-                                );
-                            }
-                            if (error) {
-                                const retry = () => {
-                                    refetch();
-                                    // TODO: refetch not reloading
-                                    // https://github.com/apollographql/react-apollo/issues/321
-                                };
-
-                                return (
-                                    <Error
-                                        error={error}
-                                        retry={retry}
-                                    />
-                                );
-                            }
-
-                            const rows = data.cryptoCurrencies.map((currency: any, index: number) => {
-                                const currencyOrToken = currency.data.platform || currency.data.contract;
-
-                                return (
-                                    <Row
-                                        key={index}
-                                        balance={currency.balance}
-                                        currencyOrToken={currencyOrToken}
-                                        decimals={currency.decimals}
-                                        name={currency.name}
-                                        icon={currency.icon}
-                                        price={currency.price}
-                                        symbol={currency.symbol}
-                                    />
-                                );
-                            });
+    return (
+        <>
+            <ViewNav>
+                <ViewNavButton
+                    icon={<ArrowDropDownCircleIcon />}
+                    label={'Recieve'}
+                    onClick={openRecieveDialog}
+                />
+                <ViewNavButton
+                    icon={<AccountBalanceWalletRoundedIcon />}
+                    label={'Wallet'}
+                />
+                <ViewNavButton
+                    icon={<SwapHorizontalCircleIcon />}
+                    label={'Exchange'}
+                />
+            </ViewNav>
+            <div className={classes.container}>
+                <Query query={cryptoCurrenciesQuery}>
+                    {({ loading, error, data, refetch }: any) => {
+                        if (loading) {
+                            return (
+                                <LoadingBar />
+                            );
+                        }
+                        if (error) {
+                            const retry = () => {
+                                refetch();
+                                // TODO: refetch not reloading
+                                // https://github.com/apollographql/react-apollo/issues/321
+                            };
 
                             return (
-                                <Table>
-                                    <Head />
-                                    {rows}
-                                </Table>
+                                <Error
+                                    error={error}
+                                    retry={retry}
+                                />
                             );
-                        }}
-                    </Query>
-                </div>
-                <ActionButtons>
-                    <ActionButton
-                        onClick={this.openAddTokenDialog}
-                    >
-                        Add token
-                    </ActionButton>
-                </ActionButtons>
-                <AddTokenDialog
-                    closeDialog={this.closeAddTokenDialog}
-                    open={addTokenDialog}
-                />
-                <RecieveDialog
-                    closeDialog={this.closeRecieveDialog}
-                    open={recieveDialog}
-                />
-            </Fragment>
-        );
-    }
-}
+                        }
 
-const style: StyleRulesCallback<Theme, ICryptoCurrenciesViewProps> = (theme: Theme) => {
-    return {
-        container: {
-            alignContent: 'flex-start',
-            display: 'flex',
-            flexWrap: 'wrap',
-            height: '100%',
-            overflowY: 'auto',
-        },
-    };
+                        const rows = data.cryptoCurrencies.map((currency: any, index: number) => {
+                            const currencyOrToken = currency.data.platform || currency.data.contract;
+
+                            return (
+                                <Row
+                                    key={index}
+                                    balance={currency.balance}
+                                    currencyOrToken={currencyOrToken}
+                                    decimals={currency.decimals}
+                                    name={currency.name}
+                                    icon={currency.icon}
+                                    price={currency.price}
+                                    symbol={currency.symbol}
+                                />
+                            );
+                        });
+
+                        return (
+                            <Table>
+                                <Head />
+                                {rows}
+                            </Table>
+                        );
+                    }}
+                </Query>
+            </div>
+            <ActionButtons>
+                <ActionButton
+                    onClick={openAddTokenDialog}
+                >
+                    Add token
+                </ActionButton>
+            </ActionButtons>
+            <AddTokenDialog
+                closeDialog={closeAddTokenDialog}
+                open={addTokenDialog}
+            />
+            <RecieveDialog
+                closeDialog={closeRecieveDialog}
+                open={recieveDialog}
+            />
+        </>
+    );
 };
 
-export default withStyles(style)(CryptoCurrenciesView);
+export default CryptoCurrenciesView;

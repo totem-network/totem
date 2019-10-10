@@ -1,32 +1,14 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { IUploadFilesAction } from '../../actions/uploadFiles';
 
 interface IFileDropProps {
     uploadFiles: (files: FileList) => IUploadFilesAction;
 }
 
-interface IFileDropState {}
-
-class FileDrop extends Component<IFileDropProps, IFileDropState> {
-
-    constructor(props: IFileDropProps, context?: any) {
-        super(props, context);
-
-        this.onDrop = this.onDrop.bind(this);
-        this.onDragOver = this.onDragOver.bind(this);
-    }
-
-    public componentDidMount() {
-        document.body.addEventListener('drop', this.onDrop);
-        document.body.addEventListener('dragover', this.onDragOver, true);
-    }
-
-    public componentWillUnmount() {
-        document.body.removeEventListener('drop', this.onDrop, true);
-        document.body.addEventListener('dragover', this.onDragOver, true);
-    }
-
-    public onDrop(event: DragEvent) {
+const FileDrop = ({
+    uploadFiles,
+}: IFileDropProps) => {
+    const onDrop = (event: DragEvent) => {
         event.stopPropagation();
         event.preventDefault();
 
@@ -34,18 +16,26 @@ class FileDrop extends Component<IFileDropProps, IFileDropState> {
             return;
         }
 
-        this.props.uploadFiles(event.dataTransfer.files);
-    }
+        uploadFiles(event.dataTransfer.files);
+    };
 
-    public onDragOver(event: DragEvent) {
+    const onDragOver = (event: DragEvent) => {
         event.preventDefault();
-    }
+    };
 
-    public render() {
-        return (
-            <></>
-        );
-    }
-}
+    useEffect(() => {
+        document.body.addEventListener('drop', onDrop);
+        document.body.addEventListener('dragover', onDragOver, true);
+
+        return () => {
+            document.body.removeEventListener('drop', onDrop, true);
+            document.body.removeEventListener('dragover', onDragOver, true);
+        };
+    }, [uploadFiles]);
+
+    return (
+        <></>
+    );
+};
 
 export default FileDrop;

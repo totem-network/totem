@@ -1,8 +1,8 @@
-import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
 import Add from '@material-ui/icons/Add';
 import Clear from '@material-ui/icons/Clear';
 import Remove from '@material-ui/icons/Remove';
-import React, { Component, MouseEvent } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React, { MouseEvent } from 'react';
 
 interface IButtonsProps {
     backgroundColor: string;
@@ -11,59 +11,7 @@ interface IButtonsProps {
     minimize: (event: MouseEvent<HTMLElement>) => void;
 }
 
-interface IButtonsState {}
-
-type ButtonsProps = IButtonsProps & WithStyles;
-
-class Buttons extends Component<ButtonsProps, IButtonsState> {
-
-    public blockMouseDown(event: MouseEvent<HTMLElement>) {
-        event.stopPropagation();
-    }
-
-    public render() {
-        const { backgroundColor, close, color, minimize } = this.props;
-        const { button, container } = this.props.classes;
-
-        const buttonColors = {
-            backgroundColor,
-            color,
-        };
-
-        return (
-            <ul className={container}>
-                <li
-                    className={button}
-                    style={buttonColors}
-                    key='close'
-                    onClick={close}
-                    onMouseDown={this.blockMouseDown}
-                >
-                    <Clear />
-                </li>
-                <li
-                    className={button}
-                    style={buttonColors}
-                    key='maximize'
-                    onMouseDown={this.blockMouseDown}
-                >
-                    <Add />
-                </li>
-                <li
-                    className={button}
-                    style={buttonColors}
-                    key='minimize'
-                    onClick={minimize}
-                    onMouseDown={this.blockMouseDown}
-                >
-                    <Remove />
-                </li>
-            </ul>
-        );
-    }
-}
-
-const style: StyleRules = {
+const useStyles = makeStyles({
     button: {
         '&:hover': {
             opacity: 0.7,
@@ -82,6 +30,55 @@ const style: StyleRules = {
         padding: '0',
         position: 'absolute',
     },
+});
+
+const Buttons = ({
+    backgroundColor,
+    close,
+    color,
+    minimize,
+}: IButtonsProps) => {
+    const classes = useStyles();
+
+    const blockMouseDown = (event: MouseEvent<HTMLElement>) => {
+        event.stopPropagation();
+    };
+
+    const buttonColors = {
+        backgroundColor,
+        color,
+    };
+
+    return (
+        <ul className={classes.container}>
+            <li
+                className={classes.button}
+                style={buttonColors}
+                key='close'
+                onClick={close}
+                onMouseDown={blockMouseDown}
+            >
+                <Clear />
+            </li>
+            <li
+                className={classes.button}
+                style={buttonColors}
+                key='maximize'
+                onMouseDown={blockMouseDown}
+            >
+                <Add />
+            </li>
+            <li
+                className={classes.button}
+                style={buttonColors}
+                key='minimize'
+                onClick={minimize}
+                onMouseDown={blockMouseDown}
+            >
+                <Remove />
+            </li>
+        </ul>
+    );
 };
 
-export default withStyles(style)(Buttons);
+export default Buttons;

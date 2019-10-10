@@ -1,46 +1,15 @@
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import withWidth, { isWidthDown, WithWidth } from '@material-ui/core/withWidth';
-import React, { Component } from 'react';
+import { isWidthDown } from '@material-ui/core/withWidth';
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
+import { useWidth } from 'ui';
 
-export interface IViewNavProps {}
-
-export interface IViewNavState {}
-
-type ViewNavProps = IViewNavProps & WithStyles & WithWidth;
-
-class ViewNav extends Component<ViewNavProps, IViewNavState> {
-
-    public render() {
-        const {
-            width,
-        } = this.props;
-
-        const {
-            container,
-        } = this.props.classes;
-
-        if (isWidthDown('md', width)) {
-            return (
-                <BottomNavigation
-                    className={container}
-                    showLabels={true}
-                >
-                    {this.props.children}
-                </BottomNavigation>
-            );
-        }
-
-        return (
-            <div className={container}>
-                {this.props.children}
-            </div>
-        );
-    }
+export interface IViewNavProps {
+    children: any;
 }
 
-const style: StyleRulesCallback<Theme, IViewNavProps> = (theme: Theme) => {
+const useStyles = makeStyles((theme: Theme) => {
     return {
         container: {
             [theme.breakpoints.up('lg')]: {
@@ -57,8 +26,30 @@ const style: StyleRulesCallback<Theme, IViewNavProps> = (theme: Theme) => {
             width: '100%',
         },
     };
+});
+
+const ViewNav = ({
+    children,
+}: IViewNavProps) => {
+    const classes = useStyles();
+    const width = useWidth();
+
+    if (isWidthDown('md', width)) {
+        return (
+            <BottomNavigation
+                className={classes.container}
+                showLabels={true}
+            >
+                {children}
+            </BottomNavigation>
+        );
+    }
+
+    return (
+        <div className={classes.container}>
+            {children}
+        </div>
+    );
 };
 
-export default withStyles(style)(
-    withWidth()(ViewNav),
-);
+export default ViewNav;

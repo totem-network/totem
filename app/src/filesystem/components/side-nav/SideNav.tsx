@@ -1,10 +1,7 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import withWidth, { WithWidth } from '@material-ui/core/withWidth';
+import { makeStyles } from '@material-ui/styles';
 import classNames from 'classnames';
-import React, {
-    Component,
-} from 'react';
+import React from 'react';
 import Categories from '../../containers/side-nav/Categories';
 
 interface ISideNavProps {
@@ -12,63 +9,7 @@ interface ISideNavProps {
     isVisible: boolean;
 }
 
-interface ISideNavState {}
-
-type SideNavProps = ISideNavProps & WithStyles & WithWidth;
-
-class SideNav extends Component<SideNavProps, ISideNavState> {
-
-    public render() {
-        const {
-            instance,
-            isVisible,
-        } = this.props;
-        const {
-            container,
-            containerBefore,
-            containerVisible,
-            containerVisibleBefore,
-            nav,
-            navVisible,
-        } = this.props.classes;
-
-        return (
-            <>
-                <div
-                    className={classNames(
-                        containerBefore,
-                        {
-                            [containerVisibleBefore]: isVisible,
-                        },
-                    )}
-                />
-                <aside
-                    className={classNames(
-                        container,
-                        {
-                            [containerVisible]: isVisible,
-                        },
-                    )}
-                >
-                    <nav
-                        className={classNames(
-                            nav,
-                            {
-                                [navVisible]: isVisible,
-                            },
-                        )}
-                    >
-                        <Categories
-                            instance={instance}
-                        />
-                    </nav>
-                </aside>
-            </>
-        );
-    }
-}
-
-const style: StyleRulesCallback<Theme, ISideNavProps> = (theme: Theme) => {
+const useStyles = makeStyles((theme: Theme) => {
     return {
         container: {
             [theme.breakpoints.up('lg')]: {
@@ -139,8 +80,47 @@ const style: StyleRulesCallback<Theme, ISideNavProps> = (theme: Theme) => {
             transform: 'none',
         },
     };
+});
+
+const SideNav = ({
+    instance,
+    isVisible,
+}: ISideNavProps) => {
+    const classes = useStyles();
+
+    return (
+        <>
+            <div
+                className={classNames(
+                    classes.containerBefore,
+                    {
+                        [classes.containerVisibleBefore]: isVisible,
+                    },
+                )}
+            />
+            <aside
+                className={classNames(
+                    classes.container,
+                    {
+                        [classes.containerVisible]: isVisible,
+                    },
+                )}
+            >
+                <nav
+                    className={classNames(
+                        classes.nav,
+                        {
+                            [classes.navVisible]: isVisible,
+                        },
+                    )}
+                >
+                    <Categories
+                        instance={instance}
+                    />
+                </nav>
+            </aside>
+        </>
+    );
 };
 
-export default withStyles(style)(
-    withWidth()(SideNav as any),
-);
+export default SideNav;

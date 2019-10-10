@@ -1,7 +1,6 @@
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import StoreIcon from '@material-ui/icons/Store';
-import React, { Component, Fragment } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React, { useState } from 'react';
 import { Query } from 'react-apollo';
 import ActionButtons from '../../../containers/action-buttons/ActionButtons';
 import digitalAssetsQuery from '../../../queries/digitalAssets.graphql';
@@ -16,144 +15,101 @@ import DigitalAsset from './DigitalAsset';
 
 export interface IDigitalAssetsViewProps {}
 
-// TODO: When user clicks on Digital Assets in the menu, reset selectedAsset
-export interface IDigitalAssetsViewState {
-    addDigitalAssetDialog: boolean;
-    selectedAsset?: string;
-}
+const useStyles = makeStyles({
+    container: {
+        alignContent: 'flex-start',
+        display: 'flex',
+        flexWrap: 'wrap',
+        height: '100%',
+        overflowY: 'auto',
+    },
+});
 
-type DigitalAssetsViewProps = IDigitalAssetsViewProps & WithStyles;
+const DigitalAssetsView = ({}: IDigitalAssetsViewProps) => {
+    const classes = useStyles();
 
-class DigitalAssetsView extends Component<DigitalAssetsViewProps, IDigitalAssetsViewState> {
+    const [addDigitalAssetDialog, setAddDigitalAssetDialog] = useState(false);
+    const [selectedAsset, setSelectedAsset] = useState<string | null>(null);
 
-    constructor(props: DigitalAssetsViewProps, context?: any) {
-        super(props, context);
+    // TODO: When user clicks on Digital Assets in the menu, reset selectedAsset
 
-        this.openAddDigitalAssetDialog = this.openAddDigitalAssetDialog.bind(this);
-        this.closeAddDigitalAssetDialog = this.closeAddDigitalAssetDialog.bind(this);
+    const openAddDigitalAssetDialog = () => {
+        setAddDigitalAssetDialog(true);
+    };
 
-        this.state = {
-            addDigitalAssetDialog: false,
-        };
-    }
+    const closeAddDigitalAssetDialog = () => {
+        setAddDigitalAssetDialog(false);
+    };
 
-    public openAddDigitalAssetDialog() {
-        this.setState({
-            ...this.state,
-            addDigitalAssetDialog: true,
-        });
-    }
-
-    public closeAddDigitalAssetDialog() {
-        this.setState({
-            ...this.state,
-            addDigitalAssetDialog: false,
-        });
-    }
-
-    public selectAsset(assetContract: string) {
-        this.setState({
-            ...this.state,
-            selectedAsset: assetContract,
-        });
-    }
-
-    public render() {
-        const {
-            addDigitalAssetDialog,
-            selectedAsset,
-        } = this.state;
-
-        const {
-            container,
-            assetContainer,
-            icon,
-        } = this.props.classes;
-
-        if (selectedAsset) {
-            return (
-                <DigitalAsset
-                    selectedAsset={selectedAsset}
-                />
-            );
-        }
-
+    if (selectedAsset) {
         return (
-            <Fragment>
-                <ViewNav>
-                    <ViewNavButton
-                        icon={<StoreIcon />}
-                        label={'Marketplace'}
-                    />
-                </ViewNav>
-                <div className={container}>
-                    <Query query={digitalAssetsQuery}>
-                        {({ loading, error, data, refetch }: any) => {
-                            if (loading) {
-                                return (
-                                    <LoadingBar />
-                                );
-                            }
-                            if (error) {
-                                const retry = () => {
-                                    refetch();
-                                    // TODO: refetch not reloading
-                                    // https://github.com/apollographql/react-apollo/issues/321
-                                };
-
-                                return (
-                                    <Error
-                                        error={error}
-                                        retry={retry}
-                                    />
-                                );
-                            }
-
-                            return data.digitalAssets.map((asset: any, index: number) => {
-                                return (
-                                    <CategoryCard
-                                        key={index}
-                                        image={asset.images[0]}
-                                        name={asset.name}
-                                        onClick={this.selectAsset.bind(this, asset.contract)}
-                                    />
-                                );
-                            });
-                        }}
-                    </Query>
-                </div>
-                <ActionButtons>
-                    <ActionButton
-                        onClick={this.openAddDigitalAssetDialog}
-                    >
-                        Add asset
-                    </ActionButton>
-                </ActionButtons>
-                <AddDigitalAssetDialog
-                    closeDialog={this.closeAddDigitalAssetDialog}
-                    open={addDigitalAssetDialog}
-                />
-            </Fragment>
+            <DigitalAsset
+                selectedAsset={selectedAsset}
+            />
         );
     }
-}
 
-const style: StyleRulesCallback<Theme, IDigitalAssetsViewProps> = (theme: Theme) => {
-    return {
-        assetContainer: {
-            cursor: 'pointer',
-            margin: '0 20px 20px 20px',
-            textAlign: 'center',
-            width: '120px',
-        },
-        container: {
-            alignContent: 'flex-start',
-            display: 'flex',
-            flexWrap: 'wrap',
-            height: '100%',
-            overflowY: 'auto',
-        },
-    };
+    return (
+        <>
+            <ViewNav>
+                <ViewNavButton
+                    icon={<StoreIcon />}
+                    label={'Marketplace'}
+                />
+            </ViewNav>
+            <div className={classes.container}>
+                <Query query={digitalAssetsQuery}>
+                    {({ loading, error, data, refetch }: any) => {
+                        if (loading) {
+                            return (
+                                <LoadingBar />
+                            );
+                        }
+                        if (error) {
+                            const retry = () => {
+                                refetch();
+                                // TODO: refetch not reloading
+                                // https://github.com/apollographql/react-apollo/issues/321
+                            };
+
+                            return (
+                                <Error
+                                    error={error}
+                                    retry={retry}
+                                />
+                            );
+                        }
+
+                        return data.digitalAssets.map((asset: any, index: number) => {
+                            const handleClick = () => {
+                                setSelectedAsset(asset.contract);
+                            };
+
+                            return (
+                                <CategoryCard
+                                    key={index}
+                                    image={asset.images[0]}
+                                    name={asset.name}
+                                    onClick={handleClick}
+                                />
+                            );
+                        });
+                    }}
+                </Query>
+            </div>
+            <ActionButtons>
+                <ActionButton
+                    onClick={openAddDigitalAssetDialog}
+                >
+                    Add asset
+                </ActionButton>
+            </ActionButtons>
+            <AddDigitalAssetDialog
+                closeDialog={closeAddDigitalAssetDialog}
+                open={addDigitalAssetDialog}
+            />
+        </>
+    );
 };
 
-export default withStyles(style)(DigitalAssetsView);
+export default DigitalAssetsView;

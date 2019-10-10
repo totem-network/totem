@@ -1,14 +1,14 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import withWidth, { isWidthDown, isWidthUp, WithWidth } from '@material-ui/core/withWidth';
+import { isWidthDown, isWidthUp } from '@material-ui/core/withWidth';
+import { makeStyles } from '@material-ui/styles';
 import classNames from 'classnames';
 import { SwipeFromBottom } from 'gestures';
 import React, {
-    Component,
     CSSProperties,
     MouseEvent,
 } from 'react';
 import { Swipeable } from 'touch';
+import { useWidth } from 'ui';
 import {
     ICloseApplicationAction,
 } from '../../actions/application';
@@ -27,8 +27,8 @@ import Resize from './Resize';
 
 interface IWindowProps {
     changing: boolean;
+    children: any;
     close: (instance: string) => ICloseApplicationAction;
-    finishChange: () => void;
     focus: (instance: string) => IFocusWindowAction;
     focused: boolean;
     hideTaskManager: () => IHideTaskManagerAction;
@@ -39,7 +39,6 @@ interface IWindowProps {
     noHeader?: boolean;
     resize: (instance: string, width: number, height: number) => IResizeWindowAction;
     showTaskManager: () => IShowTaskManagerAction;
-    startChange: () => void;
     task: boolean;
     taskStyle: CSSProperties;
     themeColor: string;
@@ -51,275 +50,7 @@ interface IWindowProps {
     zIndex: number;
 }
 
-interface IWindowState {}
-
-type WindowProps = IWindowProps & WithStyles & WithWidth;
-
-class Window extends Component<WindowProps, IWindowState> {
-
-    public static readonly MIN_HEIGHT = 200;
-
-    public static readonly MIN_WIDTH = 400;
-
-    protected offsetHeight: number;
-
-    protected offsetWidth: number;
-
-    protected offsetX: number;
-
-    protected offsetY: number;
-
-    protected domNode?: HTMLElement;
-
-    constructor(props: WindowProps, context?: any) {
-        super(props, context);
-
-        this.offsetHeight = 0;
-        this.offsetWidth = 0;
-        this.offsetX = 0;
-        this.offsetY = 0;
-
-        this.close = this.close.bind(this);
-        this.finish = this.finish.bind(this);
-        this.focus = this.focus.bind(this);
-        this.minimize = this.minimize.bind(this);
-        this.move = this.move.bind(this);
-        this.resize = this.resize.bind(this);
-
-        this.setRef = this.setRef.bind(this);
-
-        this.renderHeader = this.renderHeader.bind(this);
-        this.renderResize = this.renderResize.bind(this);
-    }
-
-    public setRef(element: any) {
-        this.domNode = element;
-    }
-
-    public close() {
-        const { close, instance } = this.props;
-
-        close(instance);
-    }
-
-    public finish(): void {
-        const {
-            finishChange,
-            instance,
-            move,
-            resize,
-        } = this.props;
-
-        if (this.offsetX !== 0 || this.offsetY !== 0) {
-            // TODO: min and max x/y
-
-            move(instance, this.offsetX, this.offsetY);
-        }
-
-        if (this.offsetWidth !== 0 || this.offsetHeight !== 0) {
-            // TODO: does not resize correct
-            // Maybe (this.props.windowWidth + this.offsetWidth) - Window.MIN_WIDTH
-
-            /*const resizeX = ((this.offsetWidth + this.props.windowWidth) >= Window.MIN_WIDTH) ?
-                this.offsetWidth :
-                this.props.windowWidth - Window.MIN_WIDTH;
-
-            const resizeY = ((this.offsetHeight + this.props.windowHeight) >= Window.MIN_HEIGHT) ?
-                this.offsetHeight :
-                this.props.windowHeight - Window.MIN_HEIGHT;
-
-            resize(instance, resizeX, resizeY);*/
-            resize(instance, this.offsetWidth, this.offsetHeight);
-        }
-
-        this.offsetHeight = 0;
-        this.offsetWidth = 0;
-        this.offsetX = 0;
-        this.offsetY = 0;
-
-        finishChange();
-    }
-
-    public focus() {
-        const { focus, focused, instance } = this.props;
-
-        if (!focused) {
-            focus(instance);
-        }
-    }
-
-    public minimize(event: MouseEvent<HTMLElement>) {
-        const { minimize, instance } = this.props;
-
-        minimize(instance);
-    }
-
-    public move(x: number, y: number): void {
-        if (!this.props.changing) {
-            this.props.startChange();
-        }
-
-        if (!this.domNode) {
-            return;
-        }
-
-        // TODO: min and max x/y
-
-        this.offsetX = this.offsetX + x;
-        this.offsetY = this.offsetY + y;
-
-        this.domNode.style.top = this.props.y + this.offsetY + 'px';
-        this.domNode.style.left = this.props.x + this.offsetX + 'px';
-    }
-
-    public resize(width: number, height: number): void {
-        if (!this.props.changing) {
-            this.props.startChange();
-        }
-
-        if (!this.domNode) {
-            return;
-        }
-
-        this.offsetWidth = this.offsetWidth + width;
-        this.offsetHeight = this.offsetHeight + height;
-
-        ((this.offsetWidth + this.props.windowWidth) >= Window.MIN_WIDTH) ?
-            this.domNode.style.width = this.props.windowWidth + this.offsetWidth + 'px' :
-            this.domNode.style.width = Window.MIN_WIDTH + 'px';
-
-        ((this.offsetHeight + this.props.windowHeight) >= Window.MIN_HEIGHT) ?
-            this.domNode.style.height = this.props.windowHeight + this.offsetHeight + 'px' :
-            this.domNode.style.height = Window.MIN_HEIGHT + 'px';
-    }
-
-    public render() {
-        const {
-            children,
-            classes,
-            focused,
-            minimized,
-            task,
-            taskStyle,
-            width,
-            windowHeight,
-            windowWidth,
-            x,
-            y,
-            zIndex,
-        } = this.props;
-
-        let windowPositionStyle: CSSProperties = isWidthUp('lg', width) ? {
-            height: windowHeight + 'px',
-            left: x + 'px',
-            top: y + 'px',
-            width: windowWidth + 'px',
-            zIndex,
-        } : {};
-
-        let className = classNames(
-            classes.window,
-            {
-                [classes.minimized]: minimized,
-                [classes.focused]: focused,
-                [classes.notFocused]: !focused,
-            },
-        );
-
-        if (task) {
-            className = classes.task;
-            windowPositionStyle = taskStyle;
-        }
-
-        return (
-            <div
-                className={className}
-                style={windowPositionStyle}
-                ref={this.setRef}
-                onMouseDownCapture={this.focus}
-            >
-                {this.renderHeader()}
-                {children}
-                {this.renderMobileTaskManagerGesture()}
-                {this.renderResize()}
-                {this.renderTaskOverlay()}
-            </div>
-        );
-    }
-
-    protected renderHeader() {
-        const {
-            noHeader,
-            themeColor,
-            title,
-            width,
-        } = this.props;
-
-        return isWidthUp('lg', width) ? (
-            <Header
-                close={this.close}
-                finish={this.finish}
-                minimize={this.minimize}
-                move={this.move}
-                noHeader={noHeader}
-                themeColor={themeColor}
-                title={title}
-            />
-        ) : null;
-    }
-
-    protected renderMobileTaskManagerGesture() {
-        const { showTaskManager, width } = this.props;
-
-        const swipe = () => {
-            showTaskManager();
-        };
-
-        return isWidthDown('md', width) ? (
-            <SwipeFromBottom onSwipe={swipe} />
-        ) : null;
-    }
-
-    protected renderResize() {
-        const { width } = this.props;
-
-        return isWidthUp('lg', width) ? (
-            <Resize
-                finish={this.finish}
-                move={this.move}
-                resize={this.resize}
-            />
-        ) : null;
-    }
-
-    protected renderTaskOverlay() {
-        const {
-            focus,
-            hideTaskManager,
-            instance,
-            task,
-        } = this.props;
-        const { taskOverlay } = this.props.classes;
-
-        const focusTask = () => {
-            focus(instance);
-            hideTaskManager();
-        };
-
-        return task ? (
-            <Swipeable
-                onSwipeUp={this.close}
-            >
-                <div
-                    className={taskOverlay}
-                    onClick={focusTask}
-                />
-            </Swipeable>
-        ) : null;
-    }
-}
-
-const style: StyleRulesCallback<Theme, IWindowProps> = (theme: Theme) => {
+const useStyles = makeStyles((theme: Theme) => {
     return {
         focused: {
             [theme.breakpoints.down('md')]: {
@@ -366,8 +97,216 @@ const style: StyleRulesCallback<Theme, IWindowProps> = (theme: Theme) => {
             width: '100%',
         },
     };
+});
+
+const MIN_HEIGHT = 200;
+
+const MIN_WIDTH = 400;
+
+const Window = ({
+    children,
+    close,
+    focus,
+    focused,
+    hideTaskManager,
+    instance,
+    minimize,
+    minimized,
+    move,
+    noHeader,
+    resize,
+    showTaskManager,
+    task,
+    taskStyle,
+    themeColor,
+    title,
+    windowHeight,
+    windowWidth,
+    x,
+    y,
+    zIndex,
+}: IWindowProps) => {
+    const classes = useStyles();
+    const width = useWidth();
+
+    let offsetHeight = 0;
+    let offsetWidth = 0;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    let domNode: HTMLElement | null = null;
+    let changing = false;
+
+    const setRef = (element: any) => {
+        domNode = element;
+    };
+
+    const closeInstance = () => {
+        close(instance);
+    };
+
+    const finish = () => {
+        if (offsetX !== 0 || offsetY !== 0) {
+            // TODO: min and max x/y
+
+            move(instance, offsetX, offsetY);
+        }
+
+        if (offsetWidth !== 0 || offsetHeight !== 0) {
+            // TODO: does not resize correct
+            // Maybe (this.props.windowWidth + this.offsetWidth) - Window.MIN_WIDTH
+
+            /*const resizeX = ((this.offsetWidth + this.props.windowWidth) >= Window.MIN_WIDTH) ?
+                this.offsetWidth :
+                this.props.windowWidth - Window.MIN_WIDTH;
+
+            const resizeY = ((this.offsetHeight + this.props.windowHeight) >= Window.MIN_HEIGHT) ?
+                this.offsetHeight :
+                this.props.windowHeight - Window.MIN_HEIGHT;
+
+            resize(instance, resizeX, resizeY);*/
+            resize(instance, offsetWidth, offsetHeight);
+        }
+
+        offsetHeight = 0;
+        offsetWidth = 0;
+        offsetX = 0;
+        offsetY = 0;
+
+        changing = false;
+    };
+
+    const focusInstance = () => {
+        if (!focused) {
+            focus(instance);
+        }
+    };
+
+    const minimizeInstance = (event: MouseEvent<HTMLElement>) => {
+        minimize(instance);
+    };
+
+    const moveInstance = (moveX: number, moveY: number) => {
+        if (!changing) {
+            changing = true;
+        }
+
+        if (!domNode) {
+            return;
+        }
+
+        // TODO: min and max x/y
+
+        offsetX = offsetX + moveX;
+        offsetY = offsetY + moveY;
+
+        domNode.style.top = y + offsetY + 'px';
+        domNode.style.left = x + offsetX + 'px';
+    };
+
+    const resizeInstance = (resizeWidth: number, resizeHeight: number) => {
+        if (!changing) {
+            changing = true;
+        }
+
+        if (!domNode) {
+            return;
+        }
+
+        offsetWidth = offsetWidth + resizeWidth;
+        offsetHeight = offsetHeight + resizeHeight;
+
+        ((offsetWidth + windowWidth) >= MIN_WIDTH) ?
+            domNode.style.width = windowWidth + offsetWidth + 'px' :
+            domNode.style.width = MIN_WIDTH + 'px';
+
+        ((offsetHeight + windowHeight) >= MIN_HEIGHT) ?
+            domNode.style.height = windowHeight + offsetHeight + 'px' :
+            domNode.style.height = MIN_HEIGHT + 'px';
+    };
+
+    let windowPositionStyle: CSSProperties = isWidthUp('lg', width) ? {
+        height: windowHeight + 'px',
+        left: x + 'px',
+        top: y + 'px',
+        width: windowWidth + 'px',
+        zIndex,
+    } : {};
+
+    let className = classNames(
+        classes.window,
+        {
+            [classes.minimized]: minimized,
+            [classes.focused]: focused,
+            [classes.notFocused]: !focused,
+        },
+    );
+
+    if (task) {
+        className = classes.task;
+        windowPositionStyle = taskStyle;
+    }
+
+    const headerComponent = isWidthUp('lg', width) ? (
+        <Header
+            close={closeInstance}
+            finish={finish}
+            minimize={minimizeInstance}
+            move={moveInstance}
+            noHeader={noHeader}
+            themeColor={themeColor}
+            title={title}
+        />
+    ) : null;
+
+    const swipe = () => {
+        showTaskManager();
+    };
+
+    const mobileTaskManagerGestureComponent = isWidthDown('md', width) ? (
+        <SwipeFromBottom onSwipe={swipe} />
+    ) : null;
+
+    const resizeComponent = isWidthUp('lg', width) ? (
+        <Resize
+            finish={finish}
+            move={moveInstance}
+            resize={resizeInstance}
+        />
+    ) : null;
+
+    const focusTask = () => {
+        focus(instance);
+        hideTaskManager();
+    };
+
+    const taskOverlayComponent = task ? (
+        <Swipeable
+            onSwipeUp={closeInstance}
+        >
+            <div
+                className={classes.taskOverlay}
+                onClick={focusTask}
+            />
+        </Swipeable>
+    ) : null;
+
+    const childrenWithChanging = changing ? React.cloneElement(children, { pointerEvents: changing }) : children;
+
+    return (
+        <div
+            className={className}
+            style={windowPositionStyle}
+            ref={setRef}
+            onMouseDownCapture={focusInstance}
+        >
+            {headerComponent}
+            {childrenWithChanging}
+            {mobileTaskManagerGestureComponent}
+            {resizeComponent}
+            {taskOverlayComponent}
+        </div>
+    );
 };
 
-export default withStyles(style)(
-    withWidth()(Window),
-);
+export default Window;

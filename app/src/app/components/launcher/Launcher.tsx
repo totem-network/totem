@@ -1,7 +1,7 @@
-import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
+import { makeStyles } from '@material-ui/styles';
 import { IStartApplicationAction } from 'applications';
 import classNames from 'classnames';
-import React, { Component  } from 'react';
+import React from 'react';
 import { IHideLauncherAction } from '../../actions/launcher';
 import App from './App';
 
@@ -11,69 +11,7 @@ interface ILauncherProps {
     startApplication: (application: string, manifest?: string) => IStartApplicationAction;
 }
 
-interface ILauncherState {}
-
-type LauncherProps = ILauncherProps & WithStyles;
-
-class Launcher extends Component<LauncherProps, ILauncherState> {
-
-    constructor(props: LauncherProps, context?: any) {
-        super(props, context);
-
-        this.launchApplication = this.launchApplication.bind(this);
-    }
-
-    public launchApplication(application: string, manifest?: string) {
-        const { hideLauncher, startApplication } = this.props;
-
-        hideLauncher();
-        startApplication(application, manifest);
-    }
-
-    public render() {
-        const { isVisible } = this.props;
-        const {
-            container,
-            launcher,
-            launcherVisible,
-        } = this.props.classes;
-
-        // TODO: launcher animation: hide sidenav, fade in with react spring!!
-
-        const launcherClass = classNames(
-            launcher,
-            {
-                [launcherVisible]: isVisible,
-            },
-        );
-
-        return (
-            <aside
-                className={launcherClass}
-            >
-                <div className={container}>
-                    <App
-                        imageUrl={'/images/apps/filesystem_256x256.png'}
-                        launchApplication={this.launchApplication}
-                        manifest={'/apps/filesystem.json'}
-                        name={'Files'}
-                        url={'filesystem'}
-                    />
-                    <App
-                        imageUrl={'/images/apps/3box_256x256.png'}
-                        launchApplication={this.launchApplication}
-                        manifest={'/apps/3box.json'}
-                        name={'3Box'}
-                        url={'https://3box.io/'}
-                    />
-                </div>
-            </aside>
-        );
-    }
-
-}
-
-const style: StyleRules = {
+const useStyles = makeStyles({
     container: {
         display: 'flex',
         left: '20%',
@@ -100,6 +38,49 @@ const style: StyleRules = {
         opacity: 1,
         transform: 'none',
     },
+});
+
+const Launcher = ({
+    isVisible,
+    hideLauncher,
+    startApplication,
+}: ILauncherProps) => {
+    const classes = useStyles();
+
+    const launchApplication = (application: string, manifest?: string) => {
+        hideLauncher();
+        startApplication(application, manifest);
+    };
+
+    const launcherClass = classNames(
+        classes.launcher,
+        {
+            [classes.launcherVisible]: isVisible,
+        },
+    );
+
+    return (
+        <aside
+            className={launcherClass}
+        >
+            <div className={classes.container}>
+                <App
+                    imageUrl={'/images/apps/filesystem_256x256.png'}
+                    launchApplication={launchApplication}
+                    manifest={'/apps/filesystem.json'}
+                    name={'Files'}
+                    url={'filesystem'}
+                />
+                <App
+                    imageUrl={'/images/apps/3box_256x256.png'}
+                    launchApplication={launchApplication}
+                    manifest={'/apps/3box.json'}
+                    name={'3Box'}
+                    url={'https://3box.io/'}
+                />
+            </div>
+        </aside>
+    );
 };
 
-export default withStyles(style)(Launcher as any);
+export default Launcher;

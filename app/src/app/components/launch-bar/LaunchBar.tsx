@@ -1,9 +1,10 @@
-import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
-import withWidth, { isWidthDown, WithWidth } from '@material-ui/core/withWidth';
+import { isWidthDown } from '@material-ui/core/withWidth';
+import { makeStyles } from '@material-ui/styles';
 import {
     IStartApplicationAction,
 } from 'applications';
-import React, { Component, ComponentType  } from 'react';
+import React from 'react';
+import { useWidth } from 'ui';
 import { IHideLaunchBarAction } from './../../actions/launchBar';
 import App from './App';
 
@@ -12,52 +13,7 @@ interface ILaunchBarProps {
     startApplication: (application: string, manifest?: string) => IStartApplicationAction;
 }
 
-interface ILaunchBarState {}
-
-type LaunchBarProps = ILaunchBarProps & WithStyles & WithWidth;
-
-class LaunchBar extends Component<LaunchBarProps, ILaunchBarState> {
-
-    constructor(props: LaunchBarProps, context?: any) {
-        super(props, context);
-
-        this.launchApplication = this.launchApplication.bind(this);
-    }
-
-    public launchApplication(application: string, manifest?: string) {
-        const { startApplication } = this.props;
-
-        startApplication(application, manifest);
-    }
-
-    public render() {
-        const { isVisible, width } = this.props;
-
-        const {
-            container,
-            launchBar,
-        } = this.props.classes;
-
-        if (!isVisible) {
-            return null;
-        }
-
-        return isWidthDown('md', width) ?  (
-            <nav
-                className={launchBar}
-            >
-                <div className={container}>
-                    <div>
-                        <App launchApplication={this.launchApplication} />
-                    </div>
-                </div>
-            </nav>
-        ) : null;
-    }
-
-}
-
-const style: StyleRules = {
+const useStyles = makeStyles({
     container: {
         background: 'rgba(0, 0, 0, 0.2)',
         borderRadius: '1vw 2.5vw 1vw',
@@ -75,8 +31,34 @@ const style: StyleRules = {
         position: 'absolute',
         width: '90%',
     },
+});
+
+const LaunchBar = ({
+    isVisible,
+    startApplication,
+}: ILaunchBarProps) => {
+    const classes = useStyles();
+    const width = useWidth();
+
+    const launchApplication = (application: string, manifest?: string) => {
+        startApplication(application, manifest);
+    };
+
+    if (!isVisible) {
+        return null;
+    }
+
+    return isWidthDown('md', width) ?  (
+        <nav
+            className={classes.launchBar}
+        >
+            <div className={classes.container}>
+                <div>
+                    <App launchApplication={launchApplication} />
+                </div>
+            </div>
+        </nav>
+    ) : null;
 };
 
-export default withStyles(style)(
-    withWidth()(LaunchBar as any),
-);
+export default LaunchBar;

@@ -1,36 +1,30 @@
-import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
+import { makeStyles } from '@material-ui/styles';
 import classNames from 'classnames';
-import React, { Component } from 'react';
+import React from 'react';
 
 interface ILogoProps {
     className?: string;
 }
 
-interface ILogoState {}
-
-type LogoProps = ILogoProps & WithStyles;
-
-class Logo extends Component<LogoProps, ILogoState> {
-
-    public render() {
-        const { className } = this.props;
-        const { image } = this.props.classes;
-
-        const logoClass = classNames(
-            image,
-            className,
-        );
-
-        return (
-            <img src="/images/logo.svg" className={logoClass} />
-        );
-    }
-}
-
-const style: StyleRules = {
+const useStyles = makeStyles({
     image: {
         width: '100%',
     },
+});
+
+const Logo = ({
+    className,
+}: ILogoProps) => {
+    const classes = useStyles();
+
+    const logoClass = classNames(
+        classes.image,
+        className,
+    );
+
+    return (
+        <img src="/images/logo.svg" className={logoClass} />
+    );
 };
 
-export default withStyles(style)(Logo);
+export default Logo;

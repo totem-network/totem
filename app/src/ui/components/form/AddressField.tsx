@@ -5,7 +5,7 @@ import { Avatar } from 'account';
 import { Field, FieldProps } from 'formik';
 import React, {
     ChangeEvent,
-    Component,
+    useState,
 } from 'react';
 import { isAddress } from 'utils/ethereum';
 
@@ -14,98 +14,34 @@ interface IAddressFieldProps {
     name: string;
 }
 
-interface IAddressFieldState {
-    domain?: string;
-    to?: string;
-}
+const AddressField = ({
+    label,
+    name,
+    ...custom
+}: IAddressFieldProps) => {
+    const [domain, setDomain] = useState<string | undefined>(undefined);
+    const [to, setTo] = useState<string | undefined>(undefined);
 
-class AddressField extends Component<IAddressFieldProps, IAddressFieldState> {
-
-    constructor(props: IAddressFieldProps, context?: any) {
-        super(props, context);
-
-        this.handleChange = this.handleChange.bind(this);
-        this.renderAddressField = this.renderAddressField.bind(this);
-
-        this.state = {};
-    }
-
-    public handleChange(onChange: any, event: ChangeEvent<HTMLInputElement>) {
-        const to = event.currentTarget.value;
+    const handleChange = (onChange: any, event: ChangeEvent<HTMLInputElement>) => {
+        const inputValue = event.currentTarget.value;
 
         onChange(event);
 
-        if (isAddress(to)) {
-            this.setState({
-                to,
-            });
-        } else if (to.endsWith('.eth')) {
-            this.setState({
-                domain: to,
-            });
+        if (isAddress(inputValue)) {
+            setDomain(undefined);
+            setTo(inputValue);
+        } else if (inputValue.endsWith('.eth')) {
+            setTo(undefined);
+            setDomain(inputValue);
         } else {
-            if (this.state.to) {
-                this.setState({
-                    to: undefined,
-                });
-            }
+            setDomain(undefined);
+            setTo(undefined);
         }
-    }
+    };
 
-    public render() {
-        const {
-            name,
-        } = this.props;
-
-        return (
-            <Field name={name}>
-                {this.renderAddressField}
-            </Field>
-        );
-    }
-
-    public renderAddressField({
-        field,
-        form: {
-            errors,
-        },
-    }: FieldProps) {
-        const {
-            label,
-            ...custom
-        } = this.props;
-
-        return (
-            <TextField
-                error={(errors[field.name] !== undefined && errors[field.name] !== '')}
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            {this.renderAvatar()}
-                        </InputAdornment>
-                    ),
-                }}
-                label={label}
-                {...field}
-                onChange={this.handleChange.bind(this, field.onChange)}
-                {...custom}
-            />
-        );
-    }
-
-    protected renderAvatar() {
-        const {
-            domain,
-            to,
-        } = this.state;
-
-        if (!to && !domain) {
-            return (
-                <AccountCircle />
-            );
-        }
-
-        return (
+    const avatar = (!to && !domain) ? (
+            <AccountCircle />
+        ) : (
             <div
                 style={{
                     width: '24px',
@@ -114,8 +50,36 @@ class AddressField extends Component<IAddressFieldProps, IAddressFieldState> {
                 <Avatar address={to} domain={domain} noProfile={true} />
             </div>
         );
-    }
 
-}
+    const renderAddressField = ({
+        field,
+        form: {
+            errors,
+        },
+    }: FieldProps) => {
+        return (
+            <TextField
+                error={(errors[field.name] !== undefined && errors[field.name] !== '')}
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            {avatar}
+                        </InputAdornment>
+                    ),
+                }}
+                label={label}
+                {...field}
+                onChange={handleChange.bind(null, field.onChange)}
+                {...custom}
+            />
+        );
+    };
+
+    return (
+        <Field name={name}>
+            {renderAddressField}
+        </Field>
+    );
+};
 
 export default AddressField;

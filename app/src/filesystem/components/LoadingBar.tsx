@@ -1,39 +1,27 @@
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
 
 export interface ILoadingBarProps {}
 
-export interface ILoadingBarState {}
+const useStyles = makeStyles({
+    container: {
+        pointerEvents: 'none',
+        position: 'absolute',
+        right: 0,
+        top: 0,
+        width: '100%',
+    },
+});
 
-type LoadingBarProps = ILoadingBarProps & WithStyles;
+const LoadingBar = ({}: ILoadingBarProps) => {
+    const classes = useStyles();
 
-class LoadingBar extends Component<LoadingBarProps, ILoadingBarState> {
-
-    public render() {
-        const {
-            container,
-        } = this.props.classes;
-
-        return (
-            <div className={container}>
-                <LinearProgress />
-            </div>
-        );
-    }
-}
-
-const style: StyleRulesCallback<Theme, ILoadingBarProps> = (theme: Theme) => {
-    return {
-        container: {
-            pointerEvents: 'none',
-            position: 'absolute',
-            right: 0,
-            top: 0,
-            width: '100%',
-        },
-    };
+    return (
+        <div className={classes.container}>
+            <LinearProgress />
+        </div>
+    );
 };
 
-export default withStyles(style)(LoadingBar);
+export default LoadingBar;

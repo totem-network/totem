@@ -1,7 +1,7 @@
 import Button from '@material-ui/core/Button';
-import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
+import { makeStyles } from '@material-ui/styles';
 import { Form, Formik } from 'formik';
-import React, { Component } from 'react';
+import React from 'react';
 import {
     ICreateAccountAction,
 } from './../../actions/create';
@@ -11,64 +11,38 @@ export interface ICreateAccountData {
 }
 
 export interface ICreateAccountProps {
-    handleSubmit?: any;
     createAccount: () => ICreateAccountAction;
 }
 
-interface ICreateAccountState {}
-
-type CreateAccountProps = ICreateAccountProps &
-    WithStyles;
-
-class CreateAccount extends Component<CreateAccountProps, ICreateAccountState> {
-
-    constructor(
-        props: CreateAccountProps,
-        context?: any,
-    ) {
-        super(props, context);
-
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    public handleSubmit() {
-        this.props.createAccount();
-    }
-
-    public handleChange(event: any) {
-        // event.preventDefault();
-        // console.log(event);
-    }
-
-    public render() {
-        const { buttonWrapper } = this.props.classes;
-
-        return (
-            <Formik
-                initialValues={{}}
-                onSubmit={this.handleSubmit}
-            >
-                <Form>
-                    <div className={buttonWrapper}>
-                        <Button type='submit' color='primary' variant="contained">
-                            Create Profile
-                        </Button>
-                    </div>
-                </Form>
-            </Formik>
-        );
-    }
-}
-
-const style: StyleRules = {
-    avatar: {
-        height: '4rem',
-        margin: 'auto',
-        width: '4rem',
-    },
+const useStyles = makeStyles({
     buttonWrapper: {
         marginTop: '2rem',
     },
+});
+
+const CreateAccount = ({
+    createAccount,
+}: ICreateAccountProps) => {
+    const classes = useStyles();
+
+    const handleSubmit = () => {
+        createAccount();
+    };
+
+    return (
+        <Formik
+            initialValues={{}}
+            onSubmit={handleSubmit}
+        >
+            <Form>
+                <div className={classes.buttonWrapper}>
+                    <Button type='submit' color='primary' variant="contained">
+                        Create Profile
+                    </Button>
+                </div>
+            </Form>
+        </Formik>
+    );
 };
 
-export default withStyles(style)(CreateAccount);
+export default CreateAccount;

@@ -1,31 +1,13 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
+import { makeStyles } from '@material-ui/styles';
 import { SwipeFromLeft } from 'gestures';
-import React, { Component } from 'react';
+import React from 'react';
 
 interface IGesturesProps {
     swipeFromLeft: () => any;
 }
 
-interface IGesturesState {}
-
-type GesturesProps = IGesturesProps & WithStyles;
-
-class Gestures extends Component<GesturesProps, IGesturesState> {
-
-    public render() {
-        const { swipeFromLeft } = this.props;
-        const { container } = this.props.classes;
-
-        return (
-            <div className={container}>
-                <SwipeFromLeft onSwipe={swipeFromLeft} />
-            </div>
-        );
-    }
-}
-
-const style: StyleRulesCallback<Theme, IGesturesProps> = (theme: Theme) => {
+const useStyles = makeStyles((theme: Theme) => {
     return {
         container: {
             [theme.breakpoints.up('lg')]: {
@@ -39,6 +21,18 @@ const style: StyleRulesCallback<Theme, IGesturesProps> = (theme: Theme) => {
             width: '100%',
         },
     };
+});
+
+const Gestures = ({
+    swipeFromLeft,
+}: IGesturesProps) => {
+    const classes = useStyles();
+
+    return (
+        <div className={classes.container}>
+            <SwipeFromLeft onSwipe={swipeFromLeft} />
+        </div>
+    );
 };
 
-export default withStyles(style)(Gestures);
+export default Gestures;

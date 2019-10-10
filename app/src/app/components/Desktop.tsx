@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Events from './../components/events/Events';
 import Windows from './../containers/applications/Windows';
 import Gestures from './../containers/Gestures';
@@ -8,23 +8,17 @@ import SideNav from './../containers/SideNav';
 
 interface IDesktopProps {}
 
-interface IDesktopState {}
-
-class Desktop extends Component<IDesktopProps, IDesktopState> {
-
-    public render() {
-        return (
-            <>
-                <Events />
-                <Gestures />
-                <Windows />
-                <LaunchBar />
-                <SideNav />
-                <Launcher />
-            </>
-        );
-    }
-
-}
+const Desktop = ({}: IDesktopProps) => {
+    return (
+        <>
+            <Events />
+            <Gestures />
+            <Windows />
+            <LaunchBar />
+            <SideNav />
+            <Launcher />
+        </>
+    );
+};
 
 export default Desktop;

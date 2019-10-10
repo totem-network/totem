@@ -1,6 +1,5 @@
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
 
 interface ITaskTitleProps {
     icon: string;
@@ -9,50 +8,45 @@ interface ITaskTitleProps {
     title: string;
 }
 
-interface ITaskTitleState {}
+const useStyles = makeStyles({
+    taskIcon: {
+        borderRadius: '5% 20% 5%',
+        display: 'inline-block',
+        height: '3rem',
+        marginRight: '1rem',
+        width: '3rem',
+    },
+    taskInfo: {
+        display: 'flex',
+        position: 'absolute',
+        top: '6vh',
+    },
+});
 
-type TaskTitleProps = ITaskTitleProps & WithStyles;
+const TaskTitle = ({
+    icon,
+    offset,
+    themeColor,
+    title,
+}: ITaskTitleProps) => {
+    const classes = useStyles();
 
-class TaskTitle extends Component<TaskTitleProps, ITaskTitleState> {
-
-    public render() {
-        const { icon, offset, themeColor, title } = this.props;
-        const { taskInfo, taskIcon } = this.props.classes;
-
-        const taskIconStyle = {
-            background: themeColor,
-        };
-
-        const offsetStyle = {
-            left: offset * 75 + 20 + 'vw',
-        };
-
-        return (
-            <div className={taskInfo} style={offsetStyle}>
-                <div className={taskIcon} style={taskIconStyle}>
-                    <img src={icon} width='100%' />
-                </div>
-                {title}
-            </div>
-        );
-    }
-}
-
-const style: StyleRulesCallback<Theme, ITaskTitleProps> = (theme: Theme) => {
-    return {
-        taskIcon: {
-            borderRadius: '5% 20% 5%',
-            display: 'inline-block',
-            height: '3rem',
-            marginRight: '1rem',
-            width: '3rem',
-        },
-        taskInfo: {
-            display: 'flex',
-            position: 'absolute',
-            top: '6vh',
-        },
+    const taskIconStyle = {
+        background: themeColor,
     };
+
+    const offsetStyle = {
+        left: offset * 75 + 20 + 'vw',
+    };
+
+    return (
+        <div className={classes.taskInfo} style={offsetStyle}>
+            <div className={classes.taskIcon} style={taskIconStyle}>
+                <img src={icon} width='100%' />
+            </div>
+            {title}
+        </div>
+    );
 };
 
-export default withStyles(style)(TaskTitle);
+export default TaskTitle;

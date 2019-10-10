@@ -1,33 +1,26 @@
-import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
-import React, { Component } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
 
 interface ILoginMessageProps {}
 
-interface ILoginMessageState {}
-
-type LoginMessageProps = ILoginMessageProps & WithStyles;
-
-class LoginMessage extends Component<LoginMessageProps, ILoginMessageState> {
-
-    public render() {
-        const { wrapper } = this.props.classes;
-
-        return (
-            <div className={wrapper}>
-                <Typography variant="h2">
-                    Hello
-                </Typography>
-            </div>
-        );
-    }
-}
-
-const style: StyleRules = {
+const useStyles = makeStyles({
     wrapper: {
         fontSize: '4rem',
         textTransform: 'uppercase',
     },
+});
+
+const LoginMessage = ({}: ILoginMessageProps) => {
+    const classes = useStyles();
+
+    return (
+        <div className={classes.wrapper}>
+            <Typography variant="h2">
+                Hello
+            </Typography>
+        </div>
+    );
 };
 
-export default withStyles(style)(LoginMessage);
+export default LoginMessage;

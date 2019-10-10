@@ -1,8 +1,7 @@
-import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import { Field, FieldProps } from 'formik';
-import React, { Component } from 'react';
+import React from 'react';
 
 interface ISwitchFieldProps {
     label?: string;
@@ -10,50 +9,33 @@ interface ISwitchFieldProps {
     [key: string]: any;
 }
 
-interface ISwitchFieldState {}
-
-class SwitchField extends Component<ISwitchFieldProps, ISwitchFieldState> {
-
-    constructor(props: ISwitchFieldProps, context?: any) {
-        super(props, context);
-
-        this.renderSwitch = this.renderSwitch.bind(this);
-    }
-
-    public render() {
-        const {
-            name,
-        } = this.props;
-
-        return (
-            <Field name={name}>
-                {this.renderSwitch}
-            </Field>
-        );
-    }
-
-    public renderSwitch({
+const SwitchField = ({
+    label,
+    name,
+    ...custom
+}: ISwitchFieldProps) => {
+    const renderSwitch = ({
         field,
-    }: FieldProps) {
-        const {
-            label,
-            ...custom
-        } = this.props;
-
+    }: FieldProps) => {
         return (
             <FormControlLabel
-                control={
+                control={(
                     <Switch
                         checked={field.value}
                         {...field}
                         {...custom}
                     />
-                }
+                )}
                 label={label}
             />
         );
-    }
+    };
 
-}
+    return (
+        <Field name={name}>
+            {renderSwitch}
+        </Field>
+    );
+};
 
 export default SwitchField;

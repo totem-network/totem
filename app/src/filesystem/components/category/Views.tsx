@@ -1,6 +1,6 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
 import CryptoCurrencies from '../../containers/category/CryptoCurrencies';
 import DigitalAssets from '../../containers/category/DigitalAssets';
 import Images from '../../containers/category/Images';
@@ -9,44 +9,7 @@ export interface IViewsProps {
     instanceCategory: string;
 }
 
-export interface IViewsState {}
-
-type ViewsProps = IViewsProps & WithStyles;
-
-class Views extends Component<ViewsProps, IViewsState> {
-
-    public render() {
-        const { container } = this.props.classes;
-
-        return (
-            <div className={container}>
-                {this.renderCategory()}
-            </div>
-        );
-    }
-
-    protected renderCategory() {
-        const { instanceCategory } = this.props;
-
-        switch (instanceCategory) {
-            case 'crypto-currencies':
-                return (
-                    <CryptoCurrencies />
-                );
-            case 'digital-assets':
-                return (
-                    <DigitalAssets />
-                );
-            case 'images':
-                return (
-                    <Images />
-                );
-        }
-    }
-
-}
-
-const style: StyleRulesCallback<Theme, IViewsProps> = (theme: Theme) => {
+const useStyles = makeStyles((theme: Theme) => {
     return {
         container: {
             [theme.breakpoints.up('lg')]: {
@@ -62,6 +25,35 @@ const style: StyleRulesCallback<Theme, IViewsProps> = (theme: Theme) => {
             top: 0,
         },
     };
+});
+
+const Views = ({
+    instanceCategory,
+}: IViewsProps) => {
+    const classes = useStyles();
+
+    const renderCategory = () => {
+        switch (instanceCategory) {
+            case 'crypto-currencies':
+                return (
+                    <CryptoCurrencies />
+                );
+            case 'digital-assets':
+                return (
+                    <DigitalAssets />
+                );
+            case 'images':
+                return (
+                    <Images />
+                );
+        }
+    };
+
+    return (
+        <div className={classes.container}>
+            {renderCategory()}
+        </div>
+    );
 };
 
-export default withStyles(style)(Views);
+export default Views;

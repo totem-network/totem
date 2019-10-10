@@ -6,7 +6,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Field, FieldProps } from 'formik';
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 interface IFormPasswordProps {
     label: string;
@@ -14,78 +14,44 @@ interface IFormPasswordProps {
     [key: string]: any;
 }
 
-interface IFormPasswordState {
-    showPassword: boolean;
-}
+const FormPassword = ({
+    label,
+    name,
+    ...custom
+}: IFormPasswordProps) => {
+    const [showPassword, setShowPassword] = useState(false);
 
-class FormPassword extends Component<IFormPasswordProps, IFormPasswordState> {
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
 
-    constructor(
-        props: IFormPasswordProps,
-        context?: any,
-    ) {
-        super(props, context);
-
-        this.state = {
-            showPassword: false,
-        };
-
-        this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
-        this.renderPasswordField = this.renderPasswordField.bind(this);
-    }
-
-    public handleClickShowPassword() {
-        this.setState({
-            showPassword: !this.state.showPassword,
-        });
-    }
-
-    public handleMouseDownPassword(event: any) {
+    const handleMouseDownPassword = (event: any) => {
         event.preventDefault();
-    }
+    };
 
-    public render() {
-        const {
-            name,
-        } = this.props;
-
-        return (
-            <Field name={name}>
-                {this.renderPasswordField}
-            </Field>
-        );
-    }
-
-    public renderPasswordField({
+    const renderPasswordField = ({
         field,
         form: {
             errors,
         },
-    }: FieldProps) {
-        const {
-            label,
-            ...custom
-        } = this.props;
-
-        const { showPassword } = this.state;
-
+    }: FieldProps) => {
         return (
             <FormControl fullWidth={true}>
                 <InputLabel>
                     {label}
                 </InputLabel>
                 <Input
-                    endAdornment={
+                    endAdornment={(
                         <InputAdornment position="end">
                             <IconButton
                                 aria-label={showPassword ? 'Hide password' : 'Show password'}
-                                onClick={this.handleClickShowPassword}
-                                onMouseDown={this.handleMouseDownPassword}
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
                             >
                                 {showPassword ? <VisibilityOff /> : <Visibility />}
                             </IconButton>
                         </InputAdornment>
-                    }
+                    )}
                     error={(errors[field.name] !== undefined && errors[field.name] !== '')}
                     type={showPassword ? 'text' : 'password'}
                     {...field}
@@ -93,8 +59,13 @@ class FormPassword extends Component<IFormPasswordProps, IFormPasswordState> {
                 />
             </FormControl>
         );
-    }
+    };
 
-}
+    return (
+        <Field name={name}>
+            {renderPasswordField}
+        </Field>
+    );
+};
 
 export default FormPassword;

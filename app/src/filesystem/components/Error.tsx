@@ -1,56 +1,14 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import ErrorOutline from '@material-ui/icons/ErrorOutline';
-import React, { Component } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React, { useEffect } from 'react';
 
 export interface IErrorProps {
     error: any;
     retry: () => void;
 }
 
-export interface IErrorState {}
-
-type ErrorProps = IErrorProps & WithStyles;
-
-class Error extends Component<ErrorProps, IErrorState> {
-
-    // TODO: log error to sentry
-    public componentDidMount() {
-        const {
-            error,
-        } = this.props;
-
-        console.log(error);
-    }
-
-    public render() {
-        const {
-            retry,
-        } = this.props;
-
-        const {
-            container,
-            message,
-            retryButton,
-        } = this.props.classes;
-
-        return (
-            <div className={container}>
-                <ErrorOutline
-                    fontSize='inherit'
-                />
-                <div className={message}>
-                    Error: Could not load files
-                </div>
-                <div className={retryButton} onClick={retry}>
-                    Retry
-                </div>
-            </div>
-        );
-    }
-}
-
-const style: StyleRulesCallback<Theme, IErrorProps> = (theme: Theme) => {
+const useStyles = makeStyles((theme: Theme) => {
     return {
         container: {
             color: theme.palette.error.main,
@@ -73,6 +31,34 @@ const style: StyleRulesCallback<Theme, IErrorProps> = (theme: Theme) => {
             pointerEvents: 'auto',
         },
     };
+});
+
+const Error = ({
+    error,
+    retry,
+}: IErrorProps) => {
+    const classes = useStyles();
+
+    useEffect(() => {
+        // TODO: log error to sentry
+
+        // tslint:disable-next-line:no-console
+        console.log(error);
+    }, []);
+
+    return (
+        <div className={classes.container}>
+            <ErrorOutline
+                fontSize='inherit'
+            />
+            <div className={classes.message}>
+                Error: Could not load files
+            </div>
+            <div className={classes.retryButton} onClick={retry}>
+                Retry
+            </div>
+        </div>
+    );
 };
 
-export default withStyles(style)(Error);
+export default Error;

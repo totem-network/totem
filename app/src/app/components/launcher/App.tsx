@@ -1,5 +1,5 @@
-import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
 
 interface IAppProps {
     imageUrl: string;
@@ -9,51 +9,7 @@ interface IAppProps {
     url: string;
 }
 
-interface IAppState {}
-
-type AppProps = IAppProps & WithStyles;
-
-class App extends Component<AppProps, IAppState> {
-
-    constructor(props: AppProps, context?: any) {
-        super(props, context);
-
-        this.launchApplication = this.launchApplication.bind(this);
-    }
-
-    public launchApplication() {
-        const {
-            manifest,
-            url,
-        } = this.props;
-
-        this.props.launchApplication(url, manifest);
-    }
-
-    public render() {
-        const {
-            imageUrl,
-            name,
-        } = this.props;
-
-        const {
-            container,
-            image,
-        } = this.props.classes;
-
-        return (
-            <div
-                className={container}
-                onClick={this.launchApplication}
-            >
-                <img src={imageUrl} className={image} />
-                {name}
-            </div>
-        );
-    }
-}
-
-const style: StyleRules = {
+const useStyles = makeStyles({
     container: {
         cursor: 'pointer',
         margin: '0 2vw',
@@ -63,6 +19,30 @@ const style: StyleRules = {
     image: {
         width: '100%',
     },
+});
+
+const App = ({
+    imageUrl,
+    launchApplication,
+    manifest,
+    name,
+    url,
+}: IAppProps) => {
+    const classes = useStyles();
+
+    const handleClick = () => {
+        launchApplication(url, manifest);
+    };
+
+    return (
+        <div
+            className={classes.container}
+            onClick={handleClick}
+        >
+            <img src={imageUrl} className={classes.image} />
+            {name}
+        </div>
+    );
 };
 
-export default withStyles(style)(App);
+export default App;

@@ -1,35 +1,15 @@
-import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
-import withWidth, { isWidthUp, WithWidth } from '@material-ui/core/withWidth';
+import { isWidthUp } from '@material-ui/core/withWidth';
 import Apps from '@material-ui/icons/Apps';
+import { makeStyles } from '@material-ui/styles';
 import { IShowLauncherAction } from 'app/actions/launcher';
-import React, { Component  } from 'react';
+import React from 'react';
+import { useWidth } from 'ui';
 
 interface ILauncherProps {
     showLauncher: () => IShowLauncherAction;
 }
 
-interface ILauncherState {}
-
-type LauncherProps = ILauncherProps & WithStyles & WithWidth;
-
-class Launcher extends Component<LauncherProps, ILauncherState> {
-
-    public render() {
-        const { showLauncher, width } = this.props;
-        const { launcher } = this.props.classes;
-
-        // TODO: launcher animation: hide sidenav, fade in from bottom
-
-        return isWidthUp('lg', width) ?  (
-            <div className={launcher} onClick={showLauncher}>
-                <Apps fontSize={'inherit'} />
-            </div>
-        ) : null;
-    }
-
-}
-
-const style: StyleRules = {
+const useStyles = makeStyles({
     launcher: {
         cursor: 'pointer',
         fontSize: '2.4vw',
@@ -38,8 +18,19 @@ const style: StyleRules = {
         marginTop: 'auto',
         width: '100%',
     },
+});
+
+const Launcher = ({
+    showLauncher,
+}: ILauncherProps) => {
+    const classes = useStyles();
+    const width = useWidth();
+
+    return isWidthUp('lg', width) ?  (
+        <div className={classes.launcher} onClick={showLauncher}>
+            <Apps fontSize={'inherit'} />
+        </div>
+    ) : null;
 };
 
-export default withStyles(style)(
-    withWidth()(Launcher),
-);
+export default Launcher;

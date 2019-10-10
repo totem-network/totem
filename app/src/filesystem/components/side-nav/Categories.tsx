@@ -1,9 +1,7 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
+import { makeStyles } from '@material-ui/styles';
 import React, {
-    Component,
     CSSProperties,
-    Fragment,
     MouseEvent,
 } from 'react';
 import {
@@ -25,62 +23,7 @@ export interface ICategoriesProps {
     selectedCategory: string;
 }
 
-export interface ICategoriesState {}
-
-type CategoriesProps = ICategoriesProps & WithStyles;
-
-class Categories extends Component<CategoriesProps, ICategoriesState> {
-
-    public render() {
-        const { categories } = this.props.classes;
-
-        return (
-            <Fragment>
-                <ul className={categories}>
-                    {this.renderCategories()}
-                </ul>
-            </Fragment>
-        );
-    }
-
-    protected renderCategories() {
-        const {
-            categories,
-            classes,
-            instance,
-            selectCategory,
-            selectedCategory,
-        } = this.props;
-
-        return categories.map((category, index) => {
-            const handleClick = (event: MouseEvent<HTMLElement>) => {
-                selectCategory(instance, category.id);
-            };
-
-            const categoryBackground: CSSProperties  = {};
-
-            if (selectedCategory === category.id) {
-                categoryBackground.background = `linear-gradient(
-                    to right,
-                    ${category.colorFrom},
-                    ${category.colorTo}
-                )`;
-
-                if (category.contrastText) {
-                    categoryBackground.color = category.contrastText;
-                }
-            }
-
-            return (
-                <li key={index} className={classes.category} style={categoryBackground} onClick={handleClick}>
-                    {category.title}
-                </li>
-            );
-        });
-    }
-}
-
-const style: StyleRulesCallback<Theme, ICategoriesProps> = (theme: Theme) => {
+const useStyles = makeStyles((theme: Theme) => {
     return {
         categories: {
             [theme.breakpoints.down('md') + ' and (orientation:landscape)']: {
@@ -113,6 +56,49 @@ const style: StyleRulesCallback<Theme, ICategoriesProps> = (theme: Theme) => {
             width: '100%',
         },
     };
+});
+
+const Categories = ({
+    categories,
+    instance,
+    selectCategory,
+    selectedCategory,
+}: ICategoriesProps) => {
+    const classes = useStyles();
+
+    const categoryComponents = categories.map((category, index) => {
+        const handleClick = (event: MouseEvent<HTMLElement>) => {
+            selectCategory(instance, category.id);
+        };
+
+        const categoryBackground: CSSProperties  = {};
+
+        if (selectedCategory === category.id) {
+            categoryBackground.background = `linear-gradient(
+                to right,
+                ${category.colorFrom},
+                ${category.colorTo}
+            )`;
+
+            if (category.contrastText) {
+                categoryBackground.color = category.contrastText;
+            }
+        }
+
+        return (
+            <li key={index} className={classes.category} style={categoryBackground} onClick={handleClick}>
+                {category.title}
+            </li>
+        );
+    });
+
+    return (
+        <>
+            <ul className={classes.categories}>
+                {categoryComponents}
+            </ul>
+        </>
+    );
 };
 
-export default withStyles(style)(Categories);
+export default Categories;

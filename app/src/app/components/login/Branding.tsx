@@ -1,31 +1,10 @@
-import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
 import LogoFlat from './../branding/LogoFlat';
 
 interface IBrandingProps {}
 
-interface IBrandingState {}
-
-type BrandingProps = IBrandingProps & WithStyles;
-
-class Branding extends Component<BrandingProps, IBrandingState> {
-
-    public render() {
-        const { logo, name, wrapper } = this.props.classes;
-
-        // TODO: only logo in white
-
-        return (
-            <div className={wrapper}>
-                <div className={logo}>
-                    <LogoFlat />
-                </div>
-            </div>
-        );
-    }
-}
-
-const style: StyleRules = {
+const useStyles = makeStyles({
     logo:  {
         display: 'inline-block',
         verticalAlign: 'middle',
@@ -36,6 +15,18 @@ const style: StyleRules = {
         position: 'absolute',
         right: '5vw',
     },
+});
+
+const Branding = ({}: IBrandingProps) => {
+    const classes = useStyles();
+
+    return (
+        <div className={classes.wrapper}>
+            <div className={classes.logo}>
+                <LogoFlat />
+            </div>
+        </div>
+    );
 };
 
-export default withStyles(style)(Branding);
+export default Branding;

@@ -1,9 +1,8 @@
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
 
 export interface ICategoryCardProps {
     image: string;
@@ -11,48 +10,38 @@ export interface ICategoryCardProps {
     onClick: () => any;
 }
 
-interface ICategoryCardState {}
+const useStyles = makeStyles({
+    card: {
+        cursor: 'pointer',
+        margin: '1rem',
+        width: '200px',
+    },
+    media: {
+        height: 0,
+        marginBottom: '1rem',
+        paddingTop: '56.25%', // 16:9
+    },
+});
 
-type CategoryCardProps = ICategoryCardProps & WithStyles;
+const CategoryCard = ({
+    image,
+    name,
+    onClick,
+}: ICategoryCardProps) => {
+    const classes = useStyles();
 
-class CategoryCard extends Component<CategoryCardProps, ICategoryCardState> {
-
-    public render() {
-        const {
-            classes,
-            image,
-            name,
-            onClick,
-        } = this.props;
-
-        return (
-            <Card className={classes.card} onClick={onClick}>
-                <CardHeader
-                    title={name}
-                />
-                <CardMedia
-                    className={classes.media}
-                    image={image}
-                    title={name}
-                />
-            </Card>
-        );
-    }
-}
-
-const style: StyleRulesCallback<Theme, ICategoryCardProps> = (theme: Theme) => {
-    return {
-        card: {
-            cursor: 'pointer',
-            margin: '1rem',
-            width: '200px',
-        },
-        media: {
-            height: 0,
-            marginBottom: '1rem',
-            paddingTop: '56.25%', // 16:9
-        },
-    };
+    return (
+        <Card className={classes.card} onClick={onClick}>
+            <CardHeader
+                title={name}
+            />
+            <CardMedia
+                className={classes.media}
+                image={image}
+                title={name}
+            />
+        </Card>
+    );
 };
 
-export default withStyles(style)(CategoryCard);
+export default CategoryCard;

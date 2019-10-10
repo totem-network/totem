@@ -1,38 +1,32 @@
-import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
 import Swipeable from 'touch/components/Swipeable';
 
 interface ISwipeFromBottomProps {
     onSwipe: () => any;
 }
 
-interface ISwipeFromBottomState {}
-
-type SwipeFromBottomProps = ISwipeFromBottomProps & WithStyles;
-
-class SwipeFromBottom extends Component<SwipeFromBottomProps, ISwipeFromBottomState> {
-
-    public render() {
-        const { onSwipe } = this.props;
-        const { container } = this.props.classes;
-
-        return (
-            <Swipeable onSwipeUp={onSwipe}>
-                <div className={container} />
-            </Swipeable>
-        );
-    }
-}
-
-const style: StyleRules = {
+const useStyles = makeStyles({
     container: {
-        'bottom': 0,
-        'height': '2%',
-        'left': 0,
-        'overflow': 'hidden',
-        'position': 'fixed',
-        'width': '100%',
+        bottom: 0,
+        height: '2%',
+        left: 0,
+        overflow: 'hidden',
+        position: 'fixed',
+        width: '100%',
     },
+});
+
+const SwipeFromBottom = ({
+    onSwipe,
+}: ISwipeFromBottomProps) => {
+    const classes = useStyles();
+
+    return (
+        <Swipeable onSwipeUp={onSwipe}>
+            <div className={classes.container} />
+        </Swipeable>
+    );
 };
 
-export default withStyles(style)(SwipeFromBottom);
+export default SwipeFromBottom;

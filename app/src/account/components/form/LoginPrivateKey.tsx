@@ -1,7 +1,7 @@
 import Button from '@material-ui/core/Button';
-import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
+import { makeStyles } from '@material-ui/styles';
 import { Form, Formik } from 'formik';
-import React, { Component } from 'react';
+import React from 'react';
 import { TextField } from 'ui';
 import {
     ILoginPrivateKeyAction,
@@ -16,65 +16,47 @@ export interface ILoginPrivateKeyProps {
     login: (privateKey: string) => ILoginPrivateKeyAction;
 }
 
-type LoginPrivateKeyProps = ILoginPrivateKeyProps &
-    WithStyles;
-
-class LoginPrivateKey extends Component<LoginPrivateKeyProps> {
-
-    constructor(
-        props: LoginPrivateKeyProps,
-        context?: any,
-    ) {
-        super(props, context);
-
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    public handleSubmit(values: any) {
-        const privateKey = values.privateKey;
-
-        this.props.login(privateKey);
-    }
-
-    public handleChange(event: any) {
-        // event.preventDefault();
-        // console.log(event);
-    }
-
-    public render() {
-        const { buttonWrapper } = this.props.classes;
-
-        return (
-            <Formik
-                initialValues={{
-                    privateKey: '',
-                }}
-                onSubmit={this.handleSubmit}
-            >
-                <Form>
-                    <div>
-                        <TextField
-                            label='Private Key'
-                            multiline={true}
-                            name='privateKey'
-                            rows={4}
-                        />
-                    </div>
-                    <div className={buttonWrapper}>
-                        <Button type='submit'>
-                            Login
-                        </Button>
-                    </div>
-                </Form>
-            </Formik>
-        );
-    }
-}
-
-const style: StyleRules = {
+const useStyles = makeStyles({
     buttonWrapper: {
         marginTop: '2rem',
     },
+});
+
+const LoginPrivateKey = ({
+    login,
+}: ILoginPrivateKeyProps) => {
+    const classes = useStyles();
+
+    const handleSubmit = (values: any) => {
+        const privateKey = values.privateKey;
+
+        login(privateKey);
+    };
+
+    return (
+        <Formik
+            initialValues={{
+                privateKey: '',
+            }}
+            onSubmit={handleSubmit}
+        >
+            <Form>
+                <div>
+                    <TextField
+                        label='Private Key'
+                        multiline={true}
+                        name='privateKey'
+                        rows={4}
+                    />
+                </div>
+                <div className={classes.buttonWrapper}>
+                    <Button type='submit'>
+                        Login
+                    </Button>
+                </div>
+            </Form>
+        </Formik>
+    );
 };
 
-export default withStyles(style)(LoginPrivateKey);
+export default LoginPrivateKey;

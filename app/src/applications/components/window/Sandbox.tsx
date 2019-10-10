@@ -1,39 +1,14 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
+import { makeStyles } from '@material-ui/styles';
 import classNames from 'classnames';
-import React, { Component } from 'react';
+import React from 'react';
 
 interface ISandboxProps {
     pointerEvents: boolean;
     src: string;
 }
 
-interface ISandboxState {}
-
-type SandboxProps = ISandboxProps & WithStyles;
-
-class Sandbox extends Component<SandboxProps, ISandboxState> {
-
-    public render() {
-        const { pointerEvents, src } = this.props;
-        const { iframe, iframePointerEvents } = this.props.classes;
-
-        return (
-            <iframe
-                className={classNames(
-                    iframe,
-                    {
-                        [iframePointerEvents]: pointerEvents,
-                    },
-                )}
-                src={src}
-                allowFullScreen={true}
-            />
-        );
-    }
-}
-
-const style: StyleRulesCallback<Theme, ISandboxProps> = (theme: Theme) => {
+const useStyles = makeStyles((theme: Theme) => {
     return {
         iframe: {
             [theme.breakpoints.up('lg')]: {
@@ -48,6 +23,26 @@ const style: StyleRulesCallback<Theme, ISandboxProps> = (theme: Theme) => {
             pointerEvents: 'none',
         },
     };
+});
+
+const Sandbox = ({
+    pointerEvents,
+    src,
+}: ISandboxProps) => {
+    const classes = useStyles();
+
+    return (
+        <iframe
+            className={classNames(
+                classes.iframe,
+                {
+                    [classes.iframePointerEvents]: pointerEvents,
+                },
+            )}
+            src={src}
+            allowFullScreen={true}
+        />
+    );
 };
 
-export default withStyles(style)(Sandbox);
+export default Sandbox;

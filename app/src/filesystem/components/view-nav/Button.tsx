@@ -1,9 +1,9 @@
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import Chip from '@material-ui/core/Chip';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import withWidth, { isWidthDown, WithWidth } from '@material-ui/core/withWidth';
-import React, { Component } from 'react';
+import { isWidthDown } from '@material-ui/core/withWidth';
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
+import { useWidth } from 'ui';
 
 export interface IButtonProps {
     icon?: any;
@@ -11,56 +11,41 @@ export interface IButtonProps {
     onClick?: () => any;
 }
 
-export interface IButtonState {}
+const useStyles = makeStyles({
+    button: {
+        cursor: 'pointer',
+        margin: '.5rem',
+        pointerEvents: 'auto',
+    },
+});
 
-type ButtonProps = IButtonProps & WithStyles & WithWidth;
+const Button = ({
+    icon,
+    label,
+    onClick,
+}: IButtonProps) => {
+    const classes = useStyles();
+    const width = useWidth();
 
-class Button extends Component<ButtonProps, IButtonState> {
-
-    public render() {
-        const {
-            icon,
-            label,
-            onClick,
-            width,
-        } = this.props;
-
-        const {
-            button,
-        } = this.props.classes;
-
-        if (isWidthDown('md', width)) {
-            return (
-                <BottomNavigationAction
-                    icon={icon}
-                    label={label}
-                    showLabel={true}
-                />
-            );
-        }
-
+    if (isWidthDown('md', width)) {
         return (
-            <Chip
-                className={button}
-                color="primary"
+            <BottomNavigationAction
                 icon={icon}
-                onClick={onClick}
                 label={label}
+                showLabel={true}
             />
         );
     }
-}
 
-const style: StyleRulesCallback<Theme, IButtonProps> = (theme: Theme) => {
-    return {
-        button: {
-            cursor: 'pointer',
-            margin: '.5rem',
-            pointerEvents: 'auto',
-        },
-    };
+    return (
+        <Chip
+            className={classes.button}
+            color="primary"
+            icon={icon}
+            onClick={onClick}
+            label={label}
+        />
+    );
 };
 
-export default withStyles(style)(
-    withWidth()(Button),
-);
+export default Button;

@@ -15,6 +15,89 @@ interface ISwipeableProps {
     onSwipeUp?: () => any;
 }
 
+/*
+import React, {
+    Children,
+    cloneElement,
+    Component,
+    ReactElement,
+    Touch,
+    TouchEvent,
+} from 'react';
+
+interface ISwipeableProps {
+    children?: any;
+    distance?: number;
+    onSwipeDown?: () => any;
+    onSwipeLeft?: () => any;
+    onSwipeRight?: () => any;
+    onSwipeUp?: () => any;
+}
+
+const DEFAULT_DISTANCE = 50;
+
+const Swipeable = ({
+    children,
+    distance,
+    onSwipeDown,
+    onSwipeLeft,
+    onSwipeRight,
+    onSwipeUp,
+}: ISwipeableProps) => {
+    let touchStart: Touch | null = null;
+
+    const handleTouchStart = (event: TouchEvent<HTMLElement>) => {
+        touchStart = event.touches[0];
+    };
+
+    const handleTouchMove = (event: TouchEvent<HTMLElement>) => {
+        if (!touchStart) {
+            return;
+        }
+
+        const touchCurrent = event.touches[0];
+        distance = distance || DEFAULT_DISTANCE;
+
+        if (
+            -(touchCurrent.pageY - touchStart.pageY) >= distance &&
+            onSwipeUp
+        ) {
+            onSwipeUp();
+        }
+
+        if (
+            (touchCurrent.pageY - touchStart.pageY) >= distance &&
+            onSwipeDown
+        ) {
+            onSwipeDown();
+        }
+
+        if (
+            -(touchCurrent.pageX - touchStart.pageX) >= distance &&
+            onSwipeLeft
+        ) {
+            onSwipeLeft();
+        }
+
+        if (
+            (touchCurrent.pageX - touchStart.pageX) >= distance &&
+            onSwipeRight
+        ) {
+            onSwipeRight();
+        }
+    };
+
+    return Children.map(children, (child) => {
+        return cloneElement(child as ReactElement<any>, {
+            onTouchMove: handleTouchMove,
+            onTouchStart: handleTouchStart,
+        });
+    });
+};
+
+export default Swipeable;
+*/
+
 interface ISwipeableState {
     touchStart: Touch;
 }

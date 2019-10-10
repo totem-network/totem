@@ -1,59 +1,18 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import withWidth, { isWidthDown, WithWidth } from '@material-ui/core/withWidth';
+import { isWidthDown } from '@material-ui/core/withWidth';
+import { makeStyles } from '@material-ui/styles';
 import { Avatar } from 'account';
 import { IStartApplicationAction } from 'applications';
 import { APPLICATION_ID } from 'filesystem';
-import React, { Component } from 'react';
+import React from 'react';
+import { useWidth } from 'ui';
 
 interface IHeaderProps {
     address: string;
     startApplication: (application: string, manifestUrl?: string) => IStartApplicationAction;
 }
 
-interface IHeaderState {}
-
-type HeaderProps = IHeaderProps & WithStyles & WithWidth;
-
-class Header extends Component<HeaderProps, IHeaderState> {
-
-    constructor(props: HeaderProps, context?: any) {
-        super(props, context);
-
-        this.openFileSystem = this.openFileSystem.bind(this);
-    }
-
-    public openFileSystem() {
-        const { startApplication } = this.props;
-
-        startApplication(APPLICATION_ID, '/apps/filesystem.json');
-    }
-
-    public render() {
-        const { address } = this.props;
-        const { avatar, header } = this.props.classes;
-
-        return (
-            <header className={header}>
-                <div className={avatar} onClick={this.openFileSystem}>
-                    <Avatar address={address} />
-                </div>
-                {this.renderMobile()}
-            </header>
-        );
-    }
-
-    protected renderMobile() {
-        const { width } = this.props;
-
-        // TODO: add some info about logged in identity
-
-        return isWidthDown('md', width) ?  null : null;
-    }
-
-}
-
-const style: StyleRulesCallback<Theme, IHeaderProps> = (theme: Theme) => {
+const useStyles = makeStyles((theme: Theme) => {
     return {
         avatar: {
             [theme.breakpoints.up('lg')]: {
@@ -84,8 +43,30 @@ const style: StyleRulesCallback<Theme, IHeaderProps> = (theme: Theme) => {
             width: '100%',
         },
     };
+});
+
+const Header = ({
+    address,
+    startApplication,
+}: IHeaderProps) => {
+    const classes = useStyles();
+    const width = useWidth();
+
+    const openFileSystem = () => {
+        startApplication(APPLICATION_ID, '/apps/filesystem.json');
+    };
+
+    // TODO: add some info about logged in identity
+    const mobileAccountInfo = isWidthDown('md', width) ?  null : null;
+
+    return (
+        <header className={classes.header}>
+            <div className={classes.avatar} onClick={openFileSystem}>
+                <Avatar address={address} />
+            </div>
+            {mobileAccountInfo}
+        </header>
+    );
 };
 
-export default withStyles(style)(
-    withWidth()(Header),
-);
+export default Header;

@@ -1,6 +1,5 @@
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
-import React, { Component } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
 import {
     AddressField,
     Switch,
@@ -16,62 +15,52 @@ export interface ISendDigitalAssetFormProps {
     token: string;
 }
 
-export interface ISendDigitalAssetFormState {}
+const useStyles = makeStyles({
+    asset: {
+        maxWidth: '250px',
+    },
+    fast: {
+        color: 'rgba(0, 0, 0, 0.87)',
+        margin: '.8rem 0',
+    },
+    fee: {
+        display: 'flex',
+        float: 'right',
+    },
+    form: {
+        maxWidth: '260px',
+    },
+});
 
-type SendDigitalAssetFormProps = ISendDigitalAssetFormProps &
-    WithStyles;
+const SendDigitalAssetForm = ({
+    assetImage,
+    token,
+}: ISendDigitalAssetFormProps) => {
+    const classes = useStyles();
 
-class SendDigitalAssetForm extends Component<SendDigitalAssetFormProps, ISendDigitalAssetFormState> {
-
-    public render() {
-        const {
-            assetImage,
-            classes,
-        } = this.props;
-
-        return (
-            <div className={classes.form}>
-                <AddressField
-                    label='To'
-                    name='to'
-                />
-                <img
-                    className={classes.asset}
-                    src={assetImage}
-                />
-                <div className={classes.fee}>
-                    <div>
-                        <Switch
-                            color='primary'
-                            name='fee'
-                        />
-                    </div>
-                    <div className={classes.fast}>
-                        Fast?
-                    </div>
+    return (
+        <div className={classes.form}>
+            <AddressField
+                label='To'
+                name='to'
+            />
+            <img
+                className={classes.asset}
+                src={assetImage}
+            />
+            <div className={classes.fee}>
+                <div>
+                    <Switch
+                        color='primary'
+                        name='fee'
+                    />
+                </div>
+                <div className={classes.fast}>
+                    Fast?
                 </div>
             </div>
-        );
-    }
-}
-
-const style: StyleRulesCallback<Theme, ISendDigitalAssetFormProps> = (theme: Theme) => {
-    return {
-        asset: {
-            maxWidth: '250px',
-        },
-        fast: {
-            color: 'rgba(0, 0, 0, 0.87)',
-            margin: '.8rem 0',
-        },
-        fee: {
-            display: 'flex',
-            float: 'right',
-        },
-        form: {
-            maxWidth: '260px',
-        },
-    };
+        </div>
+    );
 };
 
-export default withStyles(style)(SendDigitalAssetForm);
+export default SendDigitalAssetForm;

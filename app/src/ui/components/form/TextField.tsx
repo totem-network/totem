@@ -1,6 +1,6 @@
 import TextField from '@material-ui/core/TextField';
 import { Field, FieldProps } from 'formik';
-import React, { Component } from 'react';
+import React from 'react';
 
 interface IFormTextFieldProps {
     label: string;
@@ -8,39 +8,17 @@ interface IFormTextFieldProps {
     [key: string]: any;
 }
 
-interface IFormTextFieldState {}
-
-class FormTextField extends Component<IFormTextFieldProps, IFormTextFieldState> {
-
-    constructor(props: IFormTextFieldProps, context?: any) {
-        super(props, context);
-
-        this.renderTextField = this.renderTextField.bind(this);
-    }
-
-    public render() {
-        const {
-            name,
-        } = this.props;
-
-        return (
-            <Field name={name}>
-                {this.renderTextField}
-            </Field>
-        );
-    }
-
-    public renderTextField({
+const FormTextField = ({
+    label,
+    name,
+    ...custom
+}: IFormTextFieldProps) => {
+    const renderTextField = ({
         field,
         form: {
             errors,
         },
-    }: FieldProps) {
-        const {
-            label,
-            ...custom
-        } = this.props;
-
+    }: FieldProps) => {
         return (
             <TextField
                 error={(errors[field.name] !== undefined && errors[field.name] !== '')}
@@ -49,8 +27,13 @@ class FormTextField extends Component<IFormTextFieldProps, IFormTextFieldState> 
                 {...custom}
             />
         );
-    }
+    };
 
-}
+    return (
+        <Field name={name}>
+            {renderTextField}
+        </Field>
+    );
+};
 
 export default FormTextField;

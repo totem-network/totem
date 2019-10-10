@@ -1,24 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { IntlProvider } from 'react-intl';
 
 interface IIntlProps {
+    children: any;
     locale: string;
 }
 
-interface IIntlState { }
-
-class Intl extends Component<IIntlProps, IIntlState> {
-
-    public render() {
-        const { children, locale } = this.props;
-
-        return (
-            <IntlProvider locale={locale}>
-                {this.props.children}
-            </IntlProvider>
-        );
-    }
-
-}
+const Intl = ({
+    children,
+    locale,
+}: IIntlProps) => {
+    return (
+        <IntlProvider locale={locale}>
+            {children}
+        </IntlProvider>
+    );
+};
 
 export default Intl;
