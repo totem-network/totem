@@ -1,4 +1,4 @@
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { ThemeProvider } from '@material-ui/core/styles';
 import { getApolloClient } from 'api';
 import React, { useEffect, useState } from 'react';
 import { ApolloProvider } from 'react-apollo';
@@ -32,11 +32,11 @@ const App = (props: IAppProps) => {
 
     return (
         <ApolloProvider client={apolloClient}>
-            <MuiThemeProvider theme={theme}>
+            <ThemeProvider theme={theme}>
                 <IntlProvider>
                     <Layout />
                 </IntlProvider>
-            </MuiThemeProvider>
+            </ThemeProvider>
         </ApolloProvider>
     );
 };
