@@ -1,12 +1,18 @@
 import { makeStyles } from '@material-ui/styles';
-import { ApplicationWindow, TaskTitle } from 'applications';
+import {
+    ApplicationWindow,
+    instancesSelector,
+    taskManagerSelector,
+    windowsSelector,
+ } from 'applications';
 import classNames from 'classnames';
 import {
     APPLICATION_ID as FILESYSTEM_APPLICATION_ID,
     FileSystemWindow,
 } from 'filesystem';
 import { List } from 'immutable';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import HomeButton from './HomeButton';
 import TaskInfo from './TaskInfo';
 
@@ -27,11 +33,7 @@ interface IWindow {
     y: number;
 }
 
-interface IWindowsProps {
-    instances: IInstance[];
-    showTaskManager: boolean;
-    windows: IWindow[];
-}
+interface IWindowsProps {}
 
 const useStyles = makeStyles({
     container: {
@@ -76,11 +78,11 @@ const getWindowComponent = (instanceId: string, instances: IInstance[]) => {
     }
 };
 
-const Windows = ({
-    instances,
-    showTaskManager,
-    windows,
-}: IWindowsProps) => {
+const Windows = ({}: IWindowsProps) => {
+    const instances = useSelector(instancesSelector, shallowEqual);
+    const showTaskManager = useSelector(taskManagerSelector, shallowEqual);
+    const windows: IWindow[] = useSelector(windowsSelector, shallowEqual);
+
     const classes = useStyles();
 
     const containerClass = classNames(

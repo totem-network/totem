@@ -1,7 +1,7 @@
 import Avatar from './components/Avatar';
+import LoggedIn from './components/LoggedIn';
 import Login from './components/Login';
-import LoggedIn from './containers/LoggedIn';
-import NotLoggedIn from './containers/NotLoggedIn';
+import NotLoggedIn from './components/NotLoggedIn';
 import KeyRing from './encryption/KeyRing';
 import boxes from './profile/boxes';
 import reducer, { IImmutableAccountState } from './reducers';

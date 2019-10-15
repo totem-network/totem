@@ -3,23 +3,20 @@ import Paper from '@material-ui/core/Paper';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
+import { web3InitializedSelector } from 'app';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import {
-    ILoginMetaMaskAction,
-} from '../../actions/login';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { loginMetaMask } from '../../actions/login';
 import Avatar from '../../components/Avatar';
 import Name from '../../components/Name';
+import providedAccountSelector from '../../selectors/providedAccount';
 
 export interface ILoginMetaMaskData {
     password: string;
 }
 
-export interface ILoginMetaMaskProps {
-    account: string;
-    login: () => ILoginMetaMaskAction;
-    web3: boolean;
-}
+export interface ILoginMetaMaskProps {}
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -52,12 +49,17 @@ const useStyles = makeStyles((theme: Theme) => {
     };
 });
 
-const LoginMetaMask = ({
-    account,
-    login,
-    web3,
-}: ILoginMetaMaskProps) => {
+const LoginMetaMask = ({}: ILoginMetaMaskProps) => {
+    const account = useSelector(providedAccountSelector, shallowEqual);
+    const web3 = useSelector(web3InitializedSelector, shallowEqual);
+
+    const dispatch = useDispatch();
+
     const classes = useStyles();
+
+    const login = () => {
+        dispatch(loginMetaMask());
+    };
 
     if (!web3) {
         return null;

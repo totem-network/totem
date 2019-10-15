@@ -2,19 +2,16 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/styles';
 import { Form, Formik } from 'formik';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { TextField } from 'ui';
-import {
-    ILoginPrivateKeyAction,
-} from '../../actions/login';
+import { loginPrivateKey } from '../../actions/login';
 import validate from '../../validators/loginPrivateKey';
 
 export interface ILoginPrivateKeyData {
     privateKey: string;
 }
 
-export interface ILoginPrivateKeyProps {
-    login: (privateKey: string) => ILoginPrivateKeyAction;
-}
+export interface ILoginPrivateKeyProps {}
 
 const useStyles = makeStyles({
     buttonWrapper: {
@@ -22,15 +19,15 @@ const useStyles = makeStyles({
     },
 });
 
-const LoginPrivateKey = ({
-    login,
-}: ILoginPrivateKeyProps) => {
+const LoginPrivateKey = ({}: ILoginPrivateKeyProps) => {
+    const dispatch = useDispatch();
+
     const classes = useStyles();
 
     const handleSubmit = (values: any) => {
         const privateKey = values.privateKey;
 
-        login(privateKey);
+        dispatch(loginPrivateKey(privateKey));
     };
 
     return (

@@ -1,5 +1,5 @@
 import '@babel/polyfill';
-import NotLoggedIn from 'account/containers/NotLoggedIn';
+import NotLoggedIn from 'account/components/NotLoggedIn';
 import {
     expect,
     use as chaiUse,
@@ -38,7 +38,7 @@ describe('Account containers', () => {
             }));
 
             const wrapper = mount(
-                (   
+                (
                     <Provider store={store}>
                         <NotLoggedIn>
                             <div />
@@ -62,7 +62,7 @@ describe('Account containers', () => {
             }));
 
             const wrapper = mount(
-                (   
+                (
                     <Provider store={store}>
                         <NotLoggedIn>
                             <div />

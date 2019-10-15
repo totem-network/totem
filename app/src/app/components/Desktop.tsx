@@ -1,6 +1,6 @@
 import React from 'react';
+import Windows from './../components/applications/Windows';
 import Events from './../components/events/Events';
-import Windows from './../containers/applications/Windows';
 import Gestures from './../containers/Gestures';
 import LaunchBar from './../containers/LaunchBar';
 import Launcher from './../containers/Launcher';

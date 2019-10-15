@@ -5,8 +5,8 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { makeStyles } from '@material-ui/styles';
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import LoginMetaMask from './../containers/LoginMetaMask';
-import LoginPrivateKey from './../containers/LoginPrivateKey';
+import LoginMetaMask from './form/LoginMetaMask';
+import LoginPrivateKey from './form/LoginPrivateKey';
 import LoginMessage from './LoginMessage';
 
 interface ILoginProps {}
