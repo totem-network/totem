@@ -1,8 +1,8 @@
+import { useApolloClient, useQuery } from '@apollo/react-hooks';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
-import { Query } from "react-apollo";
-import digitalAssetQuery from '../../../queries/digitalAsset.graphql';
+import GET_DIGITAL_ASSET from '../../../queries/getDigitalAsset.graphql';
 import Error from '../../Error';
 import LoadingBar from '../../LoadingBar';
 import AssetCard from './AssetCard';
@@ -45,67 +45,69 @@ const DigitalAsset = ({
 }: IDigitalAssetProps) => {
     const classes = useStyles();
 
-    const queryVariables = {
-        contract: selectedAsset,
+    const apolloClient = useApolloClient();
+    const { loading, error, data, refetch } = useQuery(GET_DIGITAL_ASSET, {
+        client: apolloClient,
+        variables: {
+            contract: selectedAsset,
+        },
+    });
+
+    const renderQuery = () => {
+        if (loading) {
+            return (
+                <LoadingBar />
+            );
+        }
+        if (error) {
+            const retry = () => {
+                refetch();
+                // TODO: refetch not reloading
+                // https://github.com/apollographql/react-apollo/issues/321
+            };
+
+            return (
+                <Error
+                    error={error}
+                    retry={retry}
+                />
+            );
+        }
+
+        let name = '';
+        if (data.digitalAsset.length > 0) {
+            name = data.digitalAsset[0].asset.name;
+        }
+
+        const tokens = data.digitalAsset.map((asset: any, index: number) => {
+            return (
+                <AssetCard
+                    key={index}
+                    contract={selectedAsset}
+                    description={asset.description}
+                    image={asset.image}
+                    name={asset.name}
+                    token={asset.id}
+                />
+            );
+        });
+
+        return (
+            <>
+                <div className={classes.header}>
+                    <Typography variant="h4">
+                        {name}
+                    </Typography>
+                </div>
+                {tokens}
+            </>
+        );
     };
 
     return (
-        <>
-            <div className={classes.container}>
-                <Query query={digitalAssetQuery} variables={queryVariables}>
-                    {({ loading, error, data, refetch }: any) => {
-                        if (loading) {
-                            return (
-                                <LoadingBar />
-                            );
-                        }
-                        if (error) {
-                            const retry = () => {
-                                refetch();
-                                // TODO: refetch not reloading
-                                // https://github.com/apollographql/react-apollo/issues/321
-                            };
-
-                            return (
-                                <Error
-                                    error={error}
-                                    retry={retry}
-                                />
-                            );
-                        }
-
-                        let name = '';
-                        if (data.digitalAsset.length > 0) {
-                            name = data.digitalAsset[0].asset.name;
-                        }
-
-                        const tokens = data.digitalAsset.map((asset: any, index: number) => {
-                            return (
-                                <AssetCard
-                                    key={index}
-                                    contract={selectedAsset}
-                                    description={asset.description}
-                                    image={asset.image}
-                                    name={asset.name}
-                                    token={asset.id}
-                                />
-                            );
-                        });
-
-                        return (
-                            <>
-                                <div className={classes.header}>
-                                    <Typography variant="h4">
-                                        {name}
-                                    </Typography>
-                                </div>
-                                {tokens}
-                            </>
-                        );
-                    }}
-                </Query>
-            </div>
-        </>
+        <div className={classes.container}>
+            {renderQuery()}
+        </div>
     );
 };
 

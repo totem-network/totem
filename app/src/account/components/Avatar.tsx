@@ -1,12 +1,12 @@
+import { useApolloClient, useQuery } from '@apollo/react-hooks';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ErrorOutline from '@material-ui/icons/ErrorOutline';
 import { makeStyles } from '@material-ui/styles';
 import makeBlockie from 'ethereum-blockies-base64';
 import React from 'react';
-import { Query } from "react-apollo";
 import { isAddress } from 'utils/ethereum';
-import getAvatarByAddressQuery from '../queries/getAvatarByAddress.graphql';
-import getAvatarByDomainQuery from '../queries/getAvatarByDomain.graphql';
+import GET_AVATAR_BY_ADDRESS from '../queries/getAvatarByAddress.graphql';
+import GET_AVATAR_BY_DOMAIN from '../queries/getAvatarByDomain.graphql';
 
 export interface IAvatarProps {
     address?: string;
@@ -29,56 +29,49 @@ const Avatar = ({
 }: IAvatarProps) => {
     const classes = useStyles();
 
-    const renderQuery = ({ loading, error, data }: any) => {
-        if (loading) {
-            if (address && isAddress(address)) {
-                return (
-                    <img src={makeBlockie(address)} className={classes.avatar} />
-                );
-            }
-            // TODO: size
+    const apolloClient = useApolloClient();
+    const { loading, error, data } = (domain) ? useQuery(GET_AVATAR_BY_DOMAIN, {
+        client: apolloClient,
+        variables: { domain },
+    }) : useQuery(GET_AVATAR_BY_ADDRESS, {
+        client: apolloClient,
+        variables: { address },
+    });
+
+    if (loading) {
+        if (address && isAddress(address)) {
             return (
-                <AccountCircle />
+                <img src={makeBlockie(address)} className={classes.avatar} />
             );
         }
+        // TODO: size
+        return (
+            <AccountCircle />
+        );
+    }
 
-        if (error) {
+    if (error) {
+        // TODO: size
+        return (
+            <ErrorOutline />
+        );
+    }
+
+    if (noProfile || !data.getProfile.image) {
+        if (!data.getProfile.address || !isAddress(data.getProfile.address)) {
             // TODO: size
             return (
                 <ErrorOutline />
             );
         }
 
-        if (noProfile || !data.getProfile.image) {
-            if (!data.getProfile.address || !isAddress(data.getProfile.address)) {
-                // TODO: size
-                return (
-                    <ErrorOutline />
-                );
-            }
-
-            return (
-                <img src={makeBlockie(data.getProfile.address)} className={classes.avatar} />
-            );
-        }
-
         return (
-            <img src={'https://ipfs.infura.io/ipfs/' + data.getProfile.image} className={classes.avatar} />
-        );
-    };
-
-    if (domain) {
-        return (
-            <Query query={getAvatarByDomainQuery} variables={{domain}}>
-                {renderQuery}
-            </Query>
+            <img src={makeBlockie(data.getProfile.address)} className={classes.avatar} />
         );
     }
 
     return (
-        <Query query={getAvatarByAddressQuery} variables={{address}}>
-            {renderQuery}
-        </Query>
+        <img src={'https://ipfs.infura.io/ipfs/' + data.getProfile.image} className={classes.avatar} />
     );
 };
 

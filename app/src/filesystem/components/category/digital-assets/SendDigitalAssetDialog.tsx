@@ -1,3 +1,4 @@
+import { useApolloClient, useMutation } from '@apollo/react-hooks';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -6,8 +7,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/styles';
 import { Form, Formik } from 'formik';
 import React, { useEffect } from 'react';
-import { Mutation } from "react-apollo";
-import sendDigitalAssetMutation from '../../../mutations/sendDigitalAsset.graphql';
+import SEND_DIGITAL_ASSET from '../../../mutations/sendDigitalAsset.graphql';
 import SendDigitalAssetForm from './SendDigitalAssetForm';
 
 export interface ISendDigitalAssetDialogProps {
@@ -46,6 +46,28 @@ const SendDigitalAssetDialog = ({
 }: ISendDigitalAssetDialogProps) => {
     const classes = useStyles();
 
+    const apolloClient = useApolloClient();
+    const [sendDigitalAsset, { error, data }] = useMutation(SEND_DIGITAL_ASSET, {
+        client: apolloClient,
+    });
+
+    const handleSubmit = (values: any) => {
+        let fee = gasPriceSafeLow;
+        if (values.fee) {
+            fee = gasPriceFast;
+        }
+
+        sendDigitalAsset({
+            variables: {
+                contract,
+                fee,
+                to: values.to,
+                token,
+            },
+        });
+        closeDialog();
+    };
+
     useEffect(() => {
         // TODO: fetch fee via graphql
         fetchFee(platform, network);
@@ -57,62 +79,39 @@ const SendDigitalAssetDialog = ({
             onClose={closeDialog}
             aria-labelledby="form-dialog-title"
         >
-            <Mutation mutation={sendDigitalAssetMutation}>
-                {(sendDigitalAsset: any) => {
-                    const handleSubmit = (values: any) => {
-                        let fee = gasPriceSafeLow;
-                        if (values.fee) {
-                            fee = gasPriceFast;
-                        }
-
-                        sendDigitalAsset({
-                            variables: {
-                                contract,
-                                fee,
-                                to: values.to,
-                                token,
-                            },
-                        });
-                        closeDialog();
-                    };
-
-                    return (
-                        <Formik
-                            initialValues={{
-                                fee: false,
-                                to: '',
-                            }}
-                            onSubmit={handleSubmit}
-                        >
-                            <Form>
-                                <DialogTitle>
-                                    Send {assetName}
-                                </DialogTitle>
-                                <DialogContent>
-                                    <SendDigitalAssetForm
-                                        assetImage={assetImage}
-                                        token={token}
-                                    />
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button
-                                        onClick={closeDialog}
-                                    >
-                                        Cancel
-                                    </Button>
-                                    <Button
-                                        color='primary'
-                                        type='submit'
-                                        variant='contained'
-                                    >
-                                        Send
-                                    </Button>
-                                </DialogActions>
-                            </Form>
-                        </Formik>
-                    );
+            <Formik
+                initialValues={{
+                    fee: false,
+                    to: '',
                 }}
-            </Mutation>
+                onSubmit={handleSubmit}
+            >
+                <Form>
+                    <DialogTitle>
+                        Send {assetName}
+                    </DialogTitle>
+                    <DialogContent>
+                        <SendDigitalAssetForm
+                            assetImage={assetImage}
+                            token={token}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            onClick={closeDialog}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            color='primary'
+                            type='submit'
+                            variant='contained'
+                        >
+                            Send
+                        </Button>
+                    </DialogActions>
+                </Form>
+            </Formik>
         </Dialog>
     );
 };

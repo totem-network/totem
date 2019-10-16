@@ -1,7 +1,7 @@
+import { ApolloProvider } from '@apollo/react-hooks';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { getApolloClient } from 'api';
 import React, { useEffect, useState } from 'react';
-import { ApolloProvider } from 'react-apollo';
 import { hot } from 'react-hot-loader';
 import { theme } from 'themes';
 import IntlProvider from './app/components/Intl';

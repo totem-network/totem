@@ -1,6 +1,6 @@
+import { useApolloClient, useQuery } from '@apollo/react-hooks';
 import React from 'react';
-import { Query } from "react-apollo";
-import getNameByAddressQuery from '../queries/getNameByAddress.graphql';
+import GET_NAME_BY_ADDRESS from '../queries/getNameByAddress.graphql';
 
 export interface INameProps {
     address: string;
@@ -11,24 +11,24 @@ type NameProps = INameProps;
 const Name = ({
     address,
 }: NameProps) => {
-    return (
-        <Query query={getNameByAddressQuery} variables={{address}}>
-            {({ loading, error, data }: any) => {
-                if (data && data.getProfile && data.getProfile.name) {
-                    return (
-                        <span>
-                            {data.getProfile.name}
-                        </span>
-                    );
-                }
+    const apolloClient = useApolloClient();
+    const { loading, error, data } = useQuery(GET_NAME_BY_ADDRESS, {
+        client: apolloClient,
+        variables: { address },
+    });
 
-                return (
-                    <span>
-                        {address}
-                    </span>
-                );
-            }}
-        </Query>
+    if (data && data.getProfile && data.getProfile.name) {
+        return (
+            <span>
+                {data.getProfile.name}
+            </span>
+        );
+    }
+
+    return (
+        <span>
+            {address}
+        </span>
     );
 };
 

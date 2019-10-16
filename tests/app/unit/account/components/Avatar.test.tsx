@@ -1,3 +1,4 @@
+import { MockedProvider } from '@apollo/react-testing';
 import '@babel/polyfill';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ErrorOutline from '@material-ui/icons/ErrorOutline';
@@ -18,7 +19,6 @@ import Adapter from 'enzyme-adapter-react-16';
 import makeBlockie from 'ethereum-blockies-base64';
 import 'mocha';
 import React from 'react';
-import { MockedProvider } from 'react-apollo/test-utils';
 import { spy } from 'sinon';
 
 configureEnzyme({
