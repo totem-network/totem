@@ -1,16 +1,14 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { isWidthDown } from '@material-ui/core/withWidth';
 import { makeStyles } from '@material-ui/styles';
-import { Avatar } from 'account';
-import { IStartApplicationAction } from 'applications';
+import { accountAddressSelector, Avatar } from 'account';
+import { startApplication } from 'applications';
 import { APPLICATION_ID } from 'filesystem';
 import React from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useWidth } from 'ui';
 
-interface IHeaderProps {
-    address: string;
-    startApplication: (application: string, manifestUrl?: string) => IStartApplicationAction;
-}
+interface IHeaderProps {}
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -45,15 +43,16 @@ const useStyles = makeStyles((theme: Theme) => {
     };
 });
 
-const Header = ({
-    address,
-    startApplication,
-}: IHeaderProps) => {
+const Header = ({}: IHeaderProps) => {
+    const address = useSelector(accountAddressSelector, shallowEqual);
+
+    const dispatch = useDispatch();
+
     const classes = useStyles();
     const width = useWidth();
 
     const openFileSystem = () => {
-        startApplication(APPLICATION_ID, '/apps/filesystem.json');
+        dispatch(startApplication(APPLICATION_ID, '/apps/filesystem.json'));
     };
 
     // TODO: add some info about logged in identity

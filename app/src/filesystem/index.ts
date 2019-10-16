@@ -1,5 +1,5 @@
 import { ISideNavSelectCategoryAction, sideNavSelectCategory } from './actions/sideNav';
-import FileSystemWindow from './containers/FileSystemWindow';
+import FileSystemWindow from './components/FileSystemWindow';
 import reducer, { IImmutableFileSystemState } from './reducers';
 import sagas from './sagas';
 import categoriesSelector from './selectors/categories';

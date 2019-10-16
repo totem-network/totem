@@ -1,11 +1,12 @@
 import React, {
     CSSProperties,
 } from 'react';
-import Window from '../containers/Window';
+import { shallowEqual, useSelector } from 'react-redux';
+import instanceSelector from '../selectors/instance';
 import Sandbox from './window/Sandbox';
+import Window from './window/Window';
 
 interface IApplicationWindowProps {
-    application: string;
     focused: boolean;
     instance: string;
     minimized: boolean;
@@ -19,7 +20,6 @@ interface IApplicationWindowProps {
 }
 
 const ApplicationWindow = ({
-    application,
     focused,
     instance,
     minimized,
@@ -31,6 +31,10 @@ const ApplicationWindow = ({
     y,
     zIndex,
 }: IApplicationWindowProps) => {
+    const { application } = useSelector((state) => {
+        return instanceSelector(state, instance);
+    }, shallowEqual);
+
     return (
         <Window
             focused={focused}

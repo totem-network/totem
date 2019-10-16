@@ -1,7 +1,7 @@
 import StoreIcon from '@material-ui/icons/Store';
 import { makeStyles } from '@material-ui/styles';
 import React, { useState } from 'react';
-import ActionButtons from '../../../containers/action-buttons/ActionButtons';
+import ActionButtons from '../../action-buttons/ActionButtons';
 import ActionButton from '../../action-buttons/Button';
 import Error from '../../Error';
 import LoadingBar from '../../LoadingBar';

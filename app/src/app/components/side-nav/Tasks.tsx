@@ -1,13 +1,15 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { makeStyles } from '@material-ui/styles';
 import {
-    IFocusWindowAction,
-    IStartApplicationAction,
+    focusWindow,
+    instancesSelector,
+    startApplication,
 } from 'applications';
 import React, {
     CSSProperties,
     MouseEvent,
 } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 interface ITask {
     application: string;
@@ -17,11 +19,7 @@ interface ITask {
     title: string;
 }
 
-export interface ITasksProps {
-    focus: (instance: string) => IFocusWindowAction;
-    tasks: ITask[];
-    startApplication: (url: string) => IStartApplicationAction;
-}
+export interface ITasksProps {}
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -63,16 +61,16 @@ const useStyles = makeStyles((theme: Theme) => {
     };
 });
 
-const Tasks = ({
-    focus,
-    tasks,
-    startApplication,
-}: ITasksProps) => {
+const Tasks = ({}: ITasksProps) => {
+    const tasks: ITask[] = useSelector(instancesSelector, shallowEqual);
+
+    const dispatch = useDispatch();
+
     const classes = useStyles();
 
     const taskComponents = tasks.map((task, index) => {
         const handleClick = (event: MouseEvent<HTMLElement>) => {
-            focus(task.id);
+            dispatch(focusWindow(task.id));
         };
 
         const taskBackground: CSSProperties  = {

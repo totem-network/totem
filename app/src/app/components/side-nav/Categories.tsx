@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
-import { ISideNavSelectCategoryAction } from 'filesystem';
+import { categoriesSelector, sideNavSelectCategory } from 'filesystem';
 import React from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import Item from './Item';
 
 interface ICategory {
@@ -11,10 +12,7 @@ interface ICategory {
     title: string;
 }
 
-interface ICategoriesProps {
-    categories: ICategory[];
-    selectCategory: (category: string) => ISideNavSelectCategoryAction;
-}
+interface ICategoriesProps {}
 
 const useStyles = makeStyles({
     list: {
@@ -23,14 +21,17 @@ const useStyles = makeStyles({
     },
 });
 
-const Categories = ({
-    categories,
-    selectCategory,
-}: ICategoriesProps) => {
+const Categories = ({}: ICategoriesProps) => {
+    const categories = useSelector(categoriesSelector, shallowEqual);
+
+    const dispatch = useDispatch();
+
     const classes = useStyles();
 
     const items = categories.map((category: ICategory, index: number) => {
-        const handleClick = () => selectCategory(category.id);
+        const handleClick = () => {
+            dispatch(sideNavSelectCategory(category.id));
+        };
 
         return (
             <Item

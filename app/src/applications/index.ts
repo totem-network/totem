@@ -11,14 +11,14 @@ import {
     focusWindow,
     IFocusWindowAction,
 } from './actions/windows';
+import ApplicationWindow from './components/ApplicationWindow';
+import HomeButton from './components/task-manager/HomeButton';
 import TaskTitle from './components/task-manager/TaskTitle';
-import ApplicationWindow from './containers/ApplicationWindow';
-import HomeButton from './containers/HomeButton';
-import Window from './containers/Window';
+import Window from './components/window/Window';
 import reducer, { IImmutableApplicationsState } from './reducers';
 import sagas from './sagas';
 import instancesSelector from './selectors/instances';
-import taskManagerSelector from './selectors/taskManager';
+import showTaskManagerSelector from './selectors/showTaskManager';
 import windowsSelector from './selectors/windows';
 
 export {
@@ -35,7 +35,7 @@ export {
     reducer,
     sagas,
     startApplication,
-    taskManagerSelector,
+    showTaskManagerSelector,
     TaskTitle,
     Window,
     windowsSelector,

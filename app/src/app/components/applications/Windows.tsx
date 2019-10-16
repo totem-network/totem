@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/styles';
 import {
     ApplicationWindow,
     instancesSelector,
-    taskManagerSelector,
+    showTaskManagerSelector,
     windowsSelector,
  } from 'applications';
 import classNames from 'classnames';
@@ -80,7 +80,7 @@ const getWindowComponent = (instanceId: string, instances: IInstance[]) => {
 
 const Windows = ({}: IWindowsProps) => {
     const instances = useSelector(instancesSelector, shallowEqual);
-    const showTaskManager = useSelector(taskManagerSelector, shallowEqual);
+    const showTaskManager = useSelector(showTaskManagerSelector, shallowEqual);
     const windows: IWindow[] = useSelector(windowsSelector, shallowEqual);
 
     const classes = useStyles();

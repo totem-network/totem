@@ -1,13 +1,12 @@
 import { isWidthUp } from '@material-ui/core/withWidth';
 import Apps from '@material-ui/icons/Apps';
 import { makeStyles } from '@material-ui/styles';
-import { IShowLauncherAction } from 'app/actions/launcher';
+import { showLauncher } from 'app/actions/launcher';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useWidth } from 'ui';
 
-interface ILauncherProps {
-    showLauncher: () => IShowLauncherAction;
-}
+interface ILauncherProps {}
 
 const useStyles = makeStyles({
     launcher: {
@@ -20,14 +19,18 @@ const useStyles = makeStyles({
     },
 });
 
-const Launcher = ({
-    showLauncher,
-}: ILauncherProps) => {
+const Launcher = ({}: ILauncherProps) => {
+    const dispatch = useDispatch();
+
     const classes = useStyles();
     const width = useWidth();
 
+    const handleClick = () => {
+        dispatch(showLauncher());
+    };
+
     return isWidthUp('lg', width) ?  (
-        <div className={classes.launcher} onClick={showLauncher}>
+        <div className={classes.launcher} onClick={handleClick}>
             <Apps fontSize={'inherit'} />
         </div>
     ) : null;

@@ -9,7 +9,7 @@ import {
     createStore,
 } from 'redux';
 import { createLogger } from 'redux-logger';
-import DevTools from './app/containers/DevTools';
+import DevTools from './app/components/DevTools';
 import createReducers, { IImmutableState } from './reducers';
 import { sagaMiddleware } from './sagas';
 

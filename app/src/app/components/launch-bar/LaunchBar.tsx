@@ -1,17 +1,14 @@
 import { isWidthDown } from '@material-ui/core/withWidth';
 import { makeStyles } from '@material-ui/styles';
-import {
-    IStartApplicationAction,
-} from 'applications';
+import { startApplication } from 'applications';
 import React from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useWidth } from 'ui';
-import { IHideLaunchBarAction } from './../../actions/launchBar';
+import { IHideLaunchBarAction } from '../../actions/launchBar';
+import launchBarSelector from '../../selectors/launchBar';
 import App from './App';
 
-interface ILaunchBarProps {
-    isVisible: boolean;
-    startApplication: (application: string, manifest?: string) => IStartApplicationAction;
-}
+interface ILaunchBarProps {}
 
 const useStyles = makeStyles({
     container: {
@@ -33,15 +30,16 @@ const useStyles = makeStyles({
     },
 });
 
-const LaunchBar = ({
-    isVisible,
-    startApplication,
-}: ILaunchBarProps) => {
+const LaunchBar = ({}: ILaunchBarProps) => {
+    const { isVisible } = useSelector(launchBarSelector, shallowEqual);
+
+    const dispatch = useDispatch();
+
     const classes = useStyles();
     const width = useWidth();
 
     const launchApplication = (application: string, manifest?: string) => {
-        startApplication(application, manifest);
+        dispatch(startApplication(application, manifest));
     };
 
     if (!isVisible) {

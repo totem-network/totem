@@ -2,11 +2,12 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { makeStyles } from '@material-ui/styles';
 import classNames from 'classnames';
 import React from 'react';
-import Categories from '../../containers/side-nav/Categories';
+import { shallowEqual, useSelector } from 'react-redux';
+import sideNavSelector from '../../selectors/sideNav';
+import Categories from './Categories';
 
 interface ISideNavProps {
     instance: string;
-    isVisible: boolean;
 }
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -84,8 +85,11 @@ const useStyles = makeStyles((theme: Theme) => {
 
 const SideNav = ({
     instance,
-    isVisible,
 }: ISideNavProps) => {
+    const isVisible = useSelector((state) => {
+        return sideNavSelector(state, instance);
+    }, shallowEqual);
+
     const classes = useStyles();
 
     return (

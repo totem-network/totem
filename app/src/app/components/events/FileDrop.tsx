@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
-import { IUploadFilesAction } from '../../actions/uploadFiles';
+import { useDispatch } from 'react-redux';
+import { uploadFiles } from '../../actions/uploadFiles';
 
-interface IFileDropProps {
-    uploadFiles: (files: FileList) => IUploadFilesAction;
-}
+interface IFileDropProps {}
 
-const FileDrop = ({
-    uploadFiles,
-}: IFileDropProps) => {
+const FileDrop = ({}: IFileDropProps) => {
+    const dispatch = useDispatch();
+
     const onDrop = (event: DragEvent) => {
         event.stopPropagation();
         event.preventDefault();
@@ -16,7 +15,7 @@ const FileDrop = ({
             return;
         }
 
-        uploadFiles(event.dataTransfer.files);
+        dispatch(uploadFiles(event.dataTransfer.files));
     };
 
     const onDragOver = (event: DragEvent) => {

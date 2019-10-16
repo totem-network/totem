@@ -4,12 +4,12 @@ import React, { useEffect, useState } from 'react';
 import { ApolloProvider } from 'react-apollo';
 import { hot } from 'react-hot-loader';
 import { theme } from 'themes';
+import IntlProvider from './app/components/Intl';
 import Layout from './app/components/Layout';
-import IntlProvider from './app/containers/Intl';
 
 interface IAppProps {}
 
-const App = (props: IAppProps) => {
+const App = ({}: IAppProps) => {
     const [apolloClient, setApolloClient] = useState<any>(null);
 
     useEffect(() => {

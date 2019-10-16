@@ -5,12 +5,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { makeStyles } from '@material-ui/styles';
-import { Avatar } from 'account';
+import { accountAddressSelector, Avatar } from 'account';
 import QRCode from 'qrcode.react';
 import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 
 export interface IRecieveDialogProps {
-    address: string;
     closeDialog: () => any;
     open: boolean;
 }
@@ -33,10 +33,11 @@ const useStyles = makeStyles((theme: Theme) => {
 });
 
 const RecieveDialog = ({
-    address,
     closeDialog,
     open,
 }: IRecieveDialogProps) => {
+    const address = useSelector(accountAddressSelector, shallowEqual);
+
     const classes = useStyles();
 
     return (

@@ -2,10 +2,10 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { makeStyles } from '@material-ui/styles';
 import { SwipeFromLeft } from 'gestures';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { showSideNav } from '../../actions/sideNav';
 
-interface IGesturesProps {
-    swipeFromLeft: () => any;
-}
+interface IGesturesProps {}
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -23,10 +23,14 @@ const useStyles = makeStyles((theme: Theme) => {
     };
 });
 
-const Gestures = ({
-    swipeFromLeft,
-}: IGesturesProps) => {
+const Gestures = ({}: IGesturesProps) => {
+    const dispatch = useDispatch();
+
     const classes = useStyles();
+
+    const swipeFromLeft = () => {
+        dispatch(showSideNav());
+    };
 
     return (
         <div className={classes.container}>

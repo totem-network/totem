@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './App';
-import DevTools from './app/containers/DevTools';
+import DevTools from './app/components/DevTools';
 import startupSaga, { sagaMiddleware } from './sagas';
 import { history, store } from './state';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import FileDrop from '../../containers/events/FileDrop';
+import FileDrop from './FileDrop';
 
 interface IEventsProps {}
 

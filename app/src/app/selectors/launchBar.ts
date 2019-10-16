@@ -1,16 +1,16 @@
 import {
-    taskManagerSelector,
+    showTaskManagerSelector,
     windowsSelector,
 } from 'applications';
 import { createSelector } from 'reselect';
 
 export default createSelector(
-    taskManagerSelector,
+    showTaskManagerSelector,
     windowsSelector,
-    (taskManager, windows) => {
+    (showTaskManager, windows) => {
         let visible: boolean = true;
 
-        if (taskManager.showTaskManager) {
+        if (showTaskManager) {
             visible = false;
         }
 

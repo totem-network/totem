@@ -5,9 +5,8 @@ import SwapHorizontalCircleIcon from '@material-ui/icons/SwapHorizontalCircle';
 import { makeStyles } from '@material-ui/styles';
 import React, { useState } from 'react';
 import { Query } from "react-apollo";
-import ActionButtons from '../../../containers/action-buttons/ActionButtons';
-import RecieveDialog from '../../../containers/category/crypto-currencies/recieve/RecieveDialog';
 import cryptoCurrenciesQuery from '../../../queries/cryptoCurrencies.graphql';
+import ActionButtons from '../../action-buttons/ActionButtons';
 import ActionButton from '../../action-buttons/Button';
 import Error from '../../Error';
 import LoadingBar from '../../LoadingBar';
@@ -15,6 +14,7 @@ import ViewNavButton from '../../view-nav/Button';
 import ViewNav from '../../view-nav/ViewNav';
 import AddTokenDialog from './AddTokenDialog';
 import Head from './Head';
+import RecieveDialog from './recieve/RecieveDialog';
 import Row from './Row';
 
 export interface ICryptoCurrenciesViewProps {}

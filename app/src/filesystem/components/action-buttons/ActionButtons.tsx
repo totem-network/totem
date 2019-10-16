@@ -5,12 +5,13 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { isWidthDown } from '@material-ui/core/withWidth';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/styles';
+import { showSideNav } from 'app';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useWidth } from 'ui';
 
 export interface IActionButtonsProps {
     children: any;
-    showSideNav: any;
 }
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -30,10 +31,14 @@ const useStyles = makeStyles((theme: Theme) => {
 
 const ActionButtons = ({
     children,
-    showSideNav,
 }: IActionButtonsProps) => {
+    const dispatch = useDispatch();
     const classes = useStyles();
     const width = useWidth();
+
+    const handleClick = () => {
+        dispatch(showSideNav());
+    };
 
     if (isWidthDown('md', width)) {
         return (
@@ -45,7 +50,7 @@ const ActionButtons = ({
                         edge="start"
                         color="inherit"
                         aria-label="Menu"
-                        onClick={showSideNav}
+                        onClick={handleClick}
                     >
                         <MenuIcon />
                     </IconButton>

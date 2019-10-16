@@ -1,11 +1,10 @@
 import HomeIcon from '@material-ui/icons/Home';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
-import { IHideTaskManagerAction } from '../../actions/taskManager';
+import { useDispatch } from 'react-redux';
+import { hideTaskManager } from '../../actions/taskManager';
 
-interface IHomeButtonProps {
-    hideTaskManager: () => IHideTaskManagerAction;
-}
+interface IHomeButtonProps {}
 
 const useStyles = makeStyles({
     homeButton: {
@@ -19,13 +18,12 @@ const useStyles = makeStyles({
     },
 });
 
-const HomeButton = ({
-    hideTaskManager,
-}: IHomeButtonProps) => {
+const HomeButton = ({}: IHomeButtonProps) => {
+    const dispatch = useDispatch();
     const classes = useStyles();
 
     const handleClick = () => {
-        hideTaskManager();
+        dispatch(hideTaskManager());
     };
 
     return (

@@ -1,20 +1,20 @@
 import { isWidthDown } from '@material-ui/core/withWidth';
 import { makeStyles } from '@material-ui/styles';
-import { IShowSideNavAction } from 'app';
+import { showSideNav } from 'app';
 import { Window } from 'applications';
 import { SwipeFromLeft } from 'gestures';
 import React, {
     CSSProperties,
 } from 'react';
+import { useDispatch } from 'react-redux';
 import { useWidth } from 'ui';
-import SideNav from '../containers/SideNav';
-import Views from '../containers/Views';
+import SideNav from '../components/side-nav/SideNav';
+import Views from './category/Views';
 
 interface IFileSystemWindowProps {
     focused: boolean;
     instance: string;
     minimized: boolean;
-    showSideNav: () => IShowSideNavAction;
     task: boolean;
     taskStyle: CSSProperties;
     windowHeight: number;
@@ -36,7 +36,6 @@ const FileSystemWindow = ({
     focused,
     instance,
     minimized,
-    showSideNav,
     task,
     taskStyle,
     windowHeight,
@@ -45,8 +44,13 @@ const FileSystemWindow = ({
     y,
     zIndex,
 }: IFileSystemWindowProps) => {
+    const dispatch = useDispatch();
     const classes = useStyles();
     const width = useWidth();
+
+    const handleSwipe = () => {
+        dispatch(showSideNav());
+    };
 
     const windowContent = (isWidthDown('sm', width)) ? (
             <div className={classes.container}>
@@ -54,7 +58,7 @@ const FileSystemWindow = ({
                     instance={instance}
                 />
                 <SwipeFromLeft
-                    onSwipe={showSideNav}
+                    onSwipe={handleSwipe}
                 />
             </div>
         ) : (
@@ -74,6 +78,7 @@ const FileSystemWindow = ({
             instance={instance}
             minimized={minimized}
             noHeader={true}
+            task={task}
             taskStyle={taskStyle}
             windowHeight={windowHeight}
             windowWidth={windowWidth}

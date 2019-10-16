@@ -6,17 +6,16 @@ import React, {
     MouseEvent,
     TouchEvent,
 } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useWidth } from 'ui';
-import { IHideSideNavAction } from './../../actions/sideNav';
-import Categories from './../../containers/side-nav/Categories';
-import Header from './../../containers/side-nav/Header';
-import Launcher from './../../containers/side-nav/Launcher';
-import Tasks from './../../containers/side-nav/Tasks';
+import { hideSideNav } from '../../actions/sideNav';
+import sideNavSelector from '../../selectors/sideNav';
+import Categories from './Categories';
+import Header from './Header';
+import Launcher from './Launcher';
+import Tasks from './Tasks';
 
-interface ISideNavProps {
-    isVisible: boolean;
-    hideSideNav: () => IHideSideNavAction;
-}
+interface ISideNavProps {}
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -101,10 +100,10 @@ const useStyles = makeStyles((theme: Theme) => {
     };
 });
 
-const SideNav = ({
-    isVisible,
-    hideSideNav,
-}: ISideNavProps) => {
+const SideNav = ({}: ISideNavProps) => {
+    const { isVisible } = useSelector(sideNavSelector, shallowEqual);
+
+    const dispatch = useDispatch();
     const classes = useStyles();
     const width = useWidth();
 
@@ -118,7 +117,7 @@ const SideNav = ({
     };
 
     const hide = () => {
-        hideSideNav();
+        dispatch(hideSideNav());
 
         if (!domNode) {
             return;

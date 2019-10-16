@@ -1,15 +1,13 @@
 import { makeStyles } from '@material-ui/styles';
-import { IStartApplicationAction } from 'applications';
+import { startApplication } from 'applications';
 import classNames from 'classnames';
 import React from 'react';
-import { IHideLauncherAction } from '../../actions/launcher';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { hideLauncher } from '../../actions/launcher';
+import launcherSelector from '../../selectors/launcher';
 import App from './App';
 
-interface ILauncherProps {
-    isVisible: boolean;
-    hideLauncher: () => IHideLauncherAction;
-    startApplication: (application: string, manifest?: string) => IStartApplicationAction;
-}
+interface ILauncherProps {}
 
 const useStyles = makeStyles({
     container: {
@@ -40,16 +38,16 @@ const useStyles = makeStyles({
     },
 });
 
-const Launcher = ({
-    isVisible,
-    hideLauncher,
-    startApplication,
-}: ILauncherProps) => {
+const Launcher = ({}: ILauncherProps) => {
+    const { isVisible } = useSelector(launcherSelector, shallowEqual);
+
+    const dispatch = useDispatch();
+
     const classes = useStyles();
 
     const launchApplication = (application: string, manifest?: string) => {
-        hideLauncher();
-        startApplication(application, manifest);
+        dispatch(hideLauncher());
+        dispatch(startApplication(application, manifest));
     };
 
     const launcherClass = classNames(

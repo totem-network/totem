@@ -1,4 +1,4 @@
-import PayButton from './containers/PayButton';
+import PayButton from './components/PayButton';
 
 export {
     PayButton,

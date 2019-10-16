@@ -7,42 +7,34 @@ import React, {
     CSSProperties,
     MouseEvent,
 } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Swipeable } from 'touch';
 import { useWidth } from 'ui';
 import {
-    ICloseApplicationAction,
+    closeApplication,
 } from '../../actions/application';
 import {
-    IHideTaskManagerAction,
-    IShowTaskManagerAction,
+    hideTaskManager,
+    showTaskManager,
 } from '../../actions/taskManager';
 import {
-    IFocusWindowAction,
-    IMinimizeWindowAction,
-    IMoveWindowAction,
-    IResizeWindowAction,
+    focusWindow,
+    minimizeWindow,
+    moveWindow,
+    resizeWindow,
 } from '../../actions/windows';
+import instanceSelector from '../../selectors/instance';
 import Header from './Header';
 import Resize from './Resize';
 
 interface IWindowProps {
-    changing: boolean;
     children: any;
-    close: (instance: string) => ICloseApplicationAction;
-    focus: (instance: string) => IFocusWindowAction;
     focused: boolean;
-    hideTaskManager: () => IHideTaskManagerAction;
     instance: string;
-    minimize: (instance: string) => IMinimizeWindowAction;
     minimized: boolean;
-    move: (instance: string, x: number, y: number) => IMoveWindowAction;
     noHeader?: boolean;
-    resize: (instance: string, width: number, height: number) => IResizeWindowAction;
-    showTaskManager: () => IShowTaskManagerAction;
     task: boolean;
     taskStyle: CSSProperties;
-    themeColor: string;
-    title: string;
     windowHeight: number;
     windowWidth: number;
     x: number;
@@ -105,27 +97,23 @@ const MIN_WIDTH = 400;
 
 const Window = ({
     children,
-    close,
-    focus,
     focused,
-    hideTaskManager,
     instance,
-    minimize,
     minimized,
-    move,
     noHeader,
-    resize,
-    showTaskManager,
     task,
     taskStyle,
-    themeColor,
-    title,
     windowHeight,
     windowWidth,
     x,
     y,
     zIndex,
 }: IWindowProps) => {
+    const { themeColor, title } = useSelector((state) => {
+        return instanceSelector(state, instance);
+    }, shallowEqual);
+
+    const dispatch = useDispatch();
     const classes = useStyles();
     const width = useWidth();
 
@@ -142,14 +130,14 @@ const Window = ({
     };
 
     const closeInstance = () => {
-        close(instance);
+        dispatch(closeApplication(instance));
     };
 
     const finish = () => {
         if (offsetX !== 0 || offsetY !== 0) {
             // TODO: min and max x/y
 
-            move(instance, offsetX, offsetY);
+            dispatch(moveWindow(instance, offsetX, offsetY));
         }
 
         if (offsetWidth !== 0 || offsetHeight !== 0) {
@@ -165,7 +153,7 @@ const Window = ({
                 this.props.windowHeight - Window.MIN_HEIGHT;
 
             resize(instance, resizeX, resizeY);*/
-            resize(instance, offsetWidth, offsetHeight);
+            dispatch(resizeWindow(instance, offsetWidth, offsetHeight));
         }
 
         offsetHeight = 0;
@@ -178,12 +166,12 @@ const Window = ({
 
     const focusInstance = () => {
         if (!focused) {
-            focus(instance);
+            dispatch(focusWindow(instance));
         }
     };
 
     const minimizeInstance = (event: MouseEvent<HTMLElement>) => {
-        minimize(instance);
+        dispatch(minimizeWindow(instance));
     };
 
     const moveInstance = (moveX: number, moveY: number) => {
@@ -260,7 +248,7 @@ const Window = ({
     ) : null;
 
     const swipe = () => {
-        showTaskManager();
+        dispatch(showTaskManager());
     };
 
     const mobileTaskManagerGestureComponent = isWidthDown('md', width) ? (
@@ -276,8 +264,8 @@ const Window = ({
     ) : null;
 
     const focusTask = () => {
-        focus(instance);
-        hideTaskManager();
+        dispatch(focusWindow(instance));
+        dispatch(hideTaskManager());
     };
 
     const taskOverlayComponent = task ? (

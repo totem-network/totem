@@ -1,10 +1,10 @@
 import React from 'react';
 import Windows from './../components/applications/Windows';
 import Events from './../components/events/Events';
-import Gestures from './../containers/Gestures';
-import LaunchBar from './../containers/LaunchBar';
-import Launcher from './../containers/Launcher';
-import SideNav from './../containers/SideNav';
+import Gestures from './../components/gestures/Gestures';
+import LaunchBar from './../components/launch-bar/LaunchBar';
+import Launcher from './../components/launcher/Launcher';
+import SideNav from './../components/side-nav/SideNav';
 
 interface IDesktopProps {}
 

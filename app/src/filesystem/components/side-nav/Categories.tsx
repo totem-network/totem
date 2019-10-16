@@ -4,9 +4,12 @@ import React, {
     CSSProperties,
     MouseEvent,
 } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import {
-    ISelectCategoryAction,
+    selectCategory,
 } from '../../actions/instances';
+import categoriesSelector from '../../selectors/categories';
+import instanceCategorySelector from '../../selectors/instanceCategory';
 
 interface ICategory {
     id: string;
@@ -17,10 +20,7 @@ interface ICategory {
 }
 
 export interface ICategoriesProps {
-    categories: ICategory[];
     instance: string;
-    selectCategory: (instance: string, category: string) => ISelectCategoryAction;
-    selectedCategory: string;
 }
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -59,16 +59,19 @@ const useStyles = makeStyles((theme: Theme) => {
 });
 
 const Categories = ({
-    categories,
     instance,
-    selectCategory,
-    selectedCategory,
 }: ICategoriesProps) => {
+    const categories: ICategory[] = useSelector(categoriesSelector, shallowEqual);
+    const selectedCategory = useSelector((state) => {
+        return instanceCategorySelector(state, instance);
+    }, shallowEqual);
+
+    const dispatch = useDispatch();
     const classes = useStyles();
 
     const categoryComponents = categories.map((category, index) => {
         const handleClick = (event: MouseEvent<HTMLElement>) => {
-            selectCategory(instance, category.id);
+            dispatch(selectCategory(instance, category.id));
         };
 
         const categoryBackground: CSSProperties  = {};
