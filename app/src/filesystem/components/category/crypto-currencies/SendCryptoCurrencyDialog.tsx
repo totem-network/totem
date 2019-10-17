@@ -7,7 +7,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/styles';
 import { utils } from 'ethers';
 import { Form, Formik } from 'formik';
-import React, { useEffect } from 'react';
+import React from 'react';
 import SEND_CRYPTO_CURRENCY from '../../../mutations/sendCryptoCurrency.graphql';
 import SendCryptoCurrencyForm from './SendCryptoCurrencyForm';
 
@@ -17,12 +17,9 @@ export interface ISendCryptoCurrencyDialogProps {
     currencyIcon: string;
     currencyOrToken: string;
     decimals: number;
-    fetchFee: (platform: string, network: string) => any;
-    gasPriceFast: string;
-    gasPriceSafeLow: string;
-    network: string;
+    feeFast: string;
+    feeSafeLow: string;
     open: boolean;
-    platform: string;
 }
 
 const useStyles = makeStyles({
@@ -38,12 +35,9 @@ const SendCryptoCurrencyDialog = ({
     currencyName,
     currencyOrToken,
     decimals,
-    fetchFee,
-    gasPriceFast,
-    gasPriceSafeLow,
-    network,
+    feeFast,
+    feeSafeLow,
     open,
-    platform,
 }: ISendCryptoCurrencyDialogProps) => {
     const classes = useStyles();
 
@@ -53,9 +47,9 @@ const SendCryptoCurrencyDialog = ({
     });
 
     const handleSubmit = (values: any) => {
-        let fee = gasPriceSafeLow;
+        let fee = feeSafeLow;
         if (values.fee) {
-            fee = gasPriceFast;
+            fee = feeFast;
         }
 
         const amount = utils.parseUnits(
@@ -73,11 +67,6 @@ const SendCryptoCurrencyDialog = ({
         });
         closeDialog();
     };
-
-    useEffect(() => {
-        // TODO: fetch fee via graphql
-        fetchFee(platform, network);
-    }, []);
 
     return (
         <Dialog

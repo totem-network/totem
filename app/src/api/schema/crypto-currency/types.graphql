@@ -2,6 +2,9 @@ type CryptoCurrency {
     balance: String
     data: CryptoCurrencyData
     decimals: Int
+    feeAverage: String
+    feeFast: String
+    feeSafeLow: String
     icon: String
     name: String
     price: String

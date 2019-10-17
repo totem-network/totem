@@ -1,7 +1,7 @@
 import { accountAddressSelector, boxes } from 'account';
 import { Contract, utils } from 'ethers';
 import { Provider } from 'ethers/providers/abstract-provider';
-import { BlockchainProviderManager, currentNetworkSelector } from 'network';
+import { BlockchainProviderManager, currentNetworkSelector, fetchFee } from 'network';
 import { store } from 'state';
 import { containsAddress } from 'utils/ethereum';
 import ERC721Abi from './erc721';
@@ -15,8 +15,11 @@ interface IDigitalAsset {
 }
 
 interface IDigitalAssetToken {
-    description: string;
     asset: IDigitalAsset;
+    description: string;
+    feeAverage: string;
+    feeFast: string;
+    feeSafeLow: string;
     id: string;
     image: string;
     name: string;
@@ -419,9 +422,16 @@ export default {
 
             const erc721Tokens = await getERC721Tokens(account, contract);
 
+            const etherFees = await fetchFee('ethereum', '1');
+
             for (const token of erc721Tokens) {
                 digitalAssetTokens.push(
-                    await getERC721TokenData(contract, token),
+                    {
+                        ...await getERC721TokenData(contract, token),
+                        feeAverage: etherFees.average.toString(),
+                        feeFast: etherFees.fast.toString(),
+                        feeSafeLow: etherFees.safeLow.toString(),
+                    },
                 );
             }
 

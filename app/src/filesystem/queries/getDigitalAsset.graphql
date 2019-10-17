@@ -1,6 +1,8 @@
 query digitalAsset($contract: String) {
     digitalAsset(contract: $contract) {
         description
+        feeFast
+        feeSafeLow
         id
         image
         name

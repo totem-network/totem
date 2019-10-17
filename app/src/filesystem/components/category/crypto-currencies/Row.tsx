@@ -10,12 +10,14 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SendIcon from '@material-ui/icons/Send';
 import { makeStyles } from '@material-ui/styles';
 import React, { useState } from 'react';
-import SendCryptoCurrencyDialog from '../../../containers/category/crypto-currencies/SendCryptoCurrencyDialog';
+import SendCryptoCurrencyDialog from './SendCryptoCurrencyDialog';
 
 export interface IRowProps {
     balance: string;
     currencyOrToken: string;
     decimals: number;
+    feeFast: string;
+    feeSafeLow: string;
     icon: string;
     name: string;
     price: string;
@@ -50,6 +52,8 @@ const Row = ({
     balance,
     currencyOrToken,
     decimals,
+    feeFast,
+    feeSafeLow,
     icon,
     name,
     price,
@@ -132,6 +136,8 @@ const Row = ({
                         currencyIcon={icon}
                         currencyOrToken={currencyOrToken}
                         decimals={decimals}
+                        feeFast={feeFast}
+                        feeSafeLow={feeSafeLow}
                         open={sendCryptoCurrencyDialog}
                     />
                 </TableCell>

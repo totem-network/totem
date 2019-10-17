@@ -5,8 +5,11 @@ type DigitalAsset {
 }
 
 type DigitalAssetToken {
-    description: String
     asset: DigitalAsset
+    description: String
+    feeAverage: String
+    feeFast: String
+    feeSafeLow: String
     id: String
     image: String
     name: String

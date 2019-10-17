@@ -12,11 +12,13 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SendIcon from '@material-ui/icons/Send';
 import { makeStyles } from '@material-ui/styles';
 import React, { useState } from 'react';
-import SendDigitalAssetDialog from '../../../containers/category/digital-assets/SendDigitalAssetDialog';
+import SendDigitalAssetDialog from './SendDigitalAssetDialog';
 
 export interface IAssetCardProps {
     contract: string;
     description: string;
+    feeFast: string;
+    feeSafeLow: string;
     image: string;
     name: string;
     token: string;
@@ -36,6 +38,8 @@ const useStyles = makeStyles({
 const AssetCard = ({
     contract,
     description,
+    feeFast,
+    feeSafeLow,
     image,
     name,
     token,
@@ -103,6 +107,8 @@ const AssetCard = ({
                 assetName={name}
                 closeDialog={closeSendDigitalAssetDialog}
                 contract={contract}
+                feeFast={feeFast}
+                feeSafeLow={feeSafeLow}
                 open={sendDigitalAssetDialog}
                 token={token}
             />

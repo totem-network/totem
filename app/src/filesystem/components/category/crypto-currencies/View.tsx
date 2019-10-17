@@ -57,7 +57,7 @@ const CryptoCurrenciesView = ({}: ICryptoCurrenciesViewProps) => {
     };
 
     const renderQuery = () => {
-        if (loading || data === undefined) {
+        if (loading) {
             return (
                 <LoadingBar />
             );
@@ -78,6 +78,8 @@ const CryptoCurrenciesView = ({}: ICryptoCurrenciesViewProps) => {
             );
         }
 
+        // TODO: handle data undefined
+
         const rows = data.cryptoCurrencies.map((currency: any, index: number) => {
             const currencyOrToken = currency.data.platform || currency.data.contract;
 
@@ -87,6 +89,8 @@ const CryptoCurrenciesView = ({}: ICryptoCurrenciesViewProps) => {
                     balance={currency.balance}
                     currencyOrToken={currencyOrToken}
                     decimals={currency.decimals}
+                    feeFast={currency.feeFast}
+                    feeSafeLow={currency.feeSafeLow}
                     name={currency.name}
                     icon={currency.icon}
                     price={currency.price}

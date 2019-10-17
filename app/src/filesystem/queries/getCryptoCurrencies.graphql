@@ -10,6 +10,8 @@ query cryptoCurrencies {
             }
         }
         decimals
+        feeFast,
+        feeSafeLow,
         icon
         name
         price

@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/styles';
 import { Form, Formik } from 'formik';
-import React, { useEffect } from 'react';
+import React from 'react';
 import SEND_DIGITAL_ASSET from '../../../mutations/sendDigitalAsset.graphql';
 import SendDigitalAssetForm from './SendDigitalAssetForm';
 
@@ -15,12 +15,9 @@ export interface ISendDigitalAssetDialogProps {
     assetName: string;
     closeDialog: () => any;
     contract: string;
-    fetchFee: (platform: string, network: string) => any;
-    gasPriceFast: string;
-    gasPriceSafeLow: string;
-    network: string;
+    feeFast: string;
+    feeSafeLow: string;
     open: boolean;
-    platform: string;
     token: string;
 }
 
@@ -36,12 +33,9 @@ const SendDigitalAssetDialog = ({
     assetName,
     closeDialog,
     contract,
-    fetchFee,
-    gasPriceFast,
-    gasPriceSafeLow,
-    network,
+    feeFast,
+    feeSafeLow,
     open,
-    platform,
     token,
 }: ISendDigitalAssetDialogProps) => {
     const classes = useStyles();
@@ -52,9 +46,9 @@ const SendDigitalAssetDialog = ({
     });
 
     const handleSubmit = (values: any) => {
-        let fee = gasPriceSafeLow;
+        let fee = feeSafeLow;
         if (values.fee) {
-            fee = gasPriceFast;
+            fee = feeFast;
         }
 
         sendDigitalAsset({
@@ -67,11 +61,6 @@ const SendDigitalAssetDialog = ({
         });
         closeDialog();
     };
-
-    useEffect(() => {
-        // TODO: fetch fee via graphql
-        fetchFee(platform, network);
-    }, []);
 
     return (
         <Dialog

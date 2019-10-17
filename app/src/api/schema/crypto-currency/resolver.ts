@@ -1,12 +1,15 @@
 import { accountAddressSelector, boxes } from 'account';
 import { Contract, utils } from 'ethers';
 import { Provider } from 'ethers/providers/abstract-provider';
-import { BlockchainProviderManager, currentNetworkSelector } from 'network';
+import { BlockchainProviderManager, currentNetworkSelector, fetchFee } from 'network';
 import { store } from 'state';
 import { containsAddress } from 'utils/ethereum';
 import ERC20AbiJSON from './erc20.json';
 
 // TODO: functions to interact with contracts, that are catching errors and providing alternative data sources
+
+// TODO: get rid of platform/network for native and use cointype SLIP44 instead!
+// platform of Token => cointype
 
 const ERC20Abi = JSON.stringify(ERC20AbiJSON);
 
@@ -264,6 +267,9 @@ export default {
                 balance: string;
                 data: any;
                 decimals: number;
+                feeAverage: string;
+                feeFast: string;
+                feeSafeLow: string;
                 icon: string;
                 name: string;
                 price: string;
@@ -300,6 +306,8 @@ export default {
 
             const etherPrice = etherPriceData.result.ethusd;
 
+            const etherFees = await fetchFee('ethereum', '1');
+
             cryptoCurrencies.push({
                 balance: utils.formatEther(etherBalance),
                 data: {
@@ -307,6 +315,9 @@ export default {
                     platform: 'ethereum',
                 },
                 decimals: 18,
+                feeAverage: etherFees.average.toString(),
+                feeFast: etherFees.fast.toString(),
+                feeSafeLow: etherFees.safeLow.toString(),
                 icon: '/images/cryptocurrency-icons/eth.svg',
                 name: 'Ether',
                 price: etherPrice,
@@ -317,7 +328,12 @@ export default {
 
             for (const token of erc20Contracts) {
                 cryptoCurrencies.push(
-                    await getERC20Data(account, token),
+                    {
+                        ...await getERC20Data(account, token),
+                        feeAverage: etherFees.average.toString(),
+                        feeFast: etherFees.fast.toString(),
+                        feeSafeLow: etherFees.safeLow.toString(),
+                    },
                 );
             }
 
