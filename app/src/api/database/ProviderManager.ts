@@ -2,6 +2,7 @@ import { StorageProviderManager } from 'network';
 // import OrbitDB from 'orbit-db';
 import AccessController from './AccessController';
 import IdentityProvider from './IdentityProvider';
+// const OrbitDB = require('orbit-db');
 const OrbitDB = (window as any).OrbitDB;
 const AccessControllers = require('orbit-db-access-controllers');
 const Identities = require('orbit-db-identity-provider');

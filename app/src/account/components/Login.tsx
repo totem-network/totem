@@ -52,19 +52,7 @@ const useStyles = makeStyles((theme: Theme) => {
 });
 
 const renderLoginForm = (method: string) => {
-
-    // TODO: remove process.type and query it from redux store -> makes it testable
-    if (process.type !== 'renderer') {
-        return (
-            <LoginMetaMask />
-        );
-    } else {
-        return (
-            <LoginPrivateKey />
-        );
-    }
-
-    /*switch (method) {
+    switch (method) {
         case 'metamask':
             return (
                 <LoginMetaMask />
@@ -74,7 +62,7 @@ const renderLoginForm = (method: string) => {
             return (
                 <LoginPrivateKey />
             );
-    }*/
+    }
 };
 
 const Login = ({}: ILoginProps) => {

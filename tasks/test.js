@@ -29,9 +29,17 @@ const webpackConfig = {
             }
         ]
     },
+    node: {
+        Buffer: true,
+        fs: 'empty',
+        child_process: 'empty',
+        net: 'empty',
+        tls: 'empty'
+    },
     resolve: {
         alias: {
             '3box': path.resolve('./node_modules/3box/dist/3box.min.js'),
+            'ipfs': path.resolve('./node_modules/ipfs/dist/index.min.js'),
         },
         aliasFields: ['browser'],
         extensions: ['.mjs', '.ts', '.tsx', '.js', '.json'],
@@ -46,10 +54,6 @@ const webpackConfig = {
             new TsconfigPathsPlugin({})
         ]
     },
-    node: {
-        fs: 'empty',
-        child_process: 'empty'
-    }
 };
 
 gulp.task('test', function() {
