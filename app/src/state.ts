@@ -9,7 +9,7 @@ import {
     createStore,
 } from 'redux';
 import { createLogger } from 'redux-logger';
-import DevTools from './app/components/DevTools';
+// import DevTools from './app/components/DevTools';
 import createReducers, { IImmutableState } from './reducers';
 import { sagaMiddleware } from './sagas';
 
@@ -28,7 +28,7 @@ if (process.env.NODE !== 'production') {
         applyMiddleware(sagaMiddleware),
         applyMiddleware(routerMiddleware),
         applyMiddleware(reduxLoggerMiddleware),
-        DevTools.instrument(),
+        // DevTools.instrument(),
     );
 } else {
     enhancer = compose(

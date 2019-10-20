@@ -9,7 +9,9 @@ const { InjectManifest } = require('workbox-webpack-plugin');
 const config = {
     entry: {
         app: [
-            '@babel/polyfill',
+            'core-js/stable',
+            'regenerator-runtime/runtime',
+            'react-hot-loader/patch',
             './app/src/index.tsx'
         ]
     },
@@ -54,6 +56,7 @@ const config = {
         ]
     },
     node: {
+        Buffer: true,
         fs: 'empty',
         child_process: 'empty',
         net: 'empty',
@@ -129,7 +132,8 @@ const config = {
         plugins: [
             new TsconfigPathsPlugin({})
         ]
-    }
+    },
+    target: 'web'
 };
 
 module.exports = config;

@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 const { createDevTools } = require('redux-devtools');
 const DockMonitor = require('redux-devtools-dock-monitor').default;
 const LogMonitor = require('redux-devtools-log-monitor').default;
@@ -15,4 +15,4 @@ const DevTools = createDevTools(
     ),
 );
 
-export default DevTools;
+export default DevTools;*/

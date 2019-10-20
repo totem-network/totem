@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './App';
-import DevTools from './app/components/DevTools';
+// import DevTools from './app/components/DevTools';
 import startupSaga, { sagaMiddleware } from './sagas';
 import { history, store } from './state';
 
@@ -14,7 +14,7 @@ if (process.env.NODE === 'production') {
     });
 }
 
-if ('serviceWorker' in navigator && process.type !== 'renderer') {
+if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js');
     });
@@ -30,7 +30,7 @@ const render = (AppComponent: any) => {
                 <ConnectedRouter history={history}>
                     <>
                         <AppComponent />
-                        {(process.env.NODE !== 'production') ? <DevTools /> : ''}
+                        {/*(process.env.NODE !== 'production') ? <DevTools /> : ''*/}
                     </>
                 </ConnectedRouter>
             </Provider>
