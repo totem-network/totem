@@ -21,16 +21,12 @@ export const getFileType = async (file: Blob | File): Promise<string> => {
                 case 'image/flif':
                 case 'image/gif':
                 case 'image/jpeg':
-                case 'image/jxr':
                 case 'image/png':
                 case 'image/tiff':
-                case 'image/tiff-fx':
                 case 'image/vnd.adobe.photoshop':
                 case 'image/vnd.ms-photo':
                 case 'image/webp':
-                case 'image/x-bmp':
                 case 'image/x-canon-cr2':
-                case 'image/x-dcraw':
                 case 'image/x-icon':
                     resolve('image');
                     break;

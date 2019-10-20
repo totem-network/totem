@@ -128,7 +128,7 @@
     "ethereum-blockies-base64": "^1.0.2",
     "ethers": "^4.0.38",
     "ethers-web3-bridge": "0.0.1",
-    "file-type": "=12.1.0",
+    "file-type": "^12.3.0",
     "formik": "^1.5.8",
     "graphql": "^14.5.8",
     "graphql-tools": "^4.0.5",
