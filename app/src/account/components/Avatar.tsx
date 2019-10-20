@@ -57,7 +57,19 @@ const Avatar = ({
         );
     }
 
-    if (noProfile || !data.getProfile.image) {
+    if (!data) {
+        if (address && isAddress(address)) {
+            return (
+                <img src={makeBlockie(address)} className={classes.avatar} />
+            );
+        }
+
+        return (
+            <AccountCircle />
+        );
+    }
+
+    if (noProfile || !data.getProfile || !data.getProfile.image) {
         if (!data.getProfile.address || !isAddress(data.getProfile.address)) {
             // TODO: size
             return (

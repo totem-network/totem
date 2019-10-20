@@ -3,8 +3,8 @@ import '@babel/polyfill';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ErrorOutline from '@material-ui/icons/ErrorOutline';
 import Avatar from 'account/components/Avatar';
-import getAvatarByAddressQuery from 'account/queries/getAvatarByAddress.graphql';
-import getAvatarByDomainQuery from 'account/queries/getAvatarByDomain.graphql';
+import GET_AVATAR_BY_ADDRESS from 'account/queries/getAvatarByAddress.graphql';
+import GET_AVATAR_BY_DOMAIN from 'account/queries/getAvatarByDomain.graphql';
 import {
     expect,
     use as chaiUse,
@@ -13,6 +13,7 @@ import chaiEnzyme from 'chai-enzyme';
 import {
     configure as configureEnzyme,
     mount,
+    render,
     shallow,
 } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
@@ -29,13 +30,13 @@ chaiUse(chaiEnzyme());
 
 describe('Account components', () => {
     describe('<Avatar />', () => {
-        it('should render the addresses blockie', () => {
+        it('should render the addresses blockie while loading the query', async () => {
             const address = '0x738f85bA17262aa15BcD1Ec3129b7f86DafD9Fc9';
 
             const apolloMocks = [
                 {
                     request: {
-                        query: getAvatarByAddressQuery,
+                        query: GET_AVATAR_BY_ADDRESS,
                         variables: {
                             address,
                         },
@@ -44,13 +45,14 @@ describe('Account components', () => {
                         data: {
                             getProfile: {
                                 address,
+                                image: null,
                             },
                         },
                     },
                 },
             ];
 
-            /*const wrapper = mount(
+            const wrapper = mount(
                 (
                     <MockedProvider mocks={apolloMocks} addTypename={false}>
                         <Avatar
@@ -58,9 +60,48 @@ describe('Account components', () => {
                         />
                     </MockedProvider>
                 ),
-            );*/
+            );
 
-            // expect(wrapper.find('img')).to.have.lengthOf(1);
+            expect(wrapper.find('img')).to.have.lengthOf(1);
+        });
+
+        it('should render the addresses blockie', async () => {
+            const address = '0x738f85bA17262aa15BcD1Ec3129b7f86DafD9Fc9';
+
+            const apolloMocks = [
+                {
+                    request: {
+                        query: GET_AVATAR_BY_ADDRESS,
+                        variables: {
+                            address,
+                        },
+                    },
+                    result: {
+                        data: {
+                            getProfile: {
+                                address,
+                                image: null,
+                            },
+                        },
+                    },
+                },
+            ];
+
+            const wrapper = mount(
+                (
+                    <MockedProvider mocks={apolloMocks} addTypename={false}>
+                        <Avatar
+                            address={address}
+                        />
+                    </MockedProvider>
+                ),
+            );
+
+            // before this state is loading
+            await new Promise((resolve) => setTimeout(resolve));
+            wrapper.update();
+
+            expect(wrapper.find('img')).to.have.lengthOf(1);
         });
 
         /*it('should render the profile image', () => {
@@ -113,34 +154,6 @@ describe('Account components', () => {
             );
 
             expect(wrapper.dive().find(AccountCircle)).to.have.lengthOf(1);
-        });
-
-        it('should resolve the domain when mounted', () => {
-            const domain = 'totem.eth';
-
-            const wrapper = mount(
-                (
-                    <Avatar
-                        domain={domain}
-                    />
-                ),
-            );
-        });
-
-        it('should resolve the domain when set', () => {
-            const resolveDomainSpy = spy();
-            const domain = 'totem.eth';
-
-            const wrapper = mount(
-                (
-                    <Avatar />
-                ),
-            );
-
-            wrapper.setProps({
-                domain,
-                resolveDomain: resolveDomainSpy,
-            });
         });*/
     });
 });
