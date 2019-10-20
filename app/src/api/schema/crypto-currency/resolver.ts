@@ -11,6 +11,8 @@ import ERC20AbiJSON from './erc20.json';
 // TODO: get rid of platform/network for native and use cointype SLIP44 instead!
 // platform of Token => cointype
 
+// TODO: when clearing cache tokens are not be loaded again!
+
 const ERC20Abi = JSON.stringify(ERC20AbiJSON);
 
 const getERC20Contracts = async (account: string, provider: Provider) => {
