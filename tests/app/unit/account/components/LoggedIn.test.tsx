@@ -47,6 +47,7 @@ describe('Account containers', () => {
                 ),
             );
 
+            // tslint:disable-next-line:no-unused-expression
             expect(wrapper.exists('div')).to.be.true;
         });
 
@@ -71,6 +72,7 @@ describe('Account containers', () => {
                 ),
             );
 
+            // tslint:disable-next-line:no-unused-expression
             expect(wrapper.exists('div')).to.be.false;
         });
     });
