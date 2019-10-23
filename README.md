@@ -107,7 +107,7 @@ Own your online identity without the need to give it to a third
 party. Totem uses the W3 decentralized identity standard to be
 compatible with other DID applications.
 
-<div style="clear: both;"></div>
+<div style="clear: both; padding: 1rem"></div>
 
 <img align="right" src="packages/homepage/src/assets/files.png" style="margin: 1rem" width="100" />
 
@@ -117,7 +117,7 @@ Upload your photos, videos, music and other files with Totem to
 decentralized file systems like IPFS. The files are encrypted and
 can be shared with your friends.
 
-<div style="clear: both;"></div>
+<div style="clear: both; padding: 1rem"></div>
 
 <img align="left" src="packages/homepage/src/assets/assets.png" style="margin: 1rem; margin-right: 2rem;" width="100" />
 
@@ -126,7 +126,7 @@ __Digital Assets:__
 Store your crypto currencies and other digital assets and secure them
 with a multi signature wallet and second factor authentication.
 
-<div style="clear: both;"></div>
+<div style="clear: both; padding: 1rem"></div>
 
 <img align="right" src="packages/homepage/src/assets/applications.png" style="float: right; margin: 1rem" width="100" />
 
@@ -136,7 +136,7 @@ Run decentralized applications within Totem and manage how they access your
 data. Wether your use DeFi apps or alternatives to existing apps with better
 privacy.
 
-<div style="clear: both;"></div>
+<div style="clear: both; padding: 1rem"></div>
 
 <img align="left" src="packages/homepage/src/assets/ai.png" style="float: left; margin: 1rem; margin-right: 2rem;" width="100" />
 
@@ -146,7 +146,7 @@ Benefit from AI analyzing your data on your terms. No need to compromise
 on privacy to experience applications fitting to your behavior. And if
 you do not trust the AI just turn it off.
 
-<div style="clear: both;"></div>
+<div style="clear: both; padding: 1rem"></div>
 
 ## 🙌 Contribute
 
