@@ -99,11 +99,7 @@ For the development build at least 4GB (8GB recommended)
 
 ## 🎨 Features
 
-<img
-    src="packages/homepage/src/assets/id.png"
-    style="float: left; margin: 1rem; margin-right: 2rem;"
-    width="100"
-/>
+<img align="left" src="packages/homepage/src/assets/id.png" style="margin: 1rem; margin-right: 2rem;" width="100" />
 
 __Identity:__
 
@@ -113,11 +109,7 @@ compatible with other DID applications.
 
 <div style="clear: both;"></div>
 
-<img
-    src="packages/homepage/src/assets/files.png"
-    style="float: right; margin: 1rem"
-    width="100"
-/>
+<img align="right" src="packages/homepage/src/assets/files.png" style="margin: 1rem" width="100" />
 
 __Files:__
 
@@ -127,11 +119,7 @@ can be shared with your friends.
 
 <div style="clear: both;"></div>
 
-<img
-    src="packages/homepage/src/assets/assets.png"
-    style="float: left; margin: 1rem; margin-right: 2rem;"
-    width="100"
-/>
+<img align="left" src="packages/homepage/src/assets/assets.png" style="margin: 1rem; margin-right: 2rem;" width="100" />
 
 __Digital Assets:__
 
@@ -140,11 +128,7 @@ with a multi signature wallet and second factor authentication.
 
 <div style="clear: both;"></div>
 
-<img
-    src="packages/homepage/src/assets/applications.png"
-    style="float: right; margin: 1rem"
-    width="100"
-/>
+<img align="right" src="packages/homepage/src/assets/applications.png" style="float: right; margin: 1rem" width="100" />
 
 __Applications:__
 
@@ -154,11 +138,7 @@ privacy.
 
 <div style="clear: both;"></div>
 
-<img
-    src="packages/homepage/src/assets/ai.png"
-    style="float: left; margin: 1rem; margin-right: 2rem;"
-    width="100"
-/>
+<img align="left" src="packages/homepage/src/assets/ai.png" style="float: left; margin: 1rem; margin-right: 2rem;" width="100" />
 
 __Artificial Intelligence:__
 
