@@ -7,7 +7,7 @@ interface ILoginMessageProps {}
 const useStyles = makeStyles({
     wrapper: {
         fontSize: '4rem',
-        textTransform: 'uppercase',
+        textTransform: 'lowercase',
     },
 });
 
@@ -17,7 +17,7 @@ const LoginMessage = ({}: ILoginMessageProps) => {
     return (
         <div className={classes.wrapper}>
             <Typography variant="h2">
-                Hello
+                Welcome
             </Typography>
         </div>
     );

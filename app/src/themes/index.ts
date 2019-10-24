@@ -20,26 +20,31 @@ const theme = createMuiTheme({
         caption: {
             fontWeight: 300,
         },
-        /*fontWeightLight: 100,
+        fontWeightLight: 300,
         fontWeightMedium: 500,
-        fontWeightRegular: 300,*/
+        fontWeightRegular: 400,
         h1: {
-            fontWeight: 100,
+            fontFamily: 'Universalis',
+            fontWeight: 500,
         },
         h2: {
-            color: '#f0f0f0',
-            fontWeight: 100,
+            fontFamily: 'Universalis',
+            fontWeight: 500,
         },
         h3: {
+            fontFamily: 'Universalis',
             fontWeight: 300,
         },
         h4: {
+            fontFamily: 'Universalis',
             fontWeight: 300,
         },
         h5: {
+            fontFamily: 'Universalis',
             fontWeight: 300,
         },
         subtitle1: {
+            fontFamily: 'Universalis',
             fontWeight: 300,
         },
     },
