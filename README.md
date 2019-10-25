@@ -145,6 +145,7 @@ __Artificial Intelligence:__
 Benefit from AI analyzing your data on your terms. No need to compromise
 on privacy to experience applications fitting to your behavior. And if
 you do not trust the AI just turn it off.
+__This feature is not started at the moment!__
 
 <div style="clear: both;"></div>
 
