@@ -36,7 +36,7 @@ class Mobile extends Component {
                             style={mobileContainerStyle}
                             className={classes.join(' ')}
                         >
-                            <img src='/assets/mobile-small.png' style={{
+                            <img src='/images/mobile-small.png' style={{
                                 maxHeight: '30vh',
                             }} />
                         </div>
@@ -45,7 +45,7 @@ class Mobile extends Component {
                             style={containerStyle}
                             className={classes.join(' ')}
                         >
-                            <img src='/assets/mobile-small.png' style={{
+                            <img src='/images/mobile-small.png' style={{
                                 maxHeight: '30vh',
                             }} />
                         </div>

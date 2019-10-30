@@ -1,11 +1,11 @@
 import { h, Component } from 'preact';
 import Media from 'react-media';
 
-class BackgroundVideo extends Component {
+class Particles extends Component {
 
     componentDidMount() {
-        if (this.props.videoEnded && !this.state.loaded) {
-            particlesJS.load('particles-js', 'assets/particles.json', function() {
+        if (this.props.mounted && !this.state.loaded) {
+            particlesJS.load('particles-js', 'particles.json', function() {
                 console.log('callback - particles.js config loaded');
             });
 
@@ -16,8 +16,8 @@ class BackgroundVideo extends Component {
     }
 
     componentDidUpdate() {
-        if (this.props.videoEnded && !this.state.loaded) {
-            particlesJS.load('particles-js', 'assets/particles.json', function() {
+        if (this.props.mounted && !this.state.loaded) {
+            particlesJS.load('particles-js', 'particles.json', function() {
                 console.log('callback - particles.js config loaded');
             });
 
@@ -42,7 +42,7 @@ class BackgroundVideo extends Component {
             zIndex: 0,
         };
 
-        if (!this.props.videoEnded) {
+        if (!this.props.mounted) {
             return null;
         }
 
@@ -53,4 +53,4 @@ class BackgroundVideo extends Component {
 
 }
 
-export default BackgroundVideo;
+export default Particles;

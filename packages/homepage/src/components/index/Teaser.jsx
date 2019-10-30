@@ -1,12 +1,10 @@
 import { h, Component } from 'preact';
-import { hot } from 'react-hot-loader';
+import Headline from './Headline';
  
-class Layout extends Component {
-
+class Teaser extends Component {
     render () {
         const style = {
-            height: '100%',
-            margin: 0,
+            margin: '10rem 0 0 0',
             padding: 0,
             position: 'relative',
             width: '100%',
@@ -14,10 +12,10 @@ class Layout extends Component {
 
         return (
             <div style={style}>
-                {this.props.children}
+                <Headline display={this.props.mounted} />
             </div>
-        )
+        );
     }
 }
 
-export default Layout;
+export default Teaser;

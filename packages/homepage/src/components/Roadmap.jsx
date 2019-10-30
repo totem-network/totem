@@ -6,17 +6,27 @@ class Roadmap extends Component {
 
     render () {
 
+        const h2 = {
+            fontFamily: 'Universalis',
+            fontWeight: '500',
+            textTransform: 'lowercase',
+        };
+
         const year = {
             background: '#f0f0f0',
             boxShadow: '0px 0px 20px 10px #f0f0f0',
-            marginTop: '1.6rem',
+            fontFamily: 'Universalis',
+            fontSize: '1.1rem',
+            fontWeight: '500',
+            marginTop: '4rem',
             textAlign: 'center',
         };
 
         const milestone = {
             background: '#f0f0f0',
             boxShadow: '0px 0px 20px 10px #f0f0f0',
-            margin: '1rem 3rem',
+            margin: '4rem 3rem',
+            marginBottom: '1rem',
         };
 
         const row = {
@@ -39,8 +49,11 @@ class Roadmap extends Component {
         });
 
         const header = {
+            fontFamily: 'Universalis',
+            fontWeight: '500',
             lineHeight: '2rem',
             marginLeft: '1rem',
+            textTransform: 'lowercase',
         };
 
         const border = {
@@ -62,7 +75,7 @@ class Roadmap extends Component {
         return (
             <ScrollPage>
                 <Element name={'roadmap'} />
-                <h2>Roadmap</h2>
+                <h2 style={h2}>Roadmap</h2>
                 <div style={{
                     display: 'flex',
                     flexWrap: 'wrap',

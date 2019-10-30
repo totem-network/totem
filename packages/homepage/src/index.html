@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title>Totem</title>
-        <meta name="description" content="A next generation OS built with blockchain technology">
+        <meta name="description" content="Your digital life in one app!">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon/logo_32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/assets/icon/logo_16x16.png">
@@ -15,7 +15,7 @@
         <meta property="og:url" content="https://totem.network">
         <meta property="og:title" content="Totem">
         <meta property="og:image" content="/assets/facebook.png">
-        <meta property="og:description" content="Browse dapps, use crypto currencies and access decentralized file systems with the Totem web3 client.">
+        <meta property="og:description" content="Your digital life in one app!">
         <meta property="og:site_name" content="Totem">
         <meta property="og:locale" content="en_US">
         <meta property="og:image:width" content="1200">
@@ -26,30 +26,54 @@
         <meta name="twitter:creator" content="@TotemNext">
         <meta name="twitter:url" content="https://totem.network">
         <meta name="twitter:title" content="Totem">
-        <meta name="twitter:description" content="Browse dapps, use crypto currencies and access decentralized file systems with the Totem web3 client.">
+        <meta name="twitter:description" content="Your digital life in one app!">
         <meta name="twitter:image" content="/assets/twitter.png">
 
         <style>
-            /* roboto-300 - latin */
+
+            /* universalis - bold */
             @font-face {
+                font-display: swap;
+                font-family: 'Universalis';
+                font-style: normal;
+                font-weight: 500;
+                src: local('Universalis ADF Std Bold'), local('UniversalisADFStd-Bold'),
+                    url('/fonts/universalis/universalis-bold.woff2') format('woff2'),
+                    url('/fonts/universalis/universalis-bold.woff') format('woff');
+            }
+
+            /* roboto - light */
+            @font-face {
+                font-display: swap;
                 font-family: 'Roboto';
                 font-style: normal;
                 font-weight: 300;
                 src: local('Roboto Light'), local('Roboto-Light'),
-                    url('/assets/fonts/roboto-v18-latin-300.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-                    url('/assets/fonts/roboto-v18-latin-300.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+                    url('/fonts/roboto/roboto-v18-latin-300.woff2') format('woff2'),
+                    url('/fonts/roboto/roboto-v18-latin-300.woff') format('woff');
             }
 
-            /* roboto-regular - latin */
+            /* roboto - regular */
             @font-face {
+                font-display: swap;
                 font-family: 'Roboto';
                 font-style: normal;
                 font-weight: 400;
                 src: local('Roboto'), local('Roboto-Regular'),
-                    url('/assets/fonts/roboto-v18-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-                    url('/assets/fonts/roboto-v18-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+                    url('/fonts/roboto/roboto-v18-latin-regular.woff2') format('woff2'),
+                    url('/fonts/roboto/roboto-v18-latin-regular.woff') format('woff');
             }
 
+            /* roboto - bold */
+            @font-face {
+                font-display: swap;
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 500;
+                src: local('Roboto Medium'), local('Roboto-Medium'),
+                    url('/fonts/roboto/roboto-v18-latin-500.woff2') format('woff2'),
+                    url('/fonts/roboto/roboto-v18-latin-500.woff') format('woff');
+            }
 
             html, body, #app {
                 background: #f0f0f0;
@@ -62,9 +86,8 @@
             }
 
             h2 {
-                color: #555;
+                color: #333;
                 font-size: 2rem;
-                font-weight: 300;
                 margin-left: 2rem;
                 margin-bottom: .3rem;
             }
@@ -80,39 +103,6 @@
                 font-size: 1.5rem;
                 font-weight: 300;
                 margin-bottom: .3rem;
-            }
-
-            .description {
-                color: #333;
-                transition: 0.3s ease-out;
-                opacity: 0;
-                top: 12%;
-            }
-
-            .description.show {
-                opacity: 1;
-                top: 7%;
-            }
-
-            @media (min-width: 768px) {
-                .description {
-                    font-size: 1.5rem;
-                    top: 17%;
-                }
-
-                .description.show {
-                    opacity: 1;
-                    top: 12%;
-                }
-            }
-
-            .buy {
-                transition: 0.3s ease-out;
-                opacity: 0;
-            }
-
-            .buy.show {
-                opacity: 1;
             }
 
             .text {
@@ -234,8 +224,10 @@
         </style>
 
         <script>
-            if (navigator.serviceWorker) {
-                navigator.serviceWorker.register('/service-worker.js');
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('/service-worker.js');
+                });
             }
         </script>
     </head>
@@ -259,7 +251,7 @@
             })();
         </script>
 
-        <script type="text/javascript" src="/assets/js/particles.min.js"></script>
+        <script type="text/javascript" src="/js/particles.min.js"></script>
 
     </body>
 

@@ -31,8 +31,7 @@ module.exports = {
         }),
         new CopyWebpackPlugin([
             {
-                from: 'src/assets',
-                to: 'assets'
+                from: 'src/assets'
             }
         ]),
         new ScriptExtHtmlWebpackPlugin({
@@ -44,14 +43,14 @@ module.exports = {
             runtimeCaching: [
                 {
                     urlPattern: /\.(mp4|webm)$/,                
-                    handler: 'cacheFirst',
+                    handler: 'CacheFirst',
                     options: {
                         cacheName: 'video-cache'              
                     }
                 },
                 {
                     urlPattern: /\.(png)$/,                
-                    handler: 'cacheFirst',
+                    handler: 'CacheFirst',
                     options: {
                         cacheName: 'image-cache'
                         // TODO: expires
@@ -59,7 +58,7 @@ module.exports = {
                 },
                 {
                     urlPattern: /\.(woff|woff2)$/,                
-                    handler: 'cacheFirst',
+                    handler: 'CacheFirst',
                     options: {
                         cacheName: 'font-cache'              
                     }

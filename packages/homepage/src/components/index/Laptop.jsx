@@ -19,7 +19,7 @@ class Laptop extends Component {
                         <div
                             className={classes.join(' ')}
                         >
-                            <img src='/assets/laptop-small.png' style={{
+                            <img src='/images/laptop-small.png' style={{
                                 width: '100%'
                             }} />
                         </div>
@@ -27,7 +27,7 @@ class Laptop extends Component {
                         <div
                             className={classes.join(' ')}
                         >
-                            <img src='/assets/laptop-small.png' style={{
+                            <img src='/images/laptop-small.png' style={{
                                 width: '100%'
                             }} />
                         </div>

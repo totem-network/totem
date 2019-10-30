@@ -5,10 +5,17 @@ import ScrollPage from './ScrollPage';
 class Team extends Component {
 
     render () {
+
+        const h2 = {
+            fontFamily: 'Universalis',
+            fontWeight: '500',
+            textTransform: 'lowercase',
+        };
+
         return (
             <ScrollPage>
                 <Element name={'team'} />
-                <h2>Team</h2>
+                <h2 style={h2}>Team</h2>
                 <div style={{
                     marginTop: '2rem',
                     marginBottom: '2rem',
@@ -21,7 +28,7 @@ class Team extends Component {
                         marginBottom: '1rem',
                         width: '20vw',
                     }}>
-                        <img src="/assets/daniel.png" style={{
+                        <img src="/images/daniel.png" style={{
                             borderRadius: '50%',
                             maxWidth: '128px',
                             width: '20vw',

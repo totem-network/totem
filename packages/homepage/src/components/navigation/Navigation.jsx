@@ -1,20 +1,20 @@
 import { h, Component } from 'preact';
-import Media from 'react-media';
 
 class Navigation extends Component {
 
     render () {
+        const { mounted } = this.props;
+
         const style = {
-            background: '#f8f8f8',
-            boxShadow: '0px 1px 2px 2px #ddd',
+            background: '#f0f0f0',
+            // boxShadow: '0px 1px 2px 2px #ddd',
             height: '4rem',
             left: 0,
             margin: 0,
             padding: 0,
             pointerEvents: 'none',
             position: 'absolute',
-            opacity: 0,
-            top: 0,
+            top: '2rem',
             transition: 'opacity .4s',
             width: '100%',
             zIndex: '1000',
@@ -31,19 +31,17 @@ class Navigation extends Component {
 
         const image = {
             height: '2rem',
-            margin: '1rem 1rem',
+            margin: '1rem 2rem',
+            verticalAlign: 'middle',
         };
 
-        const tryNow = {
-            background: '#1976D2',
-            borderRadius: '.3rem',
-            color: '#fff',
-            display: 'block',
-            height: '1.5rem',
-            lineHeight: '1.5rem',
-            margin: '.75rem 1rem',
-            padding: '.5rem 1rem',
-            textDecoration: 'none',
+        const totem = {
+            color: '#505050',
+            fontSize: '1.6rem',
+            fontWeight: 300,
+            marginTop: '1rem',
+            opacity: 0,
+            transition: 'opacity .35s, margin .35s',
         };
 
         const github = {
@@ -51,6 +49,10 @@ class Navigation extends Component {
             color: '#222',
             height: '2rem',
             margin: '1rem 0 1rem 1rem',
+            marginTop: '2rem',
+            opacity: 0,
+            transition: 'opacity .35s, margin .35s',
+            transitionDelay: '.15s',
             width: '2rem',
         };
 
@@ -59,12 +61,22 @@ class Navigation extends Component {
             color: '#222',
             height: '2rem',
             margin: '1rem',
+            marginTop: '2rem',
+            opacity: 0,
+            transition: 'opacity .35s, margin .35s',
+            transitionDelay: '.15s',
             width: '2rem',
         };
 
-        if (this.props.scroll && this.props.videoEnded) {
-            style.pointerEvents = 'auto';
-            style.opacity = '1';
+        if (mounted) {
+            totem.marginTop = 0;
+            totem.opacity = 1;
+
+            github.marginTop = '1rem';
+            github.opacity = 1;
+
+            twitter.marginTop = '1rem';
+            twitter.opacity = 1;
         }
 
         return (
@@ -72,10 +84,10 @@ class Navigation extends Component {
                 style={style}
             >
                 <div style={container}>
-                    <img src="/assets/logo.svg" style={image} />
-                    <a style={tryNow} target="_blank" href="https://totem.app" rel="noopener">
-                        TRY NOW!
-                    </a>
+                    <div style={totem}>
+                        <img src="/images/logo.svg" style={image} />
+                        Totem
+                    </div>
                     <div>
                         <a style={github} target="_blank" href="https://github.com/totem-network" rel="noopener">
                             <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style={{
