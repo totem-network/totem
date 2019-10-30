@@ -21,10 +21,10 @@ chaiUse(chaiEnzyme());
 
 describe('Account components', () => {
     describe('<LoginMessage />', () => {
-        it('should render "Hello"', () => {
+        it('should render "Welcome"', () => {
             const wrapper = render(<LoginMessage />);
 
-            expect(wrapper.text()).to.contain('Hello');
+            expect(wrapper.text()).to.contain('Welcome');
         });
     });
 });
