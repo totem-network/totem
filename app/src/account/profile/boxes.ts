@@ -1,4 +1,4 @@
-// import { openBox } from '3box';
+// const Box = require('3box');
 
 // TODO: https://github.com/ipfs/js-datastore-level is using leveldown instead of level-js
 // shimming does not work
@@ -14,27 +14,25 @@ class Boxes {
     }
 
     public async openBox(address: string, provider: any) {
-        if (!this.box) {
-            const boxImport = await import(/* webpackChunkName: '3box' */ '3box');
+        const boxImport = await import(/* webpackChunkName: '3box' */ '3box');
 
-            this.box = boxImport.default;
-        }
+        const Box = boxImport.default;
 
         if (!this.boxes[address]) {
-            this.boxes[address] = await this.box.openBox(address, provider);
+            this.boxes[address] = await Box.openBox(address, provider);
+
+            await this.boxes[address].syncDone;
         }
 
         return this.boxes[address];
     }
 
     public async verifyClaim(claim: any, options: any) {
-        if (!this.box) {
-            const boxImport = await import(/* webpackChunkName: '3box' */ '3box');
+        const boxImport = await import(/* webpackChunkName: '3box' */ '3box');
 
-            this.box = boxImport.default;
-        }
+        const Box = boxImport.default;
 
-        return this.box.idUtils.verifyClaim(claim, options);
+        return Box.idUtils.verifyClaim(claim, options);
     }
 
 }

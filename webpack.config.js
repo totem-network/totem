@@ -114,21 +114,12 @@ const config = {
     ],
     resolve: {
         alias: {
-            '3box': path.resolve('./node_modules/3box/dist/3box.min.js'),
-            'ipfs': path.resolve('./node_modules/ipfs/dist/index.min.js'),
-            /*'orbit-db': path.resolve('./node_modules/orbit-db/dist/orbitdb.min.js')/*,
-            'react': 'preact/compat',
+            /*'react': 'preact/compat',
             'react-dom': 'preact/compat'*/
         },
         aliasFields: ['browser'],
         extensions: ['.mjs', '.ts', '.tsx', '.js', '.json'],
         mainFields: ['browser', 'module', 'main'],
-        modules: [
-            path.resolve('./app/src'),
-            path.resolve('./app/assets'),
-            path.resolve('./build/contracts'),
-            path.resolve('./node_modules')
-        ],
         plugins: [
             new TsconfigPathsPlugin({})
         ]

@@ -8,10 +8,17 @@ export default function* initializeSaga() {
 
     // TODO: lazyload ipfs
 
-    const node = yield call(Ipfs.create, {
+    /*const node = yield call(Ipfs.create, {
         EXPERIMENTAL: { pubsub: true },
         repo: 'totem',
+    });*/
+
+    /*const node = yield call(() => {
+        return new Ipfs({
+            EXPERIMENTAL: { pubsub: true },
+            repo: 'totem',
+        });
     });
 
-    yield call(ProviderManager.setProvider, 'ipfs', '1', node);
+    yield call(ProviderManager.setProvider, 'ipfs', '1', node);*/
 }
