@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) => {
             cursor: 'pointer',
             fontSize: '1rem',
             fontWeight: 'bold',
+            margin: '1rem',
             pointerEvents: 'auto',
         },
     };
