@@ -39,6 +39,7 @@ __This is alpha software! Not all features are implemented completly!__
 - [🎨 Features](#%f0%9f%8e%a8-features)
 - [🙌 Contribute](#%f0%9f%99%8c-contribute)
 - [✨ Sponsors](#%e2%9c%a8-sponsors)
+- [💖 Special Thanks](#%f0%9f%92%96-special-thanks)
 - [📜 License](#%f0%9f%93%9c-license)
 
 ## 🔭 Screenshots
@@ -176,6 +177,11 @@ do whatever comes to your mind to grow Totem!
 <img src="packages/docs/assets/sponsor/browserstack.png" width="256">
 
 [Browserstack](https://www.browserstack.com/) lets us test Totem on different devices!
+
+## 💖 Special Thanks
+
+Special Thanks to all open source projects and their contributers that made Totem
+possible!
 
 ## 📜 License
 
