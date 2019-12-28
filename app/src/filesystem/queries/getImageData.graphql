@@ -1,0 +1,5 @@
+query imageData($hash: String) {
+    imageData(hash: $hash) {
+        file
+    }
+}

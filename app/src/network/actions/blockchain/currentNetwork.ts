@@ -15,18 +15,15 @@ export interface ICurrentNetworkConfig {
 }
 
 export interface ISetCurrentNetworkPayload {
-    network: string;
-    platform: string;
+    coinType: string;
 }
 
 export function setCurrentNetwork(
-    platform: string,
-    network: string,
+    coinType: string,
 ): ISetCurrentNetworkAction {
     return {
         payload: {
-            network,
-            platform,
+            coinType,
         },
         type: SET_CURRENT_NETWORK,
     };

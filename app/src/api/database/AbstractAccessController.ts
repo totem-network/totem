@@ -10,7 +10,7 @@ export interface ICapabilities {
     write: any;
 }
 
-abstract class AbstractAccessList {
+abstract class AbstractAccessController {
     // TODO: see https://github.com/orbitdb/orbit-db-access-controllers/blob/master/src/contract-access-controller.js
 
     protected capabilities?: ICapabilities;
@@ -26,7 +26,6 @@ abstract class AbstractAccessList {
     public abstract async save(options: any): Promise<ISaveResult>;
 
     protected async publicKeyFromDID(did: any) {
-        // TODO - this should look at authentication keys and get publicKey from that
         const doc = await resolve(did);
         return doc.publicKey.find((entry: any) => {
             const id = entry.id.split('#');
@@ -37,4 +36,4 @@ abstract class AbstractAccessList {
 
 }
 
-export default AbstractAccessList;
+export default AbstractAccessController;

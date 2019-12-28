@@ -1,11 +1,10 @@
-type Image {
+type ImageData {
     file: String
-    height: Int
-    width: Int
 }
 
 type ImageMetaData {
     fileHash: String
+    height: Int
     lowResolutionPlaceholderHash: String
     name: String
     thumbnail2xHash: String
@@ -13,6 +12,7 @@ type ImageMetaData {
     thumbnailHash: String
     thumbnailRetinaHash: String
     type: String
+    width: Int
 }
 
 type AddImagesResponse {
@@ -26,8 +26,10 @@ input ImageInput {
 }
 
 type Query {
-    image(hash: String, size: String): Image
+    image(hash: String): ImageMetaData
+    imageData(hash: String): ImageData
     images: [ImageMetaData]
+    imagesData(hashes: [String]): [ImageData]
 }
 
 type Mutation {

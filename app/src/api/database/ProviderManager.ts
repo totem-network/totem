@@ -1,9 +1,9 @@
 import { StorageProviderManager } from 'network';
 // import OrbitDB from 'orbit-db';
-import AccessController from './AccessController';
 import IdentityProvider from './IdentityProvider';
+import registerTotemID from './IdentityResolver';
+import PrivateAccessController from './PrivateAccessController';
 const OrbitDB = require('orbit-db');
-// const OrbitDB = (window as any).OrbitDB;
 const AccessControllers = require('orbit-db-access-controllers');
 const Identities = require('orbit-db-identity-provider');
 
@@ -11,7 +11,7 @@ const Identities = require('orbit-db-identity-provider');
 const Log = require('ipfs-log');
 
 Identities.addIdentityProvider(IdentityProvider);
-AccessControllers.addAccessController({ AccessController });
+AccessControllers.addAccessController({ AccessController: PrivateAccessController });
 
 interface IProvider {
     [key: string]: any;
@@ -44,6 +44,7 @@ interface IDatabaseProviderOptions {
 }
 
 interface ICreateDatabaseOptions {
+    accessController?: any;
     name: string;
     network: string;
     platform: string;
@@ -53,6 +54,7 @@ interface ICreateDatabaseOptions {
 }
 
 interface IOpenDatabaseOptions {
+    accessController?: any;
     path: string;
     network: string;
     platform: string;
@@ -156,7 +158,7 @@ class ProviderManager {
 
         if (!this.databases[options.platform][options.network][options.provider][options.path]) {
             this.databases[options.platform][options.network][options.provider][options.path]
-                = this.loadDatabaseInstance(options);
+                = await this.loadDatabaseInstance(options);
         }
 
         return this.databases[options.platform][options.network][options.provider][options.path];
@@ -166,6 +168,12 @@ class ProviderManager {
         if (options.provider === 'orbit-db') {
             const ipfs = await StorageProviderManager.getProvider(options.platform, options.network);
 
+            registerTotemID(ipfs, { pin: true });
+
+            // TODO: does not handle await correctly with version 0.21.5/0.36.4!
+            // -> issue with async ipfs.id(), fixed in 0.38
+            // TODO: give identity via options as second parameter and other options,
+            // identity is also given in BaseDatabase
             return OrbitDB.createInstance(ipfs);
         }
 
@@ -194,7 +202,7 @@ class ProviderManager {
                 {
                     accessController: {
                         skipManifest: true,
-                        type: 'TotemAccess',
+                        type: 'TotemPrivateAccess',
                         // TODO: write: [...publicKeys]
                     },
                     // TODO: this option is required now but will likely not be in the future.
@@ -223,7 +231,10 @@ class ProviderManager {
                 return;
             }
 
-            const database = await provider[options.type](options.path);
+            const database = await provider[options.type](options.path, {
+                accessController: options.accessController,
+            });
+
             await database.load();
 
             return database;

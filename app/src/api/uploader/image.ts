@@ -1,8 +1,4 @@
-import { KeyRing } from 'account';
-import { utils } from 'ethers';
 import { StorageProviderManager } from 'network';
-import { getCurrentNetwork } from 'utils/blockchain';
-import { encryptFile, encryptFiles } from '../utils/encryption';
 
 interface IImageJsonOptions {
     fileHash: string;
@@ -37,7 +33,7 @@ interface IImageUploadResult {
     data?: IImageJsonOptions;
 }
 
-const imageUploader = async (options: IImageUploadOptions): Promise<IImageUploadResult> => {
+const imageUploader = async (options: IImageUploadOptions, identity: any): Promise<IImageUploadResult> => {
     const result: IImageUploadResult = {};
 
     const files = [];
@@ -85,15 +81,7 @@ const imageUploader = async (options: IImageUploadOptions): Promise<IImageUpload
         });
     }
 
-    const currentNetwork = getCurrentNetwork();
-
-    const keyPair = await KeyRing.getAsymetricKeyPair(currentNetwork.platform, currentNetwork.network);
-
-    if (!keyPair) {
-        return result;
-    }
-
-    const encryptedFiles = encryptFiles(files, [keyPair.publicKey]);
+    const encryptedFiles = identity.encryptFiles(files);
 
     // TODO: get storage provider network from state
     const ipfsNode = await StorageProviderManager.getProvider('ipfs', '1');
@@ -121,10 +109,10 @@ const imageUploader = async (options: IImageUploadOptions): Promise<IImageUpload
 
     const imageJson = createImageJson(imageJsonOptions);
 
-    const encryptedImageJson = encryptFile({
+    const encryptedImageJson = identity.encryptFiles([{
         data: imageJson,
         name: options.name,
-    }, [keyPair.publicKey], encryptedFiles.secretKey);
+    }], [], encryptedFiles.secretKey);
 
     const encryptedImageBuffer = Buffer.from(
         JSON.stringify({

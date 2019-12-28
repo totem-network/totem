@@ -1,7 +1,11 @@
+/**
+ * Based on the code of https://github.com/3box/orbit-db-access-controllers
+ * Licensed under MIT License with copyright belonging to 3box and their contributors
+ */
+
 import { boxes } from 'account';
 import base64url from 'base64url';
 const { verifyJWT } = require('did-jwt');
-const Identities = require('orbit-db-identity-provider');
 
 const encodeSection = (data: any) => base64url.encode(JSON.stringify(data));
 
@@ -33,24 +37,23 @@ class IdentityProvider {
 
     protected identity: any;
 
-    constructor(identity: any) {
-        // TODO: identity is a IdentityWallet from 3box
+    constructor({ identity }: any) {
         this.identity = identity;
     }
 
     public async getId() {
-        // TODO: convert to did
-        // TODO: maybe not working -> needs public key from identity
-        return this.identity.getAddress();
+        return this.identity.getDID();
     }
 
     public async signIdentity(data: any) {
-        // TODO: sign with IdentityWallet.signClaim
-        return this.identity.signClaim(data);
+        const payload = {
+            data,
+            iat: null,
+        };
+
+        return (await this.identity.sign(payload)).split('.')[2];
     }
 
 }
-
-Identities.addIdentityProvider(IdentityProvider);
 
 export default IdentityProvider;

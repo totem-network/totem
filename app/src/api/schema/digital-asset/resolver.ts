@@ -3,6 +3,7 @@ import { Contract, utils } from 'ethers';
 import { Provider } from 'ethers/providers/abstract-provider';
 import { BlockchainProviderManager, currentNetworkSelector, fetchFee } from 'network';
 import { store } from 'state';
+import { getCurrentNetworkProvider, getCurrentNetworkSigner } from 'utils/blockchain';
 import { containsAddress } from 'utils/ethereum';
 import ERC721Abi from './erc721';
 
@@ -63,16 +64,12 @@ const updateERC721Contracts = async (account: string, space: any) => {
 };
 
 const getERC721Contracts = async (account: string, provider: Provider) => {
-    // TODO: make 3box compatible with ethers.js providers
+    const currentSigner = await getCurrentNetworkSigner();
 
-    if (!(
-        window &&
-        (window as any).ethereum
-    )) {
-        return [];
-    }
-
-    const box = await boxes.openBox(account, (window as any).ethereum);
+    const box = await boxes.openBox(
+        account,
+        boxes.wrapEthersSigner(currentSigner),
+    );
 
     const space = await box.openSpace('totem');
 
@@ -88,13 +85,7 @@ const getERC721Contracts = async (account: string, provider: Provider) => {
 };
 
 const getERC721Data = async (account: string, contract: string) => {
-    const state = store.getState();
-    const currentNetwork = currentNetworkSelector(state);
-
-    const web3 = await BlockchainProviderManager.getProvider(
-        currentNetwork.platform,
-        currentNetwork.network,
-    );
+    const web3 = await getCurrentNetworkProvider();
 
     if (!web3) {
         return {
@@ -106,17 +97,19 @@ const getERC721Data = async (account: string, contract: string) => {
 
     const assetContract = new Contract(contract, ERC721Abi, web3);
 
-    const name = await assetContract.name();
-
-    if (!name) {
-        return {
-            contract,
-            images: [],
-            name: '???',
-        };
+    let name = '???';
+    try {
+        name = await assetContract.name();
+    } catch (error) {
+        name = 'Error loading name';
     }
 
-    const balance = await assetContract.balanceOf(account);
+    let balance = 0;
+    try {
+        balance = await assetContract.balanceOf(account);
+    } catch (error) {
+        //
+    }
 
     let maxTokens = 4;
     if (balance < maxTokens) {
@@ -162,13 +155,7 @@ const getERC721Data = async (account: string, contract: string) => {
 };
 
 const getERC721Tokens = async (account: string, contract: string) => {
-    const state = store.getState();
-    const currentNetwork = currentNetworkSelector(state);
-
-    const web3 = await BlockchainProviderManager.getProvider(
-        currentNetwork.platform,
-        currentNetwork.network,
-    );
+    const web3 = await getCurrentNetworkProvider();
 
     if (!web3) {
         return [];
@@ -213,13 +200,7 @@ const getERC721Tokens = async (account: string, contract: string) => {
 };
 
 const getERC721TokenData = async (contract: string, tokenId: string) => {
-    const state = store.getState();
-    const currentNetwork = currentNetworkSelector(state);
-
-    const web3 = await BlockchainProviderManager.getProvider(
-        currentNetwork.platform,
-        currentNetwork.network,
-    );
+    const web3 = await getCurrentNetworkProvider();
 
     if (!web3) {
         return {
@@ -303,12 +284,8 @@ const getERC721TokenData = async (contract: string, tokenId: string) => {
 const sendToken = async (contract: string, token: string, to: string, fee: string) => {
     const state = store.getState();
     const account = accountAddressSelector(state);
-    const currentNetwork = currentNetworkSelector(state);
 
-    const web3Signer = await BlockchainProviderManager.getSigner(
-        currentNetwork.platform,
-        currentNetwork.network,
-    );
+    const web3Signer = await getCurrentNetworkSigner();
 
     if (!web3Signer) {
         return false;
@@ -332,12 +309,8 @@ export default {
         }: any) => {
             const state = store.getState();
             const account = accountAddressSelector(state);
-            const currentNetwork = currentNetworkSelector(state);
 
-            const web3 = await BlockchainProviderManager.getProvider(
-                currentNetwork.platform,
-                currentNetwork.network,
-            );
+            const web3 = await getCurrentNetworkProvider();
 
             if (!web3) {
                 return {
@@ -355,18 +328,12 @@ export default {
                 };
             }
 
-            // TODO: make 3box compatible with ethers.js providers
+            const currentSigner = await getCurrentNetworkSigner();
 
-            if (!(
-                window &&
-                (window as any).ethereum
-            )) {
-                return {
-                    result: false,
-                };
-            }
-
-            const box = await boxes.openBox(account, (window as any).ethereum);
+            const box = await boxes.openBox(
+                account,
+                boxes.wrapEthersSigner(currentSigner),
+            );
 
             const space = await box.openSpace('totem');
 
@@ -409,12 +376,8 @@ export default {
 
             const state = store.getState();
             const account = accountAddressSelector(state);
-            const currentNetwork = currentNetworkSelector(state);
 
-            const web3 = BlockchainProviderManager.getProvider(
-                currentNetwork.platform,
-                currentNetwork.network,
-            );
+            const web3 = getCurrentNetworkProvider();
 
             if (!web3) {
                 return digitalAssetTokens;
@@ -447,12 +410,8 @@ export default {
 
             const state = store.getState();
             const account = accountAddressSelector(state);
-            const currentNetwork = currentNetworkSelector(state);
 
-            const web3 = await BlockchainProviderManager.getProvider(
-                currentNetwork.platform,
-                currentNetwork.network,
-            );
+            const web3 = await getCurrentNetworkProvider();
 
             if (!web3) {
                 return digitalAssets;

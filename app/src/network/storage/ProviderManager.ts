@@ -54,9 +54,18 @@ class ProviderManager {
                 // TODO: different IPFS networks
             }
 
-            return IPFS.create({
+            const node = new IPFS({
                 EXPERIMENTAL: { pubsub: true },
+                repo: 'totem',
             });
+            await node.ready;
+
+            return node;
+
+            // TODO: for ipfs version >= 0.37
+            /*return IPFS.create({
+                EXPERIMENTAL: { pubsub: true },
+            });*/
         }
 
         return;

@@ -1,4 +1,5 @@
 import { INITIALIZE } from 'app';
+import coinTypes from 'bip44-constants';
 import { providers } from 'ethers';
 import { call, put, take } from 'redux-saga/effects';
 import { setCurrentNetwork } from '../../actions/blockchain/currentNetwork';
@@ -30,21 +31,21 @@ export default function* initializeSaga() {
     const network = initializeAction.payload.ethereum.networkVersion;
 
     try {
+        const ethereum = coinTypes.filter((item: any) => item[1] === 'ETH');
+
         const provider = new providers.Web3Provider(initializeAction.payload.ethereum);
 
         ProviderManager.setProvider(
-            'ethereum',
-            network,
+            ethereum[0][0],
             provider,
         );
 
         ProviderManager.setSigner(
-            'ethereum',
-            network,
+            ethereum[0][0],
             provider.getSigner(),
         );
 
-        yield put(setCurrentNetwork('ethereum', network));
+        yield put(setCurrentNetwork(ethereum[0][0]));
     } catch (error) {
         //
     }

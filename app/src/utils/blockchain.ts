@@ -10,8 +10,7 @@ export const getCurrentNetworkSigner = async () => {
     const currentNetwork = getCurrentNetwork();
 
     const web3Signer = await BlockchainProviderManager.getSigner(
-        currentNetwork.platform,
-        currentNetwork.network,
+        currentNetwork.coinType,
     );
 
     return web3Signer;
@@ -21,8 +20,7 @@ export const getCurrentNetworkProvider = async () => {
     const currentNetwork = getCurrentNetwork();
 
     const web3Provider = await BlockchainProviderManager.getProvider(
-        currentNetwork.platform,
-        currentNetwork.network,
+        currentNetwork.coinType,
     );
 
     return web3Provider;

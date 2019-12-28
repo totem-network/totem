@@ -1,3 +1,4 @@
+import { utils } from 'ethers';
 // const Box = require('3box');
 
 // TODO: https://github.com/ipfs/js-datastore-level is using leveldown instead of level-js
@@ -33,6 +34,20 @@ class Boxes {
         const Box = boxImport.default;
 
         return Box.idUtils.verifyClaim(claim, options);
+    }
+
+    public wrapEthersSigner(signer: any) {
+        return {
+            send: (data: any, callback: any) => {
+                if (data.method === 'personal_sign') {
+                    signer.signMessage(utils.toUtf8String(data.params[0])).then((result: any) => {
+                        callback(null, { result });
+                    });
+                } else {
+                    callback(null, '0x');
+                }
+            },
+        };
     }
 
 }

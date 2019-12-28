@@ -6,8 +6,7 @@ import {
 } from '../../actions/blockchain/currentNetwork';
 
 interface ICurrentNetworkState {
-    network?: string;
-    platform?: string;
+    coinType?: string;
 }
 
 export interface IImmutableCurrentNetworkState extends IImmutableStateMap<ICurrentNetworkState> {}
@@ -21,8 +20,7 @@ function currentNetworkReducer(
 
     switch (action.type) {
         case SET_CURRENT_NETWORK:
-            return state.set('network', action.payload.network)
-                .set('platform', action.payload.platform);
+            return state.set('coinType', action.payload.coinType);
     }
 
     return state;

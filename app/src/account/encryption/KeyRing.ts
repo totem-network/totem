@@ -2,33 +2,50 @@ import { BlockchainProviderManager } from 'network';
 import { box, BoxKeyPair } from 'tweetnacl';
 import { deriveAsymetricKeyPairFromSeed, getSeedFromWeb3Signer } from 'utils/encryption';
 
-interface IKeyPairNetworks {
+interface IKeyPairs {
     [key: string]: BoxKeyPair;
 }
 
-interface IKeyPairs {
-    [key: string]: IKeyPairNetworks;
+interface ISeeds {
+    [key: string]: string;
 }
 
 class KeyRing {
 
     protected keyPairs: IKeyPairs;
 
+    protected seeds: ISeeds;
+
     constructor() {
         this.keyPairs = {};
+        this.seeds = {};
     }
 
-    // TODO: save to local storage and load
+    public async getAsymetricKeyPair(coinType: string): Promise<BoxKeyPair | undefined> {
+        if (!this.keyPairs[coinType]) {
+            const web3Signer = await BlockchainProviderManager.getSigner(coinType);
 
-    public async getAsymetricKeyPair(platform: string, network: string): Promise<BoxKeyPair | undefined> {
+            if (!web3Signer) {
+                return;
+            }
 
-        // TODO: try to get from local storage first
-        if (!this.keyPairs[platform]) {
-            this.keyPairs[platform] = {};
+            const seed = await this.getSeed(coinType);
+
+            if (!seed) {
+                return;
+            }
+
+            this.keyPairs[coinType] = deriveAsymetricKeyPairFromSeed(seed);
         }
 
-        if (!this.keyPairs[platform][network]) {
-            const web3Signer = await BlockchainProviderManager.getSigner(platform, network);
+        return this.keyPairs[coinType];
+    }
+
+    public async getSeed(coinType: string): Promise<string | undefined> {
+        // TODO: try to get from local storage first
+        // TODO: save to local storage and load
+        if (!this.seeds[coinType]) {
+            const web3Signer = await BlockchainProviderManager.getSigner(coinType);
 
             if (!web3Signer) {
                 return;
@@ -36,10 +53,10 @@ class KeyRing {
 
             const seed = await getSeedFromWeb3Signer(web3Signer);
 
-            this.keyPairs[platform][network] = deriveAsymetricKeyPairFromSeed(seed);
+            this.seeds[coinType] = seed;
         }
 
-        return this.keyPairs[platform][network];
+        return this.seeds[coinType];
     }
 
 }

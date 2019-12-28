@@ -1,8 +1,8 @@
 import { accountAddressSelector, boxes } from 'account';
 import { Contract, utils } from 'ethers';
-import { Provider } from 'ethers/providers/abstract-provider';
-import { BlockchainProviderManager, currentNetworkSelector, fetchFee } from 'network';
+import { currentNetworkSelector, fetchFee } from 'network';
 import { store } from 'state';
+import { getCurrentNetworkProvider, getCurrentNetworkSigner } from 'utils/blockchain';
 import { containsAddress } from 'utils/ethereum';
 import ERC20AbiJSON from './erc20.json';
 
@@ -15,17 +15,13 @@ import ERC20AbiJSON from './erc20.json';
 
 const ERC20Abi = JSON.stringify(ERC20AbiJSON);
 
-const getERC20Contracts = async (account: string, provider: Provider) => {
-    // TODO: make 3box compatible with ethers.js providers
+const getERC20Contracts = async (account: string) => {
+    const currentSigner = await getCurrentNetworkSigner();
 
-    if (!(
-        window &&
-        (window as any).ethereum
-    )) {
-        return [];
-    }
-
-    const box = await boxes.openBox(account, (window as any).ethereum);
+    const box = await boxes.openBox(
+        account,
+        boxes.wrapEthersSigner(currentSigner),
+    );
 
     const space = await box.openSpace('totem');
 
@@ -61,10 +57,7 @@ const getERC20Data = async (account: string, contract: string) => {
     const state = store.getState();
     const currentNetwork = currentNetworkSelector(state);
 
-    const web3 = await BlockchainProviderManager.getProvider(
-        currentNetwork.platform,
-        currentNetwork.network,
-    );
+    const web3 = await getCurrentNetworkProvider();
 
     if (!web3) {
         return defaultResult;
@@ -119,6 +112,7 @@ const sendEther = async (amount: string, to: string, fee: string) => {
         return false;
     }
 
+    // TODO: use ethers.js
     const web3 = (window as any).ethereum;
 
     const params = [{
@@ -139,13 +133,7 @@ const sendEther = async (amount: string, to: string, fee: string) => {
 };
 
 const sendToken = async (contract: string, amount: string, to: string, fee: string) => {
-    const state = store.getState();
-    const currentNetwork = currentNetworkSelector(state);
-
-    const web3Signer = await BlockchainProviderManager.getSigner(
-        currentNetwork.platform,
-        currentNetwork.network,
-    );
+    const web3Signer = await getCurrentNetworkSigner();
 
     if (!web3Signer) {
         return false;
@@ -178,12 +166,8 @@ export default {
         }: any) => {
             const state = store.getState();
             const account = accountAddressSelector(state);
-            const currentNetwork = currentNetworkSelector(state);
 
-            const web3 = await BlockchainProviderManager.getProvider(
-                currentNetwork.platform,
-                currentNetwork.network,
-            );
+            const web3 = await getCurrentNetworkProvider();
 
             if (!web3) {
                 return {
@@ -201,18 +185,12 @@ export default {
                 };
             }
 
-            // TODO: make 3box compatible with ethers.js providers
+            const currentSigner = await getCurrentNetworkSigner();
 
-            if (!(
-                window &&
-                (window as any).ethereum
-            )) {
-                return {
-                    result: false,
-                };
-            }
-
-            const box = await boxes.openBox(account, (window as any).ethereum);
+            const box = await boxes.openBox(
+                account,
+                boxes.wrapEthersSigner(currentSigner),
+            );
 
             const space = await box.openSpace('totem');
 
@@ -282,10 +260,7 @@ export default {
             const account = accountAddressSelector(state);
             const currentNetwork = currentNetworkSelector(state);
 
-            const web3 = await BlockchainProviderManager.getProvider(
-                currentNetwork.platform,
-                currentNetwork.network,
-            );
+            const web3 = await getCurrentNetworkProvider();
 
             if (!web3) {
                 return cryptoCurrencies;
@@ -326,7 +301,7 @@ export default {
                 symbol: 'ETH',
             });
 
-            const erc20Contracts = await getERC20Contracts(account, web3);
+            const erc20Contracts = await getERC20Contracts(account);
 
             for (const token of erc20Contracts) {
                 cryptoCurrencies.push(

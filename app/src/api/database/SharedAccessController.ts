@@ -1,6 +1,10 @@
-import AbstractAccessList from './AbstractAccessList';
+import AbstractAccessController from './AbstractAccessController';
 
-class SharedAccessList extends AbstractAccessList {
+class SharedAccessList extends AbstractAccessController {
+
+    public static get type() {
+        return 'TotemSharedAccess';
+    }
 
     protected address: any;
 

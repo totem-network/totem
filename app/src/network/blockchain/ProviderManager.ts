@@ -1,22 +1,15 @@
+import coinTypes from 'bip44-constants';
 import { providers, Signer } from 'ethers';
 import { Provider } from 'ethers/providers/abstract-provider';
 
 // const ProviderBridge = require('ethers-provider-bridge');
 
-interface IProviderNetworks {
+interface IProviders {
     [key: string]: Provider;
 }
 
-interface IProviders {
-    [key: string]: IProviderNetworks;
-}
-
-interface ISignerNetworks {
-    [key: string]: Signer;
-}
-
 interface ISigners {
-    [key: string]: ISignerNetworks;
+    [key: string]: Signer;
 }
 
 class ProviderManager {
@@ -37,32 +30,23 @@ class ProviderManager {
     }
 
     public setProvider(
-        platform: string,
-        network: string,
+        coinType: string,
         provider: Provider,
     ): ProviderManager {
-        if (!this.providers[platform]) {
-            this.providers[platform] = {};
-        }
-
-        this.providers[platform][network] = provider;
+        this.providers[coinType] = provider;
 
         return this;
     }
 
-    public async getProvider(platform: string, network: string): Promise<Provider | undefined> {
-        if (!this.providers[platform]) {
-            return;
-        }
-
-        if (!this.providers[platform][network]) {
-            const provider = await this.createProvider(platform, network);
+    public async getProvider(coinType: string): Promise<Provider | undefined> {
+        if (!this.providers[coinType]) {
+            const provider = await this.createProvider(coinType);
             if (provider) {
-                this.providers[platform][network] = provider;
+                this.providers[coinType] = provider;
             }
         }
 
-        return this.providers[platform][network];
+        return this.providers[coinType];
     }
 
     public bridgeProvider(provider: Provider, signer: Signer) {
@@ -71,34 +55,27 @@ class ProviderManager {
     }
 
     public setSigner(
-        platform: string,
-        network: string,
+        coinType: string,
         signer: Signer,
     ): ProviderManager {
-        if (!this.signers[platform]) {
-            this.signers[platform] = {};
-        }
-
-        this.signers[platform][network] = signer;
+        this.signers[coinType] = signer;
 
         return this;
     }
 
-    public async getSigner(platform: string, network: string): Promise<Signer | undefined> {
-        if (!this.signers[platform]) {
+    public async getSigner(coinType: string): Promise<Signer | undefined> {
+        if (!this.signers[coinType]) {
             return;
         }
 
-        if (!this.signers[platform][network]) {
-            return;
-        }
-
-        return this.signers[platform][network];
+        return this.signers[coinType];
     }
 
-    protected async createProvider(platform: string, network: string): Promise<Provider | undefined> {
-        if (platform === 'ethereum') {
-            if (network === '1') {
+    protected async createProvider(coinType: string): Promise<Provider | undefined> {
+        const ethereum = coinTypes.filter((item: any) => item[1] === 'ETH');
+
+        if (ethereum.length === 1) {
+            if (coinType === ethereum[0][0]) {
                 return new providers.InfuraProvider();
             }
         }

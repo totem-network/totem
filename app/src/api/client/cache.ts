@@ -18,10 +18,10 @@ const createCache = async () => {
     });
 
     // await before instantiating ApolloClient, else queries might run before the cache is persisted
-    await persistCache({
+    /*await persistCache({
         cache,
         storage: window.localStorage,
-    });
+    });*/
 
     return cache;
 };

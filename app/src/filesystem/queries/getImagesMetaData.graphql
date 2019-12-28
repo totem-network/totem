@@ -1,0 +1,8 @@
+query images {
+    images {
+        fileHash
+        height
+        lowResolutionPlaceholderHash
+        width
+    }
+}

@@ -13,12 +13,14 @@ export default function* initializeSaga() {
         repo: 'totem',
     });*/
 
-    /*const node = yield call(() => {
+    const node = yield call(() => {
         return new Ipfs({
             EXPERIMENTAL: { pubsub: true },
             repo: 'totem',
         });
     });
 
-    yield call(ProviderManager.setProvider, 'ipfs', '1', node);*/
+    yield node.ready;
+
+    yield call(ProviderManager.setProvider, 'ipfs', '1', node);
 }

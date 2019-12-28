@@ -1,22 +1,23 @@
 import { accountAddressSelector, boxes } from 'account';
 import { store } from 'state';
-import DatabaseProviderManager from '../database/ProviderManager';
+import { getCurrentNetwork, getCurrentNetworkSigner } from 'utils/blockchain';
+import Identity from './Identity';
+import DatabaseProviderManager from './ProviderManager';
 const Identities = require('orbit-db-identity-provider');
 
 interface IDatabaseInitializationOptions {
+    accessController: any;
     type: string;
     // TODO: dbs that are not stored in totem space
 }
 
 abstract class BaseDatabase {
 
+    protected identity: any;
+
     protected totemSpace: any;
 
     protected database: any;
-
-    constructor() {
-        this.init();
-    }
 
     protected abstract async onInitialize(): Promise<void>;
 
@@ -25,14 +26,23 @@ abstract class BaseDatabase {
     protected async init() {
         this.totemSpace = await this.getTotemSpace();
 
-        this.onInitialize();
+        await this.onInitialize();
+        await this.onReady();
+
+        return;
     }
 
     protected async getTotemSpace() {
         const state = store.getState();
         const account = accountAddressSelector(state);
 
-        const box = await boxes.openBox(account, (window as any).ethereum);
+        // TODO: current ethereum signer not other signers!
+        const currentSigner = await getCurrentNetworkSigner();
+
+        const box = await boxes.openBox(
+            account,
+            boxes.wrapEthersSigner(currentSigner),
+        );
 
         const space = await box.openSpace('totem');
 
@@ -45,8 +55,9 @@ abstract class BaseDatabase {
         let database;
         if (!databaseAddress) {
             database = await DatabaseProviderManager.createDatabase({
+                accessController: options.accessController,
                 name,
-                // TODO: network and platform from state
+                // TODO: network and platform from state -> not cointype! like cointype but for storage networks
                 network: '1',
                 platform: 'ipfs',
                 provider: 'orbit-db',
@@ -60,7 +71,8 @@ abstract class BaseDatabase {
             await this.totemSpace.private.set(name, database.id);
         } else {
             database = await DatabaseProviderManager.openDatabase({
-                // TODO: network and platform from state
+                accessController: options.accessController,
+                // TODO: network and platform from state -> not cointype! like cointype but for storage networks
                 network: '1',
                 path: databaseAddress,
                 platform: 'ipfs',
@@ -77,16 +89,20 @@ abstract class BaseDatabase {
             }
         }
 
-        if (!database) {
+        if (!database || !database._ipfs) {
             return;
         }
 
-        const identity = Identities.createIdentity({
-            type: 'TotemID',
-            // TODO: Identity Wallet and maybe box instance
-        });
+        // TODO: current ethereum signer not other signers!
+        const currentNetwork = await getCurrentNetwork();
 
-        database.setIdentity(identity);
+        this.identity = await Identity.create(database._ipfs, currentNetwork.coinType);
+        /*await Identities.createIdentity({
+            identity: await Identity.create(database._ipfs, currentNetwork.coinType),
+            type: 'TotemID',
+        });*/
+
+        database.setIdentity(await this.identity.getOrbitDbIdentity());
 
         this.database = database;
 
