@@ -82,6 +82,7 @@ const Avatar = ({
         );
     }
 
+    // TODO: fetch from ipfs not infura!
     return (
         <img src={'https://ipfs.infura.io/ipfs/' + data.getProfile.image} className={classes.avatar} />
     );

@@ -231,11 +231,23 @@ class ProviderManager {
                 return;
             }
 
+            // TODO: When the database from the hash gets removed from the network, this
+            // should throw an error or return a message so that BaseDatabase can create
+            // a new orbitdb database if the user wants to
             const database = await provider[options.type](options.path, {
                 accessController: options.accessController,
             });
 
+            if (!database) {
+                return;
+            }
+
             await database.load();
+
+            // TODO: https://github.com/orbitdb/orbit-db/issues/579
+            database.events.on('replicated', () => {
+                // any remote database content is now replicated to your IPFS node
+            });
 
             return database;
         }

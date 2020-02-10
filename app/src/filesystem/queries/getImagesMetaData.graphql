@@ -3,6 +3,10 @@ query images {
         fileHash
         height
         lowResolutionPlaceholderHash
+        thumbnailHash
+        thumbnailRetinaHash
+        thumbnail2xHash
+        thumbnail2xRetinaHash
         width
     }
 }

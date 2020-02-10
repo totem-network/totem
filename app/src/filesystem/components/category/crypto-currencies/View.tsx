@@ -17,7 +17,9 @@ import Head from './Head';
 import RecieveDialog from './recieve/RecieveDialog';
 import Row from './Row';
 
-export interface ICryptoCurrenciesViewProps {}
+export interface ICryptoCurrenciesViewProps {
+    instance: string;
+}
 
 const useStyles = makeStyles({
     container: {
@@ -29,7 +31,9 @@ const useStyles = makeStyles({
     },
 });
 
-const CryptoCurrenciesView = ({}: ICryptoCurrenciesViewProps) => {
+const CryptoCurrenciesView = ({
+    instance,
+}: ICryptoCurrenciesViewProps) => {
     const classes = useStyles();
 
     const apolloClient = useApolloClient();

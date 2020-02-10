@@ -1,0 +1,19 @@
+
+type Edge {
+    cursor: String
+    node: Node
+}
+
+type Node {
+    id: String
+    name: String
+}
+
+type PageInfo {
+    hasNextPage: Boolean
+}
+
+interface Paginatable {
+    edges: [Edge]
+    pageInfo: PageInfo
+}

@@ -11,7 +11,6 @@ const ImagesDataComponent = ({
     data,
     width,
 }: IImagesDataComponentProps) => {
-
     const imageSizes = data.images.map((image: any, index: number) => {
         return {
             height: image.height,

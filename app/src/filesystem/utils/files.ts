@@ -16,6 +16,7 @@ export const getFileType = async (file: Blob | File): Promise<string> => {
             }
 
             switch (type.mime) {
+                // TODO: raw types: http://osp.wikidot.com/raw
                 // TODO: svg
                 case 'image/bmp':
                 case 'image/flif':

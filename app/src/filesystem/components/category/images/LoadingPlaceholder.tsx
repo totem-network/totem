@@ -1,11 +1,11 @@
 import { makeStyles } from '@material-ui/styles';
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
     animated,
     useSpring,
 } from 'react-spring';
 
-export interface IImageProps {
+export interface ILoadingPlaceholderProps {
     height: number;
     width: number;
 }
@@ -16,10 +16,10 @@ const useStyles = makeStyles({
     },
 });
 
-const Image = ({
+const LoadingPlaceholder = ({
     height,
     width,
-}: IImageProps) => {
+}: ILoadingPlaceholderProps) => {
     const classes = useStyles();
 
     const imageStyle = {
@@ -31,18 +31,26 @@ const Image = ({
 
     // TODO: crashes when resizing the browser, window or move the window
     // Maybe https://github.com/react-spring/react-spring/issues/741 helps
+    // With useCallback it crashes after state change when moving window
+    // maybe useReducer to query to redux store and pack it into useCallback
     const springProps = useSpring({
         from: {
             ...imageStyle,
-            backgroundPosition: imageStyle.width * -1,
+            backgroundPosition: width * -1,
         },
         reset: true,
-        to: async (next: any) => {
-            while (1) {
-                await next({
-                    backgroundPosition: imageStyle.width,
-                });
-            }
+        /*to: useCallback(
+            async (next) => {
+                while (1) {
+                    await next({
+                        backgroundPosition: width,
+                    });
+                }
+            },
+            [width],
+        ),*/
+        to: {
+            backgroundPosition: width,
         },
     });
 
@@ -54,4 +62,4 @@ const Image = ({
     );
 };
 
-export default Image;
+export default LoadingPlaceholder;

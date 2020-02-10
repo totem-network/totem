@@ -24,27 +24,9 @@ class PrivateImageDatabase extends AbstractImageDatabase {
         return database;
     }
 
-    // TODO: move to parent class
-    public async addImage(imageHash: any) {
-        if (!this.database) {
-            return;
-        }
-
-        return this.database.add(imageHash);
-    }
-
-    // TODO: move to parent class
-    public async getImages() {
-        if (!this.database) {
-            return;
-        }
-
-        const all = this.database.iterator({ limit: -1 })
-            .collect();
-            // .map((e: any) => alert(e.payload.value));
-
-        return all;
-    }
+    /********************
+     * Initialization
+     ********************/
 
     protected async onInitialize() {
         this.initDatabase('images', PrivateImageDatabase.DB_OPTIONS);

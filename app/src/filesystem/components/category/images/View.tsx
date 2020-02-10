@@ -9,7 +9,9 @@ import ViewNavButton from '../../view-nav/Button';
 import ViewNav from '../../view-nav/ViewNav';
 import ImagesDataComponent from './ImagesDataComponent';
 
-export interface IImagesViewProps {}
+export interface IImagesViewProps {
+    instance: string;
+}
 
 const useStyles = makeStyles({
     container: {
@@ -22,7 +24,9 @@ const useStyles = makeStyles({
     },
 });
 
-const ImagesView = ({}: IImagesViewProps) => {
+const ImagesView = ({
+    instance,
+}: IImagesViewProps) => {
     const classes = useStyles();
 
     const containerElement = useRef(null);

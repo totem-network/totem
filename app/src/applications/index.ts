@@ -19,6 +19,7 @@ import reducer, { IImmutableApplicationsState } from './reducers';
 import sagas from './sagas';
 import instancesSelector from './selectors/instances';
 import showTaskManagerSelector from './selectors/showTaskManager';
+import windowSelector from './selectors/window';
 import windowsSelector from './selectors/windows';
 
 export {
@@ -38,5 +39,6 @@ export {
     showTaskManagerSelector,
     TaskTitle,
     Window,
+    windowSelector,
     windowsSelector,
 };

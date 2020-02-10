@@ -10,6 +10,13 @@ export const createApolloClient = async () => {
 
     const apolloLink = ApolloLink.from(
         [
+            // TODO: queries are fetched in a blocking order, but this should be possible
+            // Query A send
+            // Query B send
+            // Query B resolved
+            // Query A resolved
+            // Maybe webworker fixes this
+
             new SchemaLink({
                 rootValue: rootResolver,
                 schema,

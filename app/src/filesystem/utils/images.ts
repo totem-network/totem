@@ -4,6 +4,7 @@ export interface IImageSize {
     width: number;
 }
 
+// TODO: Be sure there is no malicious image url
 export const getImageSize = async (image: string): Promise<IImageSize> => {
     return new Promise((resolve, reject) => {
         const imageObject = new Image();

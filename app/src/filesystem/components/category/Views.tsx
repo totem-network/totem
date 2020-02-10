@@ -42,15 +42,21 @@ const Views = ({
         switch (instanceCategory) {
             case 'crypto-currencies':
                 return (
-                    <CryptoCurrencies />
+                    <CryptoCurrencies
+                        instance={instance}
+                    />
                 );
             case 'digital-assets':
                 return (
-                    <DigitalAssets />
+                    <DigitalAssets
+                        instance={instance}
+                    />
                 );
             case 'images':
                 return (
-                    <Images />
+                    <Images
+                        instance={instance}
+                    />
                 );
         }
     };

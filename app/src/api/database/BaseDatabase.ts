@@ -11,13 +11,28 @@ interface IDatabaseInitializationOptions {
     // TODO: dbs that are not stored in totem space
 }
 
+// TODO: Put all orbit-db wrappers (db, index and relations) in single package @totem/base-db
 abstract class BaseDatabase {
+
+    protected NO_DATABASE_ERROR = 'No database';
+
+    protected NO_IDENTITY_ERROR = 'No identity set in database';
+
+    protected NO_IPFS_ERROR = 'No ipfs in database';
+
+    protected NOT_READY_ERROR = 'Database not ready';
 
     protected identity: any;
 
     protected totemSpace: any;
 
     protected database: any;
+
+    protected ready: boolean = false;
+
+    /********************
+     * Initialization
+     ********************/
 
     protected abstract async onInitialize(): Promise<void>;
 
@@ -29,24 +44,9 @@ abstract class BaseDatabase {
         await this.onInitialize();
         await this.onReady();
 
+        this.ready = true;
+
         return;
-    }
-
-    protected async getTotemSpace() {
-        const state = store.getState();
-        const account = accountAddressSelector(state);
-
-        // TODO: current ethereum signer not other signers!
-        const currentSigner = await getCurrentNetworkSigner();
-
-        const box = await boxes.openBox(
-            account,
-            boxes.wrapEthersSigner(currentSigner),
-        );
-
-        const space = await box.openSpace('totem');
-
-        return space;
     }
 
     protected async initDatabase(name: string, options: IDatabaseInitializationOptions) {
@@ -84,6 +84,8 @@ abstract class BaseDatabase {
 
             if (!database) {
                 // TODO: if hash was outdated create new db
+                // -> not possible, see ProviderManager.loadDatabaseInstance and ipfs.id() async bug
+                // in PrivateImageDatabase, PrivateCryptoCurrencyDatabase, ...
 
                 return;
             }
@@ -107,6 +109,74 @@ abstract class BaseDatabase {
         this.database = database;
 
         this.onReady();
+    }
+
+    protected async getTotemSpace() {
+        const state = store.getState();
+        const account = accountAddressSelector(state);
+
+        // TODO: current ethereum signer not other signers!
+        const currentSigner = await getCurrentNetworkSigner();
+
+        const box = await boxes.openBox(
+            account,
+            boxes.wrapEthersSigner(currentSigner),
+        );
+
+        const space = await box.openSpace('totem');
+
+        return space;
+    }
+
+    /********************
+     * Pagination
+     ********************/
+
+    protected async paginate(options?: any) {
+        // TODO
+    }
+
+    protected formatPagination(options?: any) {
+        return {
+            edges: [],
+            pageInfo: {
+                hasNextPage: false,
+            },
+        };
+    }
+
+    /********************
+     * Checks
+     ********************/
+
+    protected throwIfNoDatabase() {
+        if (!this.database) {
+            throw new Error(this.NO_DATABASE_ERROR);
+        }
+    }
+
+    protected throwIfNoIdentity() {
+        if (!this.identity) {
+            throw new Error(this.NO_IDENTITY_ERROR);
+        }
+    }
+
+    protected throwIfNoIpfs() {
+        this.throwIfNoDatabase();
+
+        if (!this.database._ipfs) {
+            throw new Error(this.NO_IPFS_ERROR);
+        }
+    }
+
+    protected throwIfNotReady() {
+        this.throwIfNoDatabase();
+        this.throwIfNoIdentity();
+        this.throwIfNoIpfs();
+
+        if (!this.ready) {
+            throw new Error(this.NOT_READY_ERROR);
+        }
     }
 
 }

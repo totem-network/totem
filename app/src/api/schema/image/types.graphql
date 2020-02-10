@@ -1,37 +1,65 @@
-type ImageData {
-    file: String
+
+type ImageFiles {
+    fullscreen: String
+    fullscreen2x: String
+    lowResolutionPlaceholder: String
+    source: String
+    thumbnail: String
+    thumbnail2x: String
+    thumbnailLarge: String
+    thumbnailLarge2x: String
 }
 
 type ImageMetaData {
-    fileHash: String
     height: Int
-    lowResolutionPlaceholderHash: String
     name: String
-    thumbnail2xHash: String
-    thumbnail2xRetinaHash: String
-    thumbnailHash: String
-    thumbnailRetinaHash: String
     type: String
     width: Int
 }
 
-type AddImagesResponse {
-    images: [ImageMetaData]
+type Image implements Paginatable {
+    edges: [Edge]
+    files: ImageFiles
+    metaData: ImageMetaData
+    pageInfo: PageInfo
+}
+
+type AddImageResponse implements MutationResult {
+    error: String
+    image: Image
+    result: Boolean
+}
+
+type RemoveImageResponse implements MutationResult {
+    error: String
+    image: Image
+    result: Boolean
+}
+
+type UpdateImageResponse implements MutationResult {
+    error: String
+    image: Image
+    previousImage: Image
     result: Boolean
 }
 
 input ImageInput {
+    dataUrl: String!
     name: String
-    dataUrl: String
+    size: Int
+    mimeType: String
 }
 
 type Query {
-    image(hash: String): ImageMetaData
-    imageData(hash: String): ImageData
-    images: [ImageMetaData]
-    imagesData(hashes: [String]): [ImageData]
+    image(hash: String!): Image
+    images(first: Int, after: String): [Image]
 }
 
 type Mutation {
-    addImages(images: [ImageInput]): AddImagesResponse
+    addImage(image: ImageInput!): AddImageResponse
+    addImages(images: [ImageInput]): [AddImageResponse]
+    removeImage(hash: String!): RemoveImageResponse
+    removeImages(hashes: [String]): [RemoveImageResponse]
+    updateImage(hash: String!, image: ImageInput!): UpdateImageResponse
+    updateImages(hashes: [String], images: [ImageInput]): [UpdateImageResponse]
 }

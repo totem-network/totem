@@ -11,6 +11,7 @@ import LoadingPlaceholder from './LoadingPlaceholder';
 export interface IImageProps {
     height: number;
     imageHash: string;
+    onlyPlaceholder?: boolean;
     placeholderHash: string;
     width: number;
 }
@@ -39,18 +40,47 @@ const useStyles = makeStyles({
 const Image = ({
     height,
     imageHash,
+    onlyPlaceholder,
     placeholderHash,
     width,
 }: IImageProps) => {
     const classes = useStyles();
 
+    // TODO: queries are fetched in a blocking order, but this should be possible
+    // Query A send
+    // Query B send
+    // Query B resolved
+    // Query A resolved
+
+    // Possible solution -> fetch metadata for justified layout
+    // then fetch all placeholders needed for view + scroll view in a paginatable imagesDataQuery
+    // then fetch the thumbnail here but only for in view pics
+
     const apolloClient = useApolloClient();
-    const { loading, error, data } = useQuery(GET_IMAGE_DATA, {
+    const placeholderQuery = useQuery(GET_IMAGE_DATA, {
         client: apolloClient,
+        onCompleted: () => {
+            alert('placeholder');
+        },
         variables: {
             hash: placeholderHash,
         },
     });
+
+    const imageQuery = useQuery(GET_IMAGE_DATA, {
+        client: apolloClient,
+        onCompleted: () => {
+            alert('image');
+        },
+        skip: onlyPlaceholder,
+        variables: {
+            hash: imageHash,
+        },
+    });
+
+    const loading = placeholderQuery.loading;
+    const error = placeholderQuery.error;
+    const data = placeholderQuery.data;
 
     const imageStyle = {
         height,

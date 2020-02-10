@@ -13,7 +13,9 @@ import AddDigitalAssetDialog from './AddDigitalAssetDialog';
 import CategoryCard from './CategoryCard';
 import DigitalAsset from './DigitalAsset';
 
-export interface IDigitalAssetsViewProps {}
+export interface IDigitalAssetsViewProps {
+    instance: string;
+}
 
 const useStyles = makeStyles({
     container: {
@@ -25,7 +27,9 @@ const useStyles = makeStyles({
     },
 });
 
-const DigitalAssetsView = ({}: IDigitalAssetsViewProps) => {
+const DigitalAssetsView = ({
+    instance,
+}: IDigitalAssetsViewProps) => {
     const classes = useStyles();
 
     const [addDigitalAssetDialog, setAddDigitalAssetDialog] = useState(false);
