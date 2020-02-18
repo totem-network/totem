@@ -243,7 +243,7 @@ export default {
         cryptoCurrencies: async (schema: any, {
             address,
         }: any) => {
-            const cryptoCurrencies: Array<{
+            const cryptoCurrencies: {
                 balance: string;
                 data: any;
                 decimals: number;
@@ -254,7 +254,7 @@ export default {
                 name: string;
                 price: string;
                 symbol: string;
-            }> = [];
+            }[] = [];
 
             const state = store.getState();
             const account = accountAddressSelector(state);

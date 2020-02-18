@@ -1,8 +1,4 @@
 import { utils } from 'ethers';
-// const Box = require('3box');
-
-// TODO: https://github.com/ipfs/js-datastore-level is using leveldown instead of level-js
-// shimming does not work
 
 class Boxes {
 
@@ -20,6 +16,7 @@ class Boxes {
         const Box = boxImport.default;
 
         if (!this.boxes[address]) {
+            // TODO: check for storage quota, if too small box wont open!
             this.boxes[address] = await Box.openBox(address, provider);
 
             await this.boxes[address].syncDone;
