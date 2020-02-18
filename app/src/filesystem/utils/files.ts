@@ -1,15 +1,17 @@
-import fileType from 'file-type';
+import FileType from 'file-type/browser';
 
 export const getFileType = async (file: Blob | File): Promise<string> => {
     return new Promise((resolve: (value: string) => void) => {
         const reader = new FileReader();
 
-        reader.onloadend = (event: any) => {
+        // TODO: is async function possible?
+        reader.onloadend = async (event: any) => {
             if (!event.target) {
                 return;
             }
 
-            const type = fileType(event.target.result);
+            // TODO: does not work!
+            const type = await FileType.fromStream(event.target.result);
 
             if (!type) {
                 return;

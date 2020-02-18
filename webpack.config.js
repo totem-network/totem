@@ -107,9 +107,10 @@ const config = {
             defaultAttribute: 'defer'
         }),
         new InjectManifest({
-            importWorkboxFrom: 'local',
             swSrc: './app/src/service-worker.js',
-            include: /\.(html|js|svg)$/
+            include: [
+                /\.(html|js|svg)$/
+            ]
         })
     ],
     resolve: {

@@ -1,4 +1,4 @@
-import fileType from 'file-type';
+import FileType from 'file-type/browser';
 import Jimp from 'jimp';
 import BaseDatabase from '../BaseDatabase';
 
@@ -375,7 +375,7 @@ abstract class AbstractImageDatabase extends BaseDatabase {
 
     protected async getMimeType(image: string): Promise<string> {
         // TODO: implement some checks if given mimeType is correct
-        const type = fileType(Buffer.from(image));
+        const type = await FileType.fromBuffer(Buffer.from(image));
 
         if (type) {
             return type.mime;
