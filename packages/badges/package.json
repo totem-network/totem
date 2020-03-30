@@ -14,6 +14,7 @@
   },
   "author": "Daniel Wagner",
   "license": "ISC",
+  "private": true,
   "devDependencies": {
     "truffle": "^5.0.6",
     "truffle-hdwallet-provider": "^1.0.5",

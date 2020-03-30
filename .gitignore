@@ -1,5 +1,6 @@
 /build
 node_modules
 packages/**/build/app
+packages/**/dist
 packages/**/.zos.session
 packages/**/zos.dev-*

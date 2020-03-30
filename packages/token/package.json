@@ -13,6 +13,7 @@
   },
   "author": "Daniel Wagner",
   "license": "ISC",
+  "private": true,
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",

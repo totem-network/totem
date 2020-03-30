@@ -11,6 +11,7 @@
   },
   "author": "",
   "license": "ISC",
+  "private": true,
   "browserslist": "> 0.25%, not dead",
   "devDependencies": {
     "@babel/core": "^7.5.5",
