@@ -34,9 +34,6 @@ function* uploadFiles(action: IUploadFilesAction) {
                         }],
                     },
                 });*/
-                console.log(addImagesResult);
-                console.log(1);
-                console.log(2);
                 break;
         }
     }

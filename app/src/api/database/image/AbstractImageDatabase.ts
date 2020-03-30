@@ -142,9 +142,9 @@ abstract class AbstractImageDatabase extends BaseDatabase {
     }
 
     public async addImages(imageInputs: IImageInput[]) {
-        // TODO: show notification with loading bar while images are being processed (needs subscription)
+        // TODO: show notification with loading bar while imagesData are being processed (needs subscription)
 
-        // Adds all images to the database and only stores the promises to run in parallel
+        // Adds all imagesData to the database and only stores the promises to run in parallel
         const addImageResults = [];
         for (const imageInput of imageInputs) {
             addImageResults.push(this.addImage(imageInput));
@@ -164,7 +164,7 @@ abstract class AbstractImageDatabase extends BaseDatabase {
     }: IGetImagesOptions) {
         this.throwIfNotReady();
 
-        // TODO: use this.database.iterator() to get all images, then sort via indexes
+        // TODO: use this.database.iterator() to get all imagesData, then sort via indexes
 
         // TODO: pagination for each image
 
@@ -176,13 +176,56 @@ abstract class AbstractImageDatabase extends BaseDatabase {
             return [];
         }
 
-        const imagePromises = imageEntries.map((imageEntry: any) => {
-            return this.getImageMetaData(imageEntry.payload.value);
+        const images = imageEntries.map((imageEntry: any) => {
+            return this.getImageData(imageEntry.payload.value).then(async (imageData) => {
+                const image: any = {
+                    files: {},
+                    metaData: {
+                        height: imageData.height,
+                        name: imageData.name,
+                        type: imageData.type,
+                        width: imageData.width,
+                    },
+                    ...this.formatPagination(),
+                };
+
+                // TODO: only load image files if requested
+
+                image.files.source = this.getImageFile(imageData.hashSource);
+
+                if (imageData.hash48) {
+                    image.files.lowResolutionPlaceholder = this.getImageFile(imageData.hash48);
+                }
+
+                if (imageData.hash180) {
+                    image.files.thumbnail = this.getImageFile(imageData.hash180);
+                }
+
+                if (imageData.hash360) {
+                    image.files.thumbnail2x = this.getImageFile(imageData.hash360);
+                    image.files.thumbnailLarge = image.files.thumbnail2x;
+                }
+
+                if (imageData.hash720) {
+                    image.files.thumbnailLarge2x = this.getImageFile(imageData.hash720);
+                }
+
+                if (imageData.hash1920) {
+                    image.files.fullscreen = this.getImageFile(imageData.hash1920);
+                }
+
+                if (imageData.hash3840) {
+                    image.files.fullscreen2x = this.getImageFile(imageData.hash3840);
+                }
+
+                await this.awaitLoadingFiles(image.files);
+
+                return image;
+            });
         });
 
-        const images = await Promise.all(imagePromises);
+        await Promise.all(images);
 
-        // TODO return with graphql format
         return images;
     }
 
@@ -190,16 +233,28 @@ abstract class AbstractImageDatabase extends BaseDatabase {
      * Image Helper
      ********************/
 
-    protected async getImageMetaData(hash: string) {
+    protected async awaitLoadingFiles(files: any) {
+        const promises: Promise<any>[] = [];
+
+        for (const fileKey in files) {
+            if (files[fileKey]) {
+                promises.push(files[fileKey]);
+            }
+        }
+
+        await Promise.all(promises);
+    }
+
+    protected async getImageData(hash: string): Promise<IImageJsonOptions> {
         this.throwIfNotReady();
 
         const ipfs = this.database._ipfs;
 
-        const encryptedMetaData = await ipfs.cat(hash);
+        const encryptedData = await ipfs.cat(hash);
 
-        const metaData = JSON.parse(this.decrypt(encryptedMetaData, 'metaData')[0].data);
+        const data = JSON.parse(this.decrypt(encryptedData, 'data')[0].data);
 
-        return metaData;
+        return data;
     }
 
     protected async getImageFile(hash: string) {
@@ -229,42 +284,42 @@ abstract class AbstractImageDatabase extends BaseDatabase {
         if (options.dataUrl48) {
             files.push({
                 data: options.dataUrl48,
-                name: '48',
+                name: 'dataUrl48',
             });
         }
 
         if (options.dataUrl180) {
             files.push({
                 data: options.dataUrl180,
-                name: '180',
+                name: 'dataUrl180',
             });
         }
 
         if (options.dataUrl360) {
             files.push({
                 data: options.dataUrl360,
-                name: '360',
+                name: 'dataUrl360',
             });
         }
 
         if (options.dataUrl720) {
             files.push({
                 data: options.dataUrl720,
-                name: '720',
+                name: 'dataUrl720',
             });
         }
 
         if (options.dataUrl1920) {
             files.push({
                 data: options.dataUrl1920,
-                name: '1920',
+                name: 'dataUrl1920',
             });
         }
 
         if (options.dataUrl3840) {
             files.push({
                 data: options.dataUrl3840,
-                name: '3840',
+                name: 'dataUrl3840',
             });
         }
 
@@ -301,7 +356,6 @@ abstract class AbstractImageDatabase extends BaseDatabase {
             width: options.width,
         };
 
-        // TODO: Add resized hashes
         if (fileHashes.dataUrl48) {
             imageJsonOptions.hash48 = fileHashes.dataUrl48;
         }

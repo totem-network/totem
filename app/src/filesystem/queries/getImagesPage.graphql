@@ -1,0 +1,11 @@
+query imagesPage($first: Int, $after: String) {
+    images(first: $first, after: $after) {
+        files {
+            lowResolutionPlaceholder
+        },
+        metaData {
+            height,
+            width
+        }
+    }
+}

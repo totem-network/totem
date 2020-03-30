@@ -80,10 +80,10 @@ abstract class BaseDatabase {
                 type: options.type,
             });
 
-            // TODO: check if user is allowed to write to db
+            // TODO: check if user is allowed to write to or read from db
 
             if (!database) {
-                // TODO: if hash was outdated create new db
+                // TODO: if hash was outdated create new db, but what if only the connection stopped working?
                 // -> not possible, see ProviderManager.loadDatabaseInstance and ipfs.id() async bug
                 // in PrivateImageDatabase, PrivateCryptoCurrencyDatabase, ...
 
@@ -108,7 +108,7 @@ abstract class BaseDatabase {
 
         this.database = database;
 
-        this.onReady();
+        await this.onReady();
     }
 
     protected async getTotemSpace() {
@@ -127,6 +127,14 @@ abstract class BaseDatabase {
 
         return space;
     }
+
+    /********************
+     * Indexes
+     ********************/
+
+    /********************
+     * Relations
+     ********************/
 
     /********************
      * Pagination

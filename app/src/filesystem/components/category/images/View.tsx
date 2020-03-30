@@ -3,7 +3,7 @@ import StoreIcon from '@material-ui/icons/Store';
 import { makeStyles } from '@material-ui/styles';
 import React, { useRef } from 'react';
 import { useComponentSize } from 'ui';
-import GET_IMAGES_META_DATA from '../../../queries/getImagesMetaData.graphql';
+import GET_IMAGES_PAGE from '../../../queries/getImagesPage.graphql';
 import RenderQuery from '../../RenderQuery';
 import ViewNavButton from '../../view-nav/Button';
 import ViewNav from '../../view-nav/ViewNav';
@@ -34,8 +34,11 @@ const ImagesView = ({
     const { width } = useComponentSize(containerElement);
 
     const apolloClient = useApolloClient();
-    const { loading, error, data, refetch } = useQuery(GET_IMAGES_META_DATA, {
+    const { loading, error, data, refetch } = useQuery(GET_IMAGES_PAGE, {
         client: apolloClient,
+        variables: {
+            first: 10,
+        },
     });
 
     return (

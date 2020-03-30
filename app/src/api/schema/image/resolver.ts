@@ -35,10 +35,12 @@ export default {
         }: any) => {
             const database = await PrivateImageDatabase.create();
 
-            return database.getImages({
+            const images = await database.getImages({
                 after,
                 first,
             });
+
+            return images;
         },
 
     },

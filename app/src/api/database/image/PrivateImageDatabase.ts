@@ -15,12 +15,6 @@ class PrivateImageDatabase extends AbstractImageDatabase {
 
         await database.init();
 
-        // TODO: fix for ipfs.id() async bug
-        const sleep = (ms: any) => {
-            return new Promise((resolve) => setTimeout(resolve, ms));
-        };
-        await sleep(5000);
-
         return database;
     }
 
@@ -29,7 +23,7 @@ class PrivateImageDatabase extends AbstractImageDatabase {
      ********************/
 
     protected async onInitialize() {
-        this.initDatabase('images', PrivateImageDatabase.DB_OPTIONS);
+        await this.initDatabase('images', PrivateImageDatabase.DB_OPTIONS);
     }
 
     protected async onReady() {

@@ -10,8 +10,7 @@ export const getFileType = async (file: Blob | File): Promise<string> => {
                 return;
             }
 
-            // TODO: does not work!
-            const type = await FileType.fromStream(event.target.result);
+            const type = await FileType.fromBuffer(event.target.result);
 
             if (!type) {
                 return;
