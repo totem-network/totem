@@ -1,0 +1,1 @@
+// TODO: use a list for settings to iterate, but create handlers, ... in this component

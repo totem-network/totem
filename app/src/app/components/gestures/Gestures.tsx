@@ -1,8 +1,9 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { makeStyles } from '@material-ui/styles';
-import { SwipeFromLeft } from 'gestures';
+import { SwipeFromLeft, SwipeFromTop } from 'gestures';
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { showSystemBarDrawer } from '../../actions/systemBar';
 import { showSideNav } from '../../actions/sideNav';
 
 interface IGesturesProps {}
@@ -32,9 +33,14 @@ const Gestures = ({}: IGesturesProps) => {
         dispatch(showSideNav());
     };
 
+    const swipeFromTop = () => {
+        dispatch(showSystemBarDrawer());
+    };
+
     return (
         <div className={classes.container}>
             <SwipeFromLeft onSwipe={swipeFromLeft} />
+            <SwipeFromTop onSwipe={swipeFromTop} />
         </div>
     );
 };

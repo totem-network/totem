@@ -1,3 +1,4 @@
+import { clearStorage } from './actions/clearStorage';
 import {
     INITIALIZE,
     InitializeAction,
@@ -8,6 +9,7 @@ import {
     SHOW_SIDE_NAV,
     showSideNav,
 } from './actions/sideNav';
+import { HIDE_SYSTEM_BAR_DRAWER } from './actions/systemBar';
 import { UPLOAD_FILES } from './actions/uploadFiles';
 import Logo from './components/branding/Logo';
 import LogoFlat from './components/branding/LogoFlat';
@@ -17,6 +19,8 @@ import web3InitializedSelector from './selectors/web3Initialized';
 
 export {
     appSagas,
+    clearStorage,
+    HIDE_SYSTEM_BAR_DRAWER,
     INITIALIZE,
     InitializeAction,
     initializeSaga,

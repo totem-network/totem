@@ -5,6 +5,7 @@ import Gestures from './../components/gestures/Gestures';
 import LaunchBar from './../components/launch-bar/LaunchBar';
 import Launcher from './../components/launcher/Launcher';
 import SideNav from './../components/side-nav/SideNav';
+import SystemBar from './../components/system-bar/SystemBar';
 
 interface IDesktopProps {}
 
@@ -16,6 +17,7 @@ const Desktop = ({}: IDesktopProps) => {
             <Windows />
             <LaunchBar />
             <SideNav />
+            <SystemBar />
             <Launcher />
         </>
     );
