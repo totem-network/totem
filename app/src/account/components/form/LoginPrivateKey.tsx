@@ -48,7 +48,7 @@ const LoginPrivateKey = ({}: ILoginPrivateKeyProps) => {
                 </div>
                 <div className={classes.buttonWrapper}>
                     <Button type='submit'>
-                        Login
+                        Sign In
                     </Button>
                 </div>
             </Form>

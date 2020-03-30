@@ -137,7 +137,7 @@ const LoginMetaMask = ({}: ILoginMetaMaskProps) => {
                 </div>
                 <div className={classes.buttonWrapper}>
                     <Button type='submit' color='primary' variant="contained">
-                        Login
+                        Sign In
                     </Button>
                 </div>
             </Form>

@@ -6,6 +6,7 @@ import { IImmutableNetworkState, reducer as networkReducer } from 'network';
 import { AnyAction, Reducer } from 'redux';
 import { combineReducers } from 'redux-immutable';
 import { IImmutableStateMap } from 'redux-utils';
+import { IImmutableSettingsState, reducer as settingsReducer } from 'settings';
 import appReducer, { IImmutableAppState } from './app/reducers';
 
 interface IState {
@@ -15,6 +16,7 @@ interface IState {
     filesystem: IImmutableFileSystemState;
     network: IImmutableNetworkState;
     router: any;
+    settings: IImmutableSettingsState;
 }
 
 export interface IImmutableState extends IImmutableStateMap<IState> {}
@@ -27,5 +29,6 @@ export default (history: any) => combineReducers<IImmutableState>(
         filesystem: filesystemReducer,
         network: networkReducer,
         router: connectRouter(history),
+        settings: settingsReducer,
     } as any,
 ) as Reducer<IImmutableState, AnyAction>;

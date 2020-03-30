@@ -1,3 +1,4 @@
+import { logout } from './actions/logout';
 import Avatar from './components/Avatar';
 import LoggedIn from './components/LoggedIn';
 import Login from './components/Login';
@@ -16,6 +17,7 @@ export {
     KeyRing,
     Login,
     LoggedIn,
+    logout,
     NotLoggedIn,
     reducer,
     sagas,

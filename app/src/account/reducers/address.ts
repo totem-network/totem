@@ -4,12 +4,13 @@ import {
     LOGIN_SUCCESS,
     LoginAction,
 } from '../actions/login';
-// TODO: AddressAction, ADD_ADDRESS
+import {
+    LOGOUT_SUCCESS,
+    LogoutAction,
+} from '../actions/logout';
 
 interface IAddressState {
     account: string | null;
-    // device: string | null;
-    // TODO: proxies for dapps, wallets?
 }
 
 export interface IImmutableAddressState extends IImmutableStateMap<IAddressState> {}
@@ -20,12 +21,14 @@ const initialState = fromJS({
 
 function addressReducer(
     state: IImmutableAddressState = initialState,
-    action: LoginAction,
+    action: LoginAction | LogoutAction,
 ): IImmutableAddressState {
 
     switch (action.type) {
         case LOGIN_SUCCESS:
             return state.set('account', action.payload.address);
+        case LOGOUT_SUCCESS:
+            return state.set('account', null);
     }
 
     return state;

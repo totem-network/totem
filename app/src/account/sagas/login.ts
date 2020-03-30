@@ -8,11 +8,6 @@ import {
     loginSuccess,
 } from './../actions/login';
 
-// const Wallet = require('ethers').Wallet;
-// const utils = require('ethers').utils;
-
-// TODO: use different accounts for different purposes, e.g. ledger for money, priv key for files, ...
-
 export const createWallet = (privateKey: string) => {
     return new Wallet(privateKey);
 };
@@ -38,6 +33,8 @@ export function* loginWithPrivateKey(action: ILoginPrivateKeyAction) {
     // import TestWorker from 'worker-loader!test.worker';
     const account = yield call(createWallet, privateKey);
 
+    // TODO: openBox on login before loginSuccess
+
     if (account) {
         yield put(loginSuccess(account.address));
     } else {
@@ -47,6 +44,8 @@ export function* loginWithPrivateKey(action: ILoginPrivateKeyAction) {
 
 export function* loginWithMetaMask(action: ILoginMetaMaskAction) {
     const accounts = yield call(getProvidedAccounts);
+
+    // TODO: openBox on login before loginSuccess
 
     if (accounts && accounts[0]) {
         yield put(loginSuccess(accounts[0]));
