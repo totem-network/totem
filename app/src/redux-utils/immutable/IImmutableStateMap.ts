@@ -19,31 +19,31 @@ export default interface IImmutableStateMap<S> extends Map<string, any> {
 
     get<K extends keyof S>(key: string): S[K];
 
-    merge<K extends keyof S, KC, VC>(...collections: Array<Iterable<KC, VC>>): Map<K | KC, S[K] | VC>;
-    merge<K extends keyof S, C>(...collections: Array<{[key: string]: C}>): Map<K | string, S[K] | C>;
+    merge<K extends keyof S, KC, VC>(...collections: Iterable<KC, VC>[]): Map<K | KC, S[K] | VC>;
+    merge<K extends keyof S, C>(...collections: {[key: string]: C}[]): Map<K | string, S[K] | C>;
 
     mergeDeep<K extends keyof S>(
-        ...collections: Array<Iterable<K, S[K]> | {[key: string]: any}>
+        ...collections: Iterable<K, S[K]>[] | {[key: string]: any}[]
     ): this;
 
     mergeDeepIn<K extends keyof S>(
         keyPath: Iterable<any, any> | any[],
-        ...iterables: Array<Iterable<K, S[K]>>
+        ...iterables: Iterable<K, S[K]>[]
     ): this;
 
     mergeDeepWith<K extends keyof S>(
         merger: (oldVal: S[K], newVal: S[K], key: K) => S[K],
-        ...collections: Array<Iterable<K, S[K]> | {[key: string]: any}>
+        ...collections: Iterable<K, S[K]>[] | {[key: string]: any}[]
     ): this;
 
     mergeIn<K extends keyof S>(
         keyPath: Iterable<any, any> | any[],
-        ...iterables: Array<Iterable<K, S[K]>>
+        ...iterables: Iterable<K, S[K]>[]
     ): this;
 
     mergeWith<K extends keyof S>(
         merger: (oldVal: S[K], newVal: S[K], key: K) => S[K],
-        ...collections: Array<Iterable<K, S[K]> | {[key: string]: any}>
+        ...collections: Iterable<K, S[K]>[] | {[key: string]: any}[]
     ): this;
 
     set<K extends keyof S>(key: string, value: S[K]): this;
