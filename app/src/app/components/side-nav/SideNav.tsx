@@ -21,8 +21,11 @@ const useStyles = makeStyles((theme: Theme) => {
     return {
         container: {
             [theme.breakpoints.up('lg')]: {
+                borderRadius: '50%',
+                height: '60%',
                 overflow: 'visible',
                 pointerEvents: 'auto',
+                top: '20%',
                 width: '3vw',
             },
             height: '100%',
@@ -66,6 +69,7 @@ const useStyles = makeStyles((theme: Theme) => {
                 flexDirection: 'row',
             },
             [theme.breakpoints.up('lg')]: {
+                borderRadius: '0 1.5vw 1.5vw 0',
                 boxShadow: '2px 0 12px rgba(0, 0, 0, 0.4)',
                 overflow: 'visible',
                 transform: 'none',
@@ -85,6 +89,7 @@ const useStyles = makeStyles((theme: Theme) => {
         },
         navBackground: {
             [theme.breakpoints.up('lg')]: {
+                borderRadius: '0 1.5vw 1.5vw 0',
                 background: 'rgba(0, 0, 30, 0.6)',
             },
             background: '#f0f0f0',
