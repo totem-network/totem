@@ -1,5 +1,5 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
-import { clearStorage } from 'app';
+import { call, fork, put, takeLatest } from 'redux-saga/effects';
+import { clearStorage, initializeSaga } from 'app';
 import { store } from 'state';
 import { getCurrentNetworkSigner } from 'utils/blockchain';
 import {
@@ -26,11 +26,11 @@ function* logout(action: ILogoutAction) {
     yield put(logoutSuccess());
 }
 
-function* redirect() {
-    //
+function* initialize() {
+    yield fork(initializeSaga);
 }
 
 export default function* logoutSaga() {
     yield takeLatest(LOGOUT, logout);
-    yield takeLatest(LOGOUT_SUCCESS, redirect);
+    yield takeLatest(LOGOUT_SUCCESS, initialize);
 }

@@ -1,19 +1,21 @@
 import { INITIALIZE, web3Initialized } from 'app';
-import { call, put, take } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import { setProvidedAccounts } from './../actions/providedAccounts';
 
-export default function* initializeSaga() {
-    const initializeAction = yield take(INITIALIZE);
-
-    if (!initializeAction.payload.ethereum) {
+export function* initialize(action: any) {
+    if (!action.payload.ethereum) {
         yield put(web3Initialized());
 
         return;
     }
 
-    const accounts = yield call(initializeAction.payload.ethereum.enable);
+    const accounts = yield call(action.payload.ethereum.enable);
 
     yield put(web3Initialized());
 
     yield put(setProvidedAccounts(accounts));
+}
+
+export default function* initializeSaga() {
+    yield takeEvery(INITIALIZE, initialize);
 }
