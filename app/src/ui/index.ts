@@ -1,3 +1,4 @@
+import LoadingButton from './components/button/LoadingButton';
 import AddressField from './components/form/AddressField';
 import PasswordField from './components/form/PasswordField';
 import Switch from './components/form/Switch';
@@ -7,6 +8,7 @@ import useWidth from './hooks/useWidth';
 
 export {
     AddressField,
+    LoadingButton,
     PasswordField,
     Switch,
     TextField,

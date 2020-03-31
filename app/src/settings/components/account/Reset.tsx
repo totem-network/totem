@@ -11,6 +11,7 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { LoadingButton } from 'ui';
 import { hideResetAccountModal, resetAccount, showResetAccountModal } from '../../actions/account';
 import resetAccountModalSelector from '../../selectors/resetAccountModal';
 import resettingAccountSelector from '../../selectors/resettingAccount';
@@ -102,18 +103,14 @@ const Reset = ({}: IResetProps) => {
                     >
                         Cancel
                     </Button>
-                    <div
-                        className={classes.loadingButtonWrapper}
+                    <LoadingButton
+                        color={'secondary'}
+                        loading={resetting}
+                        onClick={reset}
+                        variant={'contained'}
                     >
-                        <Button
-                            color={'secondary'}
-                            onClick={reset}
-                            variant={'contained'}
-                        >
-                            Reset
-                        </Button>
-                        {resetting && <CircularProgress size={24} className={classes.loadingButtonProgress} />}
-                    </div>
+                        Reset
+                    </LoadingButton>
                 </DialogActions>
             </Dialog>
         </>
