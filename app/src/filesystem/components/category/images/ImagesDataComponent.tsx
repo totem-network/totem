@@ -1,5 +1,6 @@
 import justifiedLayout from 'justified-layout';
 import React from 'react';
+import Image from './Image';
 import ImagePlaceholder from './ImagePlaceholder';
 
 export interface IImagesDataComponentProps {
@@ -27,9 +28,9 @@ const ImagesDataComponent = ({
         // TODO: right thumbnail size for display dpi
 
         return (
-            <ImagePlaceholder
+            <Image
                 height={layout.boxes[index].height}
-                image={image.files.lowResolutionPlaceholder}
+                image={image.files.thumbnail2x}
                 key={index}
                 width={layout.boxes[index].width}
             />

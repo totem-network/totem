@@ -1,7 +1,8 @@
 query imagesPage($first: Int, $after: String) {
     images(first: $first, after: $after) {
         files {
-            lowResolutionPlaceholder
+            lowResolutionPlaceholder,
+            thumbnail2x
         },
         metaData {
             height,
