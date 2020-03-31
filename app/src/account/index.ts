@@ -1,4 +1,4 @@
-import { logout } from './actions/logout';
+import { logout, LOGOUT_SUCCESS } from './actions/logout';
 import Avatar from './components/Avatar';
 import LoggedIn from './components/LoggedIn';
 import Login from './components/Login';
@@ -18,6 +18,7 @@ export {
     Login,
     LoggedIn,
     logout,
+    LOGOUT_SUCCESS,
     NotLoggedIn,
     reducer,
     sagas,

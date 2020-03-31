@@ -1,4 +1,4 @@
-import { IImmutableAccountState, reducer as accountReducer } from 'account';
+import { IImmutableAccountState, LOGOUT_SUCCESS, reducer as accountReducer } from 'account';
 import { IImmutableApplicationsState, reducer as applicationsReducer } from 'applications';
 import { connectRouter, RouterState } from 'connected-react-router/immutable';
 import { IImmutableFileSystemState, reducer as filesystemReducer } from 'filesystem';
@@ -21,14 +21,28 @@ interface IState {
 
 export interface IImmutableState extends IImmutableStateMap<IState> {}
 
-export default (history: any) => combineReducers<IImmutableState>(
-    {
-        account: accountReducer,
-        app: appReducer,
-        applications: applicationsReducer,
-        filesystem: filesystemReducer,
-        network: networkReducer,
-        router: connectRouter(history),
-        settings: settingsReducer,
-    } as any,
-) as Reducer<IImmutableState, AnyAction>;
+const createRootReducer = (history: any) => {
+    return combineReducers<IImmutableState>(
+        {
+            account: accountReducer,
+            app: appReducer,
+            applications: applicationsReducer,
+            filesystem: filesystemReducer,
+            network: networkReducer,
+            router: connectRouter(history),
+            settings: settingsReducer,
+        } as any,
+    ) as Reducer<IImmutableState, AnyAction>;
+};
+
+export default (history: any) => {
+    return (state: IImmutableState | undefined, action: AnyAction) => {
+        const rootReducer = createRootReducer(history);
+
+        if (action.type === LOGOUT_SUCCESS) {
+            state = undefined;
+        }
+
+        return rootReducer(state, action);
+    };
+};
