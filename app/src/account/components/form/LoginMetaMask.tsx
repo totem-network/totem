@@ -1,4 +1,3 @@
-import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import Typography from '@material-ui/core/Typography';
@@ -7,9 +6,11 @@ import { web3InitializedSelector } from 'app';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { LoadingButton } from 'ui';
 import { loginMetaMask } from '../../actions/login';
 import Avatar from '../../components/Avatar';
 import Name from '../../components/Name';
+import loggingInSelector from '../../selectors/loggingIn';
 import providedAccountSelector from '../../selectors/providedAccount';
 
 export interface ILoginMetaMaskData {
@@ -51,6 +52,7 @@ const useStyles = makeStyles((theme: Theme) => {
 
 const LoginMetaMask = ({}: ILoginMetaMaskProps) => {
     const account = useSelector(providedAccountSelector, shallowEqual);
+    const loggingIn = useSelector(loggingInSelector, shallowEqual);
     const web3 = useSelector(web3InitializedSelector, shallowEqual);
 
     const dispatch = useDispatch();
@@ -136,9 +138,14 @@ const LoginMetaMask = ({}: ILoginMetaMaskProps) => {
                     <Name address={account} />
                 </div>
                 <div className={classes.buttonWrapper}>
-                    <Button type='submit' color='primary' variant="contained">
+                    <LoadingButton
+                        color={'primary'}
+                        loading={loggingIn}
+                        type={'submit'}
+                        variant={'contained'}
+                    >
                         Sign In
-                    </Button>
+                    </LoadingButton>
                 </div>
             </Form>
         </Formik>
