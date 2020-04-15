@@ -1,7 +1,8 @@
 import proxyWeb3 from 'api/links/proxyWeb3';
+import { clearStorage } from 'app/actions/clearStorage';
+import initializeSaga from 'app/sagas/initialize';
 import { proxy } from 'comlink';
 import { call, fork, put, takeLatest } from 'redux-saga/effects';
-import { clearStorage, initializeSaga } from 'app';
 import { api } from 'worker';
 import {
     ILogoutAction,

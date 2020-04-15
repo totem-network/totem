@@ -1,12 +1,13 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { isWidthDown } from '@material-ui/core/withWidth';
 import { makeStyles } from '@material-ui/styles';
-import { accountAddressSelector, Avatar } from 'account';
-import { startApplication } from 'applications';
+import Avatar from 'account/components/Avatar';
+import accountAddressSelector from 'account/selectors/accountAddress';
+import { startApplication } from 'applications/actions/application';
 import { APPLICATION_ID } from 'filesystem';
 import React from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useWidth } from 'ui';
+import useWidth from 'ui/hooks/useWidth';
 
 interface IHeaderProps {}
 

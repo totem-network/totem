@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import { IImmutableStateMap } from 'redux-utils';
+import IImmutableStateMap from 'redux-utils/immutable/IImmutableStateMap';
 import { InitializeAction, WEB3_INITIALIZED } from '../actions/initialize';
 
 interface IInitializedState {

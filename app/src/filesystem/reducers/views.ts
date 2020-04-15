@@ -2,7 +2,7 @@ import {
     ADD_INSTANCE,
     CLOSE_INSTANCE,
     InstancesAction as ApplicationInstancesAction,
-} from 'applications';
+} from 'applications/actions/instances';
 import {
     Map,
 } from 'immutable';

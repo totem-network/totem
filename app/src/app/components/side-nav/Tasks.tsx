@@ -1,10 +1,8 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { makeStyles } from '@material-ui/styles';
-import {
-    focusWindow,
-    instancesSelector,
-    startApplication,
-} from 'applications';
+import { startApplication } from 'applications/actions/application';
+import { focusWindow } from 'applications/actions/windows';
+import instancesSelector from 'applications/selectors/instances';
 import React, {
     CSSProperties,
     MouseEvent,

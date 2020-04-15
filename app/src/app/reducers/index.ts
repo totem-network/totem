@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux-immutable';
-import { IImmutableStateMap } from 'redux-utils';
+import IImmutableStateMap from 'redux-utils/immutable/IImmutableStateMap';
 import initializedReducer, { IImmutableInitializedState } from './initialized';
 import intlReducer, { IImmutableIntlState } from './intl';
 import launcherReducer, { IImmutableLauncherState } from './launcher';

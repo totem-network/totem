@@ -3,7 +3,7 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { isWidthDown } from '@material-ui/core/withWidth';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
-import { useWidth } from 'ui';
+import useWidth from 'ui/hooks/useWidth';
 
 export interface IViewNavProps {
     children: any;

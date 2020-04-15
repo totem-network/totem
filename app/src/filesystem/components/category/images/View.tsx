@@ -2,7 +2,7 @@ import { useApolloClient, useQuery } from '@apollo/react-hooks';
 import StoreIcon from '@material-ui/icons/Store';
 import { makeStyles } from '@material-ui/styles';
 import React, { useRef } from 'react';
-import { useComponentSize } from 'ui';
+import useComponentSize from 'ui/hooks/useComponentSize';
 import GET_IMAGES_PAGE from '../../../queries/getImagesPage.graphql';
 import RenderQuery from '../../RenderQuery';
 import ViewNavButton from '../../view-nav/Button';

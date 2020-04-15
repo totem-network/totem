@@ -1,9 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
-import {
-    AddressField,
-    Switch,
-} from 'ui';
+import AddressField from 'ui/components/form/AddressField';
+import Switch from 'ui/components/form/Switch';
 
 export interface ISendDigitalAssetFormData {
     fee: string;

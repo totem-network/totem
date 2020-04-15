@@ -1,15 +1,13 @@
 import { makeStyles } from '@material-ui/styles';
-import {
-    ApplicationWindow,
-    instancesSelector,
-    showTaskManagerSelector,
-    windowsSelector,
- } from 'applications';
+import ApplicationWindow from 'applications/components/ApplicationWindow';
+import instancesSelector from 'applications/selectors/instances';
+import showTaskManagerSelector from 'applications/selectors/showTaskManager';
+import windowsSelector from 'applications/selectors/windows';
 import classNames from 'classnames';
 import {
     APPLICATION_ID as FILESYSTEM_APPLICATION_ID,
-    FileSystemWindow,
 } from 'filesystem';
+import FileSystemWindow from 'filesystem/components/FileSystemWindow';
 import { List } from 'immutable';
 import React, { Fragment } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';

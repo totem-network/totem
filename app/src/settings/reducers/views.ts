@@ -1,6 +1,6 @@
-import { HIDE_SYSTEM_BAR_DRAWER } from 'app';
+import { HIDE_SYSTEM_BAR_DRAWER } from 'app/actions/systemBar';
 import { fromJS } from 'immutable';
-import { IImmutableStateMap } from 'redux-utils';
+import IImmutableStateMap from 'redux-utils/immutable/IImmutableStateMap';
 import {
     HIDE_VIEW,
     SHOW_VIEW,

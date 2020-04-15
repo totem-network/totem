@@ -1,8 +1,6 @@
-import {
-    LoggedIn,
-    Login,
-    NotLoggedIn,
-} from 'account';
+import LoggedIn from 'account/components/LoggedIn';
+import Login from 'account/components/Login';
+import NotLoggedIn from 'account/components/NotLoggedIn';
 import React, { lazy, Suspense } from 'react';
 import Branding from './login/Branding';
 

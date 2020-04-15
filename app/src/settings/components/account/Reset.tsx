@@ -10,7 +10,7 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { LoadingButton } from 'ui';
+import LoadingButton from 'ui/components/button/LoadingButton';
 import { hideResetAccountModal, resetAccount, showResetAccountModal } from '../../actions/account';
 import resetAccountModalSelector from '../../selectors/resetAccountModal';
 import resettingAccountSelector from '../../selectors/resettingAccount';

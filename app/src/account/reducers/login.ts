@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import { IImmutableStateMap } from 'redux-utils';
+import IImmutableStateMap from 'redux-utils/immutable/IImmutableStateMap';
 import {
     LOGIN_METAMASK,
     LOGIN_PRIVATE_KEY,

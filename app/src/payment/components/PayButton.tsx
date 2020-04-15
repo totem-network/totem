@@ -1,6 +1,6 @@
 import Button from '@material-ui/core/Button';
 import withStyles, { StyleRules, WithStyles } from '@material-ui/core/styles/withStyles';
-import { LogoFlat } from 'app';
+import LogoFlat from 'app/components/branding/LogoFlat';
 import { Form, Formik } from 'formik';
 import React, { Component } from 'react';
 

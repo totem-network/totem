@@ -1,4 +1,4 @@
-import { HomeButton } from 'applications';
+import HomeButton from 'applications/components/task-manager/HomeButton';
 import React from 'react';
 
 interface IApplicationHomeButtonProps {

@@ -3,7 +3,6 @@
  * Licensed under MIT License with copyright belonging to 3box and their contributors
  */
 
-import { boxes } from 'account';
 import base64url from 'base64url';
 const { verifyJWT } = require('did-jwt');
 

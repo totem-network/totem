@@ -1,4 +1,4 @@
-import { INITIALIZE } from 'app';
+import { INITIALIZE } from 'app/actions/initialize';
 import Ipfs from 'ipfs';
 import { call, put, select, take } from 'redux-saga/effects';
 import ProviderManager from '../../storage/ProviderManager';

@@ -3,8 +3,8 @@ import { isWidthDown } from '@material-ui/core/withWidth';
 import { makeStyles } from '@material-ui/styles';
 import NotificationsView from 'notifications/components/View';
 import React from 'react';
-import { View as SettingsView } from 'settings';
-import { useWidth } from 'ui';
+import SettingsView from 'settings/components/View';
+import useWidth from 'ui/hooks/useWidth';
 import QuickSettings from './QuickSettings';
 
 export interface IViewsProps {

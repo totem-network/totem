@@ -1,14 +1,15 @@
-import { IImmutableAccountState, LOGOUT_SUCCESS, reducer as accountReducer } from 'account';
-import { IImmutableApplicationsState, reducer as applicationsReducer } from 'applications';
+import { LOGOUT_SUCCESS } from 'account/actions/logout';
+import accountReducer, { IImmutableAccountState } from 'account/reducers';
+import appReducer, { IImmutableAppState } from 'app/reducers';
+import applicationsReducer, { IImmutableApplicationsState } from 'applications/reducers';
 import { connectRouter, RouterState } from 'connected-react-router/immutable';
-import { IImmutableFileSystemState, reducer as filesystemReducer } from 'filesystem';
-import { IImmutableNetworkState, reducer as networkReducer } from 'network';
+import filesystemReducer, { IImmutableFileSystemState } from 'filesystem/reducers';
+import networkReducer, { IImmutableNetworkState } from 'network/reducers';
 import notificationsReducer, { IImmutableNotificationsState } from 'notifications/reducers';
 import { AnyAction, Reducer } from 'redux';
 import { combineReducers } from 'redux-immutable';
-import { IImmutableStateMap } from 'redux-utils';
-import { IImmutableSettingsState, reducer as settingsReducer } from 'settings';
-import appReducer, { IImmutableAppState } from './app/reducers';
+import IImmutableStateMap from 'redux-utils/immutable/IImmutableStateMap';
+import settingsReducer, { IImmutableSettingsState } from 'settings/reducers';
 
 interface IState {
     account: IImmutableAccountState;

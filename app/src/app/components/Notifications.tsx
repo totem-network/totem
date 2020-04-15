@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import NotificationsView from 'notifications/components/View';
 import React from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
-import { useWidth } from 'ui';
+import useWidth from 'ui/hooks/useWidth';
 import desktopVisibleSelector from '../selectors/desktopVisible';
 
 interface INotificationsProps {}

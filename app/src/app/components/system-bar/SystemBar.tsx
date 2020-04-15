@@ -7,7 +7,7 @@ import React, {
     TouchEvent,
 } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useWidth } from 'ui';
+import useWidth from 'ui/hooks/useWidth';
 import systemBarSelector from '../../selectors/systemBar';
 import Clock from './Clock';
 import Drawer from './Drawer';

@@ -1,4 +1,4 @@
-import { TaskTitle } from 'applications';
+import TaskTitle from 'applications/components/task-manager/TaskTitle';
 import { List } from 'immutable';
 import React from 'react';
 

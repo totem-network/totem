@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import { showLauncher } from 'app/actions/launcher';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useWidth } from 'ui';
+import useWidth from 'ui/hooks/useWidth';
 
 interface ILauncherProps {}
 

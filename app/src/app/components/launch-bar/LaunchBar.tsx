@@ -1,9 +1,9 @@
 import { isWidthDown } from '@material-ui/core/withWidth';
 import { makeStyles } from '@material-ui/styles';
-import { startApplication } from 'applications';
+import { startApplication } from 'applications/actions/application';
 import React from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useWidth } from 'ui';
+import useWidth from 'ui/hooks/useWidth';
 import { IHideLaunchBarAction } from '../../actions/launchBar';
 import desktopVisibleSelector from '../../selectors/desktopVisible';
 import App from './App';

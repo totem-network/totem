@@ -1,6 +1,6 @@
 // ipfs or swarm
 import { combineReducers } from 'redux-immutable';
-import { IImmutableStateMap } from 'redux-utils';
+import IImmutableStateMap from 'redux-utils/immutable/IImmutableStateMap';
 import currentNetworkReducer, { IImmutableCurrentNetworkState } from './currentNetwork';
 
 interface IStorageState {

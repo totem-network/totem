@@ -1,4 +1,4 @@
-import { INITIALIZE, web3Initialized } from 'app';
+import { INITIALIZE, web3Initialized } from 'app/actions/initialize';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { setProvidedAccounts } from './../actions/providedAccounts';
 

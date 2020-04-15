@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import classNames from 'classnames';
 import React from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
-import { useWidth } from 'ui';
+import useWidth from 'ui/hooks/useWidth';
 import systemBarSelector from '../../selectors/systemBar';
 import CurrentDate from '../clock/CurrentDate';
 import CurrentTime from '../clock/CurrentTime';

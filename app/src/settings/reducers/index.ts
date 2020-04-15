@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux-immutable';
-import { IImmutableStateMap } from 'redux-utils';
+import IImmutableStateMap from 'redux-utils/immutable/IImmutableStateMap';
 import accountReducer, { IImmutableAccountState } from './account';
 import viewsReducer, { IImmutableViewsState } from './views';
 

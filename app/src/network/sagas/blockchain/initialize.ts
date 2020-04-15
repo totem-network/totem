@@ -1,4 +1,4 @@
-import { INITIALIZE } from 'app';
+import { INITIALIZE } from 'app/actions/initialize';
 import coinTypes from 'bip44-constants';
 import { providers } from 'ethers';
 import { call, put, take } from 'redux-saga/effects';

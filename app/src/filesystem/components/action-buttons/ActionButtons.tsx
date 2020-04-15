@@ -5,10 +5,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { isWidthDown } from '@material-ui/core/withWidth';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/styles';
-import { showSideNav } from 'app';
+import { showSideNav } from 'app/actions/sideNav';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useWidth } from 'ui';
+import useWidth from 'ui/hooks/useWidth';
 
 export interface IActionButtonsProps {
     children: any;

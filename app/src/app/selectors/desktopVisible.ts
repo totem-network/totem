@@ -1,7 +1,5 @@
-import {
-    showTaskManagerSelector,
-    windowsSelector,
-} from 'applications';
+import showTaskManagerSelector from 'applications/selectors/showTaskManager';
+import windowsSelector from 'applications/selectors/windows';
 import { createSelector } from 'reselect';
 
 export default createSelector(

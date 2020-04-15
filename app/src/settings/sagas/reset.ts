@@ -1,5 +1,6 @@
-import { accountAddressSelector, boxes } from 'account';
-import { clearStorage } from 'app';
+import boxes from 'account/profile/boxes';
+import accountAddressSelector from 'account/selectors/accountAddress';
+import { clearStorage } from 'app/actions/clearStorage';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { store } from 'state';
 import { getCurrentNetworkSigner } from 'utils/blockchain';

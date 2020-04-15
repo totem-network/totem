@@ -7,7 +7,7 @@ import React, {
     TouchEvent,
 } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useWidth } from 'ui';
+import useWidth from 'ui/hooks/useWidth';
 import { hideSideNav } from '../../actions/sideNav';
 import sideNavSelector from '../../selectors/sideNav';
 import Categories from './Categories';

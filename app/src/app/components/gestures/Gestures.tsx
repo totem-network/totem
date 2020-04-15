@@ -1,6 +1,7 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { makeStyles } from '@material-ui/styles';
-import { SwipeFromLeft, SwipeFromTop } from 'gestures';
+import SwipeFromLeft from 'gestures/components/SwipeFromLeft';
+import SwipeFromTop from 'gestures/components/SwipeFromTop';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { showSystemBarDrawer } from '../../actions/systemBar';

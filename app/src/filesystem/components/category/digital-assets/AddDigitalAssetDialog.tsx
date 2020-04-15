@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { TextField } from 'ui';
+import TextField from 'ui/components/form/TextField';
 import ADD_DIGITAL_ASSET from '../../../mutations/addDigitalAsset.graphql';
 
 export interface IAddDigitalAssetDialogProps {

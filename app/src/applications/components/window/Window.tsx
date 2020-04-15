@@ -2,14 +2,14 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { isWidthDown, isWidthUp } from '@material-ui/core/withWidth';
 import { makeStyles } from '@material-ui/styles';
 import classNames from 'classnames';
-import { SwipeFromBottom } from 'gestures';
+import SwipeFromBottom from 'gestures/components/SwipeFromBottom';
 import React, {
     CSSProperties,
     MouseEvent,
 } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { Swipeable } from 'touch';
-import { useWidth } from 'ui';
+import Swipeable from 'touch/components/Swipeable';
+import useWidth from 'ui/hooks/useWidth';
 import {
     closeApplication,
 } from '../../actions/application';

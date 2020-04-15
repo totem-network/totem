@@ -1,4 +1,4 @@
-import { BlockchainProviderManager } from 'network';
+import BlockchainProviderManager from 'network/blockchain/ProviderManager';
 import currentNetworkSelector from 'network/selectors/blockchain/currentNetwork';
 import { store } from 'state';
 

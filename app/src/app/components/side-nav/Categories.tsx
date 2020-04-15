@@ -1,5 +1,6 @@
 import { makeStyles } from '@material-ui/styles';
-import { categoriesSelector, sideNavSelectCategory } from 'filesystem';
+import { sideNavSelectCategory } from 'filesystem/actions/sideNav';
+import categoriesSelector from 'filesystem/selectors/categories';
 import React from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import Item from './Item';

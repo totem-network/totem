@@ -54,6 +54,5 @@ const theme = createMuiTheme({
 });
 
 export {
-    Background,
     theme,
 };

@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 import { combineReducers } from 'redux';
-import { IImmutableStateMap } from 'redux-utils';
+import IImmutableStateMap from 'redux-utils/immutable/IImmutableStateMap';
 import { HIDE_TASK_MANAGER, SHOW_TASK_MANAGER, TaskManagerAction } from './../actions/taskManager';
 
 interface ITaskManagerState {

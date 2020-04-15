@@ -1,4 +1,5 @@
-import { focusWindow, startApplication } from 'applications';
+import { startApplication } from 'applications/actions/application';
+import { focusWindow } from 'applications/actions/windows';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import { ISideNavSelectCategoryAction, SIDE_NAV_SELECT_CATEGORY } from '../actions/sideNav';
 import instancesSelector from '../selectors/instances';

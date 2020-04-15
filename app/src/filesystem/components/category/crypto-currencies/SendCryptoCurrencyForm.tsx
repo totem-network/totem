@@ -1,10 +1,8 @@
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
-import {
-    AddressField,
-    Switch,
-    TextField,
-} from 'ui';
+import AddressField from 'ui/components/form/AddressField';
+import Switch from 'ui/components/form/Switch';
+import TextField from 'ui/components/form/TextField';
 
 export interface ISendCryptoCurrencyFormData {
     amount: string;

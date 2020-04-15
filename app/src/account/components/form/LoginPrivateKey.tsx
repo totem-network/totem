@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { TextField } from 'ui';
+import TextField from 'ui/components/form/TextField';
 import { loginPrivateKey } from '../../actions/login';
 import validate from '../../validators/loginPrivateKey';
 

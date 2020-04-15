@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux-immutable';
-import { IImmutableStateMap } from 'redux-utils';
+import IImmutableStateMap from 'redux-utils/immutable/IImmutableStateMap';
 import accountsReducer, { IImmutableAccountsState } from './accounts';
 import contractsReducer, { IImmutableContractsState } from './contracts';
 import currentNetworkReducer, { IImmutableCurrentNetworkState } from './currentNetwork';

@@ -1,4 +1,4 @@
-import { StorageProviderManager } from 'network';
+import StorageProviderManager from 'network/storage/ProviderManager';
 
 interface IImageJsonOptions {
     fileHash: string;

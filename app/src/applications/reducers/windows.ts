@@ -2,7 +2,7 @@ import {
     List,
 } from 'immutable';
 import { combineReducers } from 'redux';
-import { IImmutableStateMap } from 'redux-utils';
+import IImmutableStateMap from 'redux-utils/immutable/IImmutableStateMap';
 import {
     ADD_WINDOW,
     CLOSE_WINDOW,

@@ -1,5 +1,6 @@
 import accountSagas from 'account/sagas';
-import { appSagas, initializeSaga } from 'app';
+import appSagas from 'app/sagas';
+import initializeSaga from 'app/sagas/initialize';
 import applicationsSagas from 'applications/sagas';
 import fileSystemSagas from 'filesystem/sagas';
 import networkSagas from 'network/sagas';

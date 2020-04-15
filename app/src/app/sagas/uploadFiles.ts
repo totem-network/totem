@@ -1,4 +1,4 @@
-import { getApolloClient } from 'api';
+import { getApolloClient } from 'api/client';
 import { getTime } from 'date-fns';
 import addImagesMutation from 'filesystem/mutations/addImages.graphql';
 import { blobToDataUrl, getFileType } from 'filesystem/utils/files';

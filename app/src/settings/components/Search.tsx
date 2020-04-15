@@ -4,7 +4,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { makeStyles } from '@material-ui/styles';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { TextField } from 'ui';
+import TextField from 'ui/components/form/TextField';
 import { useDispatch } from 'react-redux';
 
 interface ISearchProps {}

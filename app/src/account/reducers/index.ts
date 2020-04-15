@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux-immutable';
-import { IImmutableStateMap } from 'redux-utils';
+import IImmutableStateMap from 'redux-utils/immutable/IImmutableStateMap';
 import addressReducer, { IImmutableAddressState } from './address';
 import loginReducer, { IImmutableLoginState } from './login';
 import providedAccountsReducer, { IImmutableProvidedAccountsState } from './providedAccounts';

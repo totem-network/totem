@@ -6,7 +6,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useWidth } from 'ui';
+import useWidth from 'ui/hooks/useWidth';
 import { hideSystemBarDrawer } from '../../actions/systemBar';
 import systemBarSelector from '../../selectors/systemBar';
 import CurrentDate from '../clock/CurrentDate';

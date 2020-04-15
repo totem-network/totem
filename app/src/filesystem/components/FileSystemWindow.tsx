@@ -1,13 +1,13 @@
 import { isWidthDown } from '@material-ui/core/withWidth';
 import { makeStyles } from '@material-ui/styles';
-import { showSideNav } from 'app';
-import { Window } from 'applications';
-import { SwipeFromLeft } from 'gestures';
+import { showSideNav } from 'app/actions/sideNav';
+import Window from 'applications/components/window/Window';
+import SwipeFromLeft from 'gestures/components/SwipeFromLeft';
 import React, {
     CSSProperties,
 } from 'react';
 import { useDispatch } from 'react-redux';
-import { useWidth } from 'ui';
+import useWidth from 'ui/hooks/useWidth';
 import SideNav from '../components/side-nav/SideNav';
 import Views from './category/Views';
 

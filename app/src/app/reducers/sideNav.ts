@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import { IImmutableStateMap } from 'redux-utils';
+import IImmutableStateMap from 'redux-utils/immutable/IImmutableStateMap';
 import { HIDE_SIDE_NAV, NavAction, SHOW_SIDE_NAV } from './../actions/sideNav';
 
 interface INavState {

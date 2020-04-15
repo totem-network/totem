@@ -2,7 +2,7 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew';
 import Settings from '@material-ui/icons/Settings';
 import { makeStyles } from '@material-ui/styles';
-import { logout } from 'account';
+import { logout } from 'account/actions/logout';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import {

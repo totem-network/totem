@@ -1,7 +1,7 @@
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { Avatar } from 'account';
+import Avatar from 'account/components/Avatar';
 import { Field, FieldProps } from 'formik';
 import React, {
     ChangeEvent,

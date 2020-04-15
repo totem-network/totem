@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux-immutable';
-import { IImmutableStateMap } from 'redux-utils';
+import IImmutableStateMap from 'redux-utils/immutable/IImmutableStateMap';
 import blockchainReducer, { IImmutableBlockchainState } from './blockchain';
 import computeReducer, { IImmutableComputeState } from './compute';
 import messageReducer, { IImmutableMessageState } from './message';

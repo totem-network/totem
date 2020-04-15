@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/styles';
-import { startApplication } from 'applications';
+import { startApplication } from 'applications/actions/application';
 import classNames from 'classnames';
 import React from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux-immutable';
-import { IImmutableStateMap } from 'redux-utils';
+import IImmutableStateMap from 'redux-utils/immutable/IImmutableStateMap';
 import instancesReducer, { IImmutableInstancesState } from './instances';
 import taskManagerReducer, { IImmutableTaskManagerState } from './taskManager';
 import windowsReducer, { IImmutableWindowsState } from './windows';
