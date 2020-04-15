@@ -5,6 +5,9 @@ mutation addImages($images: [ImageInput]) {
             files {
                 thumbnail
             }
+            metaData {
+                name
+            }
         }
     }
 }

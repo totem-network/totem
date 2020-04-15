@@ -1,5 +1,6 @@
 import { getApolloClient } from 'api/client';
 import { getTime } from 'date-fns';
+import { APPLICATION_ID } from 'filesystem';
 import addImagesMutation from 'filesystem/mutations/addImages.graphql';
 import { blobToDataUrl, getFileType } from 'filesystem/utils/files';
 import { addNotification } from 'notifications/actions/queue';
@@ -16,6 +17,8 @@ function* uploadFiles(action: IUploadFilesAction) {
 
         const type = yield call(getFileType, file);
 
+        console.log(file);
+
         // TODO: group files of same type
 
         const dataUrl = yield call(blobToDataUrl, file);
@@ -27,7 +30,7 @@ function* uploadFiles(action: IUploadFilesAction) {
                     variables: {
                         images: [{
                             dataUrl,
-                            name: 'Test',
+                            name: file.name,
                         }],
                     },
                 });
@@ -38,10 +41,11 @@ function* uploadFiles(action: IUploadFilesAction) {
                     const timestamp = yield call(getTime, new Date());
 
                     yield put(addNotification({
-                        application: 'filesystem',
+                        application: APPLICATION_ID,
+                        body: `${uploadResult.image.metaData.name}`,
                         id,
                         image: uploadResult.image.files.thumbnail,
-                        expires: timestamp + 5000,
+                        expires: timestamp + 10000,
                         timestamp,
                         title: 'Image uploaded',
                     }))
