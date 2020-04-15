@@ -17,8 +17,6 @@ function* uploadFiles(action: IUploadFilesAction) {
 
         const type = yield call(getFileType, file);
 
-        console.log(file);
-
         // TODO: group files of same type
 
         const dataUrl = yield call(blobToDataUrl, file);
