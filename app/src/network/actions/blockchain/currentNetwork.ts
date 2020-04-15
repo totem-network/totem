@@ -16,14 +16,20 @@ export interface ICurrentNetworkConfig {
 
 export interface ISetCurrentNetworkPayload {
     coinType: string;
+    chainId: any;
+    name: string;
 }
 
 export function setCurrentNetwork(
     coinType: string,
+    chainId: any,
+    name: string,
 ): ISetCurrentNetworkAction {
     return {
         payload: {
+            chainId,
             coinType,
+            name,
         },
         type: SET_CURRENT_NETWORK,
     };

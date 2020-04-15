@@ -1,20 +1,20 @@
-import { graphql } from 'graphql';
+//import { graphql } from 'graphql';
 import { createApolloClient, getApolloClient } from './client';
-import schema from './schema';
+/*import schema from './schema';
 import rootResolver from './schema/resolvers';
-import types from './schema/types';
+import types from './schema/types';*/
 
 // TODO: sentry error tracking
 
-const api = (query: string) => {
+/*const api = (query: string) => {
     return graphql(schema, query, rootResolver);
-};
+};*/
 
 export {
-    api,
+    // api,
     createApolloClient,
     getApolloClient,
-    rootResolver,
+    /*rootResolver,
     schema,
-    types,
+    types,*/
 };

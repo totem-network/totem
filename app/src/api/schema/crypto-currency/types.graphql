@@ -40,8 +40,19 @@ type AddTokenResponse {
 }
 
 type SendCryptoCurrencyResponse {
-    result: Boolean
-    transactionHash: String
+    hash: String
+    to: String
+    from: String
+    nonce: Int
+    gasLimit: String
+    gasPrice: String
+    data: String
+    value: String
+    chainId: Int
+    r: String
+    s: String
+    v: Int
+    raw: String
 }
 
 type Query {

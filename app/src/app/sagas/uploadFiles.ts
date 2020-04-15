@@ -1,13 +1,19 @@
 import { getApolloClient } from 'api';
+import { getTime } from 'date-fns';
 import addImagesMutation from 'filesystem/mutations/addImages.graphql';
 import { blobToDataUrl, getFileType } from 'filesystem/utils/files';
+import { addNotification } from 'notifications/actions/queue';
 import { call, put, takeEvery } from 'redux-saga/effects';
+import { generateId } from 'utils/uuid';
 import { IUploadFilesAction, UPLOAD_FILES } from '../actions/uploadFiles';
 
 function* uploadFiles(action: IUploadFilesAction) {
     const apolloClient = yield call(getApolloClient);
 
-    for (const file of action.payload.files) {
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < action.payload.files.length; i++) {
+        const file = action.payload.files[i];
+
         const type = yield call(getFileType, file);
 
         // TODO: group files of same type
@@ -16,7 +22,7 @@ function* uploadFiles(action: IUploadFilesAction) {
 
         switch (type) {
             case 'image':
-                const addImagesResult = yield apolloClient.mutate({
+                const addImagesResult = yield call([apolloClient, apolloClient.mutate], {
                     mutation: addImagesMutation,
                     variables: {
                         images: [{
@@ -25,15 +31,22 @@ function* uploadFiles(action: IUploadFilesAction) {
                         }],
                     },
                 });
-                /*const addImagesResult = yield call(apolloClient.mutate, {
-                    mutation: addImagesMutation,
-                    variables: {
-                        images: [{
-                            dataUrl,
-                            name: 'Test',
-                        }],
-                    },
-                });*/
+
+                for (const uploadResult of addImagesResult.data.addImages) {
+                    const id = yield call(generateId);
+
+                    const timestamp = yield call(getTime, new Date());
+
+                    yield put(addNotification({
+                        application: 'filesystem',
+                        id,
+                        image: uploadResult.image.files.thumbnail,
+                        expires: timestamp + 5000,
+                        timestamp,
+                        title: 'Image uploaded',
+                    }))
+                }
+
                 break;
         }
     }

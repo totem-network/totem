@@ -1,6 +1,7 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { isWidthDown } from '@material-ui/core/withWidth';
 import { makeStyles } from '@material-ui/styles';
+import NotificationsView from 'notifications/components/View';
 import React from 'react';
 import { View as SettingsView } from 'settings';
 import { useWidth } from 'ui';
@@ -28,6 +29,10 @@ const Views = ({
 
     const renderCategory = () => {
         switch (view) {
+            case 'notifications':
+                return (
+                    <NotificationsView />
+                );
             case 'settings':
                 return (
                     <SettingsView />

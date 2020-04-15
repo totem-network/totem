@@ -5,7 +5,7 @@ import React from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useWidth } from 'ui';
 import { IHideLaunchBarAction } from '../../actions/launchBar';
-import launchBarSelector from '../../selectors/launchBar';
+import desktopVisibleSelector from '../../selectors/desktopVisible';
 import App from './App';
 
 interface ILaunchBarProps {}
@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 });
 
 const LaunchBar = ({}: ILaunchBarProps) => {
-    const { isVisible } = useSelector(launchBarSelector, shallowEqual);
+    const { isVisible } = useSelector(desktopVisibleSelector, shallowEqual);
 
     const dispatch = useDispatch();
 

@@ -2,7 +2,7 @@ import { Action } from 'redux';
 
 // Show system bar drawer
 
-export type DrawerView = 'default' | 'settings';
+export type DrawerView = 'default' | 'notifications' | 'settings';
 
 export type SHOW_SYSTEM_BAR_DRAWER = 'app/SHOW_SYSTEM_BAR_DRAWER';
 export const SHOW_SYSTEM_BAR_DRAWER: SHOW_SYSTEM_BAR_DRAWER = 'app/SHOW_SYSTEM_BAR_DRAWER';

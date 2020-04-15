@@ -4,6 +4,10 @@
         "baseUrl": "app/src",
         "esModuleInterop": true,
         "jsx": "preserve",
+        "lib": [
+            "esnext",
+            "webworker",
+        ],
         "module": "esnext",
         "moduleResolution": "node",
         "paths": {

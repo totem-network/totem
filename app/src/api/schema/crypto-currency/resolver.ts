@@ -1,8 +1,6 @@
-import { accountAddressSelector, boxes } from 'account';
+import boxes from 'account/profile/boxes';
 import { Contract, utils } from 'ethers';
-import { currentNetworkSelector, fetchFee } from 'network';
-import { store } from 'state';
-import { getCurrentNetworkProvider, getCurrentNetworkSigner } from 'utils/blockchain';
+import fetchFee from 'network/utils/fetchFee';
 import { containsAddress } from 'utils/ethereum';
 import ERC20AbiJSON from './erc20.json';
 
@@ -15,12 +13,10 @@ import ERC20AbiJSON from './erc20.json';
 
 const ERC20Abi = JSON.stringify(ERC20AbiJSON);
 
-const getERC20Contracts = async (account: string) => {
-    const currentSigner = await getCurrentNetworkSigner();
-
+const getERC20Contracts = async (account: string, signer: any) => {
     const box = await boxes.openBox(
         account,
-        boxes.wrapEthersSigner(currentSigner),
+        boxes.wrapEthersSigner(signer),
     );
 
     const space = await box.openSpace('totem');
@@ -38,7 +34,7 @@ const getERC20Contracts = async (account: string) => {
     return erc20Contracts;
 };
 
-const getERC20Data = async (account: string, contract: string) => {
+const getERC20Data = async (account: string, contract: string, provider: any, network: any) => {
     const defaultResult = {
         balance: '0',
         data: {
@@ -54,16 +50,7 @@ const getERC20Data = async (account: string, contract: string) => {
         symbol: '???',
     };
 
-    const state = store.getState();
-    const currentNetwork = currentNetworkSelector(state);
-
-    const web3 = await getCurrentNetworkProvider();
-
-    if (!web3) {
-        return defaultResult;
-    }
-
-    const tokenContract = new Contract(contract, ERC20Abi, web3);
+    const tokenContract = new Contract(contract, ERC20Abi, provider);
 
     try {
         const balance = await tokenContract.balanceOf(account);
@@ -86,7 +73,7 @@ const getERC20Data = async (account: string, contract: string) => {
             balance: userBalance,
             data: {
                 contract,
-                network: currentNetwork.network,
+                network,
                 platform: 'ethereum',
                 tokenStandard: 'ERC20',
             },
@@ -101,51 +88,39 @@ const getERC20Data = async (account: string, contract: string) => {
     }
 };
 
-const sendEther = async (amount: string, to: string, fee: string) => {
-    const state = store.getState();
-    const account = accountAddressSelector(state);
+const sendEther = async (
+    amount: string,
+    to: string,
+    fee: string,
+    signer: any,
+) => {
 
-    if (!(
-        window &&
-        (window as any).ethereum
-    )) {
-        return false;
-    }
-
-    // TODO: use ethers.js
-    const web3 = (window as any).ethereum;
-
-    const params = [{
-        from: account,
-        gas: utils.bigNumberify(21000).toHexString(),
-        gasPrice: utils.bigNumberify(fee).toHexString(),
+    const params = {
+        gasLimit: utils.bigNumberify(21000),
+        gasPrice: utils.bigNumberify(fee),
         to,
-        value: utils.bigNumberify(amount).toHexString(),
-    }];
+        value: utils.bigNumberify(amount),
+    };
 
-    await web3.sendAsync({
-        from: account,
-        method: 'eth_sendTransaction',
-        params,
-    });
+    const result = await signer.sendTransaction(params);
 
-    return true;
+    return result;
 };
 
-const sendToken = async (contract: string, amount: string, to: string, fee: string) => {
-    const web3Signer = await getCurrentNetworkSigner();
+const sendToken = async (
+    contract: string,
+    amount: string,
+    to: string,
+    fee: string,
+    signer: any,
+) => {
+    const tokenContract = new Contract(contract, ERC20Abi, signer);
 
-    if (!web3Signer) {
-        return false;
-    }
-
-    const tokenContract = new Contract(contract, ERC20Abi, web3Signer);
-
-    await tokenContract.transfer(to, utils.bigNumberify(amount), {
+    const result = await tokenContract.transfer(to, utils.bigNumberify(amount), {
         gasPrice: utils.bigNumberify(fee),
     });
 
-    return true;
+    return result;
 };
 
 export default {
@@ -161,21 +136,16 @@ export default {
     },
 
     Mutation: {
-        addToken: async (schema: any, {
-            contract,
-        }: any) => {
-            const state = store.getState();
-            const account = accountAddressSelector(state);
+        addToken: async (
+            schema: any,
+            {
+                contract,
+            }: any,
+            context: any,
+        ) => {
+            const account = await context.signer.getAddress();
 
-            const web3 = await getCurrentNetworkProvider();
-
-            if (!web3) {
-                return {
-                    result: false,
-                };
-            }
-
-            const tokenContract = new Contract(contract, ERC20Abi, web3);
+            const tokenContract = new Contract(contract, ERC20Abi, context.provider);
 
             const totalSupply = await tokenContract.totalSupply();
 
@@ -185,11 +155,9 @@ export default {
                 };
             }
 
-            const currentSigner = await getCurrentNetworkSigner();
-
             const box = await boxes.openBox(
                 account,
-                boxes.wrapEthersSigner(currentSigner),
+                boxes.wrapEthersSigner(context.signer),
             );
 
             const space = await box.openSpace('totem');
@@ -219,30 +187,55 @@ export default {
             };
         },
 
-        sendCryptoCurrency: async (schema: any, {
-            amount,
-            currencyOrToken,
-            fee,
-            to,
-        }: any) => {
-            let result = false;
+        sendCryptoCurrency: async (
+            schema: any,
+            {
+                amount,
+                currencyOrToken,
+                fee,
+                to,
+            }: any,
+            context: any,
+        ) => {
+            let result: any = {};
             switch (currencyOrToken) {
                 case 'ethereum':
-                    result = await sendEther(amount, to, fee);
+                    result = await sendEther(amount, to, fee, context.signer);
+                    break;
                 default:
-                    result = await sendToken(currencyOrToken, amount, to, fee);
+                    result = await sendToken(currencyOrToken, amount, to, fee, context.signer);
+            }
+
+            if (!result) {
+                return {};
             }
 
             return {
-                result,
+                hash: result.hash,
+                to: result.to,
+                from: result.from,
+                nonce: result.nonce,
+                gasLimit: result.gasLimit.toString(),
+                gasPrice: result.gasPrice.toString(),
+                data: result.data,
+                value: result.value.toString(),
+                chainId: result.chainId,
+                r: result.r,
+                s: result.s,
+                v: result.v,
+                raw: result.raw,
             };
         },
     },
 
     Query: {
-        cryptoCurrencies: async (schema: any, {
-            address,
-        }: any) => {
+        cryptoCurrencies: async (
+            schema: any,
+            {
+                address,
+            }: any,
+            context: any,
+        ) => {
             const cryptoCurrencies: {
                 balance: string;
                 data: any;
@@ -256,17 +249,9 @@ export default {
                 symbol: string;
             }[] = [];
 
-            const state = store.getState();
-            const account = accountAddressSelector(state);
-            const currentNetwork = currentNetworkSelector(state);
+            const account = await context.signer.getAddress();
 
-            const web3 = await getCurrentNetworkProvider();
-
-            if (!web3) {
-                return cryptoCurrencies;
-            }
-
-            const etherBalance = await web3.getBalance(account);
+            const etherBalance = await context.provider.getBalance(account);
 
             const etherPriceResponse = await fetch(
                 'https://api.etherscan.io/api?module=stats&action=ethprice&apikey=SKPYR2WCP5MM2RPAMQF2W4VIYVMKIBQU6J',
@@ -285,10 +270,12 @@ export default {
 
             const etherFees = await fetchFee('ethereum', '1');
 
+            const network = await context.provider.getNetwork();
+
             cryptoCurrencies.push({
                 balance: utils.formatEther(etherBalance),
                 data: {
-                    network: currentNetwork.network,
+                    network,
                     platform: 'ethereum',
                 },
                 decimals: 18,
@@ -301,12 +288,12 @@ export default {
                 symbol: 'ETH',
             });
 
-            const erc20Contracts = await getERC20Contracts(account);
+            const erc20Contracts = await getERC20Contracts(account, context.signer);
 
             for (const token of erc20Contracts) {
                 cryptoCurrencies.push(
                     {
-                        ...await getERC20Data(account, token),
+                        ...await getERC20Data(account, token, context.provider, network),
                         feeAverage: etherFees.average.toString(),
                         feeFast: etherFees.fast.toString(),
                         feeSafeLow: etherFees.safeLow.toString(),

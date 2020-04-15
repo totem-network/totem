@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) => {
                     borderBottomColor: theme.palette.primary.contrastText,
                 },
             },
-        }
+        },
     };
 });
 

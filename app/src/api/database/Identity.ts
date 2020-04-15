@@ -1,4 +1,4 @@
-import { KeyRing } from 'account';
+import KeyRing from 'account/encryption/KeyRing';
 import {
     createJWT,
     SimpleSigner,
@@ -29,10 +29,11 @@ interface IEncryptedFiles {
 
 class Identity {
 
-    public static async create(ipfs: any, coinType: string) {
-        const seed = await KeyRing.getSeed(coinType);
+    public static async create(ipfs: any, signer: any) {
+        const seed = await KeyRing.getSeed(signer);
 
         if (!seed) {
+            // TODO: throws after signing out and back in when loading the filesystem!
             throw new Error('Cannot create identity! No seed for given coin type');
         }
 

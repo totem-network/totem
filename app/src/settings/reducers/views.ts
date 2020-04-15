@@ -10,12 +10,16 @@ import {
 
 interface IViewsState {
     account: boolean;
+    network: boolean;
+    permissions: boolean;
 }
 
 export interface IImmutableViewsState extends IImmutableStateMap<IViewsState> {}
 
 const initialState = fromJS({
     account: false,
+    network: false,
+    permissions: false,
 });
 
 function instancesReducer(

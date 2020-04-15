@@ -1,8 +1,10 @@
 import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
-import { SchemaLink } from 'apollo-link-schema';
-import schema from '../schema';
-import rootResolver from '../schema/resolvers';
+// import { SchemaLink } from 'apollo-link-schema';
+import { api } from 'worker';
+import WorkerLink from '../links/WorkerLink';
+// import schema from '../schema';
+// import rootResolver from '../schema/resolvers';
 import createCache from './cache';
 
 export const createApolloClient = async () => {
@@ -17,10 +19,12 @@ export const createApolloClient = async () => {
             // Query A resolved
             // Maybe webworker fixes this
 
-            new SchemaLink({
+            /*new SchemaLink({
                 rootValue: rootResolver,
                 schema,
-            }),
+            }),*/
+
+            new WorkerLink(api),
         ],
     );
 

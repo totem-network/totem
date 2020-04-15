@@ -1,21 +1,31 @@
-import { boxes } from 'account';
-import { getCurrentNetworkProvider } from 'utils/blockchain';
+// import { boxes } from 'account';
+import Box from '3box';
+import BlockchainProviderManager from 'network/blockchain/ProviderManager';
 
 export default {
 
     Mutation: {
-        /*updateProfile: async (schema: any, {
-            contract,
-        }: any) => {
+        /*updateProfile: async (
+            schema: any,
+            {
+                address,
+                domain,
+            }: any,
+            context: any,
+        ) => {
             //
         },*/
     },
 
     Query: {
-        getProfile: async (schema: any, {
-            address,
-            domain,
-        }: any) => {
+        getProfile: async (
+            schema: any,
+            {
+                address,
+                domain,
+            }: any,
+            context: any,
+        ) => {
             const result = {
                 address,
                 header: '',
@@ -23,23 +33,13 @@ export default {
                 name: '',
             };
 
-            const provider = await getCurrentNetworkProvider();
-
-            if (!provider) {
-                return result;
-            }
-
             if (
                 domain &&
                 domain.endsWith('.eth')
             ) {
-                address = await provider.resolveName(domain);
+                address = await context.provider.resolveName(domain);
                 result.address = address;
             }
-
-            const boxImport = await import(/* webpackChunkName: '3box' */ '3box');
-
-            const Box = boxImport.default;
 
             const profile = await Box.getProfile(address);
 

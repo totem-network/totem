@@ -1,3 +1,4 @@
+import Box from '3box';
 import { utils } from 'ethers';
 
 class Boxes {
@@ -11,10 +12,6 @@ class Boxes {
     }
 
     public async openBox(address: string, provider: any) {
-        const boxImport = await import(/* webpackChunkName: '3box' */ '3box');
-
-        const Box = boxImport.default;
-
         if (!this.boxes[address]) {
             // TODO: check for storage quota, if too small box wont open!
             this.boxes[address] = await Box.openBox(address, provider);
@@ -26,10 +23,6 @@ class Boxes {
     }
 
     public async verifyClaim(claim: any, options: any) {
-        const boxImport = await import(/* webpackChunkName: '3box' */ '3box');
-
-        const Box = boxImport.default;
-
         return Box.idUtils.verifyClaim(claim, options);
     }
 

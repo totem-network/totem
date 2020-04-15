@@ -1,9 +1,6 @@
-import { accountAddressSelector, boxes } from 'account';
+import boxes from 'account/profile/boxes';
 import { Contract, utils } from 'ethers';
-import { Provider } from 'ethers/providers/abstract-provider';
-import { BlockchainProviderManager, currentNetworkSelector, fetchFee } from 'network';
-import { store } from 'state';
-import { getCurrentNetworkProvider, getCurrentNetworkSigner } from 'utils/blockchain';
+import fetchFee from 'network/utils/fetchFee';
 import { containsAddress } from 'utils/ethereum';
 import ERC721Abi from './erc721';
 
@@ -63,12 +60,10 @@ const updateERC721Contracts = async (account: string, space: any) => {
     return;
 };
 
-const getERC721Contracts = async (account: string, provider: Provider) => {
-    const currentSigner = await getCurrentNetworkSigner();
-
+const getERC721Contracts = async (account: string, signer: any) => {
     const box = await boxes.openBox(
         account,
-        boxes.wrapEthersSigner(currentSigner),
+        boxes.wrapEthersSigner(signer),
     );
 
     const space = await box.openSpace('totem');
@@ -84,18 +79,8 @@ const getERC721Contracts = async (account: string, provider: Provider) => {
     return erc721Contracts;
 };
 
-const getERC721Data = async (account: string, contract: string) => {
-    const web3 = await getCurrentNetworkProvider();
-
-    if (!web3) {
-        return {
-            contract,
-            images: [],
-            name: '???',
-        };
-    }
-
-    const assetContract = new Contract(contract, ERC721Abi, web3);
+const getERC721Data = async (account: string, contract: string, signer: any) => {
+    const assetContract = new Contract(contract, ERC721Abi, signer);
 
     let name = '???';
     try {
@@ -154,14 +139,8 @@ const getERC721Data = async (account: string, contract: string) => {
     };
 };
 
-const getERC721Tokens = async (account: string, contract: string) => {
-    const web3 = await getCurrentNetworkProvider();
-
-    if (!web3) {
-        return [];
-    }
-
-    const assetContract = new Contract(contract, ERC721Abi, web3);
+const getERC721Tokens = async (account: string, contract: string, signer: any) => {
+    const assetContract = new Contract(contract, ERC721Abi, signer);
 
     const name = await assetContract.name();
 
@@ -199,24 +178,8 @@ const getERC721Tokens = async (account: string, contract: string) => {
     return tokenIds;
 };
 
-const getERC721TokenData = async (contract: string, tokenId: string) => {
-    const web3 = await getCurrentNetworkProvider();
-
-    if (!web3) {
-        return {
-            asset: {
-                contract,
-                images: [],
-                name: '???',
-            },
-            description: '',
-            id: tokenId,
-            image: '',
-            name: '???',
-        };
-    }
-
-    const assetContract = new Contract(contract, ERC721Abi, web3);
+const getERC721TokenData = async (contract: string, tokenId: string, signer: any) => {
+    const assetContract = new Contract(contract, ERC721Abi, signer);
 
     // TODO: implements ERC721MetaData interface?
     const name = await assetContract.name();
@@ -281,17 +244,15 @@ const getERC721TokenData = async (contract: string, tokenId: string) => {
     };
 };
 
-const sendToken = async (contract: string, token: string, to: string, fee: string) => {
-    const state = store.getState();
-    const account = accountAddressSelector(state);
-
-    const web3Signer = await getCurrentNetworkSigner();
-
-    if (!web3Signer) {
-        return false;
-    }
-
-    const tokenContract = new Contract(contract, ERC721Abi, web3Signer);
+const sendToken = async (
+    contract: string,
+    token: string,
+    to: string,
+    fee: string,
+    account: string,
+    signer: any,
+) => {
+    const tokenContract = new Contract(contract, ERC721Abi, signer);
 
     await tokenContract.transferFrom(account, to, token, {
         gasLimit: utils.bigNumberify('500000'),
@@ -304,21 +265,16 @@ const sendToken = async (contract: string, token: string, to: string, fee: strin
 export default {
 
     Mutation: {
-        addDigitalAsset: async (schema: any, {
-            contract,
-        }: any) => {
-            const state = store.getState();
-            const account = accountAddressSelector(state);
+        addDigitalAsset: async (
+            schema: any,
+            {
+                contract,
+            }: any,
+            context: any,
+        ) => {
+            const account = await context.signer.getAddress();
 
-            const web3 = await getCurrentNetworkProvider();
-
-            if (!web3) {
-                return {
-                    result: false,
-                };
-            }
-
-            const assetContract = new Contract(contract, ERC721Abi, web3);
+            const assetContract = new Contract(contract, ERC721Abi, context.signer);
 
             const balance = await assetContract.balanceOf(account);
 
@@ -328,11 +284,9 @@ export default {
                 };
             }
 
-            const currentSigner = await getCurrentNetworkSigner();
-
             const box = await boxes.openBox(
                 account,
-                boxes.wrapEthersSigner(currentSigner),
+                boxes.wrapEthersSigner(context.signer),
             );
 
             const space = await box.openSpace('totem');
@@ -358,39 +312,42 @@ export default {
             };
         },
 
-        sendDigitalAsset: async (schema: any, {
-            contract,
-            fee,
-            to,
-            token,
-        }: any) => {
-            return sendToken(contract, token, to, fee);
+        sendDigitalAsset: async (
+            schema: any,
+            {
+                contract,
+                fee,
+                to,
+                token,
+            }: any,
+            context: any,
+        ) => {
+            const account = await context.signer.getAddress();
+
+            return sendToken(contract, token, to, fee, account, context.signer);
         },
     },
 
     Query: {
-        digitalAsset: async (schema: any, {
-            contract,
-        }: any) => {
+        digitalAsset: async (
+            schema: any,
+            {
+                contract,
+            }: any,
+            context: any,
+        ) => {
+            const account = await context.signer.getAddress();
+
             const digitalAssetTokens: IDigitalAssetToken[] = [];
 
-            const state = store.getState();
-            const account = accountAddressSelector(state);
-
-            const web3 = getCurrentNetworkProvider();
-
-            if (!web3) {
-                return digitalAssetTokens;
-            }
-
-            const erc721Tokens = await getERC721Tokens(account, contract);
+            const erc721Tokens = await getERC721Tokens(account, contract, context.signer);
 
             const etherFees = await fetchFee('ethereum', '1');
 
             for (const token of erc721Tokens) {
                 digitalAssetTokens.push(
                     {
-                        ...await getERC721TokenData(contract, token),
+                        ...await getERC721TokenData(contract, token, context.signer),
                         feeAverage: etherFees.average.toString(),
                         feeFast: etherFees.fast.toString(),
                         feeSafeLow: etherFees.safeLow.toString(),
@@ -401,34 +358,39 @@ export default {
             return digitalAssetTokens;
         },
 
-        digitalAssetByAccount: async (schema: any, {}: any) => {
+        digitalAssetByAccount: async (
+            schema: any,
+            {}: any,
+            context: any,
+        ) => {
             // TODO: add optional account field to digitalAsset
         },
 
-        digitalAssets: async () => {
+        digitalAssets: async (
+            schema: any,
+            {}: any,
+            context: any,
+        ) => {
+            const account = await context.signer.getAddress();
+
             const digitalAssets: IDigitalAsset[] = [];
 
-            const state = store.getState();
-            const account = accountAddressSelector(state);
-
-            const web3 = await getCurrentNetworkProvider();
-
-            if (!web3) {
-                return digitalAssets;
-            }
-
-            const erc721Contracts = await getERC721Contracts(account, web3);
+            const erc721Contracts = await getERC721Contracts(account, context.signer);
 
             for (const asset of erc721Contracts) {
                 digitalAssets.push(
-                    await getERC721Data(account, asset),
+                    await getERC721Data(account, asset, context.signer),
                 );
             }
 
             return digitalAssets;
         },
 
-        digitalAssetsByAccount: async (schema: any, {}: any) => {
+        digitalAssetsByAccount: async (
+            schema: any,
+            {}: any,
+            context: any,
+        ) => {
             // TODO: add optional account field to digitalAsset
         },
     },

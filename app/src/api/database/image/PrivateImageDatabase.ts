@@ -1,3 +1,5 @@
+import { Signer } from 'ethers/abstract-signer';
+import { Provider } from 'ethers/providers/abstract-provider';
 import AbstractImageDatabase from './AbstractImageDatabase';
 
 class PrivateImageDatabase extends AbstractImageDatabase {
@@ -10,8 +12,8 @@ class PrivateImageDatabase extends AbstractImageDatabase {
         type: 'feed',
     };
 
-    public static async create() {
-        const database = new PrivateImageDatabase();
+    public static async create(coinType: string, signer: Signer, provider: Provider) {
+        const database = new PrivateImageDatabase(coinType, signer, provider);
 
         await database.init();
 

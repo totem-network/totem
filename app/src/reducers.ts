@@ -3,6 +3,7 @@ import { IImmutableApplicationsState, reducer as applicationsReducer } from 'app
 import { connectRouter, RouterState } from 'connected-react-router/immutable';
 import { IImmutableFileSystemState, reducer as filesystemReducer } from 'filesystem';
 import { IImmutableNetworkState, reducer as networkReducer } from 'network';
+import notificationsReducer, { IImmutableNotificationsState } from 'notifications/reducers';
 import { AnyAction, Reducer } from 'redux';
 import { combineReducers } from 'redux-immutable';
 import { IImmutableStateMap } from 'redux-utils';
@@ -15,6 +16,7 @@ interface IState {
     applications: IImmutableApplicationsState;
     filesystem: IImmutableFileSystemState;
     network: IImmutableNetworkState;
+    notifications: IImmutableNotificationsState;
     router: any;
     settings: IImmutableSettingsState;
 }
@@ -29,6 +31,7 @@ const createRootReducer = (history: any) => {
             applications: applicationsReducer,
             filesystem: filesystemReducer,
             network: networkReducer,
+            notifications: notificationsReducer,
             router: connectRouter(history),
             settings: settingsReducer,
         } as any,

@@ -3,6 +3,7 @@ import {
     put,
     takeLatest,
 } from 'redux-saga/effects';
+import { generateId } from 'utils/uuid';
 import {
     IStartApplicationAction,
     START_APPLICATION,
@@ -13,16 +14,6 @@ import {
     fetchManifest,
     fetchMetaData,
 } from '../metadata';
-
-function generateId() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-        // tslint:disable-next-line
-        const r = Math.random() * 16 | 0;
-        // tslint:disable-next-line
-        const v = c === 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
-}
 
 function* startApplication(action: IStartApplicationAction) {
     try {
@@ -41,8 +32,8 @@ function* startApplication(action: IStartApplicationAction) {
 
         yield put(addWindow(
             id,
-            800,
-            400,
+            900,
+            550,
             100,
             100,
         ));

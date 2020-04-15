@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const { InjectManifest } = require('workbox-webpack-plugin');
+const WorkerPlugin = require('worker-plugin');
 
 const config = {
     entry: {
@@ -69,6 +70,7 @@ const config = {
         runtimeChunk: true
     },
     plugins: [
+        new WorkerPlugin(),
         new webpack.DefinePlugin({
             'process.browser': 'true'
         }),

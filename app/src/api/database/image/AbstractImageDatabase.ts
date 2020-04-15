@@ -409,22 +409,12 @@ abstract class AbstractImageDatabase extends BaseDatabase {
     }
 
     protected async getImageSize(image: string): Promise<IImageSize> {
-        return new Promise((resolve, reject) => {
-            const imageObject = new Image();
+        const jimpImage = await Jimp.read(image);
 
-            imageObject.onload = () => {
-                resolve({
-                    height: imageObject.height,
-                    width: imageObject.width,
-                });
-            };
-
-            imageObject.onerror = () => {
-                reject();
-            };
-
-            imageObject.src = image;
-        });
+        return {
+            height: jimpImage.bitmap.height,
+            width: jimpImage.bitmap.width,
+        };
     }
 
     protected async getMimeType(image: string): Promise<string> {
@@ -473,10 +463,6 @@ abstract class AbstractImageDatabase extends BaseDatabase {
 
     protected async resizeImage(image: any, imageSize: IImageSize, mimeType: string) {
         const jimpImage = await Jimp.read(image);
-
-        if (!imageSize) {
-            return;
-        }
 
         const resizedImages: any = {};
 

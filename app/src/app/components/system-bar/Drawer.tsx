@@ -12,6 +12,7 @@ import systemBarSelector from '../../selectors/systemBar';
 import CurrentDate from '../clock/CurrentDate';
 import CurrentTime from '../clock/CurrentTime';
 import DrawerViews from './DrawerViews';
+import NotificationBar from './NotificationBar';
 import QuickSettings from './QuickSettings';
 
 interface IDrawerProps {}
@@ -81,6 +82,16 @@ const Drawer = ({}: IDrawerProps) => {
         return null;
     };
 
+    const renderNotificationBar = () => {
+        if (isWidthUp('lg', width)) {
+            return (
+                <NotificationBar />
+            );
+        }
+
+        return null;
+    };
+
     const renderQuickSettings = () => {
         if (isWidthUp('lg', width)) {
             return (
@@ -122,6 +133,7 @@ const Drawer = ({}: IDrawerProps) => {
             />
             {renderDate()}
             {renderQuickSettings()}
+            {renderNotificationBar()}
         </SwipeableDrawer>
     );
 };

@@ -1,6 +1,6 @@
-import { accountAddressSelector, boxes } from 'account';
-import { store } from 'state';
-import { getCurrentNetwork, getCurrentNetworkSigner } from 'utils/blockchain';
+import boxes from 'account/profile/boxes';
+import { Signer } from 'ethers/abstract-signer';
+import { Provider } from 'ethers/providers/abstract-provider';
 import Identity from './Identity';
 import DatabaseProviderManager from './ProviderManager';
 const Identities = require('orbit-db-identity-provider');
@@ -22,6 +22,12 @@ abstract class BaseDatabase {
 
     protected NOT_READY_ERROR = 'Database not ready';
 
+    protected coinType: string;
+
+    protected signer: Signer;
+
+    protected provider: Provider;
+
     protected identity: any;
 
     protected totemSpace: any;
@@ -33,6 +39,12 @@ abstract class BaseDatabase {
     /********************
      * Initialization
      ********************/
+
+    constructor(coinType: string, signer: Signer, provider: Provider) {
+        this.coinType = coinType;
+        this.signer = signer;
+        this.provider = provider;
+    }
 
     protected abstract async onInitialize(): Promise<void>;
 
@@ -95,10 +107,10 @@ abstract class BaseDatabase {
             return;
         }
 
-        // TODO: current ethereum signer not other signers!
-        const currentNetwork = await getCurrentNetwork();
-
-        this.identity = await Identity.create(database._ipfs, currentNetwork.coinType);
+        this.identity = await Identity.create(
+            database._ipfs,
+            this.signer,
+        );
         /*await Identities.createIdentity({
             identity: await Identity.create(database._ipfs, currentNetwork.coinType),
             type: 'TotemID',
@@ -112,15 +124,11 @@ abstract class BaseDatabase {
     }
 
     protected async getTotemSpace() {
-        const state = store.getState();
-        const account = accountAddressSelector(state);
-
-        // TODO: current ethereum signer not other signers!
-        const currentSigner = await getCurrentNetworkSigner();
+        const account = await this.signer.getAddress();
 
         const box = await boxes.openBox(
             account,
-            boxes.wrapEthersSigner(currentSigner),
+            boxes.wrapEthersSigner(this.signer),
         );
 
         const space = await box.openSpace('totem');

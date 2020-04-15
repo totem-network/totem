@@ -1,11 +1,12 @@
-import { sagas as accountSagas } from 'account';
+import accountSagas from 'account/sagas';
 import { appSagas, initializeSaga } from 'app';
-import { sagas as applicationsSagas } from 'applications';
-import { sagas as fileSystemSagas } from 'filesystem';
-import { sagas as networkSagas } from 'network';
+import applicationsSagas from 'applications/sagas';
+import fileSystemSagas from 'filesystem/sagas';
+import networkSagas from 'network/sagas';
+import notificationsSaga from 'notifications/sagas';
 import createSagaMiddleware from 'redux-saga';
 import { all, fork } from 'redux-saga/effects';
-import { sagas as settingsSagas } from 'settings';
+import settingsSagas from 'settings/sagas';
 
 export const sagaMiddleware = createSagaMiddleware();
 
@@ -16,6 +17,7 @@ export default function* startupSaga() {
         fork(applicationsSagas),
         fork(fileSystemSagas),
         fork(networkSagas),
+        fork(notificationsSaga),
         fork(settingsSagas),
     ]);
 

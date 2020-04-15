@@ -12,6 +12,9 @@ const theme = createMuiTheme({
         secondary: {
             main: pink.A200, // #FF4081
         },
+        background: {
+            paper: '#f0f0f0',
+        },
     },
     typography: {
         body1: {

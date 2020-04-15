@@ -1,4 +1,5 @@
-import { BlockchainProviderManager, currentNetworkSelector } from 'network';
+import { BlockchainProviderManager } from 'network';
+import currentNetworkSelector from 'network/selectors/blockchain/currentNetwork';
 import { store } from 'state';
 
 export const getCurrentNetwork = () => {
@@ -11,6 +12,7 @@ export const getCurrentNetworkSigner = async () => {
 
     const web3Signer = await BlockchainProviderManager.getSigner(
         currentNetwork.coinType,
+        currentNetwork.chainId,
     );
 
     return web3Signer;
@@ -21,6 +23,7 @@ export const getCurrentNetworkProvider = async () => {
 
     const web3Provider = await BlockchainProviderManager.getProvider(
         currentNetwork.coinType,
+        currentNetwork.chainId,
     );
 
     return web3Provider;

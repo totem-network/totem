@@ -1,26 +1,24 @@
+import proxyWeb3 from 'api/links/proxyWeb3';
+import { proxy } from 'comlink';
 import { call, fork, put, takeLatest } from 'redux-saga/effects';
 import { clearStorage, initializeSaga } from 'app';
-import { store } from 'state';
-import { getCurrentNetworkSigner } from 'utils/blockchain';
+import { api } from 'worker';
 import {
     ILogoutAction,
     LOGOUT,
     LOGOUT_SUCCESS,
     logoutSuccess,
 } from '../actions/logout';
-import boxes from '../profile/boxes';
-import accountAddressSelector from '../selectors/accountAddress';
+
+export function* logoutApiWorker() {
+    return yield (api as any).logout(proxy(proxyWeb3));
+}
 
 function* logout(action: ILogoutAction) {
-    const state = yield call(store.getState);
-    const account = yield call(accountAddressSelector, state);
+    yield call(logoutApiWorker);
 
-    const currentSigner = yield call(getCurrentNetworkSigner);
-    const wrappedSigner = yield call(boxes.wrapEthersSigner, currentSigner);
-
-    const box = yield call([boxes, boxes.openBox], account, wrappedSigner);
-
-    yield call([box, box.logout]);
+    // TODO: cannot login after logout
+    // Error: No Signer in ProxySigner
 
     yield put(clearStorage());
     yield put(logoutSuccess());

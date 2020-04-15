@@ -6,7 +6,7 @@ import {
 import BlockchainProviderManager from './blockchain/ProviderManager';
 import reducer, { IImmutableNetworkState } from './reducers';
 import sagas from './sagas';
-import currentNetworkSelector from './selectors/currentNetwork';
+import currentBlockchainNetworkSelector from './selectors/blockchain/currentNetwork';
 import feeSelector from './selectors/fee';
 import StorageProviderManager from './storage/ProviderManager';
 import fetchFee from './utils/fetchFee';
@@ -15,7 +15,7 @@ export {
     ADD_ACCOUNT,
     addAccount,
     BlockchainProviderManager,
-    currentNetworkSelector,
+    currentBlockchainNetworkSelector,
     feeSelector,
     fetchFee,
     IAccountConfig,

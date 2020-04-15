@@ -1,6 +1,6 @@
 import { Action } from 'redux';
 
-export type ViewType = 'account';
+export type ViewType = 'account' | 'network' | 'permissions';
 
 // show view
 

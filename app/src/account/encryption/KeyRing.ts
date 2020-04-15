@@ -1,62 +1,54 @@
-import { BlockchainProviderManager } from 'network';
+import { Signer } from 'ethers/abstract-signer';
 import { box, BoxKeyPair } from 'tweetnacl';
 import { deriveAsymetricKeyPairFromSeed, getSeedFromWeb3Signer } from 'utils/encryption';
 
 interface IKeyPairs {
+    [key: string]: IKeyPairChains;
+}
+
+interface IKeyPairChains {
     [key: string]: BoxKeyPair;
 }
 
 interface ISeeds {
+    [key: string]: ISeedChains;
+}
+
+interface ISeedChains {
     [key: string]: string;
 }
 
 class KeyRing {
 
-    protected keyPairs: IKeyPairs;
+    protected keyPair?: BoxKeyPair;
 
-    protected seeds: ISeeds;
+    protected seed?: string;
 
-    constructor() {
-        this.keyPairs = {};
-        this.seeds = {};
-    }
-
-    public async getAsymetricKeyPair(coinType: string): Promise<BoxKeyPair | undefined> {
-        if (!this.keyPairs[coinType]) {
-            const web3Signer = await BlockchainProviderManager.getSigner(coinType);
-
-            if (!web3Signer) {
-                return;
-            }
-
-            const seed = await this.getSeed(coinType);
+    public async getAsymetricKeyPair(signer: Signer): Promise<BoxKeyPair | undefined> {
+        if (!this.keyPair) {
+            const seed = await this.getSeed(signer);
 
             if (!seed) {
                 return;
             }
 
-            this.keyPairs[coinType] = deriveAsymetricKeyPairFromSeed(seed);
+            this.keyPair = deriveAsymetricKeyPairFromSeed(seed);
         }
 
-        return this.keyPairs[coinType];
+        return this.keyPair;
     }
 
-    public async getSeed(coinType: string): Promise<string | undefined> {
+    public async getSeed(signer: Signer): Promise<string | undefined> {
         // TODO: try to get from local storage first
         // TODO: save to local storage and load
-        if (!this.seeds[coinType]) {
-            const web3Signer = await BlockchainProviderManager.getSigner(coinType);
+        if (!this.seed) {
 
-            if (!web3Signer) {
-                return;
-            }
+            const seed = await getSeedFromWeb3Signer(signer);
 
-            const seed = await getSeedFromWeb3Signer(web3Signer);
-
-            this.seeds[coinType] = seed;
+            this.seed = seed;
         }
 
-        return this.seeds[coinType];
+        return this.seed;
     }
 
 }

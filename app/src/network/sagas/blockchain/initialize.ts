@@ -28,24 +28,29 @@ export default function* initializeSaga() {
         //
     }*/
 
-    const network = initializeAction.payload.ethereum.networkVersion;
-
     try {
         const ethereum = coinTypes.filter((item: any) => item[1] === 'ETH');
 
         const provider = new providers.Web3Provider(initializeAction.payload.ethereum);
+        const network = yield provider.getNetwork();
 
         ProviderManager.setProvider(
             ethereum[0][0],
+            network.chainId,
             provider,
         );
 
         ProviderManager.setSigner(
             ethereum[0][0],
+            network.chainId,
             provider.getSigner(),
         );
 
-        yield put(setCurrentNetwork(ethereum[0][0]));
+        yield put(setCurrentNetwork(
+            ethereum[0][0],
+            network.chainId,
+            network.name,
+        ));
     } catch (error) {
         //
     }

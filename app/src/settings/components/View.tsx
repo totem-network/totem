@@ -8,13 +8,16 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import Lock from '@material-ui/icons/Lock';
 import Public from '@material-ui/icons/Public';
 import { makeStyles } from '@material-ui/styles';
-import React, { useState } from 'react';
+import React from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { toggleView, ViewType } from '../actions/views';
 import viewsSelector from '../selectors/views';
 import AccountSubView from './account/SubView';
+import NetworkSubView from './network/SubView';
+import PermissionsSubView from './permission/SubView';
 import Search from './Search';
 
 interface IViewProps {}
@@ -94,6 +97,7 @@ const View = ({}: IViewProps) => {
                 <ListItem
                     button={true}
                     className={classes.listItem}
+                    onClick={createSubViewToggler('network')}
                 >
                     <ListItemIcon>
                         <Public />
@@ -101,8 +105,35 @@ const View = ({}: IViewProps) => {
                     <ListItemText
                         primary={'Network'}
                     />
-                    <ExpandMore />
+                    {views.network ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
+                <Collapse
+                    in={views.network}
+                    timeout={'auto'}
+                    unmountOnExit={true}
+                >
+                    <NetworkSubView />
+                </Collapse>
+                <ListItem
+                    button={true}
+                    className={classes.listItem}
+                    onClick={createSubViewToggler('permissions')}
+                >
+                    <ListItemIcon>
+                        <Lock />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary={'Permissions'}
+                    />
+                    {views.permissions ? <ExpandLess /> : <ExpandMore />}
+                </ListItem>
+                <Collapse
+                    in={views.permissions}
+                    timeout={'auto'}
+                    unmountOnExit={true}
+                >
+                    <PermissionsSubView />
+                </Collapse>
             </List>
         </div>
     );

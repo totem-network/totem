@@ -1,4 +1,4 @@
-import { StorageProviderManager } from 'network';
+import StorageProviderManager from 'network/storage/ProviderManager';
 // import OrbitDB from 'orbit-db';
 import IdentityProvider from './IdentityProvider';
 import registerTotemID from './IdentityResolver';

@@ -33,6 +33,7 @@ __This is alpha software! Not all features are implemented completly!__
 ## 🚩 Contents
 
 - [🚩 Contents](#%f0%9f%9a%a9-contents)
+- [Packages](#packages)
 - [🔭 Screenshots](#%f0%9f%94%ad-screenshots)
 - [🚀 Getting Started](#%f0%9f%9a%80-getting-started)
 - [💻 Requirements](#%f0%9f%92%bb-requirements)
@@ -41,6 +42,12 @@ __This is alpha software! Not all features are implemented completly!__
 - [✨ Sponsors](#%e2%9c%a8-sponsors)
 - [💖 Special Thanks](#%f0%9f%92%96-special-thanks)
 - [📜 License](#%f0%9f%93%9c-license)
+
+## Packages
+
+| Package                                 | Description                                |
+| --------------------------------------- | ------------------------------------------ |
+| [`@totem/base-db`](/packages/base-db)   | Decentralized database build on orbit-db   |
 
 ## 🔭 Screenshots
 

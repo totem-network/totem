@@ -11,6 +11,7 @@ import { useWidth } from 'ui';
 import systemBarSelector from '../../selectors/systemBar';
 import Clock from './Clock';
 import Drawer from './Drawer';
+import NotificationBar from './NotificationBar';
 import QuickSettings from './QuickSettings';
 
 interface ISystemBarProps {}
@@ -44,6 +45,16 @@ const SystemBar = ({}: ISystemBarProps) => {
     const classes = useStyles();
     const width = useWidth();
 
+    const renderNotificationBar = () => {
+        if (isWidthUp('lg', width) && !isDrawerVisible) {
+            return (
+                <NotificationBar />
+            );
+        }
+
+        return null;
+    };
+
     const renderQuickSettings = () => {
         if (isWidthUp('lg', width) && !isDrawerVisible) {
             return (
@@ -65,6 +76,7 @@ const SystemBar = ({}: ISystemBarProps) => {
             >
                 <Clock />
                 {renderQuickSettings()}
+                {renderNotificationBar()}
                 <Drawer />
             </aside>
     );

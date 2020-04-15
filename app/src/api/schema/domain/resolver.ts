@@ -1,4 +1,4 @@
-import { getCurrentNetworkProvider } from 'utils/blockchain';
+import BlockchainProviderManager from 'network/blockchain/ProviderManager';
 
 export default {
 
@@ -11,21 +11,32 @@ export default {
     },
 
     Query: {
-        resolveAddress: async (schema: any, {
-            address,
-        }: any) => {
+        resolveAddress: async (
+            schema: any,
+            {
+                address,
+            }: any,
+            context: any,
+        ) => {
             //
         },
 
-        resolveDomain: async (schema: any, {
-            domain,
-        }: any) => {
+        resolveDomain: async (
+            schema: any,
+            {
+                domain,
+            }: any,
+            context: any,
+        ) => {
             const result = {
                 address: '',
                 domain,
             };
 
-            const provider = await getCurrentNetworkProvider();
+            const provider = await BlockchainProviderManager.getProvider(
+                context.blockchainNetwork.coinType,
+                context.blockchainNetwork.chainId,
+            );
 
             if (!provider) {
                 return result;

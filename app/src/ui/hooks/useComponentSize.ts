@@ -1,9 +1,12 @@
+import { ResizeObserver as Polyfill } from '@juggle/resize-observer';
 import {
     RefObject,
     useCallback,
     useLayoutEffect,
     useState,
 } from 'react';
+
+const ResizeObserver = (window as any).ResizeObserver || Polyfill;
 
 const useComponentSize = (ref: RefObject<any>) => {
     const initialState = {
@@ -38,13 +41,14 @@ const useComponentSize = (ref: RefObject<any>) => {
 
             handleResize();
 
-            // TODO: use ResizeObserver to fix:
-            // TODO: does not change when resizing the window
+            const observer = new ResizeObserver(() => {
+                handleResize();
+            });
 
-            ref.current.addEventListener('resize', handleResize);
+            observer.observe(ref.current);
 
             return () => {
-                ref.current.removeEventListener('resize', handleResize);
+                observer.disconnect(ref.current);
             };
         },
         [ref.current],
