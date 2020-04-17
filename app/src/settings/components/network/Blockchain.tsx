@@ -6,13 +6,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { makeStyles } from '@material-ui/styles';
-import coinTypes from 'bip44-constants';
 import { setCurrentNetwork } from 'network/actions/blockchain/currentNetwork';
 import currentNetworkSelector from 'network/selectors/blockchain/currentNetwork';
 import React, { ChangeEvent } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-
-const ethereum = coinTypes.filter((item: any) => item[1] === 'ETH');
 
 // TODO: move to external file with a collection of all networks for each cointype
 const networks: any = {
@@ -64,8 +61,7 @@ const Blockchain = ({}: IBlockchainProps) => {
 
     const handleChange = (event: ChangeEvent<any>) => {
         dispatch(setCurrentNetwork(
-            ethereum,
-            networks[event.target.value],
+            'eip155:' + networks[event.target.value],
             event.target.value,
         ));
     };

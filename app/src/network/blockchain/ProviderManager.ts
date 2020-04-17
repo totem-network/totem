@@ -1,20 +1,11 @@
-import coinTypes from 'bip44-constants';
 import { providers, Signer } from 'ethers';
 import { Provider } from 'ethers/providers/abstract-provider';
 
 interface IProviders {
-    [key: string]: IProviderChains;
-}
-
-interface IProviderChains {
     [key: string]: Provider;
 }
 
 interface ISigners {
-    [key: string]: ISignerChains;
-}
-
-interface ISignerChains {
     [key: string]: Signer;
 }
 
@@ -36,76 +27,58 @@ class ProviderManager {
     }
 
     public setProvider(
-        coinType: string,
-        chainId: any,
+        chainId: string,
         provider: Provider,
     ): ProviderManager {
-        if (!this.providers[coinType]) {
-            this.providers[coinType] = {};
-        }
-
-        this.providers[coinType][chainId] = provider;
+        this.providers[chainId] = provider;
 
         return this;
     }
 
-    public async getProvider(coinType: string, chainId: any): Promise<Provider | undefined> {
-        if (!this.providers[coinType]) {
-            this.providers[coinType] = {};
-
-            const provider = await this.createProvider(coinType, chainId);
+    public async getProvider(chainId: string): Promise<Provider | undefined> {
+        if (!this.providers[chainId]) {
+            const provider = await this.createProvider(chainId);
 
             if (provider) {
-                this.providers[coinType][chainId] = provider;
+                this.providers[chainId] = provider;
             }
         }
 
-        return this.providers[coinType][chainId];
+        return this.providers[chainId];
     }
 
     public setSigner(
-        coinType: string,
-        chainId: any,
+        chainId: string,
         signer: Signer,
     ): ProviderManager {
-        if (!this.signers[coinType]) {
-            this.signers[coinType] = {};
-        }
-
-        this.signers[coinType][chainId] = signer;
+        this.signers[chainId] = signer;
 
         return this;
     }
 
-    public async getSigner(coinType: string, chainId: any): Promise<Signer | undefined> {
-        if (!this.signers[coinType]) {
-            return;
-        }
-
-        if (!this.signers[coinType][chainId]) {
-            return;
-        }
-
-        return this.signers[coinType][chainId];
+    public async getSigner(chainId: string): Promise<Signer | undefined> {
+        return this.signers[chainId];
     }
 
-    protected async createProvider(coinType: string, chainId: any): Promise<Provider | undefined> {
-        const ethereum = coinTypes.filter((item: any) => item[1] === 'ETH');
+    protected async createProvider(chainId: string): Promise<Provider | undefined> {
+        const [namespace, reference] = chainId.split(':');
 
-        if (ethereum.length === 1) {
-            if (coinType === ethereum[0][0]) {
-                if (chainId === 1) {
-                    return new providers.InfuraProvider();
-                }
-
-                if (chainId === 3) {
-                    return new providers.InfuraProvider('ropsten');
-                }
-
-                if (chainId === 4) {
-                    return new providers.InfuraProvider('rinkeby');
-                }
+        if (namespace === 'eip155') {
+            if (reference === '1') {
+                return new providers.InfuraProvider();
             }
+
+            if (reference === '3') {
+                return new providers.InfuraProvider('ropsten');
+            }
+
+            if (reference === '4') {
+                return new providers.InfuraProvider('rinkeby');
+            }
+        }
+
+        if (namespace === 'bip122') {
+            // TODO: bitcoin, litecoin, ...
         }
 
         return;

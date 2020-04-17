@@ -19,7 +19,7 @@ class WorkerLink extends ApolloLink {
     }
 
     public request(operation: any) {
-        const blockchainNetwork = getCurrentNetwork().coinType;
+        const blockchainNetwork = getCurrentNetwork().chainId;
 
         operation.context = {
             ...operation.context,

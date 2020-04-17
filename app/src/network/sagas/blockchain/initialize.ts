@@ -35,20 +35,17 @@ export default function* initializeSaga() {
         const network = yield provider.getNetwork();
 
         ProviderManager.setProvider(
-            ethereum[0][0],
-            network.chainId,
+            'eip155:' + network.chainId,
             provider,
         );
 
         ProviderManager.setSigner(
-            ethereum[0][0],
-            network.chainId,
+            'eip155:' + network.chainId,
             provider.getSigner(),
         );
 
         yield put(setCurrentNetwork(
-            ethereum[0][0],
-            network.chainId,
+            'eip155:' + network.chainId,
             network.name,
         ));
     } catch (error) {

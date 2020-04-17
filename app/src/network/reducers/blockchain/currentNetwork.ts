@@ -6,8 +6,7 @@ import {
 } from '../../actions/blockchain/currentNetwork';
 
 interface ICurrentNetworkState {
-    coinType?: string;
-    chainId: any;
+    chainId: string;
     name: string;
 }
 

@@ -34,7 +34,6 @@ export default {
             };
 
             const provider = await BlockchainProviderManager.getProvider(
-                context.blockchainNetwork.coinType,
                 context.blockchainNetwork.chainId,
             );
 
