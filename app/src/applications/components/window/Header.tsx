@@ -26,9 +26,6 @@ const useStyles = makeStyles({
         userSelect: 'none',
         width: '100%',
     },
-    headerMove: {
-        cursor: 'grabbing',
-    },
     noHeader: {
         background: 'none',
         boxShadow: 'none',
@@ -61,12 +58,23 @@ const Header = ({
 }: IHeaderProps) => {
     const classes = useStyles();
 
+    let domNode: HTMLElement | null = null;
     let mouseDown = false;
 
     let x = 0;
     let y = 0;
 
+    const setRef = (element: any) => {
+        domNode = element;
+    };
+
     const onMouseDown = (event: ReactMouseEvent<HTMLElement>) => {
+        if (!domNode) {
+            return;
+        }
+
+        domNode.style.cursor = 'grabbing';
+
         mouseDown = true;
 
         x = event.clientX;
@@ -79,6 +87,12 @@ const Header = ({
     };
 
     const onMouseUp = (event: MouseEvent) => {
+        if (!domNode) {
+            return;
+        }
+
+        domNode.style.cursor = 'auto';
+
         window.removeEventListener('mousemove', onMouseMove, true);
         window.removeEventListener('mouseup', onMouseUp, true);
 
@@ -117,11 +131,9 @@ const Header = ({
                 className={classNames(
                     classes.header,
                     classes.noHeader,
-                    {
-                        [classes.headerMove]: mouseDown,
-                    },
                 )}
                 onMouseDown={onMouseDown}
+                ref={setRef}
             >
                 <Buttons
                     backgroundColor={buttonBackground}
@@ -137,12 +149,10 @@ const Header = ({
         <div
             className={classNames(
                 classes.header,
-                {
-                    [classes.headerMove]: mouseDown,
-                },
             )}
-            style={headerColors}
             onMouseDown={onMouseDown}
+            ref={setRef}
+            style={headerColors}
         >
             <Buttons
                 backgroundColor={buttonBackground}
