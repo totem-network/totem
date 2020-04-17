@@ -16,6 +16,9 @@ const theme = createMuiTheme({
             paper: '#f0f0f0',
         },
     },
+    shape: {
+        borderRadius: 8,
+    },
     typography: {
         body1: {
             fontWeight: 300,
