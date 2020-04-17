@@ -1,7 +1,6 @@
 import blue from '@material-ui/core/colors/blue';
 import pink from '@material-ui/core/colors/pink';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
-import Background from './components/Background';
 
 const theme = createMuiTheme({
     palette: {
