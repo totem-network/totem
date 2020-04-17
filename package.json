@@ -75,6 +75,7 @@
     "license-checker": "^25.0.1",
     "lodash.escape": "^4.0.1",
     "mocha": "^7.1.1",
+    "react-axe": "^3.4.1",
     "react-hot-loader": "^4.12.20",
     "redux-devtools": "^3.5.0",
     "redux-devtools-dock-monitor": "^1.1.3",
