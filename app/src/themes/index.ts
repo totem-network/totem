@@ -3,6 +3,9 @@ import pink from '@material-ui/core/colors/pink';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 
 const theme = createMuiTheme({
+    mass: {
+        application: 1000,
+    },
     palette: {
         primary: {
             contrastText: '#f0f0f0',
