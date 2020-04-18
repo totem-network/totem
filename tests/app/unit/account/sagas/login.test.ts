@@ -1,11 +1,11 @@
 import '@babel/polyfill';
 import { loginSuccess } from 'account/actions/login';
-import loginSaga, {
+/*import loginSaga, {
     createWallet,
     getProvidedAccounts,
     loginWithMetaMask,
     loginWithPrivateKey,
-} from 'account/sagas/login';
+} from 'account/sagas/login';*/
 import { expect } from 'chai';
 import { utils } from 'ethers';
 import 'mocha';
@@ -13,7 +13,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 describe('Account sagas', () => {
     describe('login', () => {
-        it('should create a saga for login actions', async () => {
+        /*it('should create a saga for login actions', async () => {
             const generator = loginSaga();
 
             expect(generator.next().value).to.be.deep.equal(
@@ -71,6 +71,6 @@ describe('Account sagas', () => {
             );
 
             expect(generator.next().done).to.be.true;
-        });
+        });*/
     });
 });
