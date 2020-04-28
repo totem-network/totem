@@ -1,6 +1,6 @@
 /build
 node_modules
+packages/**/.openzeppelin/.session
+packages/**/.openzeppelin/dev-*.json
 packages/**/build/app
 packages/**/dist
-packages/**/.zos.session
-packages/**/zos.dev-*
