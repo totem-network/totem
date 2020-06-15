@@ -161,6 +161,23 @@ class Profile {
         return decryptedValue[0].data;
     }
 
+    public async reset() {
+        if (!this.publicDatabase || !this.privateDatabase) {
+            throw new Error('Databases not set in Profile');
+        }
+
+        await this.resetDatabase(this.publicDatabase);
+        await this.resetDatabase(this.privateDatabase);
+    }
+
+    protected async resetDatabase(database: any) {
+        for (const key in database.all) {
+            if (database.all[key]) {
+                await database.del(key);
+            }
+        }
+    }
+
 }
 
 export default Profile;

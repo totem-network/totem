@@ -21,20 +21,20 @@ export function resetAccount(): IResetAccountAction {
 
 // account reset
 
-export type ACCOUNT_RESET = 'settings/ACCOUNT_RESET';
-export const ACCOUNT_RESET: ACCOUNT_RESET = 'settings/ACCOUNT_RESET';
+export type ACCOUNT_RESET_SUCCESS = 'settings/ACCOUNT_RESET_SUCCESS';
+export const ACCOUNT_RESET_SUCCESS: ACCOUNT_RESET_SUCCESS = 'settings/ACCOUNT_RESET_SUCCESS';
 
-export interface IAccountResetAction extends Action {
-    type: ACCOUNT_RESET;
-    payload: IAccountResetPayload;
+export interface IAccountResetSuccessAction extends Action {
+    type: ACCOUNT_RESET_SUCCESS;
+    payload: IAccountResetSuccessPayload;
 }
 
-export interface IAccountResetPayload {}
+export interface IAccountResetSuccessPayload {}
 
-export function accountReset(): IAccountResetAction {
+export function accountResetSuccess(): IAccountResetSuccessAction {
     return {
         payload: {},
-        type: ACCOUNT_RESET,
+        type: ACCOUNT_RESET_SUCCESS,
     };
 }
 
@@ -100,6 +100,6 @@ interface IOtherAction extends Action {
 }
 
 export type AccountAction = IResetAccountAction |
-    IAccountResetAction |
+    IAccountResetSuccessAction |
     IResetSettingsAction |
     IOtherAction;

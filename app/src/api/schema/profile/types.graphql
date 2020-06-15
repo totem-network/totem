@@ -11,8 +11,14 @@ type CreateProfileResponse {
     result: Boolean
 }
 
+type ResetProfileResponse {
+    profile: Profile
+    result: Boolean
+}
+
 type Mutation {
-    createProfile(name: String): Profile
+    createProfile(name: String): CreateProfileResponse
+    resetProfile: ResetProfileResponse
 }
 
 type Query {

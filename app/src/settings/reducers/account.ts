@@ -2,7 +2,7 @@ import { fromJS } from 'immutable';
 import IImmutableStateMap from 'redux-utils/immutable/IImmutableStateMap';
 import {
     AccountAction,
-    ACCOUNT_RESET,
+    ACCOUNT_RESET_SUCCESS,
     HIDE_RESET_ACCOUNT_MODAL,
     RESET_ACCOUNT,
     SHOW_RESET_ACCOUNT_MODAL,
@@ -28,7 +28,7 @@ function instancesReducer(
     switch (action.type) {
         case RESET_ACCOUNT:
             return state.set('resettingAccount', true);
-        case ACCOUNT_RESET:
+        case ACCOUNT_RESET_SUCCESS:
             return state.set('resettingAccount', false).set('resetAccountModal', false);
         case SHOW_RESET_ACCOUNT_MODAL:
             return state.set('resetAccountModal', true);

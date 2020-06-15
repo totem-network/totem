@@ -44,6 +44,30 @@ export default {
             return result;
         },
 
+        resetProfile: async (
+            schema: any,
+            {}: any,
+            context: any,
+        ) => {
+            const ipfs = await StorageProviderManager.getProvider('ipfs', '1');
+
+            const identityManager = new IdentityManager(ipfs, context.signer, context.provider);
+
+            const identity = await identityManager.loadIdentity();
+
+            if (!identity) {
+                return;
+            }
+
+            const profile = await identityManager.loadProfile(identity);
+
+            if (!profile) {
+                return;
+            }
+
+            await profile.reset();
+        },
+
         /*updateProfile: async (
             schema: any,
             {
