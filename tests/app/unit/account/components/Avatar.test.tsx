@@ -143,7 +143,7 @@ describe('Account components', () => {
         });
 
         it('should render an account circle', () => {
-            const domain = 'totem.eth';
+            const domain = 'example.eth';
 
             const wrapper = shallow(
                 (

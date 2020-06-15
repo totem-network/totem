@@ -20,9 +20,9 @@ class Privacy extends Component {
             <div style={containerStyle}>
                 <h1>Privacy Policy</h1>
                 <p>
-                    Totem ("us", "we", or "our") provides services accessible at
-                    <b> https://totem.network</b>, <b>https://blog.totem.network </b>
-                    and <b>https://totem.app</b> (each a "website" or "service").
+                    Vinyai ("us", "we", or "our") provides services accessible at
+                    <b> https://vinyai.com</b>, <b>https://blog.vinyai.com </b>
+                    and <b>https://vinyai.app</b> (each a "website" or "service").
                     Whenever you use one of our services, you trust us with your
                     information and data. Because this is such a big responsibility,
                     we protect your data with high technological standards and only
@@ -186,7 +186,7 @@ class Privacy extends Component {
                     data you provided us or store within the App.
                 </p>
                 <p>
-                    Any data you store inside the Totem App like your photos, videos or
+                    Any data you store inside the Vinyai App like your photos, videos or
                     music is encrypted on your device, so only you and the people you
                     share the data with can access it.
                 </p>
@@ -251,7 +251,7 @@ class Privacy extends Component {
                 <p>
                     At any time you have the possibility to check, to rectify or to delete
                     your personal data provided to us by sending an e-mail to
-                    <b> info@totem.network</b>. You also have the right to withdraw any
+                    <b> info@vinyai.com</b>. You also have the right to withdraw any
                     consent you have given to us to collect or process your personal data.
                 </p>
                 <h2>9. Rights of the Data Subject</h2>
@@ -363,7 +363,7 @@ class Privacy extends Component {
                     If you have any questions regarding our collection or use of your
                     personal data or access, rectify or delete your personal data or
                     withdraw any consent you given us please send us an e-mail to
-                    <b> info@totem.network</b>.
+                    <b> info@vinyai.com</b>.
                 </p>
                 <div>
                     Updated: November 2019

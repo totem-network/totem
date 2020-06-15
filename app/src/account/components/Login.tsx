@@ -19,18 +19,16 @@ const useStyles = makeStyles((theme: Theme) => {
                 margin: '1rem',
                 padding: '0',
                 verticalAlign: 'middle',
-                width: '30vw',
             },
             [theme.breakpoints.up('lg')]: {
                 margin: '2rem',
                 padding: '0',
-                width: '30vw',
             },
             margin: '1rem 2rem',
             padding: '5vh 0',
             textAlign: 'center',
             verticalAlign: 'middle',
-            width: '65vw',
+            width: '100%',
         },
         message: {
             textAlign: 'center',
@@ -75,7 +73,7 @@ const Login = ({}: ILoginProps) => {
     };
 
     return (
-        <div className={classes.wrapper}>
+        <>
             <div
                 className={classNames([
                     classes.content,
@@ -96,7 +94,7 @@ const Login = ({}: ILoginProps) => {
                 </FormControl>*/}
                 {renderLoginForm(method)}
             </div>
-        </div>
+        </>
     );
 };
 

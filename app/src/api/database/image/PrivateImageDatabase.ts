@@ -7,13 +7,13 @@ class PrivateImageDatabase extends AbstractImageDatabase {
     public static readonly DB_OPTIONS = {
         accessController: {
             skipManifest: true,
-            type: 'TotemPrivateAccess',
+            type: 'VinyaiPrivateAccess',
         },
         type: 'feed',
     };
 
-    public static async create(coinType: string, signer: Signer, provider: Provider) {
-        const database = new PrivateImageDatabase(coinType, signer, provider);
+    public static async create(chainId: string, signer: Signer, provider: Provider) {
+        const database = new PrivateImageDatabase(chainId, signer, provider);
 
         await database.init();
 

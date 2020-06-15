@@ -1,4 +1,6 @@
 import boxes from 'account/profile/boxes';
+import Ipfs from 'ipfs';
+import ProviderManager from 'network/storage/ProviderManager';
 import { expose } from 'comlink';
 import { execute } from 'graphql';
 import schema from '../schema';
@@ -7,16 +9,35 @@ import ProxySigner from './ProxySigner';
 
 expose({
 
-    initialize: async (proxyWeb3: any) => {
+    initialize: async () => {
+        /*const node = yield call(Ipfs.create, {
+            EXPERIMENTAL: { pubsub: true },
+            repo: 'vinyai',
+        });*/
+
+        console.log('init worker');
+
+        const node = new Ipfs({
+            EXPERIMENTAL: { pubsub: true },
+            repo: 'vinyai',
+        });
+
+        await node.ready;
+
+        ProviderManager.setProvider('ipfs', '1', node);
+
+        console.log('worker finished');
+
+        return true;
+    },
+
+    login: async (proxyWeb3: any) => {
         const provider = new ProxyProvider(proxyWeb3);
         const signer = new ProxySigner(proxyWeb3, provider);
 
         const account = await signer.getAddress();
-
-        await boxes.openBox(
-            account,
-            boxes.wrapEthersSigner(signer),
-        );
+        
+        // TODO: sign message to get private key and load profile
 
         return true;
     },

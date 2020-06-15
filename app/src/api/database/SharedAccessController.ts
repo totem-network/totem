@@ -1,17 +1,28 @@
-import AbstractAccessController from './AbstractAccessController';
+import AbstractAccessController, { IAccessControllerOptions } from './AbstractAccessController';
 
-class SharedAccessList extends AbstractAccessController {
+// SharedAccessController for shared databases, stored in the public 3box profile
+// multiple shared databases for groups of contacts
+
+// basic config: one private db for all devices and keys of the profile
+// and one shared db for all contacts to add their shared files to
+
+// Maybe filter shared db for contacts for grouping? so only 1 shared db exists (only basic config)
+
+// Metadata protection?: Shared db acl contains all public keys of contacts
+// How to add a contact to public acl without revealing social graph?
+
+class SharedAccessController extends AbstractAccessController {
 
     public static get type() {
-        return 'TotemSharedAccess';
+        return 'VinyaiSharedAccess';
     }
 
     protected address: any;
 
     protected box: any;
 
-    constructor(box: any) {
-        super();
+    constructor(box: any, options: IAccessControllerOptions) {
+        super(options);
 
         this.box = box;
     }
@@ -33,7 +44,7 @@ class SharedAccessList extends AbstractAccessController {
     }
 
     public async load(address: string): Promise<void> {
-        const space = await this.getTotemSpace();
+        const space = await this.getVinyaiSpace();
 
         // TODO: decryption, keys (like files) in space.public.get(`access.keys.${address}`)
 
@@ -44,7 +55,7 @@ class SharedAccessList extends AbstractAccessController {
     }
 
     public async save(options: any) {
-        const space = await this.getTotemSpace();
+        const space = await this.getVinyaiSpace();
 
         let address = this.address;
         if (!address) {
@@ -63,10 +74,10 @@ class SharedAccessList extends AbstractAccessController {
         };
     }
 
-    protected async getTotemSpace() {
-        return this.box.openSpace('totem');
+    protected async getVinyaiSpace() {
+        return this.box.openSpace('vinyai');
     }
 
 }
 
-export default SharedAccessList;
+export default SharedAccessController;

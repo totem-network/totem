@@ -13,7 +13,7 @@ class Index extends Component {
         /*
             Order of the index page
 
-            Why? (totem exists, we work at totem, ...) the reason behind totem in a few headlines
+            Why? (vinyai exists, we work at vinyai, ...) the reason behind vinyai in a few headlines
             -> Feelings of the costumer, trust, loyalty -> desicion making
             -> Communicate Believes!!! -> Vision vs Plan!
             -> CONTROL OF YOUR DIGITAL LIFE
@@ -22,7 +22,7 @@ class Index extends Component {
             -> WITH GOOD DESIGN, DECENTRALIZED TECHNOLOGY
             What? (we offer) products and their details
             -> address the analytic part of human brains -> confidence in desicion with facts
-            -> TOTEM.APP, TOTEM ROUTER/BOX, ...
+            -> VINYAI.APP, VINYAI ROUTER/BOX, ...
 
             Not the other way round as other companies do!
         */

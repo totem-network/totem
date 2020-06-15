@@ -1,10 +1,49 @@
-// import { boxes } from 'account';
-import Box from '3box';
-import BlockchainProviderManager from 'network/blockchain/ProviderManager';
+import IdentityManager from 'account/identity/IdentityManager';
+import StorageProviderManager from 'network/storage/ProviderManager';
 
 export default {
 
     Mutation: {
+
+        createProfile: async (
+            schema: any,
+            {
+                name,
+            }: any,
+            context: any,
+        ) => {
+            const result = {
+                profile: null,
+                result: false,
+            };
+
+            const ipfs = await StorageProviderManager.getProvider('ipfs', '1');
+
+            const identityManager = new IdentityManager(ipfs, context.signer, context.provider);
+
+            const identityResult = await identityManager.createIdentity({
+                name,
+            });
+
+            if (!identityResult) {
+                return result;
+            }
+
+            // TODO: event listener for transaction, to show user it has gone through
+
+            const profile = await identityManager.loadProfile(identityResult.identity);
+
+            if (!profile) {
+                return result;
+            }
+
+            result.result = true;
+
+            // TODO: profile to graphql result
+
+            return result;
+        },
+
         /*updateProfile: async (
             schema: any,
             {
@@ -15,6 +54,7 @@ export default {
         ) => {
             //
         },*/
+
     },
 
     Query: {
@@ -29,6 +69,7 @@ export default {
             const result = {
                 address,
                 header: '',
+                identity: null,
                 image: '',
                 name: '',
             };
@@ -41,19 +82,24 @@ export default {
                 result.address = address;
             }
 
-            const profile = await Box.getProfile(address);
+            const ipfs = await StorageProviderManager.getProvider('ipfs', '1');
 
-            if (profile.name) {
-                result.name = profile.name;
+            const identityManager = new IdentityManager(ipfs, context.signer, context.provider);
+
+            const profile = await identityManager.loadPublicProfile(address);
+
+            if (!profile) {
+                return result;
             }
 
-            if (
-                profile.image &&
-                profile.image.length > 0 &&
-                profile.image[0].contentUrl &&
-                profile.image[0].contentUrl['/']
-            ) {
-                result.image = profile.image[0].contentUrl['/'];
+            const did = profile.getDid();
+
+            if (profile.get('name')) {
+                result.name = profile.get('name');
+            }
+
+            if (profile.get('image')) {
+                result.image = profile.get('image');
             }
 
             return result;

@@ -1,6 +1,6 @@
 import { Transaction } from 'ethereumjs-tx';
 import { sendMessage, setMessageSource } from './messages';
-import { SECURE_URL, TOTEM_URL, UPDATE_URL } from './urls';
+import { SECURE_URL, VINYAI_URL, UPDATE_URL } from './urls';
 const keythereum = require('keythereum');
 
 let serviceWorkerUpdated = false;
@@ -42,7 +42,7 @@ const deletePrivateKey = () => {
 };
 
 const recieveMessage = (event: MessageEvent) => {
-    if (event.origin !== TOTEM_URL) {
+    if (event.origin !== VINYAI_URL) {
         return;
     }
 

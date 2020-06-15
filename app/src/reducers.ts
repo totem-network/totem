@@ -1,5 +1,6 @@
 import { LOGOUT_SUCCESS } from 'account/actions/logout';
 import accountReducer, { IImmutableAccountState } from 'account/reducers';
+import apiReducer, { IImmutableApiState } from 'api/reducers';
 import appReducer, { IImmutableAppState } from 'app/reducers';
 import applicationsReducer, { IImmutableApplicationsState } from 'applications/reducers';
 import { connectRouter, RouterState } from 'connected-react-router/immutable';
@@ -13,6 +14,7 @@ import settingsReducer, { IImmutableSettingsState } from 'settings/reducers';
 
 interface IState {
     account: IImmutableAccountState;
+    api: IImmutableApiState;
     app: IImmutableAppState;
     applications: IImmutableApplicationsState;
     filesystem: IImmutableFileSystemState;
@@ -28,6 +30,7 @@ const createRootReducer = (history: any) => {
     return combineReducers<IImmutableState>(
         {
             account: accountReducer,
+            api: apiReducer,
             app: appReducer,
             applications: applicationsReducer,
             filesystem: filesystemReducer,

@@ -7,7 +7,7 @@
         "module": "esnext",
         "moduleResolution": "node",
         "paths": {
-            "@totem/*": ["*/src"]
+            "@vinyai/*": ["*/src"]
         },
         "resolveJsonModule": true,
         "skipLibCheck": true,

@@ -1,5 +1,0 @@
-/build
-node_modules
-packages/**/build/app
-packages/**/.zos.session
-packages/**/zos.dev-*

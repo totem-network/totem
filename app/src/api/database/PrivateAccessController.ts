@@ -4,31 +4,28 @@
  */
 
 import io from 'orbit-db-io';
-import AbstractAccessController from './AbstractAccessController';
+import AbstractAccessController, { IAccessControllerOptions } from './AbstractAccessController';
 
 class PrivateAccessController extends AbstractAccessController {
 
     public static get type() {
-        return 'TotemPrivateAccess';
+        return 'VinyaiPrivateAccess';
     }
 
-    public static async create(orbitdb: any, options: any = {}) {
+    public static async create(orbitdb: any, options: IAccessControllerOptions) {
         return new PrivateAccessController(orbitdb._ipfs, options);
     }
 
     protected ipfs: any;
 
-    protected write: any;
-
-    constructor(ipfs: any, options: any) {
-        super();
+    constructor(ipfs: any, options: IAccessControllerOptions) {
+        super(options);
 
         this.ipfs = ipfs;
-        this.write = options.write || [];
     }
 
     public async canAppend(entry: any, identityProvider: any) {
-        const publicKey = await this.publicKeyFromDID(entry.identity.id);
+        const publicKeys = await this.publicKeysFromDid(entry.identity);
 
         // TODO: no 3box when generating priv keys with signed message (Identity.ts)
         /*if (!this.box.isAddressLinked({
@@ -37,7 +34,11 @@ class PrivateAccessController extends AbstractAccessController {
             return false;
         }*/
 
+        console.log(publicKeys);
+
         console.log(entry);
+
+        console.log(identityProvider);
 
         // return identityProvider.verifyIdentity(entry.identity);
         return true;
@@ -63,8 +64,7 @@ class PrivateAccessController extends AbstractAccessController {
         }
 
         try {
-            const access = await io.read(this.ipfs, address);
-            this.write = access.write;
+            this.capabilities = await io.read(this.ipfs, address);
         } catch (e) {
             console.log('LegacyIPFS3BoxAccessController.load ERROR:', e);
         }
@@ -72,16 +72,12 @@ class PrivateAccessController extends AbstractAccessController {
 
     public async save(options: any) {
         let cid = '';
-        const access = {
-            admin: [],
-            read: [],
-            write: this.write,
-        };
 
         try {
             cid = await io.write(
-                this.ipfs, 'raw',
-                Buffer.from(JSON.stringify(access, null, 2)),
+                this.ipfs,
+                'raw',
+                Buffer.from(JSON.stringify(this.capabilities, null, 2)),
                 { format: 'dag-pb' },
             );
         } catch (e) {

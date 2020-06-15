@@ -1,4 +1,5 @@
 import accountSagas from 'account/sagas';
+import apiSagas from 'api/sagas';
 import appSagas from 'app/sagas';
 import initializeSaga from 'app/sagas/initialize';
 import applicationsSagas from 'applications/sagas';
@@ -13,6 +14,7 @@ export const sagaMiddleware = createSagaMiddleware();
 
 export default function* startupSaga() {
     yield all([
+        fork(apiSagas),
         fork(appSagas),
         fork(accountSagas),
         fork(applicationsSagas),

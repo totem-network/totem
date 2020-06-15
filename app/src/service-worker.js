@@ -2,7 +2,7 @@ workbox.skipWaiting();
 workbox.clientsClaim();
 
 workbox.core.setCacheNameDetails({
-    prefix: 'totem',
+    prefix: 'vinyai',
     suffix: 'v1',
     precache: 'precache',
     runtime: 'runtime'

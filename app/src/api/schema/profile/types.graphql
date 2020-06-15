@@ -1,10 +1,20 @@
-type GetProfileResponse {
+type Profile {
     address: String
     header: String
+    identity: Identity
     image: String
     name: String
 }
 
+type CreateProfileResponse {
+    profile: Profile
+    result: Boolean
+}
+
+type Mutation {
+    createProfile(name: String): Profile
+}
+
 type Query {
-    getProfile(address: String, domain: String): GetProfileResponse
+    getProfile(address: String, domain: String): Profile
 }

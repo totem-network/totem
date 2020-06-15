@@ -1,30 +1,30 @@
 <p align="center">
-    <img src="app/assets/images/logo.svg" width="256" alt="Totem"/>
+    <img src="app/assets/images/logo.svg" width="256" alt="Vinyai"/>
 </p>
 
 <div align="center">
 
-[App](https://totem.app) |
-[Homepage](https://totem.network) |
-[Blog](https://blog.totem.network)
+[App](https://vinyai.app) |
+[Homepage](https://vinyai.com) |
+[Blog](https://blog.vinyai.com)
 
 </div>
 
 <div align="center">
 
-[![Twitter](packages/homepage/src/assets/twitter.svg "Twitter")](https://twitter.com/TotemNext)
+[![Twitter](packages/homepage/src/assets/twitter.svg "Twitter")](https://twitter.com/VinyaiCom)
 
 </div>
 
-__Totem - Your digital life in one app!__
+__Vinyai - Your digital life in one app!__
 
-The vision of Totem is creating a progressive web app to store your personal
+The vision of Vinyai is creating a progressive web app to store your personal
 data like your photos, music, videos, finances, documents, chats and much more
 in a secure place. Furthermore it allows you to use this data with artificial
 intelligence or simple programs on your terms to make your digital life a bit
 more comfortable without compromising on your right of privacy.
 
-To achieve this goal Totem is based on decentralized technolgies like
+To achieve this goal Vinyai is based on decentralized technolgies like
 blockchain (Ethereum) and IPFS. All software is open source and released
 under GPL version 3 license.
 
@@ -33,7 +33,7 @@ __This is alpha software! Not all features are implemented completly!__
 ## 🚩 Contents
 
 - [🚩 Contents](#%f0%9f%9a%a9-contents)
-- [Packages](#packages)
+- [📦 Packages](#%f0%9f%93%a6-packages)
 - [🔭 Screenshots](#%f0%9f%94%ad-screenshots)
 - [🚀 Getting Started](#%f0%9f%9a%80-getting-started)
 - [💻 Requirements](#%f0%9f%92%bb-requirements)
@@ -43,11 +43,11 @@ __This is alpha software! Not all features are implemented completly!__
 - [💖 Special Thanks](#%f0%9f%92%96-special-thanks)
 - [📜 License](#%f0%9f%93%9c-license)
 
-## Packages
+## 📦 Packages
 
-| Package                                 | Description                                |
-| --------------------------------------- | ------------------------------------------ |
-| [`@totem/base-db`](/packages/base-db)   | Decentralized database build on orbit-db   |
+| Package                                                     | Description                                          |
+| ----------------------------------------------------------- | ---------------------------------------------------- |
+| [`@vinyai/identity-registry`](/packages/identity-registry)   | Contracts to link Ethereum address to DID Document   |
 
 ## 🔭 Screenshots
 
@@ -66,8 +66,8 @@ __This is alpha software! Not all features are implemented completly!__
 
 Just clone this repository
 
-    git clone https://git.totem.network/totem/totem.git
-    cd totem
+    git clone https://git.vinyai.com/vinyai/vinyai.git
+    cd vinyai
 
 Install the npm dependencies
 
@@ -92,18 +92,10 @@ Or run the unit tests
 
 ## 💻 Requirements
 
-To build the production files Totem you need at least 8GB of RAM!
-
-For the development build at least 4GB (8GB recommended)
+To build Vinyai you need at least 8GB of free RAM!
 
 - nodejs (Version 10)
 - npm
-- g++
-- libpng-dev
-- libusb-1.0-0-dev
-- libudev-dev
-- make
-- rust
 
 ## 🎨 Features
 
@@ -112,7 +104,7 @@ For the development build at least 4GB (8GB recommended)
 __Identity:__
 
 Own your online identity without the need to give it to a third
-party. Totem uses the W3 decentralized identity standard to be
+party. Vinyai uses the W3 decentralized identity standard to be
 compatible with other DID applications.
 
 <div style="clear: both;"></div>
@@ -121,7 +113,7 @@ compatible with other DID applications.
 
 __Files:__
 
-Upload your photos, videos, music and other files with Totem to
+Upload your photos, videos, music and other files with Vinyai to
 decentralized file systems like IPFS. The files are encrypted and
 can be shared with your friends.
 
@@ -140,7 +132,7 @@ with a multi signature wallet and second factor authentication.
 
 __Applications:__
 
-Run decentralized applications within Totem and manage how they access your
+Run decentralized applications within Vinyai and manage how they access your
 data. Wether your use DeFi apps or alternatives to existing apps with better
 privacy.
 
@@ -159,10 +151,10 @@ __This feature is not started at the moment!__
 
 ## 🙌 Contribute
 
-Great open source projects live from their community! To be a part of Totem
+Great open source projects live from their community! To be a part of Vinyai
 here are some things you can contribute.
 
-- __Develop new features for Totem!__
+- __Develop new features for Vinyai!__
 There is a lot to be done to make the vision come reality. If you want to
 contribute a feature just reach out to discuss how to get started.
 
@@ -170,24 +162,24 @@ contribute a feature just reach out to discuss how to get started.
 A good stable software helps every user. You can contribute by finding or
 fixing bugs, helping other users with their issues or expand the test suite.
 
-- __Write a guest post on the Totem blog!__
-To get people to use Totem, they need to hear of it at first. The blog contains
+- __Write a guest post on the Vinyai blog!__
+To get people to use Vinyai, they need to hear of it at first. The blog contains
 articles potential users find helpfull. Check out the categories on the blog
 and contribute your knowledge!
 
-- __Share Totem with everyone!__
+- __Share Vinyai with everyone!__
 Invite your friends to use the app, share it on your social media channels or
-do whatever comes to your mind to grow Totem!
+do whatever comes to your mind to grow Vinyai!
 
 ## ✨ Sponsors
 
 <img src="packages/docs/assets/sponsor/browserstack.png" width="256">
 
-[Browserstack](https://www.browserstack.com/) lets us test Totem on different devices!
+[Browserstack](https://www.browserstack.com/) lets us test Vinyai on different devices!
 
 ## 💖 Special Thanks
 
-Special Thanks to all open source projects and their contributers that made Totem
+Special Thanks to all open source projects and their contributers that made Vinyai
 possible!
 
 ## 📜 License

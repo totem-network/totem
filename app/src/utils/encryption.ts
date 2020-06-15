@@ -6,7 +6,7 @@ import {
     secretbox,
 } from 'tweetnacl';
 
-export const ENTROPY_MESSAGE = 'totem';
+export const ENTROPY_MESSAGE = 'vinyai';
 
 export const BASE_PATH = "m/44'/60'/0'/0";
 
@@ -35,16 +35,6 @@ export const deriveAsymetricKeyPairFromSeed = (seed: string, path: string = BASE
     const keyPair = box.keyPair.fromSecretKey(secretKey);
 
     return keyPair;
-};
-
-export const deriveSymetricKeyFromSeed = (seed: string, path: string = BASE_PATH): Uint8Array => {
-    const baseNode = utils.HDNode.fromSeed(seed).derivePath(path);
-
-    const keyBuffer = Buffer.from(baseNode.derivePath('2').privateKey.slice(2), 'hex');
-
-    const key = new Uint8Array(keyBuffer);
-
-    return key;
 };
 
 export const generateRandomNonce = () => {

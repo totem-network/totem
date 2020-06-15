@@ -6,6 +6,6 @@ const apiWorker = new Worker('./api/worker/api.worker.ts', { name: 'api', type: 
 
 (self as any).apiWorker = apiWorker;
 
-export const api = wrap(
+export const api = wrap<any>(
     apiWorker,
 );

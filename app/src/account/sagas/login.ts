@@ -29,8 +29,8 @@ export const getProvidedAccounts = () => {
     return web3.eth.accounts;
 };
 
-export function* initializeApiWorker() {
-    return yield (api as any).initialize(proxy(proxyWeb3));
+export function* loginApiWorker() {
+    return yield (api as any).login(proxy(proxyWeb3));
 }
 
 export function* loginWithPrivateKey(action: ILoginPrivateKeyAction) {
@@ -40,7 +40,7 @@ export function* loginWithPrivateKey(action: ILoginPrivateKeyAction) {
     const account = yield call(createWallet, privateKey);
 
     if (account) {
-        yield call(initializeApiWorker);
+        yield call(loginApiWorker);
 
         yield put(loginSuccess(account.address));
     } else {
@@ -52,7 +52,7 @@ export function* loginWithMetaMask(action: ILoginMetaMaskAction) {
     const accounts = yield call(getProvidedAccounts);
 
     if (accounts && accounts[0]) {
-        yield call(initializeApiWorker);
+        yield call(loginApiWorker);
 
         yield put(loginSuccess(accounts[0]));
     } else {

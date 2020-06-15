@@ -36,7 +36,7 @@ class Text extends Component {
                             style={mobileContainerStyle}
                             className={classes.join(' ')}
                         >
-                            Use Totem on your smartphone,<br />
+                            Use Vinyai on your smartphone,<br />
                             tablet, laptop or other devices.
                         </div>
                     ) : (
@@ -44,7 +44,7 @@ class Text extends Component {
                                 style={containerStyle}
                                 className={classes.join(' ')}
                             >
-                                Use Totem on your smartphone,<br />
+                                Use Vinyai on your smartphone,<br />
                                 tablet, laptop or other devices.
                         </div>
                         )

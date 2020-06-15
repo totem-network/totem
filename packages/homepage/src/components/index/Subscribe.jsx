@@ -32,7 +32,7 @@ class Subscribe extends Component {
                             style={mobileContainerStyle}
                             className={classes.join(' ')}
                         >
-                            <a href='https://blog.totem.network/subscribe/'>
+                            <a href='https://blog.vinyai.com/subscribe/'>
                                 Subscribe
                             </a>
                         </div>
@@ -41,7 +41,7 @@ class Subscribe extends Component {
                             style={containerStyle}
                             className={classes.join(' ')}
                         >
-                            <a href='https://blog.totem.network/subscribe/'>
+                            <a href='https://blog.vinyai.com/subscribe/'>
                                 Subscribe
                             </a>
                         </div>

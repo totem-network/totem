@@ -18,7 +18,7 @@ function* resetAccount(action: IResetAccountAction) {
     const wrappedSigner = yield call(boxes.wrapEthersSigner, currentSigner);
 
     const box = yield call([boxes, boxes.openBox], account, wrappedSigner);
-    const space = yield call([box, box.openSpace], 'totem');
+    const space = yield call([box, box.openSpace], 'vinyai');
 
     const privateEntries = yield call(space.private.all);
 

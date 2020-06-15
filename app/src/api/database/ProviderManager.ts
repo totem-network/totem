@@ -1,7 +1,8 @@
+import registerVinyaiID from 'account/identity/DidResolver';
+import { Provider } from 'ethers/providers/abstract-provider';
 import StorageProviderManager from 'network/storage/ProviderManager';
 // import OrbitDB from 'orbit-db';
 import IdentityProvider from './IdentityProvider';
-import registerTotemID from './IdentityResolver';
 import PrivateAccessController from './PrivateAccessController';
 const OrbitDB = require('orbit-db');
 const AccessControllers = require('orbit-db-access-controllers');
@@ -41,6 +42,7 @@ interface IDatabaseProviderOptions {
     network: string;
     platform: string;
     provider: string;
+    web3Provider: Provider;
 }
 
 interface ICreateDatabaseOptions {
@@ -51,6 +53,7 @@ interface ICreateDatabaseOptions {
     provider: string;
     type: string;
     options?: any;
+    web3Provider: Provider;
 }
 
 interface IOpenDatabaseOptions {
@@ -61,6 +64,7 @@ interface IOpenDatabaseOptions {
     provider: string;
     type: string;
     options?: any;
+    web3Provider: Provider;
 }
 
 class ProviderManager {
@@ -89,6 +93,7 @@ class ProviderManager {
         if (!this.providers[options.platform][options.network][options.provider]) {
             this.providers[options.platform][options.network][options.provider]
                 = await this.createDatabaseProvider({
+                    web3Provider: options.web3Provider,
                     network: options.network,
                     platform: options.platform,
                     provider: options.provider,
@@ -134,6 +139,7 @@ class ProviderManager {
         if (!this.providers[options.platform][options.network][options.provider]) {
             this.providers[options.platform][options.network][options.provider]
                 = await this.createDatabaseProvider({
+                    web3Provider: options.web3Provider,
                     network: options.network,
                     platform: options.platform,
                     provider: options.provider,
@@ -168,10 +174,8 @@ class ProviderManager {
         if (options.provider === 'orbit-db') {
             const ipfs = await StorageProviderManager.getProvider(options.platform, options.network);
 
-            registerTotemID(ipfs, { pin: true });
+            registerVinyaiID(ipfs, options.web3Provider);
 
-            // TODO: does not handle await correctly with version 0.21.5/0.36.4!
-            // -> issue with async ipfs.id(), fixed in 0.38
             // TODO: give identity via options as second parameter and other options,
             // identity is also given in BaseDatabase
             return OrbitDB.createInstance(ipfs);
@@ -202,7 +206,7 @@ class ProviderManager {
                 {
                     accessController: {
                         skipManifest: true,
-                        type: 'TotemPrivateAccess',
+                        type: 'VinyaiPrivateAccess',
                         // TODO: write: [...publicKeys]
                     },
                     // TODO: this option is required now but will likely not be in the future.

@@ -1,0 +1,1 @@
+// TODO: same as PrivatAccessController but with read access for everyone

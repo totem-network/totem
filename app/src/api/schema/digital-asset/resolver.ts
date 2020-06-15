@@ -66,7 +66,7 @@ const getERC721Contracts = async (account: string, signer: any) => {
         boxes.wrapEthersSigner(signer),
     );
 
-    const space = await box.openSpace('totem');
+    const space = await box.openSpace('vinyai');
 
     await updateERC721Contracts(account, space);
 
@@ -289,7 +289,7 @@ export default {
                 boxes.wrapEthersSigner(context.signer),
             );
 
-            const space = await box.openSpace('totem');
+            const space = await box.openSpace('vinyai');
 
             let erc721Contracts: string[] | null = await space.private.get('digitalAssets');
 

@@ -1,5 +1,5 @@
 {
-  "name": "totem",
+  "name": "vinyai",
   "version": "0.0.1",
   "description": "Your digital life in one app",
   "main": "app/src/index.tsx",
@@ -7,6 +7,8 @@
   "scripts": {
     "build": "npm run clean && cross-env NODE_OPTIONS=--max_old_space_size=8192 webpack --config webpack.production.js",
     "clean": "rimraf build/app",
+    "lerna:deploy:test": "lerna run 'deploy:test'",
+    "ethereum": "ganache-cli --deterministic",
     "init": "lerna bootstrap",
     "serve": "cross-env NODE_OPTIONS=--max_old_space_size=8192 webpack-dev-server --config webpack.development.js --https",
     "serve:production": "cross-env NODE_OPTIONS=--max_old_space_size=8192 webpack-dev-server --config webpack.production.js --https",
@@ -17,7 +19,7 @@
   },
   "author": {
     "name": "Daniel Wagner",
-    "email": "daniel.wagner@totem.network"
+    "email": "daniel.wagner@vinyai.com"
   },
   "license": "",
   "private": true,
@@ -56,6 +58,7 @@
     "chai-enzyme": "^1.0.0-beta.1",
     "chai-immutable": "^2.1.0",
     "compression-webpack-plugin": "^3.1.0",
+    "concurrently": "^5.2.0",
     "copy-webpack-plugin": "^5.1.1",
     "cross-env": "^7.0.2",
     "enzyme": "^3.11.0",
@@ -63,6 +66,7 @@
     "es-abstract": "^1.17.5",
     "eslint-plugin-react-hooks": "^3.0.0",
     "file-loader": "^6.0.0",
+    "ganache-cli": "^6.9.1",
     "graphql-tag": "^2.10.3",
     "guess-webpack": "^0.4.17",
     "gulp": "^4.0.2",
@@ -103,7 +107,7 @@
     "worker-plugin": "^4.0.2"
   },
   "dependencies": {
-    "3box": "^1.17.1",
+    "3box": "^1.19.0",
     "@apollo/react-hooks": "^3.1.5",
     "@babel/runtime-corejs3": "^7.9.2",
     "@browser-logos/chrome": "^1.0.17",
@@ -133,6 +137,7 @@
     "did-jwt": "^0.2.0",
     "did-resolver": "^0.0.6",
     "draft-js": "^0.11.5",
+    "elliptic": "^6.5.2",
     "ethereum-blockies-base64": "^1.0.2",
     "ethers": "^4.0.46",
     "file-type": "^14.1.4",
@@ -178,7 +183,8 @@
     "tweetnacl": "^1.0.3",
     "tweetnacl-util": "^0.15.1",
     "web3modal": "^1.5.0",
-    "workbox-sw": "^5.1.2"
+    "workbox-sw": "^5.1.2",
+    "yjs": "^13.2.0"
   },
   "externalDependencies": [
     "ipfs-api",

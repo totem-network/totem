@@ -2,7 +2,7 @@
     
     <head>
         
-        <title>Totem</title>
+        <title>Vinyai</title>
 
         <meta charset="utf-8">
 
@@ -18,20 +18,20 @@
         <meta name="theme-color" content="#f0f0f0">
 
         <meta property="og:type" content="website">
-        <meta property="og:url" content="https://totem.app">
-        <meta property="og:title" content="Totem">
+        <meta property="og:url" content="https://vinyai.app">
+        <meta property="og:title" content="Vinyai">
         <meta property="og:image" content="<%= webpackConfig.output.publicPath %>images/discover/facebook.png">
         <meta property="og:description" content="Your digital life in one app!">
-        <meta property="og:site_name" content="Totem">
+        <meta property="og:site_name" content="Vinyai">
         <meta property="og:locale" content="en_US">
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
 
         <meta name="twitter:card" content="summary">
-        <meta name="twitter:site" content="@TotemNext">
-        <meta name="twitter:creator" content="@TotemNext">
-        <meta name="twitter:url" content="https://totem.app">
-        <meta name="twitter:title" content="Totem">
+        <meta name="twitter:site" content="@VinyaiApp">
+        <meta name="twitter:creator" content="@VinyaiCom">
+        <meta name="twitter:url" content="https://vinyai.app">
+        <meta name="twitter:title" content="Vinyai">
         <meta name="twitter:description" content="Your digital life in one app!">
         <meta name="twitter:image" content="<%= webpackConfig.output.publicPath %>images/discover/twitter.png">
 
@@ -127,6 +127,7 @@
 
 
             html, body {
+                background: linear-gradient(#93226e, #0083fa);
                 color: #f0f0f0;
                 margin: 0;
                 padding: 0;
@@ -146,65 +147,175 @@
                 background-size: cover;
             }
             
-            /*.loading {
-                height: 100px;
-                margin: auto;
-                margin-top: calc(50vh - 50px);
-                position: relative;
-                width: 50%;
-            }
-
-            .loadingCenter {
-                background: #fff;
-                border-radius: 25px;
-                height: 50px;
-                left: calc(50% - 25px);
-                position: absolute;
-                top: 0;
-                width: 50px;
-                animation: loadingColor 1.8s infinite;
-            }
-
-            .loadingMoving {
-                background: #208BF1;
-                border-radius: 15px;
-                height: 30px;
-                position: absolute;
-                top: 10px;
+            .socket {
+				width: 200px;
+				height: 200px;
+				position: absolute;
+				left: 50%;
+				margin-left: -100px;
+				top: 50%;
+				margin-top: -100px;
+			}
+			
+			.hex-brick {
+                background: #f0f0f0;
                 width: 30px;
-                animation: loadingMove 1.8s infinite;
-            }
-
-            @keyframes loadingMove {
-                0% {
-                    transform: translateX(0);
-                    background: #208BF1;
-                }
-
-                50% {
-                    transform: translateX(calc(50vw - 30px));
-                    background: #208BF1;
-                }
-
-                100% {
-                    transform: translateX(0);
-                    background: #208BF1;
-                }
-            }
-
-            @keyframes loadingColor {
-                0% {
-                    background: #208BF1;
-                }
-
-                50% {
-                    background: #208BF1;
-                }
-
-                100% {
-                    background: #208BF1;
-                }
-            }*/
+                height: 17px;
+                position: absolute;
+                top: 5px;
+                animation-name: fade;
+                animation-duration: 2s;
+                animation-iteration-count: infinite;
+                -webkit-animation-name: fade;
+                -webkit-animation-duration: 2s;
+                -webkit-animation-iteration-count: infinite;
+			}
+			
+			.h2 {
+				transform: rotate(60deg);
+				-webkit-transform: rotate(60deg);
+			}
+			
+			.h3 {
+				transform: rotate(-60deg);
+				-webkit-transform: rotate(-60deg);
+			}
+			
+			.gel {
+				height: 30px;
+				width: 30px;	
+				transition: all .3s;
+				-webkit-transition: all .3s;
+				position: absolute;
+                top: 50%;
+                left: 50%;
+			}
+			
+			.left {
+				margin-left: -51px;
+				margin-top: -15px;
+			}
+			
+			.top-left {
+				margin-left: -33px;
+				margin-top: -45px;
+			}
+			
+			.top-right {
+				margin-left: 3px;
+				margin-top: -45px;
+			}
+			
+			.right {
+				margin-left: 21px;
+				margin-top: -15px;
+			}
+			.bottom-left {
+				margin-left: -33px;
+				margin-top: 15px;
+			}
+			
+			.bottom-right {
+				margin-left: 3px;
+				margin-top: 15px;
+			}
+			
+			.center-gel {
+				margin-left: -15px;
+				margin-top: -15px;
+				
+				animation-name: pulse;
+				animation-duration: 2s;
+				animation-iteration-count: infinite;
+				-webkit-animation-name: pulse;
+				-webkit-animation-duration: 2s;
+				-webkit-animation-iteration-count: infinite;
+			}
+			
+			.r1 {
+				animation-name: pulse;
+				animation-duration: 2s;
+				animation-iteration-count: infinite;
+				animation-delay: .5s;
+				-webkit-animation-name: pulse;
+				-webkit-animation-duration: 2s;
+				-webkit-animation-iteration-count: infinite;
+				-webkit-animation-delay: .5s;
+			}
+			
+			.r1 > .hex-brick {
+				animation-name: fade;
+				animation-duration: 2s;
+				animation-iteration-count: infinite;
+				animation-delay: .5s;
+				-webkit-animation-name: fade;
+				-webkit-animation-duration: 2s;
+				-webkit-animation-iteration-count: infinite;
+				-webkit-animation-delay: .5s;
+			}
+			
+			
+			@keyframes pulse {
+				0% {
+					-webkit-transform: scale(1);
+					transform: scale(1);
+				}
+				
+				50% {
+					-webkit-transform: scale(0.01);
+					transform: scale(0.01);
+				}
+				
+				100% {
+					-webkit-transform: scale(1);
+					transform: scale(1);
+				}
+			}
+			
+			@keyframes fade {
+				0% {
+					background: #f0f0f0;
+				}
+				
+				50% {
+					background: #90caf9;
+				}
+				
+				100% {
+					background: #f0f0f0;
+				}
+			}
+			
+			@-webkit-keyframes pulse {
+				0% {
+					-webkit-transform: scale(1);
+					transform: scale(1);
+				}
+				
+				50% {
+					-webkit-transform: scale(0.01);
+					transform: scale(0.01);
+				}
+				
+				100% {
+					-webkit-transform: scale(1);
+					transform: scale(1);
+				}
+			}
+			
+			@-webkit-keyframes fade {
+				0% {
+					background: #f0f0f0;
+				}
+				
+				50% {
+					background: #1976D2;
+				}
+				
+				100% {
+					background: #f0f0f0;
+				}
+			}
         
         </style>
 
@@ -213,9 +324,42 @@
     <body>
 
         <div id="app">
-            <div class="loading">
-                <div class="loadingMoving"></div>
-                <div class="loadingCenter"></div>
+            <div class="socket">
+                <div class="gel center-gel">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel left r1">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel top-left r1">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel top-right r1">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel right r1">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel bottom-left r1">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel bottom-right r1">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
             </div>
         </div>
 

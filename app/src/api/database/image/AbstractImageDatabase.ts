@@ -52,6 +52,7 @@ interface IImageUploadResult {
 interface IGetImagesOptions {
     after?: string;
     first?: number;
+    requestedFields: string[];
 }
 
 abstract class AbstractImageDatabase extends BaseDatabase {
@@ -161,6 +162,7 @@ abstract class AbstractImageDatabase extends BaseDatabase {
     public async getImages({
         after,
         first,
+        requestedFields,
     }: IGetImagesOptions) {
         this.throwIfNotReady();
 
@@ -170,7 +172,6 @@ abstract class AbstractImageDatabase extends BaseDatabase {
 
         const imageEntries = this.database.iterator({ limit: -1 })
             .collect();
-            // .map((e: any) => alert(e.payload.value));
 
         if (!imageEntries) {
             return [];
@@ -189,32 +190,53 @@ abstract class AbstractImageDatabase extends BaseDatabase {
                     ...this.formatPagination(),
                 };
 
-                // TODO: only load image files if requested
+                if (requestedFields.includes('source')) {
+                    image.files.source = this.getImageFile(imageData.hashSource);
+                }
 
-                image.files.source = this.getImageFile(imageData.hashSource);
-
-                if (imageData.hash48) {
+                if (
+                    imageData.hash48 &&
+                    requestedFields.includes('lowResolutionPlaceholder')
+                ) {
                     image.files.lowResolutionPlaceholder = this.getImageFile(imageData.hash48);
                 }
 
-                if (imageData.hash180) {
+                if (
+                    imageData.hash180 &&
+                    requestedFields.includes('thumbnail')
+                ) {
                     image.files.thumbnail = this.getImageFile(imageData.hash180);
                 }
 
-                if (imageData.hash360) {
+                if (
+                    imageData.hash360 &&
+                    (
+                        requestedFields.includes('thumbnail2x') ||
+                        requestedFields.includes('thumbnailLarge')
+                    )
+                ) {
                     image.files.thumbnail2x = this.getImageFile(imageData.hash360);
                     image.files.thumbnailLarge = image.files.thumbnail2x;
                 }
 
-                if (imageData.hash720) {
+                if (
+                    imageData.hash720 &&
+                    requestedFields.includes('thumbnailLarge2x')
+                ) {
                     image.files.thumbnailLarge2x = this.getImageFile(imageData.hash720);
                 }
 
-                if (imageData.hash1920) {
+                if (
+                    imageData.hash1920 &&
+                    requestedFields.includes('fullscreen')
+                ) {
                     image.files.fullscreen = this.getImageFile(imageData.hash1920);
                 }
 
-                if (imageData.hash3840) {
+                if (
+                    imageData.hash3840 &&
+                    requestedFields.includes('fullscreen2x')
+                ) {
                     image.files.fullscreen2x = this.getImageFile(imageData.hash3840);
                 }
 

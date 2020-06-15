@@ -1,0 +1,47 @@
+type Identity {
+    id: String
+    controller: String
+    created: String
+    authentications: [AuthenticationOrReference]
+    publicKeys: [PublicKeyOrReference]
+    services: [Service]
+    updated: String
+}
+
+union PublicKeyOrReference = PublicKey | PublicKeyReference
+
+type PublicKey {
+    controller: String
+    id: String
+    publicKey: String
+    publicKeyType: String
+    type: String
+}
+
+type PublicKeyReference {
+    reference: String
+}
+
+union AuthenticationOrReference = Authentication | AuthenticationReference
+
+type Authentication {
+    controller: String
+    id: String
+    publicKey: String
+    publicKeyType: String
+    type: String
+}
+
+type AuthenticationReference {
+    reference: String
+}
+
+type Service {
+    id: String
+    serviceEndpoint: String
+    type: String
+}
+
+type Query {
+    getIdentity(address: String, domain: String): Identity
+}

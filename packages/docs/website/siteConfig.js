@@ -10,9 +10,9 @@
 
 
 const siteConfig = {
-  title: 'Totem Documentation', // Title for your website.
+  title: 'Vinyai Documentation', // Title for your website.
   disableTitleTagline: true,
-  url: 'https://developer.totem.network', // Your website URL
+  url: 'https://developer.vinyai.com', // Your website URL
   baseUrl: '/', // Base URL for your project */
   // For github.io type URLs, you would set the url and baseUrl like:
   //   url: 'https://facebook.github.io',
@@ -20,7 +20,7 @@ const siteConfig = {
 
   // Used for publishing and more
   projectName: 'test-site',
-  organizationName: 'facebook',
+  organizationName: 'vinyai',
   // For top-level user or org sites, the organization is still the same.
   // e.g., for the https://JoelMarcey.github.io site, it would be set like...
   //   organizationName: 'JoelMarcey'
@@ -57,7 +57,7 @@ const siteConfig = {
   */
 
   // This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
-  copyright: `Copyright © ${new Date().getFullYear()} Totem`,
+  copyright: `Copyright © ${new Date().getFullYear()} Vinyai`,
 
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks.

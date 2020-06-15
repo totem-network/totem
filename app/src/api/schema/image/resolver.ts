@@ -1,4 +1,5 @@
-import PrivateImageDatabase from './../../database/image/PrivateImageDatabase';
+import PrivateImageDatabase from '../../database/image/PrivateImageDatabase';
+import operationFieldsSelector from '../../utils/operationFieldsSelector';
 
 export default {
 
@@ -55,7 +56,10 @@ export default {
                 first,
             }: any,
             context: any,
+            info: any,
         ) => {
+            const requestedFields = operationFieldsSelector(info.operation, 'images:files');
+
             const database = await PrivateImageDatabase.create(
                 context.blockchainNetwork,
                 context.signer,
@@ -65,6 +69,7 @@ export default {
             const images = await database.getImages({
                 after,
                 first,
+                requestedFields,
             });
 
             return images;

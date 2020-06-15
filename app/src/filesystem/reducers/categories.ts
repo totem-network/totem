@@ -2,6 +2,7 @@ import blue from '@material-ui/core/colors/blue';
 import green from '@material-ui/core/colors/green';
 import orange from '@material-ui/core/colors/orange';
 import pink from '@material-ui/core/colors/pink';
+import red from '@material-ui/core/colors/red';
 import yellow from '@material-ui/core/colors/yellow';
 import {
     List,
@@ -18,6 +19,13 @@ interface ICategoriesState {
 export interface IImmutableCategoriesState extends List<ICategoriesState> {}
 
 const initialState = List<ICategoriesState>([
+    {
+        colorFrom: red[400],
+        colorTo: red[700],
+        contrastText: '#f8f8f8',
+        id: 'profile',
+        title: 'Profile',
+    },
     {
         colorFrom: blue[400],
         colorTo: blue[700],

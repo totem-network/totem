@@ -56,7 +56,7 @@ class ProviderManager {
 
             const node = new IPFS({
                 EXPERIMENTAL: { pubsub: true },
-                repo: 'totem',
+                repo: 'vinyai',
             });
             await node.ready;
 

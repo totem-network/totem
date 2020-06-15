@@ -1,7 +1,7 @@
 import LoggedIn from 'account/components/LoggedIn';
-import Login from 'account/components/Login';
 import NotLoggedIn from 'account/components/NotLoggedIn';
 import React, { lazy, Suspense } from 'react';
+import Login from './Login';
 import Branding from './login/Branding';
 
 interface ILayoutProps {}

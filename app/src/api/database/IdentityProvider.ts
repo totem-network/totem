@@ -1,8 +1,4 @@
-/**
- * Based on the code of https://github.com/3box/orbit-db-access-controllers
- * Licensed under MIT License with copyright belonging to 3box and their contributors
- */
-
+import Identity from 'account/identity/Identity';
 import base64url from 'base64url';
 const { verifyJWT } = require('did-jwt');
 
@@ -13,7 +9,7 @@ const JWT_HEADER = encodeSection({ typ: 'JWT', alg: 'ES256K' });
 class IdentityProvider {
 
     public static get type() {
-        return 'TotemID';
+        return 'VinyaiID';
     }
 
     public static async verifyIdentity(identity: any) {
@@ -34,14 +30,14 @@ class IdentityProvider {
         return true;
     }
 
-    protected identity: any;
+    protected identity: Identity;
 
     constructor({ identity }: any) {
         this.identity = identity;
     }
 
     public async getId() {
-        return this.identity.getDID();
+        return (await this.identity.getDid()).getId();
     }
 
     public async signIdentity(data: any) {
@@ -50,7 +46,11 @@ class IdentityProvider {
             iat: null,
         };
 
-        return (await this.identity.sign(payload)).split('.')[2];
+        const signedPayload = await this.identity.sign(payload, {});
+
+        console.log(signedPayload);
+
+        return signedPayload.split('.')[2];
     }
 
 }

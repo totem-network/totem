@@ -1,0 +1,6 @@
+query getIdentity($address: String) {
+    getProfile(address: $address) {
+        identity,
+        name,
+    }
+}

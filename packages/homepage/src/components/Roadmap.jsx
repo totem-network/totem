@@ -165,7 +165,7 @@ class Roadmap extends Component {
                             <div style={row}>
                                 <div style={border} />
                                 <div style={description}>
-                                    Improving the developer experience for the Totem API.
+                                    Improving the developer experience for the Vinyai API.
                                 </div>
                             </div>
                         </div>

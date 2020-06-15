@@ -19,7 +19,7 @@ const getERC20Contracts = async (account: string, signer: any) => {
         boxes.wrapEthersSigner(signer),
     );
 
-    const space = await box.openSpace('totem');
+    const space = await box.openSpace('vinyai');
 
     if (!space || !space.private) {
         return [];
@@ -160,7 +160,7 @@ export default {
                 boxes.wrapEthersSigner(context.signer),
             );
 
-            const space = await box.openSpace('totem');
+            const space = await box.openSpace('vinyai');
 
             if (!space || !space.private) {
                 return [];

@@ -1,5 +1,5 @@
 {
-  "name": "@totem/ui",
+  "name": "@vinyai/ui",
   "version": "0.1.0",
   "description": "",
   "main": "src/index.ts",

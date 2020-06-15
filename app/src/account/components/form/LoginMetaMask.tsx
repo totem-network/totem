@@ -74,7 +74,7 @@ const LoginMetaMask = ({}: ILoginMetaMaskProps) => {
                     No Web3 provider found!
                 </Typography>
                 <Typography component="p">
-                    To access Totem please install MetaMask for your browser!
+                    To access Vinyai please install MetaMask for your browser!
                 </Typography>
                 <a
                     className={classes.browser}

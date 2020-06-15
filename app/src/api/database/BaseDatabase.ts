@@ -1,28 +1,29 @@
+import Identity, { IFile } from 'account/identity/Identity';
+import KeyRing from 'account/encryption/KeyRing';
 import boxes from 'account/profile/boxes';
 import { Signer } from 'ethers/abstract-signer';
 import { Provider } from 'ethers/providers/abstract-provider';
-import Identity from './Identity';
 import DatabaseProviderManager from './ProviderManager';
 const Identities = require('orbit-db-identity-provider');
 
-interface IDatabaseInitializationOptions {
+export interface IDatabaseInitializationOptions {
     accessController: any;
     type: string;
-    // TODO: dbs that are not stored in totem space
+    // TODO: dbs that are not stored in vinyai space
 }
 
-// TODO: Put all orbit-db wrappers (db, index and relations) in single package @totem/base-db
+// TODO: Put all orbit-db wrappers (db, index and relations) in single package @vinyai/base-db
 abstract class BaseDatabase {
 
-    protected NO_DATABASE_ERROR = 'No database';
+    readonly NO_DATABASE_ERROR = 'No database';
 
-    protected NO_IDENTITY_ERROR = 'No identity set in database';
+    readonly NO_IDENTITY_ERROR = 'No identity set in database';
 
-    protected NO_IPFS_ERROR = 'No ipfs in database';
+    readonly NO_IPFS_ERROR = 'No ipfs in database';
 
-    protected NOT_READY_ERROR = 'Database not ready';
+    readonly NOT_READY_ERROR = 'Database not ready';
 
-    protected coinType: string;
+    protected chainId: string;
 
     protected signer: Signer;
 
@@ -30,7 +31,7 @@ abstract class BaseDatabase {
 
     protected identity: any;
 
-    protected totemSpace: any;
+    protected vinyaiSpace: any;
 
     protected database: any;
 
@@ -40,8 +41,8 @@ abstract class BaseDatabase {
      * Initialization
      ********************/
 
-    constructor(coinType: string, signer: Signer, provider: Provider) {
-        this.coinType = coinType;
+    constructor(chainId: string, signer: Signer, provider: Provider) {
+        this.chainId = chainId;
         this.signer = signer;
         this.provider = provider;
     }
@@ -51,7 +52,7 @@ abstract class BaseDatabase {
     protected abstract async onReady(): Promise<void>;
 
     protected async init() {
-        this.totemSpace = await this.getTotemSpace();
+        this.vinyaiSpace = await this.getVinyaiSpace();
 
         await this.onInitialize();
         await this.onReady();
@@ -62,7 +63,7 @@ abstract class BaseDatabase {
     }
 
     protected async initDatabase(name: string, options: IDatabaseInitializationOptions) {
-        const databaseAddress = await this.totemSpace.private.get(name);
+        const databaseAddress = await this.vinyaiSpace.private.get(name);
 
         let database;
         if (!databaseAddress) {
@@ -74,13 +75,14 @@ abstract class BaseDatabase {
                 platform: 'ipfs',
                 provider: 'orbit-db',
                 type: options.type,
+                web3Provider: this.provider,
             });
 
             if (!database) {
                 return;
             }
 
-            await this.totemSpace.private.set(name, database.id);
+            await this.vinyaiSpace.private.set(name, database.id);
         } else {
             database = await DatabaseProviderManager.openDatabase({
                 accessController: options.accessController,
@@ -90,6 +92,7 @@ abstract class BaseDatabase {
                 platform: 'ipfs',
                 provider: 'orbit-db',
                 type: options.type,
+                web3Provider: this.provider,
             });
 
             // TODO: check if user is allowed to write to or read from db
@@ -107,23 +110,29 @@ abstract class BaseDatabase {
             return;
         }
 
-        this.identity = await Identity.create(
-            database._ipfs,
-            this.signer,
-        );
+        
+
+        // this.identity = await Identity.create(
+        //     database._ipfs,
+        //     this.signer,
+        // );
+
+        // TODO: new Identity
+
         /*await Identities.createIdentity({
-            identity: await Identity.create(database._ipfs, currentNetwork.coinType),
-            type: 'TotemID',
+            identity: await Identity.create(database._ipfs, currentNetwork.chainId),
+            type: 'VinyaiID',
         });*/
 
         database.setIdentity(await this.identity.getOrbitDbIdentity());
 
         this.database = database;
 
+        // TODO: gets called in init() too
         await this.onReady();
     }
 
-    protected async getTotemSpace() {
+    protected async getVinyaiSpace() {
         const account = await this.signer.getAddress();
 
         const box = await boxes.openBox(
@@ -131,9 +140,162 @@ abstract class BaseDatabase {
             boxes.wrapEthersSigner(this.signer),
         );
 
-        const space = await box.openSpace('totem');
+        const space = await box.openSpace('vinyai');
 
         return space;
+    }
+
+    /********************
+     * Key Management
+     *
+     * Use entry permissions when you share a single file and add
+     * it to another users SharedDatabase
+     *
+     * Use db permissions for access to the whole database
+     ********************/
+
+    protected async grantEntryRead(publicKey: string, entry: any) {
+        this.throwIfNotReady();
+        // TODO: Encrypt sym private key for metadata and data with publicKey
+        // and add it to /keys directory
+        // (this works for indiviual entries)
+    }
+
+    protected async revokeEntryRead(publicKey: string, entry: any) {
+        this.throwIfNotReady();
+        // TODO: remove encrypted private key from /keys where publicKey matches
+        // (this works for indiviual entries)
+
+        // TODO: forward secrecy with proxy reencryption
+    }
+
+    protected async grantEntryWrite(publicKey: string, entry: any) {
+        this.throwIfNotReady();
+        // TODO: Encrypt ipns private key with publicKey
+        // and add it to /ipnsKeys directory
+        // (this works for indiviual entries)
+    }
+
+    protected async revokeEntryWrite(publicKey: string, entry: any) {
+        this.throwIfNotReady();
+        // TODO: remove encrypted ipns private key from /ipnsKeys where publicKey matches
+        // (this works for indiviual entries)
+    }
+
+    // TODO: key management for whole database with master key
+    // master key is stored in AccessController and encrypted with each public key
+    // that has access and can only be granted with admin permission
+    // when master key gets revoked delete encrypted private master key for revoked public key
+
+    // this.database.access -> Given Access Controller extends AbstractAccessController
+
+    protected async grantRead(publicKey: string) {
+        this.throwIfNotReady();
+        // TODO
+    }
+
+    protected async revokeRead(publicKey: string) {
+        this.throwIfNotReady();
+        // TODO
+
+        // TODO: forward secrecy with proxy reencryption
+    }
+
+    protected async grantWrite(publicKey: string) {
+        this.throwIfNotReady();
+        // TODO
+    }
+
+    protected async revokeWrite(publicKey: string) {
+        this.throwIfNotReady();
+        // TODO
+    }
+
+    /********************
+     * IPFS
+     ********************/
+
+    protected async createFile(metaData: any, data: IFile[]) {
+        this.throwIfNotReady();
+
+        const ipfs = this.database._ipfs;
+
+        // TODO: capabilities must contain encryption and signing key!
+        // take keys from did document of the VinyaiIDs
+        // each VinyaiID must have one signing and one encryption key
+        // every private key with access to the VinyaiID can decrypt the
+        // private signing and private encryption key
+        const capabilities = this.database.access.getCapabilities();
+
+        // encrypt data
+        const encryptedData = this.identity.encrypt(data, capabilities.read);
+
+        // upload data and get the cids
+        const dataCids: any[] = [];
+        const uploadDataPromises = encryptedData.files.map((encryptedFile: IFile) => {
+            const uploadDataPromise = ipfs.add(Buffer.from(encryptedFile.data));
+
+            dataCids.push({
+                name: encryptedFile.name,
+                uploadResult: uploadDataPromise,
+            });
+
+            return uploadDataPromise;
+        });
+
+        await Promise.all(uploadDataPromises);
+
+        // create metaData file with cids from data
+        metaData.files = {};
+        for (const dataCid of dataCids) {
+            metaData.files[dataCid.name] = dataCid.cid.toString();
+        }
+
+        const encryptedMetaData = this.identity.encrypt(
+            {
+                name: 'metaData',
+                data: JSON.stringify(metaData),
+            },
+            capabilities.read,
+        );
+
+        // upload metaData and get cid
+
+        // upload keys and get cids
+
+        // create ipns key and upload and get cids (capabilities.write)
+
+        // create parent and add it to ipfs (capabilities.write)
+
+        // point ipns to root ipfs
+
+        // ----
+
+        // TODO: create ipfs upload with following files/directories
+        // /metaData file
+        // /keys/...
+        // /ipnsKeys/...
+        // /data/...
+
+        // use ipfs.dag:
+        // when adding a new key, create a new parent object with cids of all other files:
+        /*
+        {
+            metaData: metaDataCid,
+            keys: {
+                ...keyCids,
+                someHash: newKeyCid,
+            },
+            ipnsKeys: { ... },
+            data: { ... },
+        }
+        */
+        // same for removing keys or changing the file
+        // then add the cid of the new parent to the ipns
+    }
+
+    protected async updateFile(metaData: string, data: string[]) {
+        //
     }
 
     /********************

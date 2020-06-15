@@ -1,5 +1,5 @@
 {
-  "name": "totem-sdk",
+  "name": "@vinyai/sdk",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
