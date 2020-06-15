@@ -148,7 +148,6 @@
     "immutable": "^3.8.2",
     "ipfs": "^0.40.0",
     "ipfs-api": "^26.1.2",
-    "ipfs-did-document": "^1.2.3",
     "ipfs-log": "^4.5.5",
     "ipns": "^0.7.0",
     "jimp": "^0.10.2",
