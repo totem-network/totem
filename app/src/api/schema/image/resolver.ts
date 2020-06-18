@@ -1,3 +1,4 @@
+import StorageProviderManager from 'network/storage/ProviderManager';
 import PrivateImageDatabase from '../../database/image/PrivateImageDatabase';
 import operationFieldsSelector from '../../utils/operationFieldsSelector';
 
@@ -27,8 +28,10 @@ export default {
             }: any,
             context: any,
         ) => {
+            const ipfs = await StorageProviderManager.getProvider('ipfs', '1');
+
             const database = await PrivateImageDatabase.create(
-                context.blockchainNetwork,
+                ipfs,
                 context.signer,
                 context.provider,
             );
@@ -60,8 +63,10 @@ export default {
         ) => {
             const requestedFields = operationFieldsSelector(info.operation, 'images:files');
 
+            const ipfs = await StorageProviderManager.getProvider('ipfs', '1');
+
             const database = await PrivateImageDatabase.create(
-                context.blockchainNetwork,
+                ipfs,
                 context.signer,
                 context.provider,
             );

@@ -53,9 +53,12 @@ class DidRegistry {
 
         const didJSON = await this.ipfs.cat(hash);
 
+        console.log(Buffer.from(didJSON).toString());
+
         // TODO: return; if no didJson on ipfs
 
         // TODO: cache dids! then listen for events and update cache if entry changes
+        // Use a global cache and add a setCache method to DidRegistry
 
         return DidDocument.fromJSON(Buffer.from(didJSON).toString());
     }

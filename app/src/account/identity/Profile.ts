@@ -83,6 +83,10 @@ class Profile {
         const privatePath = privateProfileService.serviceEndpoint;
 
         const publicDatabase = await DatabaseProviderManager.openDatabase({
+            accessController: {
+                skipManifest: true,
+                type: 'VinyaiPrivateAccess',
+            },
             path: publicPath,
             network: '1',
             platform: 'ipfs',
@@ -92,6 +96,10 @@ class Profile {
         });
 
         const privateDatabase = await DatabaseProviderManager.openDatabase({
+            accessController: {
+                skipManifest: true,
+                type: 'VinyaiPrivateAccess',
+            },
             path: privatePath,
             network: '1',
             platform: 'ipfs',
@@ -151,10 +159,18 @@ class Profile {
         }
 
         const encryptedValueJSON = this.privateDatabase.get(key);
+
+        if (!encryptedValueJSON) {
+            return;
+        }
+
         const encryptedValue = JSON.parse(encryptedValueJSON);
 
         const decryptedValue = this.identity.decrypt({
-            files: [encryptedValue.value],
+            files: [{
+                data: encryptedValue.value,
+                name: 'value',
+            }],
             keys: encryptedValue.keys,
         });
 

@@ -1,4 +1,3 @@
-import boxes from 'account/profile/boxes';
 import Ipfs from 'ipfs';
 import ProviderManager from 'network/storage/ProviderManager';
 import { expose } from 'comlink';
@@ -48,12 +47,7 @@ expose({
 
         const account = await signer.getAddress();
 
-        const box = await boxes.openBox(
-            account,
-            boxes.wrapEthersSigner(signer),
-        );
-
-        await box.logout();
+        // TODO: clear any left data
 
         return true;
     },

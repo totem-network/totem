@@ -1,5 +1,7 @@
 import IdentityManager from 'account/identity/IdentityManager';
 import StorageProviderManager from 'network/storage/ProviderManager';
+import identityFormatter from '../../formatters/identity';
+import formatIdentity from '../../formatters/identity';
 
 export default {
 
@@ -12,7 +14,7 @@ export default {
             }: any,
             context: any,
         ) => {
-            const result = {
+            const result: any = {
                 profile: null,
                 result: false,
             };
@@ -39,7 +41,13 @@ export default {
 
             result.result = true;
 
-            // TODO: profile to graphql result
+            result.profile = {
+                address: await context.signer.getAddress(),
+                header: '',
+                identity: formatIdentity(await identityResult.identity.getDid()),
+                image: '',
+                name,
+            };
 
             return result;
         },
@@ -90,7 +98,7 @@ export default {
             }: any,
             context: any,
         ) => {
-            const result = {
+            const result: any = {
                 address,
                 header: '',
                 identity: null,
@@ -117,6 +125,8 @@ export default {
             }
 
             const did = profile.getDid();
+
+            result.identity = identityFormatter(did);
 
             if (profile.get('name')) {
                 result.name = profile.get('name');

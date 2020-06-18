@@ -1,4 +1,3 @@
-import boxes from 'account/profile/boxes';
 import { Contract, utils } from 'ethers';
 import fetchFee from 'network/utils/fetchFee';
 import { containsAddress } from 'utils/ethereum';
@@ -14,24 +13,26 @@ import ERC20AbiJSON from './erc20.json';
 const ERC20Abi = JSON.stringify(ERC20AbiJSON);
 
 const getERC20Contracts = async (account: string, signer: any) => {
-    const box = await boxes.openBox(
-        account,
-        boxes.wrapEthersSigner(signer),
-    );
+    // const box = await boxes.openBox(
+    //     account,
+    //     boxes.wrapEthersSigner(signer),
+    // );
 
-    const space = await box.openSpace('vinyai');
+    // const space = await box.openSpace('vinyai');
 
-    if (!space || !space.private) {
-        return [];
-    }
+    // if (!space || !space.private) {
+    //     return [];
+    // }
 
-    let erc20Contracts: string[] | null = await space.private.get('cryptoCurrencies');
+    // let erc20Contracts: string[] | null = await space.private.get('cryptoCurrencies');
 
-    if (!erc20Contracts) {
-        erc20Contracts = [];
-    }
+    // if (!erc20Contracts) {
+    //     erc20Contracts = [];
+    // }
 
-    return erc20Contracts;
+    // return erc20Contracts;
+
+    return [];
 };
 
 const getERC20Data = async (account: string, contract: string, provider: any, network: any) => {
@@ -143,44 +144,46 @@ export default {
             }: any,
             context: any,
         ) => {
-            const account = await context.signer.getAddress();
+            // const account = await context.signer.getAddress();
 
-            const tokenContract = new Contract(contract, ERC20Abi, context.provider);
+            // const tokenContract = new Contract(contract, ERC20Abi, context.provider);
 
-            const totalSupply = await tokenContract.totalSupply();
+            // const totalSupply = await tokenContract.totalSupply();
 
-            if (!totalSupply) {
-                return {
-                    result: false,
-                };
-            }
+            // if (!totalSupply) {
+            //     return {
+            //         result: false,
+            //     };
+            // }
 
-            const box = await boxes.openBox(
-                account,
-                boxes.wrapEthersSigner(context.signer),
-            );
+            // const box = await boxes.openBox(
+            //     account,
+            //     boxes.wrapEthersSigner(context.signer),
+            // );
 
-            const space = await box.openSpace('vinyai');
+            // const space = await box.openSpace('vinyai');
 
-            if (!space || !space.private) {
-                return [];
-            }
+            // if (!space || !space.private) {
+            //     return {
+            //         result: false,
+            //     };
+            // }
 
-            let erc20Contracts: string[] | null = await space.private.get('cryptoCurrencies');
+            // let erc20Contracts: string[] | null = await space.private.get('cryptoCurrencies');
 
-            if (!erc20Contracts) {
-                erc20Contracts = [];
-            }
+            // if (!erc20Contracts) {
+            //     erc20Contracts = [];
+            // }
 
-            if (!containsAddress(erc20Contracts, contract)) {
-                erc20Contracts.push(contract);
+            // if (!containsAddress(erc20Contracts, contract)) {
+            //     erc20Contracts.push(contract);
 
-                await space.private.set('cryptoCurrencies', erc20Contracts);
+            //     await space.private.set('cryptoCurrencies', erc20Contracts);
 
-                return {
-                    result: true,
-                };
-            }
+            //     return {
+            //         result: true,
+            //     };
+            // }
 
             return {
                 result: false,

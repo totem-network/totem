@@ -95,7 +95,7 @@ class IdentityManager {
 
         return {
             identity,
-            // transaction,
+            transaction,
         };
     }
 

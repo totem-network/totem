@@ -12,8 +12,9 @@ class PrivateImageDatabase extends AbstractImageDatabase {
         type: 'feed',
     };
 
-    public static async create(chainId: string, signer: Signer, provider: Provider) {
-        const database = new PrivateImageDatabase(chainId, signer, provider);
+
+    public static async create(ipfs: any, signer: Signer, provider: Provider) {
+        const database = new PrivateImageDatabase(ipfs, signer, provider);
 
         await database.init();
 

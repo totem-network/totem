@@ -7,6 +7,7 @@ import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { makeStyles } from '@material-ui/styles';
 import CreateAccount from 'account/components/form/CreateAccount';
+import LoginMessage from 'account/components/LoginMessage';
 import loggingInSelector from 'account/selectors/loggingIn';
 import providedAccountSelector from 'account/selectors/providedAccount';
 import LoginForm from 'account/components/Login';
@@ -24,11 +25,12 @@ const useStyles = makeStyles((theme: Theme) => {
             [theme.breakpoints.up('sm')]: {
                 left: 'calc(50% - 220px)',
                 right: 'calc(50% - 220px)',
+                top: '15vh',
             },
             left: '1rem',
             position: 'absolute',
             right: '1rem',
-            top: '25vh'
+            top: '10vh',
         },
         paper: {
             [theme.breakpoints.up('sm')]: {
@@ -108,7 +110,11 @@ const Login = ({}: ILoginProps) => {
             );
         }
 
-        if (apiInitialized && web3Initialized) {
+        if (
+            apiInitialized &&
+            web3Initialized &&
+            (!loading && called)
+        ) {
             return (
                 <CreateAccount />
             );
@@ -123,6 +129,7 @@ const Login = ({}: ILoginProps) => {
         <div
             className={classes.container}
         >
+            <LoginMessage />
             <Paper
                 className={classes.paper}
                 elevation={3}

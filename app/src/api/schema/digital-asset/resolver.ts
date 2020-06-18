@@ -1,4 +1,3 @@
-import boxes from 'account/profile/boxes';
 import { Contract, utils } from 'ethers';
 import fetchFee from 'network/utils/fetchFee';
 import { containsAddress } from 'utils/ethereum';
@@ -39,44 +38,46 @@ const updateERC721Contracts = async (account: string, space: any) => {
         }
     }
 
-    let erc721Contracts: string[] | null = await space.private.get('digitalAssets');
+    // let erc721Contracts: string[] | null = await space.private.get('digitalAssets');
 
-    if (!erc721Contracts) {
-        erc721Contracts = [];
-    }
+    // if (!erc721Contracts) {
+    //     erc721Contracts = [];
+    // }
 
-    let changed = false;
-    for (const contract of openSeaErc721Contracts) {
-        if (!containsAddress(erc721Contracts, contract)) {
-            erc721Contracts.push(contract);
-            changed = true;
-        }
-    }
+    // let changed = false;
+    // for (const contract of openSeaErc721Contracts) {
+    //     if (!containsAddress(erc721Contracts, contract)) {
+    //         erc721Contracts.push(contract);
+    //         changed = true;
+    //     }
+    // }
 
-    if (changed) {
-        await space.private.set('digitalAssets', erc721Contracts);
-    }
+    // if (changed) {
+    //     await space.private.set('digitalAssets', erc721Contracts);
+    // }
 
     return;
 };
 
 const getERC721Contracts = async (account: string, signer: any) => {
-    const box = await boxes.openBox(
-        account,
-        boxes.wrapEthersSigner(signer),
-    );
+    // const box = await boxes.openBox(
+    //     account,
+    //     boxes.wrapEthersSigner(signer),
+    // );
 
-    const space = await box.openSpace('vinyai');
+    // const space = await box.openSpace('vinyai');
 
-    await updateERC721Contracts(account, space);
+    // await updateERC721Contracts(account, space);
 
-    let erc721Contracts: string[] | null = await space.private.get('digitalAssets');
+    // let erc721Contracts: string[] | null = await space.private.get('digitalAssets');
 
-    if (!erc721Contracts) {
-        erc721Contracts = [];
-    }
+    // if (!erc721Contracts) {
+    //     erc721Contracts = [];
+    // }
 
-    return erc721Contracts;
+    // return erc721Contracts;
+
+    return [];
 };
 
 const getERC721Data = async (account: string, contract: string, signer: any) => {
@@ -272,40 +273,40 @@ export default {
             }: any,
             context: any,
         ) => {
-            const account = await context.signer.getAddress();
+            // const account = await context.signer.getAddress();
 
-            const assetContract = new Contract(contract, ERC721Abi, context.signer);
+            // const assetContract = new Contract(contract, ERC721Abi, context.signer);
 
-            const balance = await assetContract.balanceOf(account);
+            // const balance = await assetContract.balanceOf(account);
 
-            if (!balance) {
-                return {
-                    result: false,
-                };
-            }
+            // if (!balance) {
+            //     return {
+            //         result: false,
+            //     };
+            // }
 
-            const box = await boxes.openBox(
-                account,
-                boxes.wrapEthersSigner(context.signer),
-            );
+            // const box = await boxes.openBox(
+            //     account,
+            //     boxes.wrapEthersSigner(context.signer),
+            // );
 
-            const space = await box.openSpace('vinyai');
+            // const space = await box.openSpace('vinyai');
 
-            let erc721Contracts: string[] | null = await space.private.get('digitalAssets');
+            // let erc721Contracts: string[] | null = await space.private.get('digitalAssets');
 
-            if (!erc721Contracts) {
-                erc721Contracts = [];
-            }
+            // if (!erc721Contracts) {
+            //     erc721Contracts = [];
+            // }
 
-            if (!containsAddress(erc721Contracts, contract)) {
-                erc721Contracts.push(contract);
+            // if (!containsAddress(erc721Contracts, contract)) {
+            //     erc721Contracts.push(contract);
 
-                await space.private.set('digitalAssets', erc721Contracts);
+            //     await space.private.set('digitalAssets', erc721Contracts);
 
-                return {
-                    result: true,
-                };
-            }
+            //     return {
+            //         result: true,
+            //     };
+            // }
 
             return {
                 result: false,

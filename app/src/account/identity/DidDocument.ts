@@ -76,6 +76,8 @@ class DidDocument {
 
     protected address: string;
 
+    protected controller: string;
+
     protected publicKeys: (IPublicKey | string)[]
 
     protected authentications: (IAuthentication | string)[]
@@ -107,6 +109,10 @@ class DidDocument {
 
         const address = idParts[2];
         const options: any = {};
+
+        if (parsedDid.controller) {
+            options.controller = parsedDid.controller;
+        }
 
         if (parsedDid.publicKey) {
             options.publicKeys = parsedDid.publicKey;
@@ -143,6 +149,7 @@ class DidDocument {
 
     constructor(address: string, options: any) {
         this.address = address;
+        this.controller = options.controller || this.getId();
         this.publicKeys = options.publicKeys || [];
         this.authentications = options.authentications || [];
         this.services = options.services || [];
@@ -334,6 +341,7 @@ class DidDocument {
         const didObject: any = {
             '@context': DidDocument.CONTEXT,
             id: this.getId(),
+            controller: this.controller,
             publicKey: this.publicKeys,
             authentication: this.authentications,
             service: this.services,

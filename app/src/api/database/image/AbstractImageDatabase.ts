@@ -72,7 +72,9 @@ abstract class AbstractImageDatabase extends BaseDatabase {
      ********************/
 
     public async addImage(imageInput: IImageInput) {
-        this.throwIfNotReady();
+        if (!this.ready) {
+            throw new Error(this.NOT_READY_ERROR);
+        }
 
         const imageSize = await this.getImageSize(imageInput.dataUrl);
         const mimeType = await this.getMimeType(imageInput.dataUrl);
@@ -164,7 +166,9 @@ abstract class AbstractImageDatabase extends BaseDatabase {
         first,
         requestedFields,
     }: IGetImagesOptions) {
-        this.throwIfNotReady();
+        if (!this.ready) {
+            throw new Error(this.NOT_READY_ERROR);
+        }
 
         // TODO: use this.database.iterator() to get all imagesData, then sort via indexes
 
@@ -268,9 +272,11 @@ abstract class AbstractImageDatabase extends BaseDatabase {
     }
 
     protected async getImageData(hash: string): Promise<IImageJsonOptions> {
-        this.throwIfNotReady();
+        if (!this.ready) {
+            throw new Error(this.NOT_READY_ERROR);
+        }
 
-        const ipfs = this.database._ipfs;
+        const ipfs = this.ipfs;
 
         const encryptedData = await ipfs.cat(hash);
 
@@ -280,9 +286,11 @@ abstract class AbstractImageDatabase extends BaseDatabase {
     }
 
     protected async getImageFile(hash: string) {
-        this.throwIfNotReady();
+        if (!this.ready) {
+            throw new Error(this.NOT_READY_ERROR);
+        }
 
-        const ipfs = this.database._ipfs;
+        const ipfs = this.ipfs;
 
         const encryptedImageFile = await ipfs.cat(hash);
 
@@ -292,7 +300,13 @@ abstract class AbstractImageDatabase extends BaseDatabase {
     }
 
     protected async uploadImage(options: IImageUploadOptions): Promise<IImageUploadResult> {
-        this.throwIfNotReady();
+        if (!this.ready) {
+            throw new Error(this.NOT_READY_ERROR);
+        }
+
+        if (!this.identity) {
+            throw new Error(this.NO_IDENTITY_ERROR);
+        }
 
         const result: IImageUploadResult = {};
 
@@ -516,13 +530,21 @@ abstract class AbstractImageDatabase extends BaseDatabase {
      ********************/
 
     protected encrypt() {
-        this.throwIfNotReady();
+        if (!this.ready) {
+            throw new Error(this.NOT_READY_ERROR);
+        }
         // TODO
     }
 
     // TODO: allow multiple files decryption with same key
     protected decrypt(data: any, name: string) {
-        this.throwIfNotReady();
+        if (!this.ready) {
+            throw new Error(this.NOT_READY_ERROR);
+        }
+
+        if (!this.identity) {
+            throw new Error(this.NO_IDENTITY_ERROR);
+        }
 
         const dataJson = JSON.parse(Buffer.from(data).toString());
 

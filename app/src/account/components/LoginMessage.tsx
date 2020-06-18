@@ -7,6 +7,8 @@ interface ILoginMessageProps {}
 const useStyles = makeStyles({
     wrapper: {
         fontSize: '4rem',
+        marginBottom: '2rem',
+        textAlign: 'center',
         textTransform: 'lowercase',
     },
 });

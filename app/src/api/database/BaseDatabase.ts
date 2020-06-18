@@ -1,15 +1,14 @@
 import Identity, { IFile } from 'account/identity/Identity';
-import KeyRing from 'account/encryption/KeyRing';
-import boxes from 'account/profile/boxes';
+import IdentityManager from 'account/identity/IdentityManager';
+import Profile from 'account/identity/Profile';
 import { Signer } from 'ethers/abstract-signer';
 import { Provider } from 'ethers/providers/abstract-provider';
 import DatabaseProviderManager from './ProviderManager';
-const Identities = require('orbit-db-identity-provider');
 
 export interface IDatabaseInitializationOptions {
     accessController: any;
     type: string;
-    // TODO: dbs that are not stored in vinyai space
+    // TODO: dbs that are not stored in private profile
 }
 
 // TODO: Put all orbit-db wrappers (db, index and relations) in single package @vinyai/base-db
@@ -21,17 +20,21 @@ abstract class BaseDatabase {
 
     readonly NO_IPFS_ERROR = 'No ipfs in database';
 
+    readonly NO_PROFILE_ERROR = 'No profile set in database';
+
     readonly NOT_READY_ERROR = 'Database not ready';
 
-    protected chainId: string;
+    protected ipfs: any;
 
     protected signer: Signer;
 
     protected provider: Provider;
 
-    protected identity: any;
+    protected identityManager?: IdentityManager;
 
-    protected vinyaiSpace: any;
+    protected identity?: Identity;
+
+    protected profile?: Profile;
 
     protected database: any;
 
@@ -41,8 +44,8 @@ abstract class BaseDatabase {
      * Initialization
      ********************/
 
-    constructor(chainId: string, signer: Signer, provider: Provider) {
-        this.chainId = chainId;
+    constructor(ipfs: any, signer: Signer, provider: Provider) {
+        this.ipfs = ipfs;
         this.signer = signer;
         this.provider = provider;
     }
@@ -52,18 +55,39 @@ abstract class BaseDatabase {
     protected abstract async onReady(): Promise<void>;
 
     protected async init() {
-        this.vinyaiSpace = await this.getVinyaiSpace();
+        this.identityManager = new IdentityManager(this.ipfs, this.signer, this.provider);
+        this.identity = await this.identityManager.loadIdentity();
+
+        if (!this.identity) {
+            return;
+        }
+
+        this.profile = await this.identityManager.loadProfile(this.identity);
+
+        if (!this.profile) {
+            return;
+        }
 
         await this.onInitialize();
         await this.onReady();
 
         this.ready = true;
 
-        return;
+        return true;
     }
 
     protected async initDatabase(name: string, options: IDatabaseInitializationOptions) {
-        const databaseAddress = await this.vinyaiSpace.private.get(name);
+        if (!this.identity) {
+            throw new Error(this.NO_IDENTITY_ERROR);
+        }
+
+        if (!this.profile) {
+            throw new Error(this.NO_PROFILE_ERROR);
+        }
+
+        const databaseAddress = await this.profile.getPrivate(name);
+
+        console.log(databaseAddress);
 
         let database;
         if (!databaseAddress) {
@@ -82,7 +106,7 @@ abstract class BaseDatabase {
                 return;
             }
 
-            await this.vinyaiSpace.private.set(name, database.id);
+            await this.profile.setPrivate(name, database.id);
         } else {
             database = await DatabaseProviderManager.openDatabase({
                 accessController: options.accessController,
@@ -110,39 +134,12 @@ abstract class BaseDatabase {
             return;
         }
 
-        
-
-        // this.identity = await Identity.create(
-        //     database._ipfs,
-        //     this.signer,
-        // );
-
-        // TODO: new Identity
-
-        /*await Identities.createIdentity({
-            identity: await Identity.create(database._ipfs, currentNetwork.chainId),
-            type: 'VinyaiID',
-        });*/
-
         database.setIdentity(await this.identity.getOrbitDbIdentity());
 
         this.database = database;
 
         // TODO: gets called in init() too
         await this.onReady();
-    }
-
-    protected async getVinyaiSpace() {
-        const account = await this.signer.getAddress();
-
-        const box = await boxes.openBox(
-            account,
-            boxes.wrapEthersSigner(this.signer),
-        );
-
-        const space = await box.openSpace('vinyai');
-
-        return space;
     }
 
     /********************
@@ -155,14 +152,18 @@ abstract class BaseDatabase {
      ********************/
 
     protected async grantEntryRead(publicKey: string, entry: any) {
-        this.throwIfNotReady();
+        if (!this.ready) {
+            throw new Error(this.NOT_READY_ERROR);
+        }
         // TODO: Encrypt sym private key for metadata and data with publicKey
         // and add it to /keys directory
         // (this works for indiviual entries)
     }
 
     protected async revokeEntryRead(publicKey: string, entry: any) {
-        this.throwIfNotReady();
+        if (!this.ready) {
+            throw new Error(this.NOT_READY_ERROR);
+        }
         // TODO: remove encrypted private key from /keys where publicKey matches
         // (this works for indiviual entries)
 
@@ -170,14 +171,18 @@ abstract class BaseDatabase {
     }
 
     protected async grantEntryWrite(publicKey: string, entry: any) {
-        this.throwIfNotReady();
+        if (!this.ready) {
+            throw new Error(this.NOT_READY_ERROR);
+        }
         // TODO: Encrypt ipns private key with publicKey
         // and add it to /ipnsKeys directory
         // (this works for indiviual entries)
     }
 
     protected async revokeEntryWrite(publicKey: string, entry: any) {
-        this.throwIfNotReady();
+        if (!this.ready) {
+            throw new Error(this.NOT_READY_ERROR);
+        }
         // TODO: remove encrypted ipns private key from /ipnsKeys where publicKey matches
         // (this works for indiviual entries)
     }
@@ -190,24 +195,32 @@ abstract class BaseDatabase {
     // this.database.access -> Given Access Controller extends AbstractAccessController
 
     protected async grantRead(publicKey: string) {
-        this.throwIfNotReady();
+        if (!this.ready) {
+            throw new Error(this.NOT_READY_ERROR);
+        }
         // TODO
     }
 
     protected async revokeRead(publicKey: string) {
-        this.throwIfNotReady();
+        if (!this.ready) {
+            throw new Error(this.NOT_READY_ERROR);
+        }
         // TODO
 
         // TODO: forward secrecy with proxy reencryption
     }
 
     protected async grantWrite(publicKey: string) {
-        this.throwIfNotReady();
+        if (!this.ready) {
+            throw new Error(this.NOT_READY_ERROR);
+        }
         // TODO
     }
 
     protected async revokeWrite(publicKey: string) {
-        this.throwIfNotReady();
+        if (!this.ready) {
+            throw new Error(this.NOT_READY_ERROR);
+        }
         // TODO
     }
 
@@ -216,9 +229,15 @@ abstract class BaseDatabase {
      ********************/
 
     protected async createFile(metaData: any, data: IFile[]) {
-        this.throwIfNotReady();
+        if (!this.identity) {
+            throw new Error(this.NO_IDENTITY_ERROR);
+        }
+        
+        if (!this.ready) {
+            throw new Error(this.NOT_READY_ERROR);
+        }
 
-        const ipfs = this.database._ipfs;
+        const ipfs = this.ipfs;
 
         // TODO: capabilities must contain encryption and signing key!
         // take keys from did document of the VinyaiIDs
@@ -252,10 +271,12 @@ abstract class BaseDatabase {
         }
 
         const encryptedMetaData = this.identity.encrypt(
-            {
-                name: 'metaData',
-                data: JSON.stringify(metaData),
-            },
+            [
+                {
+                    name: 'metaData',
+                    data: JSON.stringify(metaData),
+                },
+            ],
             capabilities.read,
         );
 
@@ -321,40 +342,6 @@ abstract class BaseDatabase {
                 hasNextPage: false,
             },
         };
-    }
-
-    /********************
-     * Checks
-     ********************/
-
-    protected throwIfNoDatabase() {
-        if (!this.database) {
-            throw new Error(this.NO_DATABASE_ERROR);
-        }
-    }
-
-    protected throwIfNoIdentity() {
-        if (!this.identity) {
-            throw new Error(this.NO_IDENTITY_ERROR);
-        }
-    }
-
-    protected throwIfNoIpfs() {
-        this.throwIfNoDatabase();
-
-        if (!this.database._ipfs) {
-            throw new Error(this.NO_IPFS_ERROR);
-        }
-    }
-
-    protected throwIfNotReady() {
-        this.throwIfNoDatabase();
-        this.throwIfNoIdentity();
-        this.throwIfNoIpfs();
-
-        if (!this.ready) {
-            throw new Error(this.NOT_READY_ERROR);
-        }
     }
 
 }
