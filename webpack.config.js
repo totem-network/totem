@@ -77,34 +77,36 @@ const config = {
         new HtmlWebpackPlugin({
             template: 'app/src/index.html'
         }),
-        new CopyWebpackPlugin([
-            {
-                from: 'app/assets/images',
-                to: 'images'
-            },
-            {
-                from: 'node_modules/cryptocurrency-icons/svg/icon',
-                to: 'images/cryptocurrency-icons'
-            },
-            {
-                from: 'node_modules/@browser-logos',
-                to: 'images/browser-logos'
-            },
-            {
-                from: 'app/assets/fonts',
-                to: 'fonts'
-            },
-            {
-                from: 'app/assets/apps',
-                to: 'apps'
-            },
-            {
-                from: 'app/assets/manifest.json'
-            },
-            {
-                from: 'app/assets/browserconfig.xml'
-            }
-        ]),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: 'app/assets/images',
+                    to: 'images'
+                },
+                {
+                    from: 'node_modules/cryptocurrency-icons/svg/icon',
+                    to: 'images/cryptocurrency-icons'
+                },
+                {
+                    from: 'node_modules/@browser-logos',
+                    to: 'images/browser-logos'
+                },
+                {
+                    from: 'app/assets/fonts',
+                    to: 'fonts'
+                },
+                {
+                    from: 'app/assets/apps',
+                    to: 'apps'
+                },
+                {
+                    from: 'app/assets/manifest.json'
+                },
+                {
+                    from: 'app/assets/browserconfig.xml'
+                }
+            ]
+        }),
         new ScriptExtHtmlWebpackPlugin({
             defaultAttribute: 'defer'
         }),

@@ -16,7 +16,7 @@ expose({
 
         console.log('init worker');
 
-        const node = new Ipfs({
+        const node = Ipfs.create({
             EXPERIMENTAL: { pubsub: true },
             repo: 'vinyai',
         });

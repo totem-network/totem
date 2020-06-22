@@ -33,9 +33,10 @@ class DidRegistry {
             throw new Error('DidRegistry needs a signer to have write access');
         }
 
-        const didJSON = didDocument.toJSON();
+        const didJson = didDocument.toJSON();
 
-        const [{ hash }] = await this.ipfs.add(Buffer.from(didJSON));
+        const didUploadResult = await this.ipfs.add(didJson).next();
+        const hash = didUploadResult.value.cid.toString();
 
         const IdentityRegistryContract = await this.getRegistryContract();
 
@@ -47,20 +48,21 @@ class DidRegistry {
 
         const hash = toUtf8String(await IdentityRegistryContract.getDidDocument(address));
 
-        if (hash === '0x') {
+        if (hash === '0x' || hash === '') {
             return;
         }
 
-        const didJSON = await this.ipfs.cat(hash);
-
-        console.log(Buffer.from(didJSON).toString());
+        const didJsonParts = [];
+        for await (const didJsonPart of this.ipfs.cat(hash)) { 
+            didJsonParts.push(didJsonPart);
+        }
 
         // TODO: return; if no didJson on ipfs
 
         // TODO: cache dids! then listen for events and update cache if entry changes
         // Use a global cache and add a setCache method to DidRegistry
 
-        return DidDocument.fromJSON(Buffer.from(didJSON).toString());
+        return DidDocument.fromJSON(Buffer.concat(didJsonParts).toString());
     }
 
     public async update(didDocument: DidDocument) {

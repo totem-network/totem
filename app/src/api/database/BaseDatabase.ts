@@ -232,7 +232,7 @@ abstract class BaseDatabase {
         if (!this.identity) {
             throw new Error(this.NO_IDENTITY_ERROR);
         }
-        
+
         if (!this.ready) {
             throw new Error(this.NOT_READY_ERROR);
         }
@@ -253,6 +253,14 @@ abstract class BaseDatabase {
         const dataCids: any[] = [];
         const uploadDataPromises = encryptedData.files.map((encryptedFile: IFile) => {
             const uploadDataPromise = ipfs.add(Buffer.from(encryptedFile.data));
+
+            // TODO: must be, but needs to return the promise:
+            /*for (const uploadDataPromise of this.ipfs.add(encryptedFile.data)) {
+                dataCids.push({
+                    name: encryptedFile.name,
+                    uploadResult: uploadDataPromise,
+                });
+            }*/
 
             dataCids.push({
                 name: encryptedFile.name,

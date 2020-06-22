@@ -1,4 +1,4 @@
-import IPFS from 'ipfs';
+import Ipfs from 'ipfs';
 
 interface IProviderNetworks {
     [key: string]: any;
@@ -51,10 +51,10 @@ class ProviderManager {
     protected async createProvider(platform: string, network: string): Promise<any | undefined> {
         if (platform === 'ipfs') {
             if (network === '1') {
-                // TODO: different IPFS networks
+                // TODO: different Ipfs networks
             }
 
-            const node = new IPFS({
+            const node = Ipfs.create({
                 EXPERIMENTAL: { pubsub: true },
                 repo: 'vinyai',
             });
@@ -63,7 +63,7 @@ class ProviderManager {
             return node;
 
             // TODO: for ipfs version >= 0.37
-            /*return IPFS.create({
+            /*return Ipfs.create({
                 EXPERIMENTAL: { pubsub: true },
             });*/
         }

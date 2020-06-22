@@ -2,7 +2,6 @@ import {
     createJWT,
     SimpleSigner,
 } from 'did-jwt';
-import { ec as EC } from 'elliptic';
 import { secretbox } from 'tweetnacl';
 import { decodeBase64, decodeUTF8, encodeBase64, encodeUTF8 } from 'tweetnacl-util';
 import {
@@ -14,8 +13,6 @@ import {
 } from 'utils/encryption';
 import DidDocument from './DidDocument';
 const Identities = require('orbit-db-identity-provider');
-
-const ec = new EC('secp256k1');
 
 export interface IFile {
     data: string;

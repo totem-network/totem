@@ -276,9 +276,12 @@ abstract class AbstractImageDatabase extends BaseDatabase {
             throw new Error(this.NOT_READY_ERROR);
         }
 
-        const ipfs = this.ipfs;
+        const encryptedDataParts = [];
+        for await (const encryptedDataPart of this.ipfs.cat(hash)) {
+            encryptedDataParts.push(encryptedDataPart);
+        }
 
-        const encryptedData = await ipfs.cat(hash);
+        const encryptedData = Buffer.concat(encryptedDataParts).toString();
 
         const data = JSON.parse(this.decrypt(encryptedData, 'data')[0].data);
 
@@ -290,9 +293,12 @@ abstract class AbstractImageDatabase extends BaseDatabase {
             throw new Error(this.NOT_READY_ERROR);
         }
 
-        const ipfs = this.ipfs;
+        const encryptedImageFileParts = [];
+        for await (const encryptedImageFilePart of this.ipfs.cat(hash)) {
+            encryptedImageFileParts.push(encryptedImageFilePart);
+        }
 
-        const encryptedImageFile = await ipfs.cat(hash);
+        const encryptedImageFile = Buffer.concat(encryptedImageFileParts).toString();
 
         const imageFile = this.decrypt(encryptedImageFile, 'file')[0].data;
 
@@ -361,14 +367,8 @@ abstract class AbstractImageDatabase extends BaseDatabase {
 
         const encryptedFiles = this.identity.encrypt(files);
 
-        // TODO: store storage provider in db entry:
-        // with this setup it will be possible to store the files in multiple networks
-        // but the orbit db must be stored in one network
-        // const ipfs = await StorageProviderManager.getProvider('ipfs', '1');
-
-        const ipfs = this.database._ipfs;
-
         const fileHashes: any = {};
+        // TODO: upload parallel and await all promises at the end
         for (const encryptedFile of encryptedFiles.files) {
             const fileBuffer = Buffer.from(
                 JSON.stringify({
@@ -377,10 +377,12 @@ abstract class AbstractImageDatabase extends BaseDatabase {
                 }),
             );
 
-            // tslint:disable-next-line:no-shadowed-variable
-            const [{ hash }] = await ipfs.add(fileBuffer);
-
-            fileHashes[encryptedFile.name] = hash;
+            for await (const encryptedFileResult of this.ipfs.add(JSON.stringify({
+                data: encryptedFile.data,
+                keys: encryptedFiles.keys,
+            }))) {
+                fileHashes[encryptedFile.name] = encryptedFileResult.cid.toString();
+            }
         }
 
         const imageJsonOptions: IImageJsonOptions = {
@@ -423,16 +425,13 @@ abstract class AbstractImageDatabase extends BaseDatabase {
             name: options.name,
         }], [], encryptedFiles.secretKey);
 
-        const encryptedImageBuffer = Buffer.from(
-            JSON.stringify({
-                data: encryptedImageJson.files[0].data,
-                keys: encryptedImageJson.keys,
-            }),
-        );
+        for await (const encryptedImageResult of this.ipfs.add(JSON.stringify({
+            data: encryptedImageJson.files[0].data,
+            keys: encryptedImageJson.keys,
+        }))) {
+            result.hash = encryptedImageResult.cid.toString();
+        }
 
-        const [{ hash }] = await ipfs.add(encryptedImageBuffer);
-
-        result.hash = hash;
         result.data = imageJsonOptions;
 
         return result;
