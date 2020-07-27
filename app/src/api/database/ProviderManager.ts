@@ -1,5 +1,3 @@
-import registerVinyaiID from 'account/identity/DidResolver';
-import { Provider } from 'ethers/providers/abstract-provider';
 import StorageProviderManager from 'network/storage/ProviderManager';
 // import OrbitDB from 'orbit-db';
 import IdentityProvider from './IdentityProvider';
@@ -42,7 +40,6 @@ interface IDatabaseProviderOptions {
     network: string;
     platform: string;
     provider: string;
-    web3Provider: Provider;
 }
 
 interface ICreateDatabaseOptions {
@@ -53,7 +50,6 @@ interface ICreateDatabaseOptions {
     provider: string;
     type: string;
     options?: any;
-    web3Provider: Provider;
 }
 
 interface IOpenDatabaseOptions {
@@ -64,7 +60,6 @@ interface IOpenDatabaseOptions {
     provider: string;
     type: string;
     options?: any;
-    web3Provider: Provider;
 }
 
 class ProviderManager {
@@ -93,7 +88,6 @@ class ProviderManager {
         if (!this.providers[options.platform][options.network][options.provider]) {
             this.providers[options.platform][options.network][options.provider]
                 = await this.createDatabaseProvider({
-                    web3Provider: options.web3Provider,
                     network: options.network,
                     platform: options.platform,
                     provider: options.provider,
@@ -139,7 +133,6 @@ class ProviderManager {
         if (!this.providers[options.platform][options.network][options.provider]) {
             this.providers[options.platform][options.network][options.provider]
                 = await this.createDatabaseProvider({
-                    web3Provider: options.web3Provider,
                     network: options.network,
                     platform: options.platform,
                     provider: options.provider,
@@ -174,10 +167,6 @@ class ProviderManager {
         if (options.provider === 'orbit-db') {
             const ipfs = await StorageProviderManager.getProvider(options.platform, options.network);
 
-            registerVinyaiID(ipfs, options.web3Provider);
-
-            // TODO: give identity via options as second parameter and other options,
-            // identity is also given in BaseDatabase
             return OrbitDB.createInstance(ipfs);
         }
 
@@ -199,15 +188,11 @@ class ProviderManager {
                 return;
             }
 
-            const ipfs = await StorageProviderManager.getProvider(options.platform, options.network);
-
             return provider[options.type](
                 options.name,
                 {
                     accessController: {
-                        skipManifest: true,
-                        type: 'VinyaiPrivateAccess',
-                        // TODO: write: [...publicKeys]
+                        ...options.accessController,
                     },
                     // TODO: this option is required now but will likely not be in the future.
                     sortFn: Log.Sorting.SortByEntryHash,
@@ -239,7 +224,9 @@ class ProviderManager {
             // should throw an error or return a message so that BaseDatabase can create
             // a new orbitdb database if the user wants to
             const database = await provider[options.type](options.path, {
-                accessController: options.accessController,
+                accessController: {
+                    ...options.accessController,
+                },
             });
 
             if (!database) {

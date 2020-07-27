@@ -25,23 +25,11 @@ class PrivateAccessController extends AbstractAccessController {
     }
 
     public async canAppend(entry: any, identityProvider: any) {
-        const publicKeys = await this.publicKeysFromDid(entry.identity);
+        if (this.capabilities.write.includes(entry.identity.id)) {
+            return identityProvider.verifyIdentity(entry.identity);
+        }
 
-        // TODO: no 3box when generating priv keys with signed message (Identity.ts)
-        /*if (!this.box.isAddressLinked({
-            address: publicKey,
-        })) {
-            return false;
-        }*/
-
-        console.log(publicKeys);
-
-        console.log(entry);
-
-        console.log(identityProvider);
-
-        // return identityProvider.verifyIdentity(entry.identity);
-        return true;
+        return false;
     }
 
     public async grant(capability: string, identifier: string): Promise<boolean> {

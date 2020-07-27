@@ -40,9 +40,7 @@ class Identity {
         const signingKey = deriveSigningKeyFromSeed(this.seed);
 
         const JWTSigner = SimpleSigner(signingKey.privateKey.slice(2));
-        const issuer = signingKey.publicKey.slice(2);
-
-        console.log(issuer);
+        const issuer = this.did.getId();
 
         return createJWT(payload, {
             issuer,
@@ -164,7 +162,7 @@ class Identity {
 
     // TODO: add or remove keys from encrypted files -> should get called by AccessController.grant(permission)
 
-    public async getDid() {
+    public getDid() {
         return this.did;
     }
 

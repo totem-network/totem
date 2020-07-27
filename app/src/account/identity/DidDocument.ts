@@ -32,24 +32,16 @@ export interface IPublicKey {
 }
 
 export interface IAuthenticationOptions {
-    controller: string,
+    controller?: string,
     id: string,
-    publicKey: string,
-    publicKeyType: PublicKeyType,
     type: string,
 }
 
 export interface IAuthentication {
-    controller: string;
+    controller?: string;
     id: string;
     type: string;
-    publicKeyPem?: string;
-    publicKeyJwk?: string;
-    publicKeyHex?: string;
-    publicKeyBase64?: string;
-    publicKeyBase58?: string;
-    publicKeyMultibase?: string;
-    ethereumAddress?: string;
+    publicKey: string;
 }
 
 export interface IService {
@@ -80,7 +72,7 @@ class DidDocument {
 
     protected publicKeys: (IPublicKey | string)[]
 
-    protected authentications: (IAuthentication | string)[]
+    protected authentications: IAuthentication[]
 
     protected services: IService[]
 
@@ -204,13 +196,17 @@ class DidDocument {
         return this.publicKeys[index];
     }
 
-    public getPublicKeys(type: string) {
+    public getPublicKeys(type?: string) {
+        if (!type) {
+            return this.publicKeys;
+        }
+
         return this.publicKeys.filter((publicKey) => {
             if (typeof publicKey === 'string') {
-                return publicKey.startsWith(type);
+                return publicKey.split('#')[1].startsWith(type);
             }
 
-            return publicKey.id.startsWith(type);
+            return publicKey.id.split('#')[1].startsWith(type);
         });
     }
 
@@ -226,25 +222,16 @@ class DidDocument {
         return true;
     }
 
-    public addAuthentication(authenticationOrReference: IAuthenticationOptions | string): boolean {
-        if (typeof authenticationOrReference === 'string') {
-            if (this.findAuthentication(authenticationOrReference) !== -1) {
-                return false;
-            }
-
-            this.authentications.push(authenticationOrReference);
-            return true;
-        }
-
-        if (this.findAuthentication(this.getId() + '#' + authenticationOrReference.id) !== -1) {
+    public addAuthentication(authentication: IAuthenticationOptions): boolean {
+        if (this.findAuthentication(this.getId() + '#' + authentication.id) !== -1) {
             return false;
         }
 
         this.authentications.push({
-            controller: authenticationOrReference.controller,
-            id: this.getId() + '#' + authenticationOrReference.id,
-            type: authenticationOrReference.type,
-            [authenticationOrReference.publicKeyType]: authenticationOrReference.publicKey,
+            controller: authentication.controller,
+            id: this.getId() + '#' + authentication.id,
+            type: authentication.type,
+            publicKey: this.getId() + '#' + authentication.id,
         });
 
         return true;
@@ -260,13 +247,13 @@ class DidDocument {
         return this.authentications[index];
     }
 
-    public getAuthentications(type: string) {
-        return this.authentications.filter((authentication) => {
-            if (typeof authentication === 'string') {
-                return authentication.startsWith(type);
-            }
+    public getAuthentications(type?: string) {
+        if (!type) {
+            return this.authentications;
+        }
 
-            return authentication.id.startsWith(type);
+        return this.authentications.filter((authentication) => {
+            return authentication.id.split('#')[1].startsWith(type);
         });
     }
 
@@ -303,7 +290,11 @@ class DidDocument {
         return this.services[index];
     }
 
-    public getServices(type: string) {
+    public getServices(type?: string) {
+        if (!type) {
+            return this.services;
+        }
+
         return this.services.filter((service) => {
             return service.type === type;
         });
@@ -372,10 +363,6 @@ class DidDocument {
 
     protected findAuthentication(id: string): number {
         return this.authentications.findIndex((authentication) => {
-            if (typeof authentication === 'string') {
-                return authentication === id;
-            }
-
             return authentication.id === id;
         });
     }

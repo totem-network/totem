@@ -2,6 +2,7 @@ import KeyRing from 'account/encryption/KeyRing';
 import { Signer } from 'ethers/abstract-signer';
 import { Provider } from 'ethers/providers/abstract-provider';
 import { encodeBase64 } from 'tweetnacl-util';
+import didCache from '../identity/DidCache';
 import DidDocument from '../identity/DidDocument';
 import DidRegistry from '../identity/DidRegistry';
 import Identity from './Identity';
@@ -26,7 +27,7 @@ class IdentityManager {
         this.ipfs = ipfs;
         this.signer = signer;
         this.provider = provider;
-        this.didRegistry = new DidRegistry(ipfs, provider, signer);
+        this.didRegistry = new DidRegistry(ipfs, provider, signer, didCache);
     }
 
     public async createIdentity(options?: IProfileOptions) {
@@ -63,15 +64,20 @@ class IdentityManager {
             return;
         }
 
-        didDocument.addAuthentication({
+        didDocument.addPublicKey({
             controller: did,
-            id: `signing-${signingKeyPair.publicKey}`,
-            publicKey: signingKeyPair.publicKey,
+            id: `signing-${signingKeyPair.publicKey.slice(2)}`,
+            publicKey: signingKeyPair.publicKey.slice(2),
             publicKeyType: 'publicKeyHex',
             type: 'Secp256k1VerificationKey2018',
         });
 
-        if (!await Profile.createProfile(didDocument, this.provider)) {
+        didDocument.addAuthentication({
+            id: `signing-${signingKeyPair.publicKey.slice(2)}`,
+            type: 'Secp256k1VerificationKey2018',
+        });
+
+        if (!await Profile.createProfile(didDocument)) {
             return;
         }
 
@@ -85,8 +91,6 @@ class IdentityManager {
             const profile = await this.loadProfile(identity);
 
             if (profile) {
-                console.log(profile);
-
                 if (options.name) {
                     await profile.setPublic('name', options.name);
                 }
@@ -104,7 +108,7 @@ class IdentityManager {
 
         const seed = await KeyRing.getSeed(this.signer);
 
-        const didDocument = await this.didRegistry.read(address);
+        const didDocument = await this.didRegistry.read(`did:vinyai:${address}`);
 
         if (!didDocument || !seed) {
             return;
@@ -118,7 +122,7 @@ class IdentityManager {
     public async loadProfile(identity: Identity) {
         const profile = new Profile(identity);
 
-        if (!await profile.initDatabases(this.provider)) {
+        if (!await profile.initDatabases()) {
             return;
         }
 
@@ -126,7 +130,7 @@ class IdentityManager {
     }
 
     public async loadPublicProfile(address: string) {
-        const didDocument = await this.didRegistry.read(address);
+        const didDocument = await this.didRegistry.read(`did:vinyai:${address}`);
 
         if (!didDocument) {
             return;
@@ -134,7 +138,7 @@ class IdentityManager {
 
         const profile = new PublicProfile(didDocument);
 
-        if (!await profile.initDatabases(this.provider)) {
+        if (!await profile.initDatabases()) {
             return;
         }
 

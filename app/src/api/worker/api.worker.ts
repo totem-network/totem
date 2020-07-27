@@ -1,3 +1,9 @@
+import {
+    getResolver,
+    setBlockchainProvider,
+    setStorageProvider,
+} from 'account/identity/resolver';
+import { Resolver } from 'did-resolver';
 import Ipfs from 'ipfs';
 import ProviderManager from 'network/storage/ProviderManager';
 import { expose } from 'comlink';
@@ -5,27 +11,28 @@ import { execute } from 'graphql';
 import schema from '../schema';
 import ProxyProvider from './ProxyProvider';
 import ProxySigner from './ProxySigner';
+import IdentityProvider from '../database/IdentityProvider';
 
 expose({
 
-    initialize: async () => {
-        /*const node = yield call(Ipfs.create, {
-            EXPERIMENTAL: { pubsub: true },
-            repo: 'vinyai',
-        });*/
+    initialize: async (proxyWeb3: any) => {
+        const provider = new ProxyProvider(proxyWeb3);
+        setBlockchainProvider(provider);
 
-        console.log('init worker');
-
-        const node = Ipfs.create({
-            EXPERIMENTAL: { pubsub: true },
+        const ipfs = await Ipfs.create({
+            EXPERIMENTAL: {
+                pubsub: true,
+            },
             repo: 'vinyai',
         });
 
-        await node.ready;
+        ProviderManager.setProvider('ipfs', '1', ipfs);
+        setStorageProvider(ipfs);
 
-        ProviderManager.setProvider('ipfs', '1', node);
-
-        console.log('worker finished');
+        const didResolver = new Resolver({
+            vinyai: getResolver(),
+        });
+        IdentityProvider.setResolver(didResolver);
 
         return true;
     },

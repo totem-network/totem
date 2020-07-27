@@ -85,21 +85,31 @@ abstract class BaseDatabase {
             throw new Error(this.NO_PROFILE_ERROR);
         }
 
-        const databaseAddress = await this.profile.getPrivate(name);
+        const databaseAddress = this.profile.getPrivate(name);
 
-        console.log(databaseAddress);
+        const did = this.identity.getDid().getId();
 
         let database;
         if (!databaseAddress) {
             database = await DatabaseProviderManager.createDatabase({
-                accessController: options.accessController,
+                accessController: {
+                    ...options.accessController,
+                    administration: [
+                        did,
+                    ],
+                    read: [
+                        did,
+                    ],
+                    write: [
+                        did,
+                    ],
+                },
                 name,
                 // TODO: network and platform from state -> not cointype! like cointype but for storage networks
                 network: '1',
                 platform: 'ipfs',
                 provider: 'orbit-db',
                 type: options.type,
-                web3Provider: this.provider,
             });
 
             if (!database) {
@@ -109,14 +119,15 @@ abstract class BaseDatabase {
             await this.profile.setPrivate(name, database.id);
         } else {
             database = await DatabaseProviderManager.openDatabase({
-                accessController: options.accessController,
+                accessController: {
+                    ...options.accessController,
+                },
                 // TODO: network and platform from state -> not cointype! like cointype but for storage networks
                 network: '1',
                 path: databaseAddress,
                 platform: 'ipfs',
                 provider: 'orbit-db',
                 type: options.type,
-                web3Provider: this.provider,
             });
 
             // TODO: check if user is allowed to write to or read from db
@@ -150,6 +161,8 @@ abstract class BaseDatabase {
      *
      * Use db permissions for access to the whole database
      ********************/
+
+     // TODO: Maybe Key Management in seperate db
 
     protected async grantEntryRead(publicKey: string, entry: any) {
         if (!this.ready) {
@@ -350,6 +363,18 @@ abstract class BaseDatabase {
                 hasNextPage: false,
             },
         };
+    }
+
+    /********************
+     * Defragmentation
+     ********************/
+
+    // TODO: allow to defragment db but make sure entries of other users 
+    // with no access to private keys are still cryptographic verifiable
+    // example: put image1.png - delete image1.png / 2 entries that only waste space
+
+    public async defragment() {
+        // TODO: Create new db with only those entries that are in use
     }
 
 }

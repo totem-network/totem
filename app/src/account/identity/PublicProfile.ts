@@ -12,7 +12,7 @@ class PublicProfile {
         this.did = did;
     }
 
-    public async initDatabases(web3Provider: Provider) {
+    public async initDatabases() {
         const publicProfileService = this.did.getService(`${this.did.getId()}#publicProfile`);
 
         if (!publicProfileService) {
@@ -31,7 +31,6 @@ class PublicProfile {
             platform: 'ipfs',
             provider: 'orbit-db',
             type: 'keyvalue',
-            web3Provider,
         });
 
         this.database = database;

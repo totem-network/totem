@@ -15,18 +15,28 @@ class Profile {
 
     protected privateDatabase: any;
 
-    public static async createProfile(didDocument: DidDocument, web3Provider: Provider): Promise<boolean> {
+    public static async createProfile(didDocument: DidDocument): Promise<boolean> {
+        const did = didDocument.getId();
+
         const publicDatabase = await DatabaseProviderManager.createDatabase({
             accessController: {
                 skipManifest: true,
                 type: 'VinyaiPrivateAccess',
+                administration: [
+                    did,
+                ],
+                read: [
+                    did,
+                ],
+                write: [
+                    did,
+                ],
             },
             name: 'publicProfile',
             network: '1',
             platform: 'ipfs',
             provider: 'orbit-db',
             type: 'keyvalue',
-            web3Provider,
         });
 
         if (!publicDatabase) {
@@ -37,13 +47,21 @@ class Profile {
             accessController: {
                 skipManifest: true,
                 type: 'VinyaiPrivateAccess',
+                administration: [
+                    did,
+                ],
+                read: [
+                    did,
+                ],
+                write: [
+                    did,
+                ],
             },
             name: 'privateProfile',
             network: '1',
             platform: 'ipfs',
             provider: 'orbit-db',
             type: 'keyvalue',
-            web3Provider,
         });
 
         if (!privateDatabase) {
@@ -69,7 +87,7 @@ class Profile {
         this.identity = identity;
     }
 
-    public async initDatabases(web3Provider: Provider) {
+    public async initDatabases() {
         const did = await this.identity.getDid();
 
         const publicProfileService = did.getService(`${did.getId()}#publicProfile`);
@@ -92,7 +110,6 @@ class Profile {
             platform: 'ipfs',
             provider: 'orbit-db',
             type: 'keyvalue',
-            web3Provider,
         });
 
         const privateDatabase = await DatabaseProviderManager.openDatabase({
@@ -105,7 +122,6 @@ class Profile {
             platform: 'ipfs',
             provider: 'orbit-db',
             type: 'keyvalue',
-            web3Provider,
         });
 
         const orbitDbIdentity = await this.identity.getOrbitDbIdentity();

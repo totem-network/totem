@@ -54,11 +54,10 @@ class ProviderManager {
                 // TODO: different Ipfs networks
             }
 
-            const node = Ipfs.create({
+            const node = await Ipfs.create({
                 EXPERIMENTAL: { pubsub: true },
                 repo: 'vinyai',
             });
-            await node.ready;
 
             return node;
 

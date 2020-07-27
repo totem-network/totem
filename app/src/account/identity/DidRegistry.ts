@@ -4,6 +4,7 @@ import { Signer } from 'ethers/abstract-signer';
 import { Contract } from 'ethers/contract';
 import { Provider } from 'ethers/providers/abstract-provider';
 import { toUtf8Bytes, toUtf8String } from 'ethers/utils';
+import { DidCache } from './DidCache';
 import DidDocument from './DidDocument';
 
 const deployedContracts = {
@@ -21,11 +22,14 @@ class DidRegistry {
     protected signer?: Signer;
     
     protected network?: string;
+    
+    protected cache?: DidCache;
 
-    constructor(ipfs: any, provider: Provider, signer?: Signer) {
+    constructor(ipfs: any, provider: Provider, signer?: Signer, cache?: DidCache) {
         this.ipfs = ipfs;
         this.provider = provider;
         this.signer = signer;
+        this.cache = cache;
     }
 
     public async create(didDocument: DidDocument) {
@@ -40,10 +44,41 @@ class DidRegistry {
 
         const IdentityRegistryContract = await this.getRegistryContract();
 
-        return IdentityRegistryContract.connect(this.signer).setDidDocument(toUtf8Bytes(hash));
+        const transaction = IdentityRegistryContract.connect(this.signer).setDidDocument(toUtf8Bytes(hash));
+
+        if (this.cache) {
+            // TODO: listen for events and update cache if entry changes
+            this.cache.setDid(didDocument.getId(), didDocument);
+        }
+
+        return transaction;
     }
 
-    public async read(address: string) {
+    public async read(did: string) {
+        let address = did.split(':')[2];
+
+        if (address.includes('?')) {
+            address = address.split('?')[0];
+        }
+
+        if (address.includes('#')) {
+            address = address.split('#')[0];
+        }
+
+        if (address.includes('/')) {
+            address = address.split('/')[0];
+        }
+
+        // TODO: isAddress
+
+        if (this.cache) {
+            const cachedDid = this.cache.getDid(did);
+
+            if (cachedDid) {
+                return cachedDid;
+            }
+        }
+
         const IdentityRegistryContract = await this.getRegistryContract();
 
         const hash = toUtf8String(await IdentityRegistryContract.getDidDocument(address));
@@ -57,12 +92,14 @@ class DidRegistry {
             didJsonParts.push(didJsonPart);
         }
 
-        // TODO: return; if no didJson on ipfs
+        const didDocument = DidDocument.fromJSON(Buffer.concat(didJsonParts).toString());
 
-        // TODO: cache dids! then listen for events and update cache if entry changes
-        // Use a global cache and add a setCache method to DidRegistry
+        if (this.cache && didDocument) {
+            // TODO: listen for events and update cache if entry changes
+            this.cache.setDid(didDocument.getId(), didDocument);
+        }
 
-        return DidDocument.fromJSON(Buffer.concat(didJsonParts).toString());
+        return didDocument;
     }
 
     public async update(didDocument: DidDocument) {
@@ -76,7 +113,13 @@ class DidRegistry {
 
         const IdentityRegistryContract = await this.getRegistryContract();
 
-        return IdentityRegistryContract.connect(this.signer).revokeDidDocument();
+        const transaction = IdentityRegistryContract.connect(this.signer).revokeDidDocument();
+
+        if (this.cache) {
+            this.cache.clearDid(`did:vinyai:${await this.signer.getAddress()}`);
+        }
+
+        return transaction;
     }
 
     protected async getRegistryContract() {

@@ -1,19 +1,16 @@
-import DidRegistry from 'account/identity/DidRegistry';
-const resolve = require('did-resolver').default;
 
 interface ISaveResult {
     address: string;
 }
 
 export interface IAccessControllerOptions {
-    admin?: any;
-    didRegistry: DidRegistry;
+    administration?: any;
     read?: any;
     write?: any;
 }
 
 export interface ICapabilities {
-    admin: any;
+    administration: any;
     read: any;
     write: any;
 }
@@ -23,16 +20,12 @@ abstract class AbstractAccessController {
 
     protected capabilities: ICapabilities;
 
-    protected didRegistry: DidRegistry;
-
     constructor(options: IAccessControllerOptions) {
         this.capabilities = {
-            admin: options.admin || [],
+            administration: options.administration || [],
             read: options.read || [],
             write: options.write || [],
         };
-
-        this.didRegistry = options.didRegistry;
     }
 
     public abstract async canAppend(entry: any, identityProvider: any): Promise<boolean>;
@@ -47,22 +40,6 @@ abstract class AbstractAccessController {
 
     public getCapabilities() {
         return this.capabilities;
-    }
-
-    protected async publicKeysFromDid(did: any) {
-        // TODO: does not work with new DidDocument!
-
-        console.log(did);
-        console.log(this.didRegistry);
-
-        return;
-
-        // const doc = await resolve(did);
-        // return doc.publicKey.find((entry: any) => {
-        //     const id = entry.id.split('#');
-        //     return id[0] === doc.id &&
-        //     (id[1] === 'subSigningKey' || id[1] === 'signingKey');
-        // }).publicKeyHex;
     }
 
 }
