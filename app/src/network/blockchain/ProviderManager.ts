@@ -1,5 +1,6 @@
-import { providers, Signer } from 'ethers';
-import { Provider } from 'ethers/providers/abstract-provider';
+import { InfuraProvider } from '@ethersproject/providers';
+import { Provider } from '@ethersproject/abstract-provider';
+import { Signer } from '@ethersproject/abstract-signer';
 
 interface IProviders {
     [key: string]: Provider;
@@ -65,15 +66,15 @@ class ProviderManager {
 
         if (namespace === 'eip155') {
             if (reference === '1') {
-                return new providers.InfuraProvider();
+                return new InfuraProvider();
             }
 
             if (reference === '3') {
-                return new providers.InfuraProvider('ropsten');
+                return new InfuraProvider('ropsten');
             }
 
             if (reference === '4') {
-                return new providers.InfuraProvider('rinkeby');
+                return new InfuraProvider('rinkeby');
             }
         }
 

@@ -1,6 +1,6 @@
-import { Signer } from 'ethers/abstract-signer';
-import { HDNode } from 'ethers/utils/hdnode';
-import { box, BoxKeyPair } from 'tweetnacl';
+import { Signer } from '@ethersproject/abstract-signer';
+import { HDNode } from '@ethersproject/hdnode';
+import { BoxKeyPair } from 'tweetnacl';
 import {
     deriveAsymetricKeyPairFromSeed,
     deriveSigningKeyFromSeed,

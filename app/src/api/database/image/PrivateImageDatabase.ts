@@ -1,5 +1,5 @@
-import { Signer } from 'ethers/abstract-signer';
-import { Provider } from 'ethers/providers/abstract-provider';
+import { Provider } from '@ethersproject/abstract-provider';
+import { Signer } from '@ethersproject/abstract-signer';
 import AbstractImageDatabase from './AbstractImageDatabase';
 
 class PrivateImageDatabase extends AbstractImageDatabase {

@@ -1,9 +1,9 @@
+import { Provider } from '@ethersproject/abstract-provider';
 import {
     DIDDocument,
     ParsedDID,
     Resolver,
 } from 'did-resolver';
-import { Provider } from 'ethers/providers/abstract-provider';
 import didCache from './DidCache';
 import DidRegistry from './DidRegistry';
 

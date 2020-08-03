@@ -1,6 +1,6 @@
+import { Provider } from '@ethersproject/abstract-provider';
+import { Signer } from '@ethersproject/abstract-signer';
 import KeyRing from 'account/encryption/KeyRing';
-import { Signer } from 'ethers/abstract-signer';
-import { Provider } from 'ethers/providers/abstract-provider';
 import { encodeBase64 } from 'tweetnacl-util';
 import didCache from '../identity/DidCache';
 import DidDocument from '../identity/DidDocument';

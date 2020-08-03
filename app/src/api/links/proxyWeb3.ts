@@ -1,9 +1,9 @@
 import {
     BlockTag,
     Filter,
-    FilterByBlock,
-} from 'ethers/providers/abstract-provider';
-import { BigNumberish, bigNumberify } from 'ethers/utils/bignumber';
+    TransactionRequest,
+} from '@ethersproject/abstract-provider';
+import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
 import { getCurrentNetworkProvider, getCurrentNetworkSigner } from 'utils/blockchain';
 import {
     ITransferableTransactionRequest,
@@ -52,6 +52,13 @@ interface IProviderGetBlockNumberAction {
     payload: {};
 }
 
+interface IProviderGetBlockWithTransactionsAction {
+    type: 'provider/GET_BLOCK_WITH_TRANSACTIONS';
+    payload: {
+        blockHashOrBlockTag: BlockTag | string | Promise<BlockTag | string>,
+    };
+}
+
 interface IProviderGetCodeAction {
     type: 'provider/GET_CODE';
     payload: {
@@ -68,7 +75,7 @@ interface IProviderGetGasPriceAction {
 interface IProviderGetLogsAction {
     type: 'provider/GET_LOGS';
     payload: {
-        filter: Filter | FilterByBlock;
+        filter: Filter;
     };
 }
 
@@ -156,9 +163,16 @@ interface ISignerSignMessageAction {
     };
 }
 
-type ActionType = ISignerGetAddressAction | ISignerSendTransactionAction | ISignerSignMessageAction
+interface ISignerSignTransactionAction {
+    type: 'signer/SIGN_TRANSACTION';
+    payload: {
+        transaction: ITransferableTransactionRequest;
+    };
+}
+
+type ActionType = ISignerGetAddressAction | ISignerSendTransactionAction | ISignerSignMessageAction | ISignerSignTransactionAction
     | IProviderCallAction | IProviderEstimateGasAction | IProviderGetBalanceAction | IProviderGetBlockAction
-    | IProviderGetBlockNumberAction | IProviderGetCodeAction | IProviderGetGasPriceAction
+    | IProviderGetBlockNumberAction | IProviderGetBlockWithTransactionsAction | IProviderGetCodeAction | IProviderGetGasPriceAction
     | IProviderGetLogsAction | IProviderGetNetworkAction | IProviderGetStorageAtAction
     | IProviderGetTransactionAction | IProviderGetTransactionCountAction | IProviderGetTransactionReceiptAction
     | IProviderLookupAddressAction | IProviderResolveNameAction | IProviderSendTransactionAction
@@ -200,6 +214,10 @@ const proxyWeb3 = async (action: ActionType) => {
             );
         case 'provider/GET_BLOCK_NUMBER':
             return provider.getBlockNumber();
+        case 'provider/GET_BLOCK_WITH_TRANSACTIONS':
+            return provider.getBlockWithTransactions(
+                action.payload.blockHashOrBlockTag,
+            );
         case 'provider/GET_CODE':
             return provider.getCode(
                 action.payload.addressOrName,
@@ -216,7 +234,7 @@ const proxyWeb3 = async (action: ActionType) => {
         case 'provider/GET_STORAGE_AT':
             return provider.getStorageAt(
                 action.payload.addressOrName,
-                bigNumberify(action.payload.position),
+                BigNumber.from(action.payload.position),
                 action.payload.blockTag,
             );
         case 'provider/GET_TRANSACTION':
@@ -270,6 +288,10 @@ const proxyWeb3 = async (action: ActionType) => {
         case 'signer/SIGN_MESSAGE':
             return signer.signMessage(
                 action.payload.message,
+            );
+        case 'signer/SIGN_TRANSACTION':
+            return signer.signTransaction(
+                prepareTransactionRequestParams(action.payload.transaction),
             );
     }
 };

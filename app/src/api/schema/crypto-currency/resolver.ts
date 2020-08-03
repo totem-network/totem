@@ -1,4 +1,6 @@
-import { Contract, utils } from 'ethers';
+import { BigNumber } from '@ethersproject/bignumber';
+import { Contract } from '@ethersproject/contracts';
+import { formatEther } from '@ethersproject/units';
 import fetchFee from 'network/utils/fetchFee';
 import { containsAddress } from 'utils/ethereum';
 import ERC20AbiJSON from './erc20.json';
@@ -59,9 +61,9 @@ const getERC20Data = async (account: string, contract: string, provider: any, ne
         const symbol = await tokenContract.symbol();
         const decimals = await tokenContract.decimals();
 
-        let divisor = utils.bigNumberify(10);
+        let divisor = BigNumber.from(10);
         if (decimals === 0) {
-            divisor = utils.bigNumberify(1);
+            divisor = BigNumber.from(1);
         }
 
         for (let i = 1; i < decimals; i++) {
@@ -97,10 +99,10 @@ const sendEther = async (
 ) => {
 
     const params = {
-        gasLimit: utils.bigNumberify(21000),
-        gasPrice: utils.bigNumberify(fee),
+        gasLimit: BigNumber.from(21000),
+        gasPrice: BigNumber.from(fee),
         to,
-        value: utils.bigNumberify(amount),
+        value: BigNumber.from(amount),
     };
 
     const result = await signer.sendTransaction(params);
@@ -117,8 +119,8 @@ const sendToken = async (
 ) => {
     const tokenContract = new Contract(contract, ERC20Abi, signer);
 
-    const result = await tokenContract.transfer(to, utils.bigNumberify(amount), {
-        gasPrice: utils.bigNumberify(fee),
+    const result = await tokenContract.transfer(to, BigNumber.from(amount), {
+        gasPrice: BigNumber.from(fee),
     });
 
     return result;
@@ -276,7 +278,7 @@ export default {
             const network = await context.provider.getNetwork();
 
             cryptoCurrencies.push({
-                balance: utils.formatEther(etherBalance),
+                balance: formatEther(etherBalance),
                 data: {
                     network,
                     platform: 'ethereum',

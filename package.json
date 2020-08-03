@@ -138,7 +138,7 @@
     "did-resolver": "^2.0.1",
     "draft-js": "^0.11.6",
     "ethereum-blockies-base64": "^1.0.2",
-    "ethers": "^4.0.47",
+    "ethers": "^5.0.7",
     "file-type": "^14.6.2",
     "formik": "^2.1.5",
     "graphql": "^15.3.0",

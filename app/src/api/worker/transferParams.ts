@@ -4,10 +4,10 @@ import {
     TransactionReceipt,
     TransactionRequest,
     TransactionResponse,
-} from 'ethers/providers/abstract-provider';
-import { BigNumber } from 'ethers/utils/bignumber';
-import { Arrayish } from 'ethers/utils/bytes';
-import { Network } from 'ethers/utils/networks';
+} from '@ethersproject/abstract-provider';
+import { BigNumber } from '@ethersproject/bignumber';
+import { BytesLike } from '@ethersproject/bytes';
+import { Network } from '@ethersproject/networks';
 
 export type TransferableBigNumberish = string | number | ArrayLike<number>;
 
@@ -25,6 +25,20 @@ export interface ITransferableBlock {
     transactions: string[];
 }
 
+export interface ITransferableBlockWithTransactions {
+    hash: string;
+    parentHash: string;
+    number: number;
+    timestamp: number;
+    nonce: string;
+    difficulty: number;
+    gasLimit: string;
+    gasUsed: string;
+    miner: string;
+    extraData: string;
+    transactions: ITransferableTransactionResponse[];
+}
+
 export interface ITransferableNetwork {
     name: string;
     chainId: number;
@@ -32,19 +46,19 @@ export interface ITransferableNetwork {
 }
 
 export interface ITransferableTransactionReceipt {
-    to?: string;
-    from?: string;
-    contractAddress?: string;
-    transactionIndex?: number;
+    to: string;
+    from: string;
+    contractAddress: string;
+    transactionIndex: number;
     root?: string;
-    gasUsed?: string;
-    logsBloom?: string;
-    blockHash?: string;
-    transactionHash?: string;
-    logs?: Log[];
-    blockNumber?: number;
-    confirmations?: number;
-    cumulativeGasUsed?: string;
+    gasUsed: string;
+    logsBloom: string;
+    blockHash: string;
+    transactionHash: string;
+    logs: Log[];
+    blockNumber: number;
+    confirmations: number;
+    cumulativeGasUsed: string;
     byzantium: boolean;
     status?: number;
 }
@@ -55,13 +69,13 @@ export interface ITransferableTransactionRequest {
     nonce?: TransferableBigNumberish;
     gasLimit?: TransferableBigNumberish;
     gasPrice?: TransferableBigNumberish;
-    data?: Arrayish;
+    data?: BytesLike;
     value?: TransferableBigNumberish;
     chainId?: number;
 }
 
 export interface ITransferableTransactionResponse {
-    hash?: string;
+    hash: string;
     to?: string;
     from: string;
     nonce: number;
@@ -111,10 +125,8 @@ export const transferTransactionReceipt = async (
 ): Promise<ITransferableTransactionReceipt> => {
     const result: ITransferableTransactionReceipt = {
         ...transactionReceipt,
-        cumulativeGasUsed: (transactionReceipt.cumulativeGasUsed) ?
-            transactionReceipt.cumulativeGasUsed.toString() : undefined,
-        gasUsed: (transactionReceipt.gasUsed) ?
-            transactionReceipt.gasUsed.toString() : undefined,
+        cumulativeGasUsed: transactionReceipt.cumulativeGasUsed.toString(),
+        gasUsed: transactionReceipt.gasUsed.toString(),
     };
 
     return result;

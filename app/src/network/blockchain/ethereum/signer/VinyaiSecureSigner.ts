@@ -1,14 +1,15 @@
-import { providers, Signer } from 'ethers';
+import { Provider } from '@ethersproject/abstract-provider';
+import { Signer } from '@ethersproject/abstract-signer';
 
 const sendChannelMessage =  require('message-channel-promise');
 
 class VinyaiSecureSigner extends Signer {
 
-    public provider: providers.BaseProvider;
+    public provider: Provider;
 
     protected secureIframe: Window;
 
-    constructor(secureIframe: Window, provider: providers.BaseProvider) {
+    constructor(secureIframe: Window, provider: Provider) {
         super();
 
         this.secureIframe = secureIframe;
@@ -66,6 +67,15 @@ class VinyaiSecureSigner extends Signer {
                     reject();
                 });
         });
+    }
+
+    public async signTransaction(transaction: any): Promise<string> {
+        // TODO:
+        return '';
+    }
+
+    public connect(provider: Provider): Signer {
+        return new VinyaiSecureSigner(this.secureIframe, provider);
     }
 
 }

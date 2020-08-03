@@ -1,8 +1,8 @@
+import { Provider } from '@ethersproject/abstract-provider';
+import { Signer } from '@ethersproject/abstract-signer';
 import Identity, { IFile } from 'account/identity/Identity';
 import IdentityManager from 'account/identity/IdentityManager';
 import Profile from 'account/identity/Profile';
-import { Signer } from 'ethers/abstract-signer';
-import { Provider } from 'ethers/providers/abstract-provider';
 import DatabaseProviderManager from './ProviderManager';
 
 export interface IDatabaseInitializationOptions {

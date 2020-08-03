@@ -1,5 +1,4 @@
 import DatabaseProviderManager from 'api/database/ProviderManager';
-import { Provider } from 'ethers/providers/abstract-provider';
 import DidDocument from './DidDocument';
 import Identity from './Identity';
 

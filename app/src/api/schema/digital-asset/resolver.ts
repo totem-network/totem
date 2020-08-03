@@ -1,4 +1,5 @@
-import { Contract, utils } from 'ethers';
+import { BigNumber } from '@ethersproject/bignumber';
+import { Contract } from '@ethersproject/contracts';
 import fetchFee from 'network/utils/fetchFee';
 import { containsAddress } from 'utils/ethereum';
 import ERC721Abi from './erc721';
@@ -256,8 +257,8 @@ const sendToken = async (
     const tokenContract = new Contract(contract, ERC721Abi, signer);
 
     await tokenContract.transferFrom(account, to, token, {
-        gasLimit: utils.bigNumberify('500000'),
-        gasPrice: utils.bigNumberify(fee),
+        gasLimit: BigNumber.from('500000'),
+        gasPrice: BigNumber.from(fee),
     });
 
     return true;

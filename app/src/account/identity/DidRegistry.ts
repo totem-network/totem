@@ -1,9 +1,9 @@
 import IdentityRegistry from '@vinyai/identity-registry/build/contracts/IdentityRegistry.json';
 import identityRegistryRopsten from '@vinyai/identity-registry/.openzeppelin/ropsten.json';
-import { Signer } from 'ethers/abstract-signer';
-import { Contract } from 'ethers/contract';
-import { Provider } from 'ethers/providers/abstract-provider';
-import { toUtf8Bytes, toUtf8String } from 'ethers/utils';
+import { Provider } from '@ethersproject/abstract-provider';
+import { Signer } from '@ethersproject/abstract-signer';
+import { Contract } from '@ethersproject/contracts';
+import { toUtf8Bytes, toUtf8String } from '@ethersproject/strings';
 import { DidCache } from './DidCache';
 import DidDocument from './DidDocument';
 

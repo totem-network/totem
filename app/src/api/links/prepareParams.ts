@@ -1,12 +1,15 @@
+
 import {
     Block,
+    BlockWithTransactions,
     TransactionReceipt,
     TransactionRequest,
     TransactionResponse,
-} from 'ethers/providers/abstract-provider';
-import { bigNumberify } from 'ethers/utils/bignumber';
+} from '@ethersproject/abstract-provider';
+import { BigNumber } from '@ethersproject/bignumber';
 import {
     ITransferableBlock,
+    ITransferableBlockWithTransactions,
     ITransferableTransactionReceipt,
     ITransferableTransactionRequest,
     ITransferableTransactionResponse,
@@ -17,8 +20,28 @@ export const prepareBlockParams = (
 ): Block => {
     const result: Block = {
         ...block,
-        gasLimit: bigNumberify(block.gasLimit),
-        gasUsed: bigNumberify(block.gasUsed),
+        gasLimit: BigNumber.from(block.gasLimit),
+        gasUsed: BigNumber.from(block.gasUsed),
+    };
+
+    return result;
+};
+
+export const prepareBlockWithTransactionsParams = (
+    block: ITransferableBlockWithTransactions,
+): BlockWithTransactions => {
+    const transactions: TransactionResponse[] = [];
+
+    // TODO: check if for of is working
+    for (const transaction of block.transactions) {
+        transactions.push(prepareTransactionResponseParams(transaction));
+    }
+
+    const result: BlockWithTransactions = {
+        ...block,
+        gasLimit: BigNumber.from(block.gasLimit),
+        gasUsed: BigNumber.from(block.gasUsed),
+        transactions,
     };
 
     return result;
@@ -29,10 +52,8 @@ export const prepareTransactionReceiptParams = (
 ): TransactionReceipt => {
     const result: TransactionReceipt = {
         ...transactionReceipt,
-        cumulativeGasUsed: (transactionReceipt.cumulativeGasUsed) ?
-            bigNumberify(transactionReceipt.cumulativeGasUsed) : undefined,
-        gasUsed: (transactionReceipt.gasUsed) ?
-            bigNumberify(transactionReceipt.gasUsed) : undefined,
+        cumulativeGasUsed: BigNumber.from(transactionReceipt.cumulativeGasUsed),
+        gasUsed: BigNumber.from(transactionReceipt.gasUsed),
     };
 
     return result;
@@ -46,19 +67,19 @@ export const prepareTransactionRequestParams = (
     };
 
     if (transactionRequest.nonce) {
-        result.nonce = bigNumberify(transactionRequest.nonce);
+        result.nonce = BigNumber.from(transactionRequest.nonce);
     }
 
     if (transactionRequest.gasLimit) {
-        result.gasLimit = bigNumberify(transactionRequest.gasLimit);
+        result.gasLimit = BigNumber.from(transactionRequest.gasLimit);
     }
 
     if (transactionRequest.gasPrice) {
-        result.gasPrice = bigNumberify(transactionRequest.gasPrice);
+        result.gasPrice = BigNumber.from(transactionRequest.gasPrice);
     }
 
     if (transactionRequest.value) {
-        result.value = bigNumberify(transactionRequest.value);
+        result.value = BigNumber.from(transactionRequest.value);
     }
 
     return result;
@@ -69,9 +90,9 @@ export const prepareTransactionResponseParams = (
 ): TransactionResponse => {
     const result: TransactionResponse = {
         ...transactionResponse,
-        gasLimit: bigNumberify(transactionResponse.gasLimit),
-        gasPrice: bigNumberify(transactionResponse.gasPrice),
-        value: bigNumberify(transactionResponse.value),
+        gasLimit: BigNumber.from(transactionResponse.gasLimit),
+        gasPrice: BigNumber.from(transactionResponse.gasPrice),
+        value: BigNumber.from(transactionResponse.value),
         wait: ((confirmations?: number): any => {
             return;
         }) as any,

@@ -1,4 +1,11 @@
-import { Signer, utils } from 'ethers';
+import { Signer } from '@ethersproject/abstract-signer';
+import { hexlify } from '@ethersproject/bytes';
+import {
+    entropyToMnemonic,
+    HDNode,
+    mnemonicToSeed,
+} from '@ethersproject/hdnode';
+import { sha256 } from '@ethersproject/sha2';
 import {
     box,
     BoxKeyPair,
@@ -12,23 +19,23 @@ export const BASE_PATH = "m/44'/60'/0'/0";
 
 export const getSeedFromWeb3Signer = async (web3Signer: Signer): Promise<string> => {
     const signedEntropy = await web3Signer.signMessage(ENTROPY_MESSAGE);
-    const entropy = utils.sha256(utils.hexlify(signedEntropy));
+    const entropy = sha256(hexlify(signedEntropy));
 
-    const seed = utils.HDNode.mnemonicToSeed(
-        utils.HDNode.entropyToMnemonic(entropy),
+    const seed = mnemonicToSeed(
+        entropyToMnemonic(entropy),
     );
 
     return seed;
 };
 
-export const deriveSigningKeyFromSeed = (seed: string, path: string = BASE_PATH): utils.HDNode.HDNode => {
-    const baseNode = utils.HDNode.fromSeed(seed).derivePath(path);
+export const deriveSigningKeyFromSeed = (seed: string, path: string = BASE_PATH): HDNode => {
+    const baseNode = HDNode.fromSeed(seed).derivePath(path);
 
     return baseNode.derivePath('0');
 };
 
 export const deriveAsymetricKeyPairFromSeed = (seed: string, path: string = BASE_PATH): BoxKeyPair => {
-    const baseNode = utils.HDNode.fromSeed(seed).derivePath(path);
+    const baseNode = HDNode.fromSeed(seed).derivePath(path);
 
     const secretKey = Buffer.from(baseNode.derivePath('1').privateKey.slice(2), 'hex');
 
@@ -46,7 +53,7 @@ export const calculateNonce = (sealedPublicKey: Uint8Array, publicKey: Uint8Arra
     combinedKeys.set(sealedPublicKey);
     combinedKeys.set(publicKey, sealedPublicKey.length);
 
-    const hash = utils.sha256(combinedKeys);
+    const hash = sha256(combinedKeys);
     const hashBuffer = Buffer.from(
         hash.slice(2, box.nonceLength + 2) + hash.slice(2, box.nonceLength + 2),
         'hex',

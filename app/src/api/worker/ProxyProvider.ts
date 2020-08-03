@@ -1,18 +1,21 @@
 import {
     Block,
     BlockTag,
+    BlockWithTransactions,
+    EventType,
     Filter,
-    FilterByBlock,
+    Listener,
     Log,
     Provider as AbstractProvider,
     TransactionReceipt,
     TransactionRequest,
     TransactionResponse,
-} from 'ethers/providers/abstract-provider';
-import { BigNumber, bigNumberify, BigNumberish } from 'ethers/utils/bignumber';
-import { Network } from 'ethers/utils/networks';
+} from '@ethersproject/abstract-provider';
+import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
+import { Network } from '@ethersproject/networks';
 import {
     prepareBlockParams,
+    prepareBlockWithTransactionsParams,
     prepareTransactionReceiptParams,
     prepareTransactionResponseParams,
 } from '../links/prepareParams';
@@ -43,6 +46,11 @@ class ProxyProvider extends AbstractProvider {
         });
     }
 
+    // TODO:
+    public emit(eventName: EventType, ...args: Array<any>): boolean {
+        return true;
+    }
+
     public async estimateGas(transaction: TransactionRequest): Promise<BigNumber> {
         const transferTransaction = await transferTransactionRequest(transaction);
 
@@ -53,7 +61,7 @@ class ProxyProvider extends AbstractProvider {
             },
         });
 
-        return bigNumberify(result);
+        return BigNumber.from(result);
     }
 
     public async getBalance(
@@ -68,7 +76,7 @@ class ProxyProvider extends AbstractProvider {
             },
         });
 
-        return bigNumberify(result);
+        return BigNumber.from(result);
     }
 
     public async getBlock(
@@ -93,6 +101,19 @@ class ProxyProvider extends AbstractProvider {
         });
     }
 
+    public async getBlockWithTransactions(
+        blockHashOrBlockTag: BlockTag | string | Promise<BlockTag | string>,
+    ): Promise<BlockWithTransactions> {
+        const result = await this.proxyWeb3({
+            type: 'provider/GET_BLOCK_WITH_TRANSACTIONS',
+            payload: {
+                blockHashOrBlockTag: await blockHashOrBlockTag,
+            },
+        });
+
+        return prepareBlockWithTransactionsParams(result);
+    }
+
     public async getCode(
         addressOrName: string | Promise<string>,
         blockTag?: BlockTag | Promise<BlockTag>,
@@ -112,10 +133,10 @@ class ProxyProvider extends AbstractProvider {
             payload: {},
         });
 
-        return bigNumberify(result);
+        return BigNumber.from(result);
     }
 
-    public async getLogs(filter: Filter | FilterByBlock): Promise<Log[]> {
+    public async getLogs(filter: Filter): Promise<Log[]> {
         return this.proxyWeb3({
             type: 'provider/GET_LOGS',
             payload: {
@@ -200,6 +221,10 @@ class ProxyProvider extends AbstractProvider {
                 address,
             },
         });
+    }
+
+    public off(eventName: EventType, listener?: Listener) {
+        return this;
     }
 
     public on(eventName: any, listener: any) {

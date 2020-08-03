@@ -1,4 +1,5 @@
 import { utils } from 'ethers';
+import { BigNumber } from '@ethersproject/bignumber';
 
 const fetchFee = async (platform: string, network: string) => {
     let apiResult: any = null;
@@ -17,13 +18,13 @@ const fetchFee = async (platform: string, network: string) => {
                     apiJSON = JSON.parse(apiResult);
 
                     return {
-                        average: utils.bigNumberify(
+                        average: BigNumber.from(
                             utils.parseUnits(apiJSON.average.toString(), 9),
                         ).div(10),
-                        fast: utils.bigNumberify(
+                        fast: BigNumber.from(
                             utils.parseUnits(apiJSON.fast.toString(), 9),
                         ).div(10),
-                        safeLow: utils.bigNumberify(
+                        safeLow: BigNumber.from(
                             utils.parseUnits(apiJSON.safeLow.toString(), 9),
                         ).div(10),
                     };
@@ -31,9 +32,9 @@ const fetchFee = async (platform: string, network: string) => {
     }
 
     return {
-        average: utils.bigNumberify(0),
-        fast: utils.bigNumberify(0),
-        safeLow: utils.bigNumberify(0),
+        average: BigNumber.from(0),
+        fast: BigNumber.from(0),
+        safeLow: BigNumber.from(0),
     };
 };
 
