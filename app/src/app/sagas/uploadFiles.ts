@@ -3,9 +3,9 @@ import { getTime } from 'date-fns';
 import { APPLICATION_ID } from 'filesystem';
 import addImagesMutation from 'filesystem/mutations/addImages.graphql';
 import { blobToDataUrl, getFileType } from 'filesystem/utils/files';
+import { nanoid } from 'nanoid';
 import { addNotification } from 'notifications/actions/queue';
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { generateId } from 'utils/uuid';
 import { IUploadFilesAction, UPLOAD_FILES } from '../actions/uploadFiles';
 
 function* uploadFiles(action: IUploadFilesAction) {
@@ -34,7 +34,7 @@ function* uploadFiles(action: IUploadFilesAction) {
                 });
 
                 for (const uploadResult of addImagesResult.data.addImages) {
-                    const id = yield call(generateId);
+                    const id = yield call(nanoid);
 
                     const timestamp = yield call(getTime, new Date());
 

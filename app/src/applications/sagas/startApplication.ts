@@ -1,9 +1,9 @@
+import { nanoid } from 'nanoid';
 import {
     call,
     put,
     takeLatest,
 } from 'redux-saga/effects';
-import { generateId } from 'utils/uuid';
 import {
     IStartApplicationAction,
     START_APPLICATION,
@@ -19,7 +19,7 @@ function* startApplication(action: IStartApplicationAction) {
     try {
         const metaData = yield call(fetchMetaData, action.payload.application, action.payload.manifestUrl);
 
-        const id = yield call(generateId);
+        const id = yield call(nanoid);
 
         yield put(addInstance(
             action.payload.application,

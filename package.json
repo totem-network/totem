@@ -152,6 +152,7 @@
     "lunr": "^2.3.8",
     "merge-graphql-schemas": "^1.7.8",
     "multihashing-async": "^2.0.0",
+    "nanoid": "^3.1.12",
     "node-nlp": "^4.9.3",
     "object-keys": "^1.1.1",
     "openpgp": "^4.10.7",
