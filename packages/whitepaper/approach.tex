@@ -1,0 +1,45 @@
+\section{Approach}
+
+The approach takes a look at what techniques can be used
+to solve the problems mentioned above and how to combine
+them in a easy to use application.
+
+With smart contract wallets
+\cite{smartContractWallet}
+handling multiple keys,
+for instance with one key per device, and implementing
+custom recovery solution less difficult. Those wallets
+are on the Ethereum blockchain with keys mapped to
+the DID Document. A recovery process similar to existing
+account systems can be implemented using hardware
+security modules.
+\cite{recovery}
+
+Those wallets also store the reference hash of the DID
+document uploaded to the IPFS network. It enables
+resolution of public keys by knowing the wallet
+address or a human readable domain.
+
+To prepare data for performance before encryption unique
+methods must be used for different data types. Images
+as an example can be transformed to different sizes. A blury
+low resolution placeholder with a size of 1-2 Kb cached
+on the device makes scrubbing through all images quickly
+feel instant while the thumbnails for the next page are
+loaded in the background before they appear on the users
+screen. Only when a user clicks on an image a bigger size
+that fits the screen resolution gets requested from the
+network.
+\cite{images}
+This approach increases bandwidth when uploading
+the file, but saves a lot of it the more often the
+file gets requested.
+
+Federated learning enables artificial intelligence to train
+its models on a clients device with the data store locally.
+\cite{ai}
+
+To work on all platforms and devices the client can be
+developed as a progressive web application. Utilizing the
+webs standards makes it accessible and platform agnostic.
+\cite{pwa}

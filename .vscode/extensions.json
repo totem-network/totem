@@ -2,6 +2,7 @@
   "recommendations": [
     "vscode-icons-team.vscode-icons",
     "msjsdiag.debugger-for-chrome",
-    "juanblanco.solidity"
+    "juanblanco.solidity",
+    "james-yu.latex-workshop"
   ]
 }
